@@ -1,0 +1,110 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
+*/
+/* 
+    Created on : Dec 23, 2024, 8:29:47 PM
+    Author     : HP
+*/
+
+body {
+    overflow-x: hidden;
+}
+
+.header-container {
+    padding: 0;
+}
+
+.header {
+    display: flex;
+    align-items: flex-end;
+}
+
+.header-title{
+    display: flex;
+    justify-content: center;
+}
+
+.header-title h3{
+    color: rgb(10, 9, 9);
+    font-style: italic;
+}
+
+.header-logo{
+    display: flex;
+    justify-content: center;
+    margin: 10px auto;
+}
+
+.header-logo img{
+    width: 150px;
+    height: 110px;
+}
+
+.menu{
+    display: flex;
+    justify-content: center;
+    background-color: #000000;
+    height: 50px;
+}
+
+.menu li.active{
+    background-color: #ed8116;
+}
+.custom-navbar {
+    background-color: black; /* Màu nền đen */
+}
+
+.custom-navbar .nav > li > a {
+    color: white; /* Màu chữ trắng */
+}
+
+.custom-navbar .nav > li > a:hover {
+    color: #ddd; /* Màu chữ khi di chuột qua */
+}
+.categories-container {
+    padding: 30px;
+    border: 1px solid black;
+}
+
+.category {
+    width: fit-content;
+    border: 1px solid black;
+    margin: 10px;
+}
+
+.category img {
+    border: 2px solid rgb(8, 8, 8);
+    border-radius: 0px;
+    width: 200px;
+    height: 250px;
+    margin-top: 10px;
+}
+
+.category h3 {
+    text-align: center;
+    max-width: 200px; /* Set a maximum width */
+    overflow: hidden; /* Hide overflow */
+    white-space: nowrap; /* Prevent text from wrapping */
+    text-overflow: ellipsis; 
+}
+
+.categories-line {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.category button {
+width: 100px;
+height: 100px;
+}
+.banner {
+    width: 100%;
+}
+.button img {
+    width: 100px;
+    height: 100px;
+}
+.button {
+    border: 0cap;
+}
