@@ -53,7 +53,9 @@ public class HomepageController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-       request.getRequestDispatcher("/WEB-INF/views/user/Home.jsp").forward(request, response);
+         // Include Home.jsp thay vì forward
+        request.getRequestDispatcher("/getGenre?target=/WEB-INF/views/user/Home.jsp").include(request, response);
+
     } 
 
     /** 

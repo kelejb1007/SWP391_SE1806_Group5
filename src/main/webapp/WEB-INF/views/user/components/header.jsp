@@ -1,7 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
- 
-   <!-- jQuery -->
+
+<!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <!-- Popper.js -->
@@ -18,57 +20,58 @@
     </div>
     <nav>
         <ul>
-          <li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        All novels
-    </a>
-    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-        <div class="dropdown-container">
-            <div class="dropdown-type-selector">
-                <button class="dropdown-type-button active" data-type="novel">Novel</button>
-                <button class="dropdown-type-button" data-type="genre">Genre</button>
-            </div>
-            <div class="dropdown-content-wrapper">
-                <div class="dropdown-menu-content" id="novel-content">
-                    <div class="column">
-                        <h6>Male Lead</h6>
-                        <a class="dropdown-item" href="#">Urban</a>
-                        <a class="dropdown-item" href="#">Eastern</a>
-                    </div>
-                    <div class="column">
-                        <h6>Genres</h6>
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">War</a>
-                    </div>
-                    <div class="column">
-                        <h6>Female Lead</h6>
-                        <a class="dropdown-item" href="#">Urban</a>
-                        <a class="dropdown-item" href="#">Fantasy</a>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    All novels
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <div class="dropdown-container">
+                        <div class="dropdown-type-selector">
+                            <button class="dropdown-type-button active" data-type="novel">Novel</button>
+                            <button class="dropdown-type-button" data-type="genre">Genre</button>
+                        </div>
+                        <div class="dropdown-content-wrapper">
+                            <div class="dropdown-menu-content" id="novel-content">
+                                <div class="column">
+                                    <h6>Male Lead</h6>
+                                    <a class="dropdown-item" href="#">Urban</a>
+                                    <a class="dropdown-item" href="#">Eastern</a>
+                                </div>
+                               
+                                <div class="column">
+                                    <h6>Female Lead</h6>
+                                    <a class="dropdown-item" href="#">Urban</a>
+                                    <a class="dropdown-item" href="#">Fantasy</a>
+                                </div>
+                            </div>
+                            <div class="dropdown-menu-content" id="genre-content" style="display: none;">
+                               
+                                <div class="column">
+                                    <h6>Genre Options</h6>
+                                    <ul>  <!-- Thêm <ul> -->
+                                        <c:forEach var="genre" items="${genres}">
+                                            <li class="category-item ${genre.genreName.equals(selectedGenre) ? 'active' : ''}">
+                                                <a class="dropdown-item" href="novels?genre=${genre.genreName}">${genre.genreName}</a>
+                                            </li>
+                                        </c:forEach>
+                                    </ul> <!-- Đóng </ul> -->
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="dropdown-menu-content" id="genre-content" style="display: none;">
-                    <!-- Nội dung cho Genre -->
-                    <div class="column">
-                        <h6>Genre Options</h6>
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Fantasy</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</li>
-            
+            </li>
+
             <li class="search-li">
-                  <jsp:include page="/WEB-INF/views/user/components/search.jsp" /> 
-                
+                <jsp:include page="/WEB-INF/views/user/components/search.jsp" /> 
+
             </li>
             <li class="spacer"></li>
             <li><a href="#">Log in</a></li>
             <li><a href="#">Sign up</a></li>
         </ul>
-                  
-                  
-          
+
+
+
     </nav>
 </div>

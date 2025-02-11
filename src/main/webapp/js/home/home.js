@@ -57,7 +57,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-
 //
 document.addEventListener('DOMContentLoaded', function() {
     const novelButton = document.querySelector('.dropdown-type-button[data-type="novel"]');
@@ -66,28 +65,25 @@ document.addEventListener('DOMContentLoaded', function() {
     const genreContent = document.getElementById('genre-content');
     const dropdownButtons = document.querySelectorAll('.dropdown-type-button');
 
-    // Mặc định hiển thị Novel, ẩn Genre
-    novelContent.classList.add('active'); // Sử dụng class active để hiển thị
-    genreContent.classList.remove('active');
+    // Mặc định hiển thị Novel
+    novelContent.style.display = 'block';
+    genreContent.style.display = 'none';
 
     dropdownButtons.forEach(button => {
         button.addEventListener('click', function() {
-            const type = this.dataset.type;
-
             // Remove active class from all buttons
             dropdownButtons.forEach(btn => btn.classList.remove('active'));
 
             // Add active class to the clicked button
             this.classList.add('active');
 
-            // Ẩn tất cả các content, sau đó hiển thị cái active
-            novelContent.classList.remove('active');
-            genreContent.classList.remove('active');
-
-            if (type === 'novel') {
-                novelContent.classList.add('active');
-            } else if (type === 'genre') {
-                genreContent.classList.add('active');
+            // Hiển thị nội dung tương ứng
+            if (this.dataset.type === 'novel') {
+                novelContent.style.display = 'block';
+                genreContent.style.display = 'none';
+            } else {
+                novelContent.style.display = 'none';
+                genreContent.style.display = 'block';
             }
         });
     });
@@ -96,4 +92,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
+
 ///
+
