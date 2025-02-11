@@ -1,9 +1,12 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<div class="footer">
+    <div class="footer-content">
+        <div class="footer-logo">
+        <img src="img/b3.png" alt="Logo Icon"  style="width:100px; height:100px; object-fit:cover">
+       
+    
+        </div>
+        <p>© 2025 NovelReadingwebsite</p>
 
-<footer class="bg-light text-center py-4 mt-4">
-    <p>© 2025 NovelReader. All rights reserved.</p>
-</footer>
-<script src="js/script.js"></script>
- <script src="js/home/script.js"></script>
-</body>
-</html>
+    </div>
+</div>

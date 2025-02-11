@@ -1,34 +1,129 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package utils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-/**
- *
- * @author HP
- */
 public class DBContext {
-      protected  Connection connection;
+
+    private final String url = "jdbc:sqlserver://localhost:1433;"
+            + "databaseName=Novel_Application;"
+            + "user=sa;"
+            + "password=admin;"
+            + "encrypt=true;"
+            + "trustServerCertificate=true;";
 
     public DBContext() {
-        try {
-            String url = "jdbc:sqlserver://localhost:1433;"
-                    + "databaseName=Novel_Application;"
-                    + "user=sa;"
-                    + "password=123;"
-                    + "encrypt=true;"
-                    + "trustServerCertificate=true;";
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            connection = DriverManager.getConnection(url);
-        } catch (ClassNotFoundException | SQLException ex) {
-            System.out.println(ex);
+        // Không tạo kết nối ở đây nữa
+    }
 
+    // Phương thức để lấy một kết nối mới
+    public Connection getConnection() throws SQLException {
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            return DriverManager.getConnection(url);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DBContext.class.getName()).log(Level.SEVERE, null, ex);
+            throw new SQLException("Error loading JDBC driver", ex); // Re-throw as SQLException
+        }
+    }
+
+    // Phương thức cho các lệnh SELECT (có params)
+    public ResultSet execSelectQuery(String query, Object[] params) throws SQLException {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+        try {
+            conn = getConnection();
+            preparedStatement = conn.prepareStatement(query);
+
+            if (params != null) {
+                for (int i = 0; i < params.length; i++) {
+                    preparedStatement.setObject(i + 1, params[i]);
+                }
+            }
+            rs = preparedStatement.executeQuery();
+            return rs;
+        } catch (SQLException e) {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(DBContext.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            throw e; // Re-throw the exception
+        } finally {
+            // Đóng các tài nguyên theo thứ tự ngược lại
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(DBContext.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+            // Không đóng connection ở đây nữa, vì ResultSet có thể vẫn cần
+        }
+    }
+
+    // Phương thức cho các lệnh SELECT không có params
+    public ResultSet execSelectQuery(String query) throws SQLException {
+        return this.execSelectQuery(query, null);
+    }
+
+    // Phương thức cho các lệnh INSERT, UPDATE, DELETE
+   public int execQuery(String query, Object[] params) throws SQLException {
+    Connection conn = null;
+    PreparedStatement preparedStatement = null;
+    try {
+        conn = getConnection();
+        preparedStatement = conn.prepareStatement(query);
+
+        // In ra câu lệnh SQL và các tham số
+        System.out.println("execQuery() - SQL: " + query);
+        if (params != null) {
+            System.out.print("execQuery() - Parameters: ");
+            for (int i = 0; i < params.length; i++) {
+                System.out.print(params[i] + ", ");
+                // Set tham số dựa trên kiểu dữ liệu
+                if (params[i] instanceof Integer) {
+                    preparedStatement.setInt(i + 1, (Integer) params[i]);
+                } else if (params[i] instanceof String) {
+                    preparedStatement.setString(i + 1, (String) params[i]);
+                } else if (params[i] instanceof Double) {
+                    preparedStatement.setDouble(i + 1, (Double) params[i]);
+                } else if (params[i] instanceof java.sql.Date) {
+                    preparedStatement.setDate(i + 1, (java.sql.Date) params[i]);
+                } else if (params[i] instanceof Boolean) {
+                    preparedStatement.setBoolean(i + 1, (Boolean) params[i]);
+                } else {
+                    preparedStatement.setObject(i + 1, params[i]);
+                }
+            }
+            System.out.println();
         }
 
+        return preparedStatement.executeUpdate();
+    } finally {
+        if (preparedStatement != null) {
+            try {
+                preparedStatement.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(DBContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(DBContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
+}
 }

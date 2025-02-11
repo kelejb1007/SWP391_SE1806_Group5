@@ -53,7 +53,7 @@ public class HomepageController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-       request.getRequestDispatcher("/WEB-INF/views/user/homepage.jsp").forward(request, response);
+       request.getRequestDispatcher("/WEB-INF/views/user/Home.jsp").forward(request, response);
     } 
 
     /** 
