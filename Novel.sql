@@ -1,129 +1,118 @@
-﻿create database Novel_Application
-use Novel_Application
+USE [master]
+GO
 
-CREATE TABLE Account(
-    accountID INT IDENTITY(1,1) PRIMARY KEY,
-    username NVARCHAR(50) UNIQUE NOT NULL,
-    password NVARCHAR(255) NOT NULL,
-    creationDate DATETIME2 DEFAULT GETDATE(),
-    isAdmin BIT DEFAULT 0,
-    imageUML NVARCHAR(255),
-    fullName NVARCHAR(100),
-    email NVARCHAR(100) UNIQUE NOT NULL,
-    numberPhone NVARCHAR(15),
-    dateOfBirth DATE,
-    gender NVARCHAR(10) CHECK (gender IN ('Male', 'Female', 'Other')),
-    isBanned BIT DEFAULT 0,
-    banReason TEXT,
-    banDate DATETIME,
-    lastLogin DATETIME
-);
+/****** Object:  Database [Novel_Application]    Script Date: 2/12/2025 8:08:34 PM ******/
+CREATE DATABASE [Novel_Application]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'Novel_Application', FILENAME = N'D:\SQL\MSSQL16.SQLEXPRESS\MSSQL\DATA\Novel_Application.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+ LOG ON 
+( NAME = N'Novel_Application_log', FILENAME = N'D:\SQL\MSSQL16.SQLEXPRESS\MSSQL\DATA\Novel_Application_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+ WITH CATALOG_COLLATION = DATABASE_DEFAULT, LEDGER = OFF
+GO
 
-CREATE TABLE Genre(
-    genreID INT IDENTITY(1,1) PRIMARY KEY,
-    genreName NVARCHAR(50) UNIQUE NOT NULL
-);
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [Novel_Application].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
 
-CREATE TABLE Novel(
-    novelID INT IDENTITY(1,1) PRIMARY KEY,
-    novelName NVARCHAR(255) NOT NULL,
-    author INT NOT NULL,
-    imageURL NVARCHAR(255),
-    novelDescription TEXT,
-    totalChapter INT DEFAULT 0,
-    publishedDate DATETIME2 DEFAULT GETDATE(),
-    novelStatus NVARCHAR(10) DEFAULT 'pending' CHECK (novelStatus IN ('pending', 'approved', 'rejected')),
-    averageRating FLOAT,
-    isLocked BIT DEFAULT 0,
-    FOREIGN KEY (author) REFERENCES Account(accountID)
-);
+ALTER DATABASE [Novel_Application] SET ANSI_NULL_DEFAULT OFF 
+GO
 
-CREATE TABLE Genre_Novel(
-    genreID INT NOT NULL,
-    novelID INT NOT NULL,
-    PRIMARY KEY (genreID, novelID),
-    FOREIGN KEY (genreID) REFERENCES Genre(genreID),
-    FOREIGN KEY (novelID) REFERENCES Novel(novelID)
-);
+ALTER DATABASE [Novel_Application] SET ANSI_NULLS OFF 
+GO
 
-CREATE TABLE Chapter(
-    chapterID INT IDENTITY(1,1) PRIMARY KEY,
-    novelID INT NOT NULL,
-    chapterNumber INT NOT NULL,
-    chapterName NVARCHAR(255),
-    fileURL NVARCHAR(200),
-    chapterCreatedDate DATETIME2 DEFAULT GETDATE(),
-    isLocked BIT DEFAULT 0,
-    FOREIGN KEY (novelID) REFERENCES Novel(novelID)
-);
+ALTER DATABASE [Novel_Application] SET ANSI_PADDING OFF 
+GO
 
-CREATE TABLE Comment(
-    commentID INT IDENTITY(1,1) PRIMARY KEY,
-    accountID INT NOT NULL,
-    novelID INT NOT NULL,
-    commentContent TEXT NOT NULL,
-    commentDate DATETIME2 DEFAULT GETDATE(),
-    parentCmtID INT NULL,
-    FOREIGN KEY (accountID) REFERENCES Account(accountID),
-    FOREIGN KEY (novelID) REFERENCES Novel(novelID)
-);
+ALTER DATABASE [Novel_Application] SET ANSI_WARNINGS OFF 
+GO
 
-CREATE TABLE Rate(
-    ratingID INT IDENTITY(1,1) PRIMARY KEY,
-    accountID INT NOT NULL,
-    novelID INT NOT NULL,
-    score INT CHECK(score BETWEEN 1 AND 5),
-    ratingDate DATETIME2 DEFAULT GETDATE(),
-    FOREIGN KEY (accountID) REFERENCES Account(accountID),
-    FOREIGN KEY (novelID) REFERENCES Novel(novelID)
-);
+ALTER DATABASE [Novel_Application] SET ARITHABORT OFF 
+GO
 
-CREATE TABLE Notification(
-    notificationID INT IDENTITY(1,1) PRIMARY KEY,
-    accountID INT NOT NULL,
-    noticeName NVARCHAR(15) NOT NULL,
-    typeNoti NVARCHAR(15) CHECK (typeNoti IN ('new_chapter', 'comment', 'tag', 'report')),
-    noticeContent TEXT NOT NULL,
-    novelID INT NULL,
-    commentID INT NULL,
-    createdDate DATETIME2 DEFAULT GETDATE(),
-    isRead BIT DEFAULT 0,
-    FOREIGN KEY (accountID) REFERENCES Account(accountID),
-    FOREIGN KEY (novelID) REFERENCES Novel(novelID),
-    FOREIGN KEY (commentID) REFERENCES Comment(commentID)
-);
+ALTER DATABASE [Novel_Application] SET AUTO_CLOSE ON 
+GO
 
-CREATE TABLE ReadingHistory(
-    readingID INT IDENTITY(1,1) PRIMARY KEY,
-    accountID INT NOT NULL,
-    novelID INT NOT NULL,
-    chapterID INT NULL,
-    lastReadDate DATETIME2 DEFAULT GETDATE(),
-    FOREIGN KEY (accountID) REFERENCES Account(accountID),
-    FOREIGN KEY (novelID) REFERENCES Novel(novelID),
-    FOREIGN KEY (chapterID) REFERENCES Chapter(chapterID)
-);
+ALTER DATABASE [Novel_Application] SET AUTO_SHRINK OFF 
+GO
 
-CREATE TABLE Favorite(
-    favoriteID INT IDENTITY(1,1) PRIMARY KEY,
-    accountID INT NOT NULL,
-    novelID INT NOT NULL,
-    isFavorite BIT DEFAULT 0,
-    FOREIGN KEY (accountID) REFERENCES Account(accountID),
-    FOREIGN KEY (novelID) REFERENCES Novel(novelID)
-);
+ALTER DATABASE [Novel_Application] SET AUTO_UPDATE_STATISTICS ON 
+GO
 
-CREATE TABLE views(
-    viewID INT IDENTITY(1,1) PRIMARY KEY,
-    accountID INT NULL,
-    novelID INT NOT NULL,
-    viewDate DATETIME2 DEFAULT GETDATE(),
-    FOREIGN KEY (accountID) REFERENCES Account(accountID),
-    FOREIGN KEY (novelID) REFERENCES Novel(novelID)
-);
+ALTER DATABASE [Novel_Application] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
 
+ALTER DATABASE [Novel_Application] SET CURSOR_DEFAULT  GLOBAL 
+GO
 
+ALTER DATABASE [Novel_Application] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
 
+ALTER DATABASE [Novel_Application] SET NUMERIC_ROUNDABORT OFF 
+GO
 
+ALTER DATABASE [Novel_Application] SET QUOTED_IDENTIFIER OFF 
+GO
 
+ALTER DATABASE [Novel_Application] SET RECURSIVE_TRIGGERS OFF 
+GO
+
+ALTER DATABASE [Novel_Application] SET  ENABLE_BROKER 
+GO
+
+ALTER DATABASE [Novel_Application] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+
+ALTER DATABASE [Novel_Application] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+
+ALTER DATABASE [Novel_Application] SET TRUSTWORTHY OFF 
+GO
+
+ALTER DATABASE [Novel_Application] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+
+ALTER DATABASE [Novel_Application] SET PARAMETERIZATION SIMPLE 
+GO
+
+ALTER DATABASE [Novel_Application] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+
+ALTER DATABASE [Novel_Application] SET HONOR_BROKER_PRIORITY OFF 
+GO
+
+ALTER DATABASE [Novel_Application] SET RECOVERY SIMPLE 
+GO
+
+ALTER DATABASE [Novel_Application] SET  MULTI_USER 
+GO
+
+ALTER DATABASE [Novel_Application] SET PAGE_VERIFY CHECKSUM  
+GO
+
+ALTER DATABASE [Novel_Application] SET DB_CHAINING OFF 
+GO
+
+ALTER DATABASE [Novel_Application] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+
+ALTER DATABASE [Novel_Application] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+GO
+
+ALTER DATABASE [Novel_Application] SET DELAYED_DURABILITY = DISABLED 
+GO
+
+ALTER DATABASE [Novel_Application] SET ACCELERATED_DATABASE_RECOVERY = OFF  
+GO
+
+ALTER DATABASE [Novel_Application] SET QUERY_STORE = ON
+GO
+
+ALTER DATABASE [Novel_Application] SET QUERY_STORE (OPERATION_MODE = READ_WRITE, CLEANUP_POLICY = (STALE_QUERY_THRESHOLD_DAYS = 30), DATA_FLUSH_INTERVAL_SECONDS = 900, INTERVAL_LENGTH_MINUTES = 60, MAX_STORAGE_SIZE_MB = 1000, QUERY_CAPTURE_MODE = AUTO, SIZE_BASED_CLEANUP_MODE = AUTO, MAX_PLANS_PER_QUERY = 200, WAIT_STATS_CAPTURE_MODE = ON)
+GO
+
+ALTER DATABASE [Novel_Application] SET  READ_WRITE 
+GO
 
