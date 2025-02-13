@@ -37,7 +37,7 @@ public class Novel {
         this.publishedDate = publishedDate;
     }
 
-    public Novel(int novelID, String novelName, String author,String imageURL, String novelDescription, String novelStatus,int totalChapter, LocalDateTime publishedDate) {
+    public Novel(int novelID, String novelName, String author,String imageURL, String novelDescription, int totalChapter, String novelStatus, LocalDateTime publishedDate) {
         this.novelID = novelID;
         this.novelName = novelName;
         this.imageURL = imageURL;
