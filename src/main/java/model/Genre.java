@@ -9,7 +9,7 @@ package model;
  * @author Phan Hồng Tài - CE181490
  */
 public class Genre {
-     private int genreID;
+    private int genreID;
     private String genreName;
 
     public Genre() {
