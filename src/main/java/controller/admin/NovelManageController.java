@@ -77,7 +77,7 @@ public class NovelManageController extends HttpServlet {
             NovelDAO nd = new NovelDAO();
             List<Novel> listNovel = new ArrayList<>();
             try {
-                listNovel = nd
+           //     listNovel = nd;
             } catch (Exception e) {
             }
         }

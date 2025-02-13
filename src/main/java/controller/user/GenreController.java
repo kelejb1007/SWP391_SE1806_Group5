@@ -39,6 +39,7 @@ public class GenreController extends HttpServlet {
    @Override
 protected void doGet(HttpServletRequest request, HttpServletResponse response)
 throws ServletException, IOException {
+    
      // Fetch the list of genres
         List<Genre> genres = genreDAO.getAllGenres();
 
@@ -62,6 +63,7 @@ throws ServletException, IOException {
             // Xử lý trường hợp không có target (ví dụ, chuyển hướng đến trang chủ hoặc hiển thị lỗi)
             response.sendRedirect(request.getContextPath() + "/Home.jsp"); // Ví dụ: Chuyển hướng đến trang chủ
         }
+        
 }
 
     

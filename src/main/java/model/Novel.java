@@ -5,6 +5,7 @@
 package model;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -13,26 +14,48 @@ import java.sql.Date;
 public class Novel {
     private int novelID;
     private String novelName;
-    private String author;
+    private int userID;
     private String imageURL;
     private String novelDescription;
     private int totalChapter;
     private String novelStatus;
-    private Date publishedDate;
+    private LocalDateTime publishedDate;
 
+     private String author;
+     
     public Novel() {
     }
 
-    public Novel(int novelID, String novelName, String author, String imageURL, String novelDescription, int totalChapter, String novelStatus, Date publishedDate) {
+    public Novel(int novelID, String novelName, int userID, String imageURL, String novelDescription, int totalChapter, String novelStatus, LocalDateTime publishedDate) {
         this.novelID = novelID;
         this.novelName = novelName;
-        this.author = author;
+        this.userID = userID;
         this.imageURL = imageURL;
         this.novelDescription = novelDescription;
         this.totalChapter = totalChapter;
         this.novelStatus = novelStatus;
         this.publishedDate = publishedDate;
     }
+
+    public Novel(int novelID, String novelName, String author,String imageURL, String novelDescription, String novelStatus,int totalChapter, LocalDateTime publishedDate) {
+        this.novelID = novelID;
+        this.novelName = novelName;
+        this.imageURL = imageURL;
+        this.novelDescription = novelDescription;
+        this.totalChapter = totalChapter;
+        this.novelStatus = novelStatus;
+        this.publishedDate = publishedDate;
+        this.author = author;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+    
 
     public int getNovelID() {
         return novelID;
@@ -50,12 +73,12 @@ public class Novel {
         this.novelName = novelName;
     }
 
-    public String getAuthor() {
-        return author;
+    public int getUserID() {
+        return userID;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setUserID(int userID) {
+        this.userID = userID;
     }
 
     public String getImageURL() {
@@ -90,11 +113,11 @@ public class Novel {
         this.novelStatus = novelStatus;
     }
 
-    public Date getPublishedDate() {
+    public LocalDateTime getPublishedDate() {
         return publishedDate;
     }
 
-    public void setPublishedDate(Date publishedDate) {
+    public void setPublishedDate( LocalDateTime publishedDate) {
         this.publishedDate = publishedDate;
     }
     
