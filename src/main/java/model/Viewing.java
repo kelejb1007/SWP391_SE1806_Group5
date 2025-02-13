@@ -2,12 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package DAO;
+package model;
 
 /**
  *
- * @author Nguyen Ngoc Phat - CE180321
+ * @author Nguyen Thanh Trung
  */
-public class NovelsDAO {
+public class Viewing {
     
 }

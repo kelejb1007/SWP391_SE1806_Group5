@@ -55,15 +55,21 @@
                         <li>
                             <a href="#">
                                 <i class="fa fa-sitemap fa-fw"></i>
-                                Novel List
+                                Manage novel
                                 <span class="fa arrow"></span>
                             </a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="#">Second Level Item</a>
+                                    <a href="#">View all novels</a>
+                                </li>
+                                <li>
+                                    <a href="#">View locked novels</a>
+                                </li>
+                                <li>
+                                    <a href="#">Approve novel</a>
                                 </li>
 
-                                <li>
+<!--                                <li>
                                     <a href="#">Third Level <span class="fa arrow"></span></a>
 
                                     <ul class="nav nav-third-level">
@@ -71,7 +77,7 @@
                                             <a href="#">Third Level Item</a>
                                         </li>
                                     </ul>
-                                </li>
+                                </li>-->
                             </ul>
                         </li>
                         

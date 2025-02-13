@@ -8,6 +8,6 @@ package model;
  *
  * @author Nguyen Thanh Trung
  */
-public class Rating {
+public class ReadingHistory {
     
 }
