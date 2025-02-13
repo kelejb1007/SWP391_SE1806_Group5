@@ -8,6 +8,6 @@ package model;
  *
  * @author Phan Hồng Tài - CE181490
  */
-public class Account {
+public class UserAccount {
     
 }
