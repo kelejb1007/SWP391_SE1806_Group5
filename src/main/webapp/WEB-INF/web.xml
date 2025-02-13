@@ -4,9 +4,17 @@
         <servlet-name>DashboardController</servlet-name>
         <servlet-class>controller.admin.DashboardController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>HomepageController</servlet-name>
+        <servlet-class>controller.user.HomepageController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>DashboardController</servlet-name>
         <url-pattern>/dashboard</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HomepageController</servlet-name>
+        <url-pattern>/homepage</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
