@@ -1,0 +1,23 @@
+  .filter-options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 15px; /* Add margin at the bottom */
+    }
+     .filter-option {
+        display: inline-block;
+        padding: 8px 12px;
+        border: 1px solid #eee;
+        border-radius: 20px; /* Makes the buttons rounded */
+        background-color: #f9f9f9;
+        text-decoration: none;
+        color: #555;
+        font-size: 0.9em;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    .filter-option:hover,
+    .filter-option.active {
+        background-color: #ddd;
+        color: #333;
+    }
