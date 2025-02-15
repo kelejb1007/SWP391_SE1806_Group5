@@ -20,16 +20,11 @@ public class Novel {
     private String novelStatus;
     private LocalDateTime publishedDate;
 
-<<<<<<< HEAD
     //Lấy từ bảng khác
     private String author;
     private double averageRating;
-     private int viewCount;
-
-=======
-     private String author;
+    private int viewCount;
      
->>>>>>> parent of ce7fb16 (Novel List)
     public Novel() {
     }
 
