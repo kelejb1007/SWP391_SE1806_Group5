@@ -82,7 +82,7 @@ public class ManageNovelController extends HttpServlet {
             NovelDAO nd = new NovelDAO();
             List<Novel> listNovel;
             try {
-                listNovel = nd.getAllNovel("active");
+                listNovel = nd.getAllActiveNovel("active");
                 request.setAttribute("listNovel", listNovel);
                 request.getRequestDispatcher("/WEB-INF/views/staff/viewAllNovels.jsp").forward(request, response);               
             } catch (Exception ex) {
@@ -95,7 +95,7 @@ public class ManageNovelController extends HttpServlet {
             NovelDAO nd = new NovelDAO();
             List<Novel> listNovel;
             try {
-                listNovel = nd.getAllNovel("inactive");
+                listNovel = nd.getAllActiveNovel("inactive");
                 request.setAttribute("listNovel", listNovel);
                 request.getRequestDispatcher("/WEB-INF/views/staff/viewLockedNovels.jsp").forward(request, response);               
             } catch (Exception ex) {
