@@ -60,7 +60,7 @@
                             </a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="#">View all novels</a>
+                                    <a href="${pageContext.request.contextPath}/managenovel">View all novels</a>
                                 </li>
                                 <li>
                                     <a href="#">View locked novels</a>

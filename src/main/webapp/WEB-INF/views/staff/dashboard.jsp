@@ -14,7 +14,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="">
         <meta name="author" content="">
-        <title>Admin Main Page</title>
+        <title>Staff Main Page</title>
 
 <!--         Bootstrap Core CSS -->
         <link rel="stylesheet" href="css/startmin/bootstrap.css">
@@ -433,12 +433,12 @@
             hihihihihi
         </div>
 
-<!--        <script src="view/assets/js/jquery.min.js"></script>
-        <script src="view/assets/js/bootstrap.min.js"></script>
-        <script src="view/assets/js/metisMenu.min.js"></script>
-        <script src="view/assets/js/startmin.js"></script>
-        <script src="view/assets/js/raphael.min.js"></script>
-        <script src="view/assets/js/morris.min.js"></script>
-        <script src="view/assets/js/morris-data.js"></script>-->
+        <script src="js/startmin/jquery.min.js"></script>
+        <script src="js/startmin/bootstrap.min.js"></script>
+        <script src="js/startmin/metisMenu.min.js"></script>
+        <script src="js/startmin/tartmin.js"></script>
+        <script src="js/startmin/raphael.min.js"></script>
+        <script src="js/startmin/morris.min.js"></script>
+        <script src="js/startmin/morris-data.js"></script>
     </body>
 </html>

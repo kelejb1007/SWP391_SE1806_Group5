@@ -3,26 +3,20 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controller.admin;
+package controller.staff;
 
-import DAO.NovelDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
-import model.Novel;
 
 /**
  *
  * @author Nguyen Thanh Trung
  */
-@WebServlet(name="NovelManageController", urlPatterns={"/novelmanage"})
-public class NovelManageController extends HttpServlet {
+public class DashboardController extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -39,10 +33,10 @@ public class NovelManageController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet NovelController</title>");  
+            out.println("<title>Servlet DashboardController</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet NovelController at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet DashboardController at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -59,29 +53,8 @@ public class NovelManageController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String action = request.getParameter("action");
-        if (action == null) {
-            action = "default";
-        }
-        
-        switch (action) {
-            case "":
-                
-                break;
-            default:
-                viewAllNovels(request, response);
-        }
-    }
-        private void viewAllNovels (HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-            NovelDAO nd = new NovelDAO();
-            List<Novel> listNovel = new ArrayList<>();
-            try {
-           //     listNovel = nd;
-            } catch (Exception e) {
-            }
-        }
-    
+        request.getRequestDispatcher("/WEB-INF/views/staff/dashboard.jsp").forward(request, response);
+    } 
 
     /** 
      * Handles the HTTP <code>POST</code> method.
