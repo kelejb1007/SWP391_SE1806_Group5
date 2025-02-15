@@ -22,7 +22,7 @@
                 <a class="navbar-brand" href="#">Small Sun</a>
             </div>
             <ul class="nav navbar-nav navbar-left navbar-top-links">
-                    <li><a href="#"><i class="fa fa-home fa-fw"></i> Home Page</a></li>
+                    <li><a href="${pageContext.request.contextPath}/dashboard"><i class="fa fa-home fa-fw"></i> Home Page</a></li>
                 </ul>
 
 

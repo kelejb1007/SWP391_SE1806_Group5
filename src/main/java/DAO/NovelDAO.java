@@ -26,11 +26,11 @@ public class NovelDAO {
     
     //Admin-------------------------------------------------------------------------------------------------------------
     //
-     public List<Novel> getAllActiveNovel() {
+     public List<Novel> getAllNovel(String s) {
         List<Novel> list = new ArrayList<>();
         String sql = "SELECT novelID, novelName, imageUML, totalChapter, publishedDate, fullName\n" 
                 +    "FROM Novel n JOIN UserAccount u ON n.UserID = u.UserID "
-                +    "WHERE novelStatus = 'active'";
+                +    "WHERE novelStatus = '" + s + "'";
         Connection connection;
         PreparedStatement statement;
         ResultSet rs;

@@ -63,7 +63,7 @@
                                     <a href="${pageContext.request.contextPath}/managenovel">View all novels</a>
                                 </li>
                                 <li>
-                                    <a href="#">View locked novels</a>
+                                    <a href="${pageContext.request.contextPath}/managenovel?action=viewLockedNovels">View locked novels</a>
                                 </li>
                                 <li>
                                     <a href="#">Approve novel</a>

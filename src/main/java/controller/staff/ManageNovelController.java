@@ -67,8 +67,11 @@ public class ManageNovelController extends HttpServlet {
         }
         
         switch (action) {
-            case "":
-                
+            case "viewAllNovels":
+                viewAllNovels(request, response);
+                break;
+            case "viewLockedNovels":
+                viewLockedNovels(request, response);
                 break;
             default:
                 viewAllNovels(request, response);
@@ -77,11 +80,24 @@ public class ManageNovelController extends HttpServlet {
     private void viewAllNovels (HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
             NovelDAO nd = new NovelDAO();
-            List<Novel> listNovel = new ArrayList<>();
+            List<Novel> listNovel;
             try {
-                listNovel = nd.getAllActiveNovel();
+                listNovel = nd.getAllNovel("active");
                 request.setAttribute("listNovel", listNovel);
                 request.getRequestDispatcher("/WEB-INF/views/staff/viewAllNovels.jsp").forward(request, response);               
+            } catch (Exception ex) {
+                Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    
+    private void viewLockedNovels (HttpServletRequest request, HttpServletResponse response)
+    throws ServletException, IOException {
+            NovelDAO nd = new NovelDAO();
+            List<Novel> listNovel;
+            try {
+                listNovel = nd.getAllNovel("inactive");
+                request.setAttribute("listNovel", listNovel);
+                request.getRequestDispatcher("/WEB-INF/views/staff/viewLockedNovels.jsp").forward(request, response);               
             } catch (Exception ex) {
                 Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);
             }
