@@ -10,26 +10,24 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import model.Novel;
-import utils.DBContext;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Novel;
+import utils.DBContext;
 
 /**
  *
  * @author Nguyen Ngoc Phat - CE180321
  */
 public class NovelDAO {
-
     private final DBContext db;
 
     public NovelDAO() {
         db = new DBContext();
     }
-
+    
     //Admin-------------------------------------------------------------------------------------------------------------
-    //
-     public List<Novel> getAllActiveNovel(String s) {
+public List<Novel> getAllActiveNovel(String s) {
         List<Novel> list = new ArrayList<>();
         String sql = "SELECT novelID, novelName, imageUML, totalChapter, publishedDate, fullName\n" 
                 +    "FROM Novel n JOIN UserAccount u ON n.UserID = u.UserID "
@@ -51,6 +49,7 @@ public class NovelDAO {
         }
         return list;
     }
+
     //------------------------------------------------------------------------------------------------------------------
      
      
@@ -448,4 +447,6 @@ public class NovelDAO {
             Logger.getLogger(NovelDAO.class.getName()).log(Level.SEVERE, null, e);
         }
     }
+
 }
+     //------------------------------------------------------------------------------------------------------------------

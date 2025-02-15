@@ -5,7 +5,6 @@
         <meta charset="UTF-8">
         <title>NovelReader</title>
         <link rel="stylesheet" href="css/home/home.css">
-         <link rel="stylesheet" href="css/home/header1.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Macondo+Swash+Caps&display=swap">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -173,6 +172,5 @@
         </div>
 
         <script src="js/home/home.js"></script>
-        <script src="js/home/header.js"></script>
     </body>
 </html>

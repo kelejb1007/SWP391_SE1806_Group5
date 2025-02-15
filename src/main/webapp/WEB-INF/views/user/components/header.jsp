@@ -16,7 +16,7 @@
 <div class="header">
     <div class="logo">
         <img src="img/b3.png" alt="Logo Icon">
-        <a href="<c:url value='/homepage' />">NovelReader</a>
+        <a href="Home.jsp">NovelReader</a>
     </div>
     <nav>
         <ul>
@@ -93,4 +93,3 @@
 
     </nav>
 </div>
-    
