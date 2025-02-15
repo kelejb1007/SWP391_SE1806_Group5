@@ -6,8 +6,7 @@
        
     
         </div>
-        <p>© 2025 NovelReadingwebsite </p>
+        <p>© 2025 NovelReadingwebsite</p>
 
     </div>
 </div>
-
