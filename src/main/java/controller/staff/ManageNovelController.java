@@ -23,8 +23,8 @@ import model.Novel;
  *
  * @author Nguyen Thanh Trung
  */
-@WebServlet(name="NovelManageController", urlPatterns={"/novelmanage"})
-public class NovelManageController extends HttpServlet {
+@WebServlet(name="ManageNovelController", urlPatterns={"/managenovel"})
+public class ManageNovelController extends HttpServlet {
 
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -83,7 +83,7 @@ public class NovelManageController extends HttpServlet {
                 request.setAttribute("listNovel", listNovel);
                 request.getRequestDispatcher("/WEB-INF/views/staff/viewAllNovels.jsp").forward(request, response);               
             } catch (Exception ex) {
-                Logger.getLogger(NovelManageController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     

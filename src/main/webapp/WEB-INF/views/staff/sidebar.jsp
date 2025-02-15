@@ -60,7 +60,7 @@
                             </a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="#">View all novels</a>
+                                    <a href="${pageContext.request.contextPath}/managenovel">View all novels</a>
                                 </li>
                                 <li>
                                     <a href="#">View locked novels</a>
@@ -107,10 +107,10 @@
             </aside>
         
         
-        <script src="js/startmin/flot/jquery.min.js"></script>
-        <script src="js/startmin/flot/bootstrap.min.js"></script>
-        <script src="js/startmin/flot/metisMenu.min.js"></script>
-        <script src="js/startmin/flot/startmin.js"></script>
+        <script src="js/startmin/jquery.min.js"></script>
+        <script src="js/startmin/bootstrap.min.js"></script>
+        <script src="js/startmin/metisMenu.min.js"></script>
+        <script src="js/startmin/startmin.js"></script>
 
 
 

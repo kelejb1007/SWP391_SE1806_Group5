@@ -30,7 +30,7 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-lg-12">
-                            <h1 class="page-header">Manage Novel</h1>
+                            <h1 class="page-header">MANAGE NOVEL</h1>
                         </div>
                         <!-- /.col-lg-12 -->
                     </div>
@@ -44,66 +44,12 @@
                                 <!-- /.panel-heading -->
                                 <div class="panel-body">
                                     <div class="table-responsive">
-                                        <table class="table table-striped table-bordered table-hover" >
-                                            <thead>
-                                                <tr>
-                                                    <th>Rendering engine</th>
-                                                    <th>Browser</th>
-                                                    <th>Platform(s)</th>
-                                                    <th>Engine version</th>
-                                                    <th>CSS grade</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr class="odd gradeX">
-                                                    <td>Trident</td>
-                                                    <td>Internet Explorer 4.0</td>
-                                                    <td>Win 95+</td>
-                                                    <td class="center">4</td>
-                                                    <td class="center">X</td>
-                                                </tr>
-                                                <tr class="even gradeC">
-                                                    <td>Trident</td>
-                                                    <td>Internet Explorer 5.0</td>
-                                                    <td>Win 95+</td>
-                                                    <td class="center">5</td>
-                                                    <td class="center">C</td>
-                                                </tr>
-                                                <tr class="odd gradeA">
-                                                    <td>Trident</td>
-                                                    <td>Internet Explorer 5.5</td>
-                                                    <td>Win 95+</td>
-                                                    <td class="center">5.5</td>
-                                                    <td class="center">A</td>
-                                                </tr>
-
-                                            </tbody>
-                                        </table>
-                                    </div>
-
-                                </div>
-                                <!-- /.panel-body -->
-                            </div>
-                            <!-- /.panel -->
-                        </div>
-                        <!-- /.col-lg-12 -->
-
-
-                        <div class="col-lg-12">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    List of novels
-                                </div>
-                                <!-- /.panel-heading -->
-                                <div class="panel-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered" id="dataTables-example">
+                                        <table class="table table-bordered table-striped table-hover" id="dataTables-example">
                                             <thead>
                                                 <tr>
                                                     <th>#</th>
                                                     <th>Title</th>
                                                     <th>Author</th>
-                                                    <th>imageURL (nua chinh lai)</th>
                                                     <th>Total of chapter</th>
                                                     <th>Published Date</th>
                                                 </tr>
@@ -114,7 +60,6 @@
                                                         <td>${status.index + 1}</td>
                                                         <td>${c.novelName}</td>
                                                         <td>${c.author}</td>
-                                                        <td>${c.imageURL}</td>
                                                         <td>${c.totalChapter}</td>
                                                         <td>${c.publishedDate}</td>
                                                     </tr>
