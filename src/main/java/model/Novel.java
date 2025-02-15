@@ -4,7 +4,6 @@
  */
 package model;
 
-import java.sql.Date;
 import java.time.LocalDateTime;
 
 /**
@@ -21,10 +20,20 @@ public class Novel {
     private String novelStatus;
     private LocalDateTime publishedDate;
 
-     private String author;
+    private String author;
      
     public Novel() {
     }
+
+    public Novel(int novelID, String novelName, String imageURL, int totalChapter, LocalDateTime publishedDate, String author) {
+        this.novelID = novelID;
+        this.novelName = novelName;
+        this.imageURL = imageURL;
+        this.totalChapter = totalChapter;
+        this.publishedDate = publishedDate;
+        this.author = author;
+    }
+    
 
     public Novel(int novelID, String novelName, int userID, String imageURL, String novelDescription, int totalChapter, String novelStatus, LocalDateTime publishedDate) {
         this.novelID = novelID;

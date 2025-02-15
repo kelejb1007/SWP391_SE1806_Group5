@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controller.admin;
+package controller.staff;
 
 import DAO.NovelDAO;
 import java.io.IOException;
@@ -15,6 +15,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Novel;
 
 /**
@@ -23,7 +25,7 @@ import model.Novel;
  */
 @WebServlet(name="NovelManageController", urlPatterns={"/novelmanage"})
 public class NovelManageController extends HttpServlet {
-   
+
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
@@ -72,13 +74,16 @@ public class NovelManageController extends HttpServlet {
                 viewAllNovels(request, response);
         }
     }
-        private void viewAllNovels (HttpServletRequest request, HttpServletResponse response)
+    private void viewAllNovels (HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
             NovelDAO nd = new NovelDAO();
             List<Novel> listNovel = new ArrayList<>();
             try {
-           //     listNovel = nd;
-            } catch (Exception e) {
+                listNovel = nd.getAllActiveNovel();
+                request.setAttribute("listNovel", listNovel);
+                request.getRequestDispatcher("/WEB-INF/views/staff/viewAllNovels.jsp").forward(request, response);               
+            } catch (Exception ex) {
+                Logger.getLogger(NovelManageController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     
@@ -93,7 +98,7 @@ public class NovelManageController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+       
     }
 
     /** 

@@ -107,10 +107,10 @@
             </aside>
         
         
-        <script src="js/startmin/jquery.min.js"></script>
-        <script src="js/startmin/bootstrap.min.js"></script>
-        <script src="js/startmin/metisMenu.min.js"></script>
-        <script src="js/startmin/startmin.js"></script>
+        <script src="js/startmin/flot/jquery.min.js"></script>
+        <script src="js/startmin/flot/bootstrap.min.js"></script>
+        <script src="js/startmin/flot/metisMenu.min.js"></script>
+        <script src="js/startmin/flot/startmin.js"></script>
 
 
 
