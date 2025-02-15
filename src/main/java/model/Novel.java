@@ -60,6 +60,22 @@ public class Novel {
         this.author = author;
     }
 
+    public double getAverageRating() {
+        return averageRating;
+    }
+
+    public void setAverageRating(double averageRating) {
+        this.averageRating = averageRating;
+    }
+
+    public int getViewCount() {
+        return viewCount;
+    }
+
+    public void setViewCount(int viewCount) {
+        this.viewCount = viewCount;
+    }
+
     public String getAuthor() {
         return author;
     }
@@ -69,6 +85,7 @@ public class Novel {
     }
     
 
+   // của Novel
     public int getNovelID() {
         return novelID;
     }
