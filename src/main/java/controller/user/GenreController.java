@@ -42,15 +42,14 @@ throws ServletException, IOException {
     
      // Fetch the list of genres
         List<Genre> genres = genreDAO.getAllGenres();
+       request.setAttribute("genres", genres);
 
-        // Set genres vào request scope
-        request.setAttribute("genres", genres);
-
+       
         // Get the selected genre from request parameter
         String selectedGenre = request.getParameter("genre");
 
         // Set selected genre to request scope.  Nếu không có genre nào được chọn, set nó là null.
-        request.setAttribute("selectedGenre", (selectedGenre != null && !selectedGenre.isEmpty()) ? selectedGenre : null);
+       request.setAttribute("selectedGenre", (selectedGenre != null && !selectedGenre.isEmpty()) ? selectedGenre : "");
 
         // Kiểm tra target
         String target = request.getParameter("target");
@@ -61,8 +60,7 @@ throws ServletException, IOException {
             request.getRequestDispatcher(target).include(request, response); // Thay forward bằng include
         } else {
             // Xử lý trường hợp không có target (ví dụ, chuyển hướng đến trang chủ hoặc hiển thị lỗi)
-            response.sendRedirect(request.getContextPath() + "/Home.jsp"); // Ví dụ: Chuyển hướng đến trang chủ
-        }
+            response.sendRedirect(request.getContextPath() + "/Home.jsp");        }
         
 }
 

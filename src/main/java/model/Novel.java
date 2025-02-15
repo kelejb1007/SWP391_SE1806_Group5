@@ -20,8 +20,11 @@ public class Novel {
     private int totalChapter;
     private String novelStatus;
     private LocalDateTime publishedDate;
-
-     private String author;
+    
+    //Lấy từ bảng khác
+    private String author;
+    private double averageRating;
+     private int viewCount;
      
     public Novel() {
     }
@@ -47,7 +50,29 @@ public class Novel {
         this.publishedDate = publishedDate;
         this.author = author;
     }
+    
+    public Novel(int novelID, String novelName, String author,String imageURL, String novelDescription, int totalChapter, String novelStatus, double averageRating, LocalDateTime publishedDate) {
+        this.novelID = novelID;
+        this.novelName = novelName;
+        this.imageURL = imageURL;
+        this.novelDescription = novelDescription;
+        this.totalChapter = totalChapter;
+        this.novelStatus = novelStatus;
+        this.averageRating = averageRating;
+        this.publishedDate = publishedDate;
+        this.author = author;
+    }
+    
+    
 
+    public int getViewCount() {
+        return viewCount;
+    }
+
+    public void setViewCount(int viewCount) {
+        this.viewCount = viewCount;
+    }
+    
     public String getAuthor() {
         return author;
     }
@@ -55,8 +80,19 @@ public class Novel {
     public void setAuthor(String author) {
         this.author = author;
     }
-    
 
+    public double getAverageRating() {
+        return averageRating;
+    }
+
+    public void setAverageRating(double averageRating) {
+        this.averageRating = averageRating;
+    }
+    
+    
+    
+    
+    //Của Novel
     public int getNovelID() {
         return novelID;
     }
