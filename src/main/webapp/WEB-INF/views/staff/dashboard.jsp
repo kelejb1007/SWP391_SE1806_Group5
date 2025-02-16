@@ -436,7 +436,7 @@
         <script src="js/startmin/jquery.min.js"></script>
         <script src="js/startmin/bootstrap.min.js"></script>
         <script src="js/startmin/metisMenu.min.js"></script>
-        <script src="js/startmin/tartmin.js"></script>
+        <script src="js/startmin/startmin.js"></script>
         <script src="js/startmin/raphael.min.js"></script>
         <script src="js/startmin/morris.min.js"></script>
         <script src="js/startmin/morris-data.js"></script>

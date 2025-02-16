@@ -28,13 +28,15 @@ public class Novel {
     public Novel() {
     }
 
-    public Novel(int novelID, String novelName, String imageURL, int totalChapter, LocalDateTime publishedDate, String author) {
+    public Novel(int novelID, String novelName, String imageURL, int totalChapter, LocalDateTime publishedDate, String author, double averageRating, int viewCount) {
         this.novelID = novelID;
         this.novelName = novelName;
         this.imageURL = imageURL;
         this.totalChapter = totalChapter;
         this.publishedDate = publishedDate;
         this.author = author;
+        this.averageRating = averageRating;
+        this.viewCount = viewCount;
     }
     
 

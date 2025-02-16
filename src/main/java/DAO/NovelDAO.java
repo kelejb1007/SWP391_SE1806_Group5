@@ -27,25 +27,32 @@ public class NovelDAO {
     }
     
     //Admin-------------------------------------------------------------------------------------------------------------
-public List<Novel> getAllActiveNovel(String s) {
+public List<Novel> getAllActiveNovels(String s) {
         List<Novel> list = new ArrayList<>();
-        String sql = "SELECT novelID, novelName, imageUML, totalChapter, publishedDate, fullName\n" 
-                +    "FROM Novel n JOIN UserAccount u ON n.UserID = u.UserID "
-                +    "WHERE novelStatus = '" + s + "'";
-        Connection connection;
-        PreparedStatement statement;
-        ResultSet rs;
+        String sql = "SELECT n.novelID, n.novelName, n.imageURL, n.totalChapter, n.publishedDate, u.fullName,COALESCE(ROUND(AVG(r.score), 1), 0) AS averageRating, COUNT(v.novelID) AS viewCount\n" 
+                   + "FROM Novel n \n" 
+                   + "JOIN UserAccount u ON n.UserID = u.UserID \n" 
+                   + "LEFT JOIN Rating r ON n.novelID = r.novelID\n" 
+                   + "LEFT JOIN Viewing v ON n.novelID = v.novelID\n" 
+                   + "WHERE novelStatus = '" + s + "'\n" 
+                   + "GROUP BY n.novelID, n.novelName, n.imageURL, n.totalChapter, n.publishedDate, u.fullName";
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet rs = null;
         try {
             connection = db.getConnection();
             statement = connection.prepareStatement(sql);
             rs = statement.executeQuery();
             while (rs.next()) {
-                Novel m = new Novel(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4),
-                                    (rs.getTimestamp(5) != null? rs.getTimestamp(5).toLocalDateTime() : null), rs.getString(6));
+                Novel m = new Novel(rs.getInt("novelID"), rs.getString("novelName"), rs.getString("imageURL"), rs.getInt("totalChapter"),
+                                    (rs.getTimestamp("publishedDate") != null? rs.getTimestamp("publishedDate").toLocalDateTime() : null), 
+                                     rs.getString("fullName"), rs.getDouble("averageRating"), rs.getInt("viewCount"));
                 list.add(m);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            Logger.getLogger(NovelDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            closeResources(connection, statement, rs);
         }
         return list;
     }

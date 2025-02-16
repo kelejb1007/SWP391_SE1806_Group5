@@ -63,7 +63,7 @@
                                     <a href="${pageContext.request.contextPath}/managenovel">View all novels</a>
                                 </li>
                                 <li>
-                                    <a href="${pageContext.request.contextPath}/managenovel?action=viewLockedNovels">View locked novels</a>
+                                    <a href="${pageContext.request.contextPath}/managenovel?action=viewlockedlist">View locked novels</a>
                                 </li>
                                 <li>
                                     <a href="#">Approve novel</a>
@@ -85,18 +85,18 @@
                         
                         <!-- Add novel -->
                         <li>
-                            <a href="adminAddNewNovel.jsp">
+                            <a href="">
                                 <i class="fa fa-sitemap fa-fw"></i>
-                                Add Novel
+                                Manage chapter
                             </a>
                         </li>
                         
                         
                         <!-- Update novel -->
                         <li>
-                            <a href="adminUpdateNovel.jsp">
+                            <a href="">
                                 <i class="fa fa-sitemap fa-fw"></i>
-                                Update Novel
+                                Manage comment
                             </a>
                         </li>
 

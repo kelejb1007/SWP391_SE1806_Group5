@@ -19,11 +19,11 @@
         <!-- Top Navigation -->
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">Small Sun</a>
+                <a class="navbar-brand" href="#">NovelReader</a>
             </div>
             <ul class="nav navbar-nav navbar-left navbar-top-links">
-                    <li><a href="${pageContext.request.contextPath}/dashboard"><i class="fa fa-home fa-fw"></i> Home Page</a></li>
-                </ul>
+                <li><a href="${pageContext.request.contextPath}/dashboard"><i class="fa fa-home fa-fw"></i> Home Page</a></li>
+            </ul>
 
 
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -84,5 +84,11 @@
                 </li>
             </ul>
         </nav>
+            
+        <script src="js/startmin/jquery.min.js"></script>
+        <script src="js/startmin/bootstrap.min.js"></script>
+        <script src="js/startmin/metisMenu.min.js"></script>
+        <script src="js/startmin/startmin.js"></script>
+        
     </body>
 </html>

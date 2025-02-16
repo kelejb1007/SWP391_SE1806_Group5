@@ -3,7 +3,7 @@
     Created on : Feb 15, 2025, 11:28:07 PM
     Author     : Nguyen Thanh Trung
 --%>
-
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -19,6 +19,7 @@
 
         <link href="css/startmin/dataTables/dataTables.bootstrap.css" rel="stylesheet">
         <link href="css/startmin/dataTables/dataTables.responsive.css" rel="stylesheet">
+
     </head>
     <body>
         <div id="wrapper">
@@ -44,7 +45,7 @@
                                 <!-- /.panel-heading -->
                                 <div class="panel-body">
                                     <div class="table-responsive">
-                                        <table class="table table-bordered table-striped table-hover" id="dataTables-example">
+                                        <table class="table table-bordered table-striped table-hover" id="dataTables-lock">
                                             <thead>
                                                 <tr>
                                                     <th>#</th>
@@ -52,18 +53,34 @@
                                                     <th>Author</th>
                                                     <th>Total of chapter</th>
                                                     <th>Published Date</th>
+                                                    <th>Rating Average</th>
+                                                    <th>View</th>
+                                                    <th>Lock Date</th>
+                                                    <th></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                            <c:forEach var="c" items="${requestScope.listNovel}" varStatus="status">
-                                                <tr>
-                                                    <td>${status.index + 1}</td>
-                                                    <td>${c.novelName}</td>
-                                                    <td>${c.author}</td>
-                                                    <td>${c.totalChapter}</td>
-                                                    <td>${c.publishedDate}</td>
-                                                </tr>
-                                            </c:forEach>  
+                                                <c:forEach var="c" items="${requestScope.listNovel}" varStatus="status">
+                                                    <tr>
+                                                        <td>${status.index + 1}</td>
+                                                        <td>${c.novelName}</td>
+                                                        <td>${c.author}</td>
+                                                        <td>${c.totalChapter}</td>
+                                                        <td>${c.publishedDate}</td>
+                                                        <td>${c.averageRating}</td>
+                                                        <td>${c.viewCount}</td>
+                                                        <td></td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-info"
+                                                                    onclick="window.location.href = 'managenovel?action=viewdetail&novelID=${c.novelID}';">View detail
+                                                            </button>
+                                                            <form action="managenovel" method="post" style="display: inline">
+                                                                <input type="hidden" name="novelID" value="${c.novelID}">
+                                                                <button type="submit" class="btn btn-danger">Lock</button>
+                                                            </form>
+                                                        </td>
+                                                    </tr>
+                                                </c:forEach>  
                                             </tbody>
                                         </table>
                                     </div>
@@ -91,17 +108,17 @@
 
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
     <script>
-        $(document).ready(function () {
-            $('#dataTables-example').DataTable({
-                responsive: true
-            });
-        });
+                                                                    $(document).ready(function () {
+                                                                        $('#dataTables-lock').DataTable({
+                                                                            responsive: true
+                                                                        });
+                                                                    });
     </script>
 
 
 
-    <script src="js/raphael.min.js"></script>
-    <script src="js/morris.min.js"></script>
-    <script src="js/morris-data.js"></script>
+    <script src="js/startmin/raphael.min.js"></script>
+    <script src="js/startmin/morris.min.js"></script>
+    <script src="js/startmin/morris-data.js"></script>
 </body>
 </html>

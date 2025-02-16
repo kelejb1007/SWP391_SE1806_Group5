@@ -19,6 +19,15 @@
 
         <link href="css/startmin/dataTables/dataTables.bootstrap.css" rel="stylesheet">
         <link href="css/startmin/dataTables/dataTables.responsive.css" rel="stylesheet">
+
+        <script type="text/javascript">
+            function lock(novelID, novelName) {
+                if (confirm("Are you sure to lock the novel : '" + novelName + "'")) {
+                    window.location.href = "managenovel?action=lock&novelID=" + novelID;
+                }
+            }
+            //onclick="lock(${c.novelID}, '${c.novelName}')"
+        </script>
     </head>
     <body>
         <div id="wrapper">
@@ -52,6 +61,9 @@
                                                     <th>Author</th>
                                                     <th>Total of chapter</th>
                                                     <th>Published Date</th>
+                                                    <th>Rating Average</th>
+                                                    <th>View</th>
+                                                    <th></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -62,6 +74,18 @@
                                                         <td>${c.author}</td>
                                                         <td>${c.totalChapter}</td>
                                                         <td>${c.publishedDate}</td>
+                                                        <td>${c.averageRating}</td>
+                                                        <td>${c.viewCount}</td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-info"
+                                                                    onclick="window.location.href = 'managenovel?action=viewdetail&novelID=${c.novelID}';">View detail
+                                                            </button>
+                                                            <form action="managenovel" method="post" style="display: inline">
+                                                                <input type="hidden" name="action" value="lock">
+                                                                <input type="hidden" name="novelID" value="${c.novelID}">
+                                                                <button type="submit" class="btn btn-danger">Lock</button>
+                                                            </form>
+                                                        </td>
                                                     </tr>
                                                 </c:forEach>  
                                             </tbody>
@@ -91,18 +115,18 @@
 
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
     <script>
-        $(document).ready(function () {
-            $('#dataTables-example').DataTable({
-                responsive: true
-            });
-        });
+                                                                            $(document).ready(function () {
+                                                                                $('#dataTables-example').DataTable({
+                                                                                    responsive: true
+                                                                                });
+                                                                            });
     </script>
 
 
 
-    <script src="js/raphael.min.js"></script>
-    <script src="js/morris.min.js"></script>
-    <script src="js/morris-data.js"></script>
+    <script src="js/startmin/raphael.min.js"></script>
+    <script src="js/startmin/morris.min.js"></script>
+    <script src="js/startmin/morris-data.js"></script>
 
 </body>
 </html>
