@@ -20,22 +20,23 @@ import utils.DBContext;
  * @author Nguyen Ngoc Phat - CE180321
  */
 public class NovelDAO {
+
     private final DBContext db;
 
     public NovelDAO() {
         db = new DBContext();
     }
-    
+
     //Admin-------------------------------------------------------------------------------------------------------------
-public List<Novel> getAllActiveNovels(String s) {
+    public List<Novel> getAllActiveNovels(String s) {
         List<Novel> list = new ArrayList<>();
-        String sql = "SELECT n.novelID, n.novelName, n.imageURL, n.totalChapter, n.publishedDate, u.fullName,COALESCE(ROUND(AVG(r.score), 1), 0) AS averageRating, COUNT(v.novelID) AS viewCount\n" 
-                   + "FROM Novel n \n" 
-                   + "JOIN UserAccount u ON n.UserID = u.UserID \n" 
-                   + "LEFT JOIN Rating r ON n.novelID = r.novelID\n" 
-                   + "LEFT JOIN Viewing v ON n.novelID = v.novelID\n" 
-                   + "WHERE novelStatus = '" + s + "'\n" 
-                   + "GROUP BY n.novelID, n.novelName, n.imageURL, n.totalChapter, n.publishedDate, u.fullName";
+        String sql = "SELECT n.novelID, n.novelName, n.imageURL, n.totalChapter, n.publishedDate, u.fullName,COALESCE(ROUND(AVG(r.score), 1), 0) AS averageRating, COUNT(v.novelID) AS viewCount\n"
+                + "FROM Novel n \n"
+                + "JOIN UserAccount u ON n.UserID = u.UserID \n"
+                + "LEFT JOIN Rating r ON n.novelID = r.novelID\n"
+                + "LEFT JOIN Viewing v ON n.novelID = v.novelID\n"
+                + "WHERE novelStatus = '" + s + "'\n"
+                + "GROUP BY n.novelID, n.novelName, n.imageURL, n.totalChapter, n.publishedDate, u.fullName";
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet rs = null;
@@ -45,8 +46,8 @@ public List<Novel> getAllActiveNovels(String s) {
             rs = statement.executeQuery();
             while (rs.next()) {
                 Novel m = new Novel(rs.getInt("novelID"), rs.getString("novelName"), rs.getString("imageURL"), rs.getInt("totalChapter"),
-                                    (rs.getTimestamp("publishedDate") != null? rs.getTimestamp("publishedDate").toLocalDateTime() : null), 
-                                     rs.getString("fullName"), rs.getDouble("averageRating"), rs.getInt("viewCount"));
+                        (rs.getTimestamp("publishedDate") != null ? rs.getTimestamp("publishedDate").toLocalDateTime() : null),
+                        rs.getString("fullName"), rs.getDouble("averageRating"), rs.getInt("viewCount"));
                 list.add(m);
             }
         } catch (SQLException e) {
@@ -58,9 +59,7 @@ public List<Novel> getAllActiveNovels(String s) {
     }
 
     //------------------------------------------------------------------------------------------------------------------
-     
-     
-      //User, Guest-------------------------------------------------------------------------------------------------------------
+    //User, Guest-------------------------------------------------------------------------------------------------------------
     public List<Novel> getAllNovels() {
         List<Novel> list = new ArrayList<>();
         String sql = "SELECT n.novelID, n.novelName, n.userID, n.imageURL, n.novelDescription, n.totalChapter, n.publishedDate, n.novelStatus, ua.fullName AS author, COALESCE(AVG(r.score), 0) AS averageRating "
@@ -263,8 +262,6 @@ public List<Novel> getAllActiveNovels(String s) {
         return list;
     }
 
-     
-    
     public List<Novel> getNovelsByPopularity() {
         List<Novel> list = new ArrayList<>();
         String sql = "SELECT n.novelID, n.novelName, n.userID, n.imageURL, n.novelDescription, n.totalChapter, n.publishedDate, n.novelStatus, ua.fullName AS author, COALESCE(AVG(r.score), 0) AS averageRating, COUNT(v.novelID) AS viewCount "
@@ -309,12 +306,23 @@ public List<Novel> getAllActiveNovels(String s) {
 
     public Novel getNovelById(int novelID) {
         Novel novel = null;
-        String sql = "SELECT n.novelID, n.novelName, n.userID, n.imageURL, n.novelDescription, n.totalChapter, n.publishedDate, n.novelStatus, ua.fullName AS author, COALESCE(AVG(r.score), 0) AS averageRating "
-                + "FROM Novel n "
+        List<String> genreNames = new ArrayList<>(); // Danh sách tên thể loại
+        String sql = "SELECT n.novelID, n.novelName, n.userID, n.imageURL, n.novelDescription, "
+                + "n.totalChapter, n.publishedDate, n.novelStatus, ua.fullName AS author, "
+                + "COALESCE(AVG(r.score), 0) AS averageRating, COUNT(DISTINCT v.viewID) AS viewCount, "
+                + "(SELECT STRING_AGG(g.genreName, ', ') "
+                + " FROM Genre_Novel gn2 "
+                + " JOIN Genre g ON gn2.genreID = g.genreID "
+                + " WHERE gn2.novelID = n.novelID) AS genres "
+                + // Subquery để loại bỏ trùng
+                "FROM Novel n "
                 + "JOIN UserAccount ua ON n.userID = ua.userID "
                 + "LEFT JOIN Rating r ON n.novelID = r.novelID "
+                + "LEFT JOIN Viewing v ON n.novelID = v.novelID "
                 + "WHERE n.novelStatus = 'active' AND n.novelID = ? "
-                + "GROUP BY n.novelID, n.novelName, n.userID, n.imageURL, n.novelDescription, n.totalChapter, n.publishedDate, n.novelStatus, ua.fullName";
+                + "GROUP BY n.novelID, n.novelName, n.userID, n.imageURL, n.novelDescription, "
+                + "n.totalChapter, n.publishedDate, n.novelStatus, ua.fullName";
+
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -336,7 +344,18 @@ public List<Novel> getAllActiveNovels(String s) {
                         ? resultSet.getTimestamp("publishedDate").toLocalDateTime() : null);
                 novel.setNovelStatus(resultSet.getString("novelStatus"));
                 novel.setAuthor(resultSet.getString("author"));
-                novel.setAverageRating(resultSet.getDouble("averageRating")); // Lấy từ resultSet
+                novel.setAverageRating(resultSet.getDouble("averageRating"));
+                novel.setViewCount(resultSet.getInt("viewCount"));
+
+                // Lấy danh sách genreName
+                String genreNamesStr = resultSet.getString("genres");
+                if (genreNamesStr != null && !genreNamesStr.isEmpty()) {
+                    String[] genres = genreNamesStr.split(", "); // Chia chuỗi thành mảng
+                    for (String genre : genres) {
+                        genreNames.add(genre.trim()); // Thêm từng genre vào danh sách
+                    }
+                }
+                novel.setGenreNames(genreNames); // Set danh sách genreName vào novel
             }
         } catch (SQLException e) {
             Logger.getLogger(NovelDAO.class.getName()).log(Level.SEVERE, null, e);

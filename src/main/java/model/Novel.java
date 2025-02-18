@@ -5,6 +5,7 @@
 package model;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  *
@@ -24,6 +25,7 @@ public class Novel {
     private String author;
     private double averageRating;
     private int viewCount;
+    private List<String> genreNames;
      
     public Novel() {
     }
@@ -60,6 +62,16 @@ public class Novel {
         this.novelStatus = novelStatus;
         this.publishedDate = publishedDate;
         this.author = author;
+    }
+
+    
+    
+    public List<String> getGenreNames() {
+        return genreNames;
+    }
+
+    public void setGenreNames(List<String> genreNames) {
+        this.genreNames = genreNames;
     }
 
     public double getAverageRating() {
