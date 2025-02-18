@@ -1,0 +1,76 @@
+/* Top of Novel Section */
+.top-novels {
+    margin-bottom: 20px;
+    padding: 15px;
+   /* background-color: #fff;
+    border-radius: 10px;
+   /* box-shadow: 0px 2px 5px rgba(0, 0, 0, 0); /* Subtler shadow */
+   display: flex;               /* Use flexbox */
+    flex-direction: column;     /* Stack children vertically */
+}
+
+.top-novels h2 {
+    margin-bottom: 10px;
+    font-size: 1.8em;
+    text-align: center;
+}
+
+.top-novel-tabs {
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.top-novel-tabs button {
+    padding: 8px 15px;
+    border: none;
+    background-color: #eee;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 0 5px;
+  font-family: 'Macondo Swash Caps', cursive;
+}
+
+.top-novel-tabs button.active {
+    background-color: #ddd;
+}
+
+.top-novel-list {
+    /* Add styles for the list of novels */
+    padding: 10px;
+}
+
+.novel-rank {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.rank {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    text-align: center;
+    color: white;
+    background-color: #000;
+    margin-right: 10px;
+    line-height: 25px;
+}
+
+.novel-rank p {
+    font-size: 1.1em;
+  font-family: 'Macondo Swash Caps', cursive;
+}
+
+/* Style for the Image Area */
+.row .top-novel-image {
+    flex: 1;                   /* Image area takes up remaining space */
+    text-align: center;
+    padding: 5px;                 /* Add a little padding */
+}
+
+.row .top-novel-image img {
+    max-width: 100%;             /* Make image responsive within container */
+    max-height: 100%;
+    object-fit: contain;        /* Preserve aspect ratio */
+    border-radius: 5px;
+}

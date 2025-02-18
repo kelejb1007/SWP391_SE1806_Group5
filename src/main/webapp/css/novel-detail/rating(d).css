@@ -1,0 +1,25 @@
+.novel-rating {
+  display: flex;
+  align-items: center;
+}
+
+.star-rating {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.star {
+  font-size: 24px;
+  color: #ccc; /* Màu mặc định */
+  cursor: pointer;
+  transition: color 0.2s; /* Hiệu ứng chuyển màu mượt mà */
+}
+
+.star:hover,
+.star.active {
+  color: gold; /* Màu khi hover hoặc active */
+}
+
+.star:hover ~ .star {
+  color: #ccc; /* Màu các sao phía sau khi hover */
+}

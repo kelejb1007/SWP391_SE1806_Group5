@@ -47,7 +47,7 @@
                                                <div class="novel-item">
                                                    
                                                     <span class="novel-rating">${novel.averageRating != null ? String.format("%.2f", novel.averageRating) : "N/A"}</span>
-                                                  <a href="novel?id=${novel.novelID}">
+                                                  <a href="novel-detail?id=${novel.novelID}">
                                                        <div class="novel-cover">
                                                            <img src="${novel.imageURL}" alt="${novel.novelName}">
                                                         </div>

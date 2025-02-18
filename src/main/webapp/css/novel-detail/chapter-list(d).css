@@ -1,0 +1,231 @@
+.chapter-content-section {
+    margin-top: 20px;
+    padding: 20px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+    background-color: #f0f8ff; /* AliceBlue */
+    overflow: auto;
+}
+
+.chapter-content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #000; /* Đường kẻ dưới */
+   
+}
+
+.chapter-content-title-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+   
+}
+
+.chapter-content-title {
+    font-size: 1.5em;
+    margin-bottom: 0;
+    font-weight: bold;
+   
+    
+}
+
+.chapter-content-latest-release {
+    padding: 13px 0;
+    font-size: 1.1em;
+    color: #333;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    width: 1000px; /* Quan trọng: Chiếm toàn bộ không gian còn lại */
+    
+    
+}
+
+.chapter-content-latest-release > *:first-child {
+    width: 30px; /* Chiều rộng cố định cho "Latest Release:" */
+    flex-shrink: 0;
+    margin-right: 10px;
+}
+
+.chapter-content-latest-release a {
+    color: #007bff;
+    text-decoration: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-grow: 1; /* Quan trọng: Cho phép link chiếm không gian giữa "Latest Release" và time */
+    margin-right: auto; /* Quan trọng: Đẩy time về bên phải */
+}
+
+
+.chapter-content-latest-release .time-string {
+    font-size: 0.8em;
+    color: #777;
+    font-weight: normal;
+    flex-shrink: 0; /* Ngăn co lại */
+    width: 80px; /* Chiều rộng cố định cho time */
+    text-align: right; /* Căn phải text */
+}
+
+.chapter-content-latest-release strong {
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+.chapter-content-latest-release span:first-child {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+
+.chapter-list-ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Chia thành 2 cột */
+    gap: 20px;
+  
+}
+
+.chapter-item {
+    border-bottom: 1px solid #eee;
+    padding: 5px 0;
+    display: flex;
+    flex-direction: column;
+    white-space: nowrap;
+   
+}
+
+.chapter-item a {
+    text-decoration: none;
+    color: #007bff;
+    transition: color 0.2s;
+}
+
+.chapter-item a:hover {
+    color: #0056b3;
+}
+
+
+.latest-release-and-sort {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: auto;
+}
+
+.locked {
+    color: gray;
+    pointer-events: none;
+    text-decoration: none;
+}
+
+.chapter-sort-option {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+    transition: color 0.2s;
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+   
+}
+
+.chapter-sort-option:hover, .chapter-sort-option.active {
+    color: #007bff;
+}
+
+.chapter-item-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 20px;
+   
+}
+
+.chapter-item-container i.fas.fa-lock {
+    color: #3071a9;
+    display: flex;
+    margin-right: 25px;
+}
+
+.chapter-number {
+    margin-right: 2px;
+    font-style: italic;
+    color: #000;
+}
+
+.chapter-time {
+    font-style: italic;
+    color: #999;
+    font-size: 0.8em;
+    margin-left: 40px;
+    display: block;
+}
+.chapter-item:nth-child(odd) {
+    border-right: 1px solid #ddd; /* Màu sắc và độ dày của đường kẻ */
+}
+
+
+.chapter-sort-options {
+    display: flex;
+    align-items: center;
+}
+
+
+/* g_wrap det-tab-nav mb48 _slide */
+.g_wrap.det-tab-nav {
+    margin-bottom: 48px;
+    display: flex;
+    align-items: center;
+    position: relative; /* Necessary for absolute positioning of the line */
+}
+
+/* tab-link */
+.tab-link {
+    display: inline-block;
+    padding: 8px 12px;
+    text-decoration: none;
+    color: #777;
+    font-weight: bold;
+    font-size: 1.1em;
+    transition: color 0.2s;
+    position: relative; /* So we can calculate the line position based on this */
+}
+
+/* _on (Active/Selected tab) */
+.tab-link._on {
+    color: #000;
+    font-weight: bolder;
+}
+
+/* _hr */
+._hr {
+    display: inline-block;
+    width: 1px;
+    height: 20px;
+    background-color: #ccc;
+    margin: 0 10px;
+}
+
+/* _line (Moving underline) */
+._line {
+    position: absolute;
+    bottom: 0;
+    left: 0; /* Initially under the first tab */
+    width: auto;
+    height: 2px;
+    background-color: #6f42c1;
+    transition: left 0.3s ease-in-out, width 0.3s ease-in-out; /* Smooth transition */
+    width: auto;  /* The line takes the size of text */
+    bottom: -3px;   /* Under the text with a space */
+}
+
+/* Hover effect */
+.tab-link:hover {
+    color: #333;
+}

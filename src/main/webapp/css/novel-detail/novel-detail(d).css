@@ -1,0 +1,263 @@
+
+
+/* Use Macondo Swash Caps for specific elements */
+h1, h2, span, h3 {
+    font-family: 'Macondo Swash Caps', cursive;
+}
+/* Xóa margin/padding của toàn bộ trang */
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    overflow-x: hidden; /* Ẩn thanh cuộn ngang */
+}
+
+
+
+/* novel-detail-page (Keep this for overall page settings) */
+.novel-detail-page {
+    padding: 30px;
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    max-width: 1200px;
+    margin: 0 auto;
+    
+    
+}
+
+/* original-tag (Keep this for tag styling) */
+.original-tag {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: #007bff;
+    color: white;
+    padding: 5px 8px;
+    font-size: 0.8em;
+    font-weight: bold;
+    border-radius: 4px;
+    z-index: 1;
+}
+
+/* novel-header (Keep this for header styling) */
+.novel-header {
+   padding-bottom: 20px;
+  
+   
+}
+
+/* novel-detail-container (Keep this for the container) */
+.novel-detail-container {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  height: 600px;
+    align-items:stretch;  /* Change to stretch */
+    background: #d9edf7;
+   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  
+}
+
+/* novel-cover */
+.novel-cover {
+    width: 40%; /* Increase width */
+    max-width: 400px; /* adjust as needed */
+    margin-right: 30px;
+    margin-bottom: 10px;
+    height: 620px;
+    flex: 0 0 auto;
+    position: relative;
+}
+
+/* novel-cover img */
+.novel-cover img {
+    width: 100%;
+    height: 100%; /* Make image take up full height of container */
+    object-fit: cover;  /* Maintain aspect ratio and cover the container */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+/* novel-info (Keep this for the information section) */
+.novel-info {
+    flex: 1;
+    padding: 30px 20px;
+    display: flex; /* Add flexbox */
+   
+     height: 100%; /* Make image take up full height of container */
+    flex-direction: column; /* Stack items vertically */
+    justify-content: space-between; /* Distribute space between items */
+}
+
+/* novel-title (Keep this for title styling) */
+.novel-title {
+    font-size: 2.5em;
+    font-weight: bold;
+    margin: 0;
+    margin-bottom: 10px;
+    padding: 10px 0;
+}
+
+/* novel-meta (Keep this for meta information) */
+.novel-meta {
+    font-size: 1em;
+    color: #777;
+    margin-bottom: 15px;
+}
+
+/* novel-meta span (Keep this for span styling) */
+.novel-meta span {
+    margin-right: 15px;
+}
+
+/* novel-meta i (Keep this for icon styling) */
+.novel-meta i {
+    margin-right: 5px;
+}
+
+/* novel-author (Keep this for author styling) */
+.novel-author {
+    font-size: 1.1em;
+    color: #555;
+    margin-bottom: 10px;
+    
+   
+}
+
+/* author-name (Keep this for author name styling) */
+.author-name {
+    font-weight: bold;
+    color: #0056b3;
+     font-family: 'Arial', sans-serif;
+      font-size: 15px;
+}
+
+/* novel-rating (Keep this for rating styling) */
+.novel-rating {
+    margin-bottom: 15px;
+}
+
+/* rating-score (Keep this for score styling) */
+.rating-score {
+    font-weight: bold;
+    color: #333;
+    margin-left: 5px;
+}
+
+/* rating-count (Keep this for count styling) */
+.rating-count {
+    color: #777;
+    font-size: 0.9em;
+    margin-left: 5px;
+}
+
+/* ranking-award (Keep this for award styling) */
+.ranking-award{
+    margin-bottom: 15px;
+}
+
+/* ranking (Keep this for ranking styling) */
+.ranking{
+    background-color: #f0533c;
+    color: white;
+    display: inline-block;
+    padding: 5px 8px;
+    font-size: 0.9em;
+    border-radius: 4px;
+    margin-bottom: 5px;
+}
+
+/* award (Keep this for award styling) */
+.award{
+    color: #888;
+    font-size: 1em;
+    display: flex;
+    align-items: center;
+}
+
+/* award i (Keep this for award icon styling) */
+.award i{
+    margin-right: 5px;
+}
+
+/* novel-description p (Keep this for description styling) */
+.novel-description {
+  flex-grow: 1; /* Allow the description to take up available space */
+  margin-bottom: 0; /* Remove the margin, it's no longer needed */
+}
+
+.novel-description p {
+    margin-bottom: 10px; /* Reduce the margin */
+    line-height: 1.7;
+    padding: 5px 0;
+    color: #555;
+    font-size: 1em;
+     font-style: italic;
+    opacity: 0.9; /* Giảm độ đậm để tạo cảm giác nhẹ nhàng */
+    
+}
+
+/* novel-buttons */
+.novel-buttons {
+   
+    margin-top: 20px; /* Push to the bottom */
+    margin-bottom: 50px; /* Add spacing below the buttons */
+    display: flex;
+    align-items: baseline;
+   margin-left: 20px;
+   
+}
+
+/* read-button (Keep this for read button styling) */
+.read-button {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 20px;
+    text-decoration: none;
+    border-radius: 40px;
+    margin-right: 10px;
+    transition: background-color 0.3s;
+    font-size: 1.1em;
+    display: inline-block;
+}
+
+/* read-button:hover (Keep this for hover effect) */
+.read-button:hover{
+    background-color: #0056b3;
+}
+
+/* Định dạng chính cho nút */
+.favorite-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    border: 2px solid #000;
+    font-size: 1em; /* Giữ kích thước hợp lý */
+    cursor: pointer;
+    outline: none;
+    transition: all 0.3s ease;
+    border-radius: 50px; /* Làm bo tròn hơn */
+    padding: 10px 15px; /* Đảm bảo nội dung có không gian */
+    color: #000;
+}
+
+/* Khi hover, đổi màu */
+.favorite-btn:hover {
+    background-color: rgba(228, 77, 38, 0.2);
+     border: 2px solid #e44d26;
+    color: #e44d26;
+}
+
+/* Khi nút được chọn */
+.favorite-btn.active {
+    background-color: #e44d26;
+    color: white;
+   
+}
+
+/* Căn chỉnh icon và văn bản */
+.favorite-btn i {
+    margin-right: 8px; /* Tạo khoảng cách giữa icon và chữ */
+}
