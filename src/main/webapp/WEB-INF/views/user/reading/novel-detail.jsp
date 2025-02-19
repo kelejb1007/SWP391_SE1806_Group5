@@ -193,7 +193,8 @@
 
             <script src="js/novel-detail/top-of-novel(d).js"></script>
             <script src="js/novel-detail/chapter-list(d).js"></script>
+            <script src="js/novel-detail/favorite.js"></script>
             <script src="js/home/header.js"></script>
-            <script src="js/lock.js"></script>
+            <script src="js/lock7.js"></script>
     </body>
 </html>

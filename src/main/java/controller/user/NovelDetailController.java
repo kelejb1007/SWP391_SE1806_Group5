@@ -1,8 +1,10 @@
 package controller.user;
 
 import DAO.ChapterDAO;
+import DAO.FavoriteDAO;
 import DAO.NovelDAO;
 import DAO.GenreDAO;
+import DAO.ViewingDAO;
 import model.Novel;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -19,7 +21,8 @@ import java.util.Locale;
 import jakarta.servlet.http.HttpSession;
 import java.io.PrintWriter;
 import model.Chapter;
-
+import model.Favorite;
+import model.UserAccount;
 
 @WebServlet(name = "NovelDetailController", urlPatterns = {"/novel-detail"})
 public class NovelDetailController extends HttpServlet {
@@ -27,7 +30,8 @@ public class NovelDetailController extends HttpServlet {
     private NovelDAO novelDAO;
     private GenreDAO genreDAO;
     private ChapterDAO chapterDAO;
-
+    private ViewingDAO viewDAO;
+private FavoriteDAO favoriteDAO;
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.US);
 
     @Override
@@ -35,7 +39,8 @@ public class NovelDetailController extends HttpServlet {
         novelDAO = new NovelDAO();
         genreDAO = new GenreDAO();
         chapterDAO = new ChapterDAO();
-
+        viewDAO = new ViewingDAO();
+        favoriteDAO = new FavoriteDAO();
     }
 
     @Override
@@ -64,9 +69,18 @@ public class NovelDetailController extends HttpServlet {
         // Set the novel object in request scope
         request.setAttribute("novel", novel);
 
-        HttpSession session = request.getSession();
+         HttpSession session = request.getSession();
 
-        
+        UserAccount user = (UserAccount) session.getAttribute("user");
+        // In NovelDetailController
+        Favorite favorite = null;
+        if (user != null) {
+            favorite = favoriteDAO.getFavoriteByNovelIdAndUserId(novelId, user.getUserID());
+            request.setAttribute("favorite", favorite);  // This is set in request scope
+        }
+
+       
+
         List<Chapter> chapters = chapterDAO.getChaptersByNovelId(novelId, null); //Lấy chapter gốc trước khi sort
 
         // Tạo bản sao của danh sách chapters để sắp xếp
@@ -91,13 +105,18 @@ public class NovelDetailController extends HttpServlet {
         request.setAttribute("chapters", chapters); // list chapter gốc
         request.setAttribute("sortedChapters", sortedChapters); // list chapter sau khi sort
 
-     
         request.setAttribute("sort", sortParam);
         // Forward the request to novelDetail.jsp
         String target = "/WEB-INF/views/user/reading/novel-detail.jsp";
         // Gọi servlet /view trước khi forward đến trang chi tiết tiểu thuyết
-        request.getRequestDispatcher("/view?novelID=" + novelId).include(request, response);
+        if (session.isNew()) {
+            viewDAO.createViewing(novelId);
+        }
+        int views = viewDAO.getViewsCount(novelId);
         
+      request.setAttribute("views", views); // list chapter gốc
+         
+
         //   request.getRequestDispatcher("/getGenre?target=" + target + "&genre=" + novel.getGenreName() + (sortParam != null ? "&sort=" + sortParam : "")).forward(request, response);
         request.getRequestDispatcher(target).forward(request, response);
     }

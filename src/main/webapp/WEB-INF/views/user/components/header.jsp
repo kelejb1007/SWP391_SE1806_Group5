@@ -16,7 +16,7 @@
 <div class="header">
     <div class="logo">
         <img src="img/b3.png" alt="Logo Icon">
-       <a href="<c:url value='/homepage' />">NovelReader</a>
+        <a href="<c:url value='/homepage' />">NovelReader</a>
     </div>
     <nav>
         <ul>
@@ -37,7 +37,7 @@
                                     <a class="dropdown-item" href="#">Urban</a>
                                     <a class="dropdown-item" href="#">Eastern</a>
                                 </div>
-                               
+
                                 <div class="column">
                                     <h6>Female Lead</h6>
                                     <a class="dropdown-item" href="#">Urban</a>
@@ -45,7 +45,7 @@
                                 </div>
                             </div>
                             <div class="dropdown-menu-content" id="genre-content" style="display: none;">
-                               
+
                                 <div class="column">
                                     <h6>Genre Options</h6>
                                     <ul>  <!-- Thêm <ul> -->
@@ -66,31 +66,25 @@
                 <jsp:include page="/WEB-INF/views/user/components/search.jsp" /> 
 
             </li>
-           
-            <li class="spacer"></li>
-              <!-- Nếu chưa đăng nhập -->
-        <c:if test="${empty sessionScope.user}">
-            <li><a href="#">Log in</a></li>
-            <li><a href="#">Sign up</a></li>
-        </c:if>
 
-        <!-- Nếu đã đăng nhập -->
-        <c:if test="${not empty sessionScope.user}">
-            <li><a href="#">Favorite List</a></li>
-            <li><a href="#">My Novels</a></li>
-            <li><a href="#"> Post</a><i class="fas fa-plus"></i></li>
-            <li>
-                <a href="#">
-                    <img src="${empty sessionScope.user.imageUML ? 'img/default-avatar.png' : sessionScope.user.imageUML}" 
-                         alt="User Avatar" class="user-avatar">
-                </a>
-            </li>
-        </c:if>
-            
+            <li class="spacer"></li>
+            <!-- Nếu chưa đăng nhập -->
+            <c:if test="${empty sessionScope.user}">
+                <li><a href="<c:url value='/Login' />">Log in</a></li>
+                <li><a href="<c:url value='/register' />">Sign up</a></li>
+                </c:if>
+
+            <!-- Nếu đã đăng nhập -->
+            <c:if test="${not empty sessionScope.user}">
+                <li><a href="#">Favorite List</a></li>
+                <li><a href="#">My Novels</a></li>
+                <li><a href="#"> Post</a><i class="fas fa-plus"></i></li>
+                
+                <li><a href="<c:url value='/Logout'/>">Logout</a></li>
+                </c:if>
         </ul>
 
 
 
     </nav>
 </div>
-    
