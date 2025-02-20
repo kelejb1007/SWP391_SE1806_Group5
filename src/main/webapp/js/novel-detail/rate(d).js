@@ -1,53 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-
-<!-- Bar Rating CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-bar-rating@1.2.2/dist/themes/fontawesome-stars.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-bar-rating@1.2.2/dist/themes/fontawesome-stars-o.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-bar-rating@1.2.2/dist/themes/bars-1to10.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-bar-rating@1.2.2/dist/themes/bars-movie.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-bar-rating@1.2.2/dist/themes/bars-pill.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-bar-rating@1.2.2/dist/themes/bars-reversed.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-bar-rating@1.2.2/dist/themes/bars-square.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-bar-rating@1.2.2/dist/themes/css3.css">
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
-<!-- Bar Rating JS -->
-<script src="https://cdn.jsdelivr.net/npm/jquery-bar-rating@1.2.2/dist/jquery.barrating.min.js"></script>
-
-<c:set var="isUserLoggedIn" value="${not empty sessionScope.user}" />
-
-<div class="novel-rating">
-    <!-- Thay đổi id để phù hợp với Bar Rating -->
-    <select id="novelRating">
-        <option value=""></option> <!-- Cần có một option rỗng -->
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-    </select>
-    <span class="rating-score">
-        ${novel.averageRating != null ? String.format("%.2f", novel.averageRating) : "0.00"}
-    </span>
-   <span class="rating-count">(${novel.ratingCount} ratings)</span>
-</div>
-
-<!-- Login Popup -->
-<div id="overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 1000; display: none; justify-content: center; align-items: center;">
-    <div id="loginPopup" style="background-color: white; padding: 20px; border-radius: 5px;">
-        <h2>Login Required</h2>
-        <p>You need to be logged in to rate this novel.</p>
-        <button id="closeBtn">Close</button>
-        <!-- Add your login form here -->
-    </div>
-</div>
-
-<script>
-    // Context Path
+ // Context Path
     const contextPath = "${pageContext.request.contextPath}";
     console.log("Context Path:", contextPath);
 
@@ -133,7 +84,7 @@
             isRating = true;
             console.log("Submitting rating for novel", novelId, "with score", score);
             $.ajax({
-                url: contextPath + '/rating', // Use the correct URL mapping
+                url: contextPath +'/rating', // Use the correct URL mapping
                 type: 'POST',
                 data: {novelId: novelId, score: score},
                 dataType: 'text', // Expecting plain text response
@@ -211,4 +162,3 @@
             $('#novelRating').barrating('readonly', true);
         }
     });
-</script>

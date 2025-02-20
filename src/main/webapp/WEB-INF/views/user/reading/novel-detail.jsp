@@ -18,6 +18,10 @@
         <link rel="stylesheet" href="css/novel-detail/chapter-list(d).css">
         <link rel="stylesheet" href="css/novel-detail/top-of-novel(d).css">
        <link rel="stylesheet" href="css/novel-detail/comment(d).css">
+       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Macondo+Swash+Caps&display=swap">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -193,6 +197,8 @@
 
             <script src="js/novel-detail/top-of-novel(d).js"></script>
             <script src="js/novel-detail/chapter-list(d).js"></script>
+              <script src="js/novel-detail/rate(d).js"></script>
+
             <script src="js/novel-detail/favorite.js"></script>
             <script src="js/home/header.js"></script>
             <script src="js/lock7.js"></script>

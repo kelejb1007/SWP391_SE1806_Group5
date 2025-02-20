@@ -26,6 +26,7 @@ public class Novel {
     private double averageRating;
     private int viewCount;
     private List<String> genreNames;
+    private int ratingCount;
      
     public Novel() {
     }
@@ -62,6 +63,14 @@ public class Novel {
         this.novelStatus = novelStatus;
         this.publishedDate = publishedDate;
         this.author = author;
+    }
+
+    public int getRatingCount() {
+        return ratingCount;
+    }
+
+    public void setRatingCount(int ratingCount) {
+        this.ratingCount = ratingCount;
     }
 
     
