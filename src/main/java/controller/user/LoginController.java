@@ -27,59 +27,43 @@ public class LoginController extends HttpServlet {
         request.getRequestDispatcher("/WEB-INF/views/common/UserLogin.jsp").forward(request, response);
     }
 
-    private final UserAccountDAO userDAO = new UserAccountDAO();
-
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String action = request.getParameter("action");
-
-        if ("normal".equals(action)) {
-            handleNormalLogin(request, response);
-        } else if ("google".equals(action)) {
-            handleGoogleLogin(request, response);
-        }
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        handleNormalLogin(request, response);
     }
 
-    private void handleNormalLogin(HttpServletRequest request, HttpServletResponse response)
-            throws IOException, ServletException {
+    private void handleNormalLogin(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+        String redirect = request.getParameter("redirect");
 
-        UserAccount user = userDAO.authenticateUser(username, password);
-        if (user != null) {
-            if (user.isIsBanned()) {
-                request.setAttribute("error", "Your account has been banned.");
-                request.getRequestDispatcher("/WEB-INF/views/common/UserLogin.jsp").forward(request, response);
-                return;
-            }
-
-            HttpSession session = request.getSession();
-            session.setAttribute("user", user);
-           response.sendRedirect("homepage");
-          
+        // Kiểm tra input rỗng
+        if (username == null || password == null || username.trim().isEmpty() || password.trim().isEmpty()) {
+            request.setAttribute("error", "Username and Password cannot be empty.");
+            request.getRequestDispatcher("/WEB-INF/views/common/UserLogin.jsp").forward(request, response);
+            return;
         } else {
+            // Xác thực người dùng
+        UserAccountDAO userDao = new UserAccountDAO();
+        UserAccount user = userDao.authenticateUser(username, password);
+
+        if (user == null) {
             request.setAttribute("error", "Invalid username or password.");
             request.getRequestDispatcher("/WEB-INF/views/common/UserLogin.jsp").forward(request, response);
-        }
-    }
+        } else {
+            HttpSession session = request.getSession();
+            session.setAttribute("user", user);
 
-    private void handleGoogleLogin(HttpServletRequest request, HttpServletResponse response)
-            throws IOException, ServletException {
-//        String code = request.getParameter("code");
-//        String accessToken = GoogleUtils.getToken(code);
-//        UserAccount googleUser = GoogleUtils.getUserInfo(accessToken);
-//
-//        UserAccount existingUser = userDAO.getUserByEmail(googleUser.getEmail());
-//        if (existingUser == null) {
-//            userDAO.createUserFromGoogle(googleUser.getEmail(), googleUser.getFullName());
-//            existingUser = userDAO.getUserByEmail(googleUser.getEmail());
-//        }
-//
-//        HttpSession session = request.getSession();
-//        session.setAttribute("user", existingUser);
-//
-//        response.sendRedirect("homepage.jsp");
+            if (redirect != null && !redirect.isEmpty()) {
+                response.sendRedirect(redirect);
+            } else {
+                request.getRequestDispatcher("/getGenre?target=/WEB-INF/views/user/Home.jsp").include(request, response);
+            }
+        }
+        }
+
+        
+
     }
 
     /**
@@ -91,4 +75,5 @@ public class LoginController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
 }
