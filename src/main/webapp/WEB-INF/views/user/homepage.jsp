@@ -56,7 +56,7 @@
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="javascript:void(0)" onclick="showLoginForm()"><i class="bi bi-person-fill"></i>Login</a>
+                            <a class="nav-link" href="login.jsp"><i class="bi bi-person-fill"></i>Login</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#register">Register</a>
@@ -72,7 +72,7 @@
             <div class="login-form" id="loginForm">
                 <button class="close-btn" id="closeBtn">&times;</button>
                 <h2>Login</h2>
-                <form action="processLogin" method="post">
+                <form action="Login" method="post">
                     <div class="form-group">
                         <label for="username">Username</label>
                         <input type="text" id="username" name="username" required>
@@ -83,6 +83,7 @@
                     </div>
                     <button type="submit" class="btn">Login</button>
                 </form>
+
             </div>
         </div>
 
@@ -93,12 +94,12 @@
                 <div class="searchbar">
                     <input class="search_input" type="text" placeholder="Search...">
                     <a href="#" class="search_icon"><i class="fas fa-search"></i></a>
-                    
+
                 </div>
             </div>
         </div>
-       
-        
+
+
 
 
         <!-- Hot Novels Carousel -->

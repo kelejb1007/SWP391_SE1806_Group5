@@ -66,11 +66,11 @@
                 <jsp:include page="/WEB-INF/views/user/components/search.jsp" /> 
 
             </li>
-
+           
             <li class="spacer"></li>
-            <!-- Nếu chưa đăng nhập -->
-            <c:if test="${empty sessionScope.user}">
-                <li><a href="<c:url value='/Login' />">Log in</a></li>
+              <!-- Nếu chưa đăng nhập -->
+        <c:if test="${empty sessionScope.user}">
+            <li><a href="<c:url value='/Login' />">Log in</a></li>
                 <li><a href="<c:url value='/register' />">Sign up</a></li>
                 </c:if>
 

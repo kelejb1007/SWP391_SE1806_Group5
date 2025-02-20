@@ -58,7 +58,7 @@
         <div class="login-container">
             <h2>User Login</h2>
 
-            <%-- Hiển thị lỗi nếu có --%>
+            <%-- Hiá»n thá» lá»i náº¿u cÃ³ --%>
             <c:if test="${not empty error}">
                 <div class="error-message">${error}</div>
             </c:if>

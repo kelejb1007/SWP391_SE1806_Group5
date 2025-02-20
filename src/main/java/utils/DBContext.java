@@ -10,22 +10,40 @@ import java.util.logging.Logger;
 
 public class DBContext {
 
-    private final String url = "jdbc:sqlserver://localhost:1433;"
+    /*private final String url = "jdbc:sqlserver://ACERNITRO5:1433;"
             + "databaseName=Novel_Application;"
-            + "user=sa;"
-            + "password=123;"
+            + "user='sa';"
+            + "password=123"
             + "encrypt=true;"
             + "trustServerCertificate=true;";
-
+*/
+    private static String url="jdbc:sqlserver://localhost:1433;"
+            + "databaseName=Novel_Application;"
+            + "encrypt=true;"
+            + "trustServerCertificate=true;";
+    private static final String user="sa";
+    private static final String pass="123";
     public DBContext() {
         // Không tạo kết nối ở đây nữa
     }
-
+    public void testConnect(){
+        try {
+            Connection conn = getConnection();
+            if(conn==null)
+                    System.out.println("Fail");
+            else
+                System.out.println("Ok");
+        } catch (SQLException ex) {
+            Logger.getLogger(DBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+                
+    }
     // Phương thức để lấy một kết nối mới
     public Connection getConnection() throws SQLException {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            return DriverManager.getConnection(url);
+            return DriverManager.getConnection(url,user,pass);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(DBContext.class.getName()).log(Level.SEVERE, null, ex);
             throw new SQLException("Error loading JDBC driver", ex); // Re-throw as SQLException
@@ -77,53 +95,58 @@ public class DBContext {
     }
 
     // Phương thức cho các lệnh INSERT, UPDATE, DELETE
-   public int execQuery(String query, Object[] params) throws SQLException {
-    Connection conn = null;
-    PreparedStatement preparedStatement = null;
-    try {
-        conn = getConnection();
-        preparedStatement = conn.prepareStatement(query);
+    public int execQuery(String query, Object[] params) throws SQLException {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            conn = getConnection();
+            preparedStatement = conn.prepareStatement(query);
 
-        // In ra câu lệnh SQL và các tham số
-        System.out.println("execQuery() - SQL: " + query);
-        if (params != null) {
-            System.out.print("execQuery() - Parameters: ");
-            for (int i = 0; i < params.length; i++) {
-                System.out.print(params[i] + ", ");
-                // Set tham số dựa trên kiểu dữ liệu
-                if (params[i] instanceof Integer) {
-                    preparedStatement.setInt(i + 1, (Integer) params[i]);
-                } else if (params[i] instanceof String) {
-                    preparedStatement.setString(i + 1, (String) params[i]);
-                } else if (params[i] instanceof Double) {
-                    preparedStatement.setDouble(i + 1, (Double) params[i]);
-                } else if (params[i] instanceof java.sql.Date) {
-                    preparedStatement.setDate(i + 1, (java.sql.Date) params[i]);
-                } else if (params[i] instanceof Boolean) {
-                    preparedStatement.setBoolean(i + 1, (Boolean) params[i]);
-                } else {
-                    preparedStatement.setObject(i + 1, params[i]);
+            // In ra câu lệnh SQL và các tham số
+            System.out.println("execQuery() - SQL: " + query);
+            if (params != null) {
+                System.out.print("execQuery() - Parameters: ");
+                for (int i = 0; i < params.length; i++) {
+                    System.out.print(params[i] + ", ");
+                    // Set tham số dựa trên kiểu dữ liệu
+                    if (params[i] instanceof Integer) {
+                        preparedStatement.setInt(i + 1, (Integer) params[i]);
+                    } else if (params[i] instanceof String) {
+                        preparedStatement.setString(i + 1, (String) params[i]);
+                    } else if (params[i] instanceof Double) {
+                        preparedStatement.setDouble(i + 1, (Double) params[i]);
+                    } else if (params[i] instanceof java.sql.Date) {
+                        preparedStatement.setDate(i + 1, (java.sql.Date) params[i]);
+                    } else if (params[i] instanceof Boolean) {
+                        preparedStatement.setBoolean(i + 1, (Boolean) params[i]);
+                    } else {
+                        preparedStatement.setObject(i + 1, params[i]);
+                    }
+                }
+                System.out.println();
+            }
+
+            return preparedStatement.executeUpdate();
+        } finally {
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(DBContext.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            System.out.println();
-        }
-
-        return preparedStatement.executeUpdate();
-    } finally {
-        if (preparedStatement != null) {
-            try {
-                preparedStatement.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(DBContext.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        if (conn != null) {
-            try {
-                conn.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(DBContext.class.getName()).log(Level.SEVERE, null, ex);
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(DBContext.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
     }
-}
+    public static void main(String[] args)
+    {
+        DBContext db = new DBContext();
+        db.testConnect();
+    }
 }
