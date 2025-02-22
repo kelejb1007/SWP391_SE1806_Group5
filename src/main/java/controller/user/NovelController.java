@@ -31,6 +31,28 @@ public class NovelController extends HttpServlet {
 
             List<Novel> novels;
 
+             // **VALIDATION: Kiểm tra searchQuery**
+            if (searchQuery != null) {
+                searchQuery = searchQuery.trim(); // Loại bỏ khoảng trắng thừa
+
+                if (searchQuery.isEmpty()) {
+                    // Nếu searchQuery rỗng sau khi trim, xem như không có tìm kiếm
+                    searchQuery = null; // Để logic bên dưới xử lý các bộ lọc khác
+                } else if (searchQuery.length() > 100) { // Ví dụ giới hạn độ dài
+                    // Xử lý lỗi: độ dài vượt quá giới hạn
+                    request.setAttribute("errorMessage", "Search keyword is too long.");
+                     request.getRequestDispatcher("/WEB-INF/views/user/reading/novelList.jsp").forward(request, response);
+                    return; // Dừng xử lý tiếp
+                }else if (searchQuery.length() < 3 && searchQuery.length() > 0) {
+                    request.setAttribute("errorMessage", "Search keyword is too short.");
+                    request.getRequestDispatcher("/WEB-INF/views/user/reading/novelList.jsp").forward(request, response);
+                    return;} 
+                else {
+                    // **SANIZATION (quan trọng):**  Loại bỏ các ký tự đặc biệt có thể gây hại
+                    searchQuery = sanitizeSearchQuery(searchQuery);
+                }
+            }
+            
             // Ưu tiên tìm kiếm trước
             if (searchQuery != null && !searchQuery.isEmpty()) {
                 novels = novelDAO.searchNovels(searchQuery);
@@ -67,6 +89,11 @@ public class NovelController extends HttpServlet {
 
     private List<Novel> getNovelsByFilter(String selectedFilter, String selectedGenre) {
         return novelDAO.getNovelsSortedByFilter(selectedFilter, selectedGenre);
+    }
+    // **SANIZATION METHOD:**
+    private String sanitizeSearchQuery(String query) {
+        // CHỈ GIỮ LẠI CHỮ CÁI, SỐ, KHOẢNG TRẮNG, DẤU CHẤM, DẤU PHẨY, GẠCH NGANG
+        return query.replaceAll("[^a-zA-Z0-9\\s.,-]", "");
     }
 
     @Override
