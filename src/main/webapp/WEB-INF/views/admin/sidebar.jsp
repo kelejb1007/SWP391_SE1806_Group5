@@ -45,17 +45,17 @@
                         <li>
                             <a href="${pageContext.request.contextPath}/dashboard" >
                                 <i class="fa fa-home fa-fw"></i> 
-                                Dashboard
+                                Home
                             </a>
                         </li>
                         
                         
                         
-                        <!-- Manage novel -->
+                        <!-- Manage account -->
                         <li>
                             <a href="#">
                                 <i class="fa fa-sitemap fa-fw"></i>
-                                Manage novel
+                                Manage account
                                 <span class="fa arrow"></span>
                             </a>
                             <ul class="nav nav-second-level">
@@ -83,22 +83,16 @@
                         
                         
                         
-                        <!-- Manage chapter -->
+                        <!-- Manage staff -->
                         <li>
                             <a href="">
                                 <i class="fa fa-sitemap fa-fw"></i>
-                                Manage chapter
+                                Manage staff
                             </a>
                         </li>
                         
                         
-                        <!-- Manage comment -->
-                        <li>
-                            <a href="">
-                                <i class="fa fa-sitemap fa-fw"></i>
-                                Manage comment
-                            </a>
-                        </li>
+                        
 
                     </ul>
                     

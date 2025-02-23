@@ -36,7 +36,7 @@ public class ManagerLoginController extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("manager", user); // Giữ session cho admin
 
-            response.sendRedirect(request.getContextPath() + "/getGenre?target=/WEB-INF/views/staff/dashboard.jsp");
+            response.sendRedirect(request.getContextPath() + "/dashboard");
         } else {
             request.setAttribute("error", "Invalid username or password.");
             request.getRequestDispatcher("/WEB-INF/views/common/ManagerLogin.jsp").forward(request, response);

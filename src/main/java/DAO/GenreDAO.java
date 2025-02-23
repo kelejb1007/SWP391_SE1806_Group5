@@ -85,6 +85,12 @@ public class GenreDAO {
         }
         return genre;
     }
+    
+    
+    ///Trung---------------------------------------------------------------------------
+    
+    
+    
 public static void main(String[] args) {
         GenreDAO ge = new GenreDAO();
         List<Genre> list = ge.getAllGenres();

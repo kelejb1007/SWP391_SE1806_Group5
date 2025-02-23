@@ -53,9 +53,9 @@
                                                     <th>Author</th>
                                                     <th>Total of chapter</th>
                                                     <th>Published Date</th>
-                                                    <th>Rating Average</th>
-                                                    <th>View</th>
-                                                    <th>Lock Date</th>
+                                                    <th>Locked By</th>
+                                                    <th>Lock Reason</th>
+                                                    <th>Locked Date</th>
                                                     <th></th>
                                                 </tr>
                                             </thead>
@@ -67,16 +67,17 @@
                                                         <td>${c.author}</td>
                                                         <td>${c.totalChapter}</td>
                                                         <td>${c.publishedDate}</td>
-                                                        <td>${c.averageRating}</td>
-                                                        <td>${c.viewCount}</td>
-                                                        <td></td>
+                                                        <td>${c.staffName}</td>
+                                                        <td>${c.lockReason}</td>
+                                                        <td>${c.datetime}</td>
                                                         <td>
                                                             <button type="button" class="btn btn-info"
                                                                     onclick="window.location.href = 'managenovel?action=viewdetail&novelID=${c.novelID}';">View detail
                                                             </button>
                                                             <form action="managenovel" method="post" style="display: inline">
+                                                                <input type="hidden" name="action" value="lock">
                                                                 <input type="hidden" name="novelID" value="${c.novelID}">
-                                                                <button type="submit" class="btn btn-danger">Lock</button>
+                                                                <button type="submit" class="btn btn-danger">Unlock</button>
                                                             </form>
                                                         </td>
                                                     </tr>
@@ -108,11 +109,11 @@
 
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
     <script>
-                                                                    $(document).ready(function () {
-                                                                        $('#dataTables-lock').DataTable({
-                                                                            responsive: true
+                                                                        $(document).ready(function () {
+                                                                            $('#dataTables-lock').DataTable({
+                                                                                responsive: true
+                                                                            });
                                                                         });
-                                                                    });
     </script>
 
 

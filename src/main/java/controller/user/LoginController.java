@@ -58,7 +58,7 @@ public class LoginController extends HttpServlet {
             if (redirectURL != null && !redirectURL.isEmpty()) {
                 response.sendRedirect(redirectURL);
             } else {
-                response.sendRedirect(request.getContextPath() + "/getGenre?target=/WEB-INF/views/user/Home.jsp");
+                response.sendRedirect(request.getContextPath() + "/homepage");
             }
         }
     }

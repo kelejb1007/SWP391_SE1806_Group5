@@ -26,7 +26,11 @@ public class Novel {
     private double averageRating;
     private int viewCount;
     private List<String> genreNames;
-     
+    
+    private String lockReason;
+    private LocalDateTime datetime ;
+    private String staffName;
+
     public Novel() {
     }
 
@@ -63,9 +67,33 @@ public class Novel {
         this.publishedDate = publishedDate;
         this.author = author;
     }
+    
+    //---------------------------------------------------------------------
+    public String getLockReason() {
+        return lockReason;
+    }
 
-    
-    
+    public void setLockReason(String lockReason) {
+        this.lockReason = lockReason;
+    }
+
+    public LocalDateTime getDatetime() {
+        return datetime;
+    }
+
+    public void setDatetime(LocalDateTime datetime) {
+        this.datetime = datetime;
+    }
+
+    public String getStaffName() {
+        return staffName;
+    }
+
+    public void setStaffName(String staffName) {
+        this.staffName = staffName;
+    }
+
+        
     public List<String> getGenreNames() {
         return genreNames;
     }
@@ -97,6 +125,8 @@ public class Novel {
     public void setAuthor(String author) {
         this.author = author;
     }
+
+
     
 
    // của Novel
