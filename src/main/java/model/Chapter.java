@@ -11,7 +11,8 @@ import java.time.LocalDateTime;
  * @author Phan Hồng Tài - CE181490
  */
 public class Chapter {
-      private int chapterID;
+
+    private int chapterID;
     private int novelID;
     private int chapterNumber;
     private String chapterName;
@@ -19,7 +20,8 @@ public class Chapter {
     private LocalDateTime chapterCreatedDate;
     private String chapterStatus; // Thêm trường này
     private String timeString;
-     public Chapter() {
+
+    public Chapter() {
     }
 
     public Chapter(int chapterID, int novelID, int chapterNumber, String chapterName, String fileURL, LocalDateTime chapterCreatedDate, String chapterStatus) {
@@ -27,6 +29,15 @@ public class Chapter {
         this.novelID = novelID;
         this.chapterNumber = chapterNumber;
         this.chapterName = chapterName;
+        this.fileURL = fileURL;
+        this.chapterCreatedDate = chapterCreatedDate;
+        this.chapterStatus = chapterStatus;
+    }
+
+    public Chapter(int novelId, int chapterNumber, String chapterTitle, String fileURL, LocalDateTime chapterCreatedDate, String chapterStatus) {
+        this.novelID = novelId;
+        this.chapterNumber = chapterNumber;
+        this.chapterName = chapterTitle;
         this.fileURL = fileURL;
         this.chapterCreatedDate = chapterCreatedDate;
         this.chapterStatus = chapterStatus;
@@ -97,19 +108,18 @@ public class Chapter {
         this.timeString = timeString;
     }
 
-
     @Override
     public String toString() {
-        return "Chapter{" +
-                "chapterID=" + chapterID +
-                ", novelID=" + novelID +
-                ", chapterNumber=" + chapterNumber +
-                ", chapterName='" + chapterName + '\'' +
-                ", fileURL='" + fileURL + '\'' +
-                ", chapterCreatedDate=" + chapterCreatedDate +
-                ", chapterStatus='" + chapterStatus + '\'' +
-                ", timeString='" + timeString + '\'' +
-                '}';
+        return "Chapter{"
+                + "chapterID=" + chapterID
+                + ", novelID=" + novelID
+                + ", chapterNumber=" + chapterNumber
+                + ", chapterName='" + chapterName + '\''
+                + ", fileURL='" + fileURL + '\''
+                + ", chapterCreatedDate=" + chapterCreatedDate
+                + ", chapterStatus='" + chapterStatus + '\''
+                + ", timeString='" + timeString + '\''
+                + '}';
     }
 
 }
