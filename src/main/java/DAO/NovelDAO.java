@@ -356,6 +356,11 @@ public class NovelDAO {
                     }
                 }
                 novel.setGenreNames(genreNames); // Set danh sách genreName vào novel
+
+                // Tính ratingCount bằng RatingDAO
+                RatingDAO ratingDAO = new RatingDAO();
+                int ratingCount = ratingDAO.getRatingCount(novel.getNovelID());
+                novel.setRatingCount(ratingCount);
             }
         } catch (SQLException e) {
             Logger.getLogger(NovelDAO.class.getName()).log(Level.SEVERE, null, e);
