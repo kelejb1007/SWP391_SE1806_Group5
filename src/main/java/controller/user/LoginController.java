@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package controller.user;
 
 import DAO.UserAccountDAO;
@@ -35,15 +31,19 @@ public class LoginController extends HttpServlet {
     private void handleNormalLogin(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        String redirect = request.getParameter("redirect");
+
+        // Lấy URL trước khi đăng nhập
+        HttpSession session = request.getSession();
+        String redirectURL = (String) session.getAttribute("redirectURL");
 
         // Kiểm tra input rỗng
         if (username == null || password == null || username.trim().isEmpty() || password.trim().isEmpty()) {
             request.setAttribute("error", "Username and Password cannot be empty.");
             request.getRequestDispatcher("/WEB-INF/views/common/UserLogin.jsp").forward(request, response);
             return;
-        } else {
-            // Xác thực người dùng
+        }
+
+        // Xác thực người dùng
         UserAccountDAO userDao = new UserAccountDAO();
         UserAccount user = userDao.authenticateUser(username, password);
 
@@ -51,29 +51,15 @@ public class LoginController extends HttpServlet {
             request.setAttribute("error", "Invalid username or password.");
             request.getRequestDispatcher("/WEB-INF/views/common/UserLogin.jsp").forward(request, response);
         } else {
-            HttpSession session = request.getSession();
             session.setAttribute("user", user);
+            session.removeAttribute("redirectURL"); // Xóa session redirect sau khi sử dụng
 
-            if (redirect != null && !redirect.isEmpty()) {
-                response.sendRedirect(redirect);
+            // Chuyển hướng về trang cũ nếu có, ngược lại về Home
+            if (redirectURL != null && !redirectURL.isEmpty()) {
+                response.sendRedirect(redirectURL);
             } else {
-                request.getRequestDispatcher("/getGenre?target=/WEB-INF/views/user/Home.jsp").include(request, response);
+                response.sendRedirect(request.getContextPath() + "/getGenre?target=/WEB-INF/views/user/Home.jsp");
             }
         }
-        }
-
-        
-
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
 }

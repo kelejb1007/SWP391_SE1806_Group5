@@ -83,7 +83,7 @@ public class UserAccountDAO {
         return "user";
     }
 
-    private String hashSHA256(String input) {
+    private static String hashSHA256(String input) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             byte[] messageDigest = md.digest(input.getBytes());
@@ -106,5 +106,10 @@ public class UserAccountDAO {
         user.setEmail(rs.getString("email"));
         user.setIsBanned(rs.getBoolean("isBanned"));
         return user;
+    }
+
+    public static void main(String[] args) {
+        String password = "123";
+        System.out.println("Hash SHA-256 của password: " + hashSHA256(password));
     }
 }

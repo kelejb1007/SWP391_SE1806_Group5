@@ -14,46 +14,12 @@
         <style>
             body {
                 font-family: Arial, sans-serif;
-                background-color: #B0C4DE;
-                font-family: 'Garamond', serif;
+                background-color: #f5f5f5;
                 display: flex;
                 justify-content: center;
                 align-items: center;
                 height: 100vh;
-                background-color: #f5f5f5;
             }
-            .login-container {
-                background: white;
-                padding: 20px;
-                border-radius: 8px;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                width: 300px;
-                text-align: center;
-            }
-            input {
-                width: 100%;
-                padding: 10px;
-                margin: 10px 0;
-                border: 1px solid #ccc;
-                border-radius: 4px;
-            }
-            button {
-                width: 100%;
-                padding: 10px;
-                background: #007bff;
-                color: white;
-                border: none;
-                border-radius: 4px;
-                cursor: pointer;
-            }
-            button:hover {
-                background: #0056b3;
-            }
-            .error-message {
-                color: red;
-                margin-bottom: 10px;
-            }
-
             .login-container {
                 background: rgba(255, 255, 255, 0.9);
                 padding: 25px;
@@ -62,13 +28,11 @@
                 text-align: center;
                 width: 320px;
             }
-
             .login-container h2 {
                 font-size: 24px;
                 color: #4A4A4A;
                 margin-bottom: 15px;
             }
-
             input[type="text"],
             input[type="password"] {
                 width: 100%;
@@ -79,7 +43,6 @@
                 font-size: 16px;
                 box-sizing: border-box;
             }
-
             button {
                 background: #6A5ACD;
                 color: white;
@@ -92,34 +55,31 @@
                 font-size: 16px;
                 margin-top: 10px;
             }
-
             button:hover {
                 background: #483D8B;
             }
-
             .manager-login {
                 background: #4B0082;
                 margin-top: 5px;
             }
-
             .manager-login:hover {
                 background: #360061;
             }
-
             .register-link {
                 margin-top: 15px;
                 font-size: 14px;
             }
-
             .register-link a {
                 color: #6c4bb6;
                 text-decoration: none;
             }
-
             .register-link a:hover {
                 text-decoration: underline;
             }
-
+            .error-message {
+                color: red;
+                margin-bottom: 10px;
+            }
         </style>
         <script>
             function validateForm() {
@@ -130,7 +90,7 @@
                     return false;
                 }
                 if (password.length < 3) {
-                    alert("Password must be at least 6 characters.");
+                    alert("Password must be at least 3 characters.");
                     return false;
                 }
                 return true;
@@ -140,13 +100,21 @@
     <body>
         <div class="login-container">
             <h2>User Login</h2>
+
+            <!-- Hiển thị thông báo lỗi -->
+            <c:if test="${not empty requestScope.error}">
+                <p class="error-message">${requestScope.error}</p>
+            </c:if>
+
             <form action="Login" method="post" onsubmit="return validateForm()">
                 <input type="hidden" name="action" value="normal">
-                <input type="hidden" name="redirect" value="${param.redirect}">
+                <!-- Lấy giá trị redirect từ request hoặc session -->
+                <input type="hidden" name="redirect" value="${param.redirect ne null ? param.redirect : sessionScope.redirectURL}">
                 <input type="text" id="username" name="username" placeholder="Username" required>
                 <input type="password" id="password" name="password" placeholder="Password" required>
                 <button type="submit">Login</button>
             </form>
+
             <button class="manager-login" onclick="window.location.href = '${pageContext.request.contextPath}/ManagerLogin'">Manager Login</button>
             <p class="register-link">Don't have an account? <a href="register.jsp">Register</a></p>
         </div>

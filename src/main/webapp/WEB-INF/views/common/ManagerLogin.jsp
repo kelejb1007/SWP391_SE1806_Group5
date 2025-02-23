@@ -86,9 +86,9 @@
     </head>
     <body>
 
-        <c:if test="${not empty sessionScope.user}">
+        <c:if test="${not empty sessionScope.manager}">
             <script>
-                window.location.href = "dashboard.jsp"; // Điều hướng đến trang dashboard
+                window.location.href = "<c:url value='/getGenre?target=/WEB-INF/views/staff/dashboard.jsp'/>";
             </script>
         </c:if>
 
