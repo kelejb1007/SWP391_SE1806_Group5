@@ -4,14 +4,18 @@
  */
 package model;
 
+import java.util.Date;
+
 /**
  *
  * @author Nguyen Ngoc Phat - CE180321
  */
 public class ManagerAccount {
+
     private int managerID;
     private String username;
     private String password;
+    private Date creationDate;
     private String fullName;
     private String email;
     private String numberPhone;
@@ -42,6 +46,14 @@ public class ManagerAccount {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 
     public String getFullName() {

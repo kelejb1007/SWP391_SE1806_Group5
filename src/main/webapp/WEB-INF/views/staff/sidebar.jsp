@@ -99,6 +99,36 @@
                                 Manage comment
                             </a>
                         </li>
+                        
+                        
+                     <li>
+                        <a href="">
+                            <i class="fa fa-sitemap fa-fw"></i>
+                            Manage Account
+                            <span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="${pageContext.request.contextPath}/manageaccount">View all accounts</a>
+                            </li>
+                        </ul>
+                    </li>
+
+
+                    <!-- tui them phan nay LIENXUANTHINH -->      
+
+                    <li>
+                        <a href="">
+                            <i class="fa fa-sitemap fa-fw"></i>
+                            Manage Genre
+                            <span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="${pageContext.request.contextPath}/managegenre">View list of genres</a>
+                            </li>
+                        </ul>
+                    </li>   
 
                     </ul>
                     
