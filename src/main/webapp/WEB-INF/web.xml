@@ -8,6 +8,18 @@
         <servlet-name>HomepageController</servlet-name>
         <servlet-class>controller.user.HomepageController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ManageAccountContrller</servlet-name>
+        <servlet-class>controller.staff.ManageAccountContrller</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ManageAccountController</servlet-name>
+        <servlet-class>controller.staff.ManageAccountController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GenreController</servlet-name>
+        <servlet-class>controller.staff.GenreController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>DashboardController</servlet-name>
         <url-pattern>/dashboard</url-pattern>
@@ -15,6 +27,14 @@
     <servlet-mapping>
         <servlet-name>HomepageController</servlet-name>
         <url-pattern>/homepage</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ManageAccountController</servlet-name>
+        <url-pattern>/manageaccount</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GenreController</servlet-name>
+        <url-pattern>/managegenre</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
