@@ -1,197 +1,235 @@
- /* CSS từ favorite.jsp */
-    
-            body {
-                font-family: sans-serif;
-                margin: 20px;
-                background-color: #f8f0e3 !important;
-                position: relative;
-                overflow-x: hidden;
-                
-            }
-            
-            
-            .favorites-container {
-                max-width: 800px;
-                margin: 0 auto;
-                background-color: #fff;
-                padding: 20px;
-                border-radius: 10px;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                position: relative;
-                z-index: 1;
-                overflow-y: auto;
-                overflow-x: hidden;
-            }
+/* CSS từ favorite.jsp */
 
-            h1 {
-                text-align: center;
-                color: #e4798e;
-                margin-bottom: 20px;
-                 font-family: 'Macondo Swash Caps', cursive;
-            }
+body {
+    font-family: sans-serif;
+    margin: 20px;
+    background-color: #f8f0e3 !important;
+    position: relative;
+    overflow-x: hidden;
+    min-height: 100vh; /* Ensure minimum height */
+}
 
-            .favorite-item {
-                border: 1px solid #e8c4c4;
-                padding: 15px;
-                margin-bottom: 15px;
-                border-radius: 8px;
-                display: flex;
-                align-items: center;
-                position: relative;
-                background-color: #f9f4f4;
-            }
+/* Modify the favorites container */
+.favorites-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1;
+    height: auto; /* Let it grow as needed */
+    min-height: 300px; /* Minimum height to prevent collapse */
+}
 
-            .favorite-item:hover {
-                background-color: #fceeee;
-            }
+h1 {
+    text-align: center;
+    color: #e4798e;
+    margin-bottom: 20px;
+    font-family: 'Macondo Swash Caps', cursive;
+}
 
-            .favorite-item img {
-                width: 120px;
-                height: 180px;
-                object-fit: cover;
-                margin-right: 15px;
-                border-radius: 5px;
-                transition: transform 0.2s ease-in-out; /* Hiệu ứng hover */
-            }
-            .history-item img:hover {
-                transform: scale(1.05); /* Phóng to ảnh khi hover */
-            }
-            .favorite-item .item-info {
-                flex-grow: 1;
-            }
+.favorite-item {
+    border: 1px solid #e8c4c4;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    background-color: #f9f4f4;
+}
 
-            .favorite-item .item-name {
-                font-weight: bold;
-                margin-bottom: 8px;
-                display: block;
-                color: #d15c74;
-            }
+.favorite-item:hover {
+    background-color: #fceeee;
+}
 
-            .favorite-item .item-description {
-                font-size: 0.9em;
-                color: #777;
-            }
+.favorite-item img {
+    width: 120px;
+    height: 180px;
+    object-fit: cover;
+    margin-right: 15px;
+    border-radius: 5px;
+    transition: transform 0.2s ease-in-out; /* Hiệu ứng hover */
+}
+.history-item img:hover {
+    transform: scale(1.05); /* Phóng to ảnh khi hover */
+}
+.favorite-item .item-info {
+    flex-grow: 1;
+}
 
-            .favorite-item .remove-button {
-                position: absolute;
-                top: 5px;
-                right: 5px;
-                background-color: transparent;
-                color: #e4798e;
-                border: none;
-                padding: 5px;
-                border-radius: 50%;
-                cursor: pointer;
-                font-size: 1.2em;
-            }
+.favorite-item .item-name {
+    font-weight: bold;
+    margin-bottom: 8px;
+    display: block;
+    color: #d15c74;
+}
 
-            .favorite-item .remove-button:hover {
-                background-color: #e8c4c4;
-            }
+.favorite-item .item-description {
+    font-size: 0.9em;
+    color: #777;
+}
 
-            .favorite-item a {
-                text-decoration: none;
-                color: #d15c74;
-            }
+.favorite-item .remove-button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: transparent;
+    color: #e4798e;
+    border: none;
+    padding: 5px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2em;
+}
 
-            /* CSS cho confirmation popup */
-            .confirmation-popup {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-color: rgba(0, 0, 0, 0.5);
-                display: none;
-                justify-content: center;
-                align-items: center;
-                z-index: 1000;
-            }
+.favorite-item .remove-button:hover {
+    background-color: #e8c4c4;
+}
 
-            .confirmation-popup .popup-content {
-                background-color: #e8c4c4;
-                padding: 20px;
-                border-radius: 10px;
-                text-align: center;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            }
+.favorite-item a {
+    text-decoration: none;
+    color: #d15c74;
+}
 
-            .confirmation-popup p {
-                margin-bottom: 20px;
-                color: #333;
-            }
+/* CSS cho confirmation popup */
+.confirmation-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
 
-            .confirmation-popup button {
-                margin: 0 10px;
-                padding: 10px 20px;
-                border-radius: 30px;
-                cursor: pointer;
-                font-weight: bold;
-                border: solid;
-                border-width: 0.5px;
-            }
+.confirmation-popup .popup-content {
+    background-color: #e8c4c4;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
 
-            .confirmation-popup .confirm-button {
-                background-color: #f44336;
-                color: #333;
-            }
+.confirmation-popup p {
+    margin-bottom: 20px;
+    color: #333;
+}
 
-            .confirmation-popup .confirm-button:hover {
-                background-color: #777;
-                color: #333;
-            }
+.confirmation-popup button {
+    margin: 0 10px;
+    padding: 10px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: bold;
+    border: solid;
+    border-width: 0.5px;
+}
 
-            .confirmation-popup .cancel-button {
-                background-color: #e4798e;
-                color: #333;
-            }
+.confirmation-popup .confirm-button {
+    background-color: #f44336;
+    color: #333;
+}
 
-            .confirmation-popup .cancel-button:hover {
-                background-color: #d15c74;
-                color: #000000;
-            }
+.confirmation-popup .confirm-button:hover {
+    background-color: #777;
+    color: #333;
+}
 
-            /* CSS cho falling hearts */
-            .heart {
-                position: absolute;
-                font-size: 1em;
-                color: #e4798e;
-                animation: heartFall linear;
-                opacity: 0.5;
-                top: -100px;
-            }
+.confirmation-popup .cancel-button {
+    background-color: #e4798e;
+    color: #333;
+}
 
-            @keyframes heartFall {
-                to {
-                    transform: translateY(120vh) rotate(360deg);
-                }
-            }
+.confirmation-popup .cancel-button:hover {
+    background-color: #d15c74;
+    color: #000000;
+}
 
-            /* CSS cho tab */
-            .tab-list {
-                display: flex;
-                justify-content: center;
-                margin-bottom: 20px;
-            }
+/* CSS cho falling hearts */
+.heart {
+    position: absolute;
+    font-size: 1em;
+    color: #e4798e;
+    animation: heartFall linear;
+    opacity: 0.5;
+    top: -100px;
+}
 
-            .tab-link {
-                padding: 10px 20px;
-                text-decoration: none;
-                color: #333;
-                background-color: #f0f0f0;
-                border-radius: 5px;
-                margin: 0 5px;
-            }
+@keyframes heartFall {
+    to {
+        transform: translateY(120vh) rotate(360deg);
+    }
+}
 
-            .tab-link.active {
-                background-color: #e4798e;
-                color: white;
-            }
+/* CSS cho tab */
+.tab-list {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
 
-            .tab-content {
-                display: none;
-            }
+.tab-link {
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #333;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    margin: 0 5px;
+}
 
-            .tab-content.active {
-                display: block;
-            }
+.tab-link.active {
+    background-color: #e4798e;
+    color: white;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Add these styles to your favorite.css file */
+
+/* Prevent scrollbar jumping */
+html {
+    scrollbar-gutter: stable;
+    overflow-y: scroll; /* Always show scrollbar to prevent layout shifts */
+}
+
+
+
+/* Modify the heart animation container */
+.heart {
+    position: fixed; /* Change to fixed positioning */
+    font-size: 1em;
+    color: #e4798e;
+    animation: heartFall linear;
+    opacity: 0.5;
+    pointer-events: none; /* Prevent hearts from interfering with scrolling */
+}
+
+/* Optional: Style the scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #e4798e;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #d15c74;
+}

@@ -46,7 +46,7 @@
                                 </c:forEach>
                             </c:when>
                             <c:otherwise>
-                                <p>No favorites yet. Go to the <a href="<c:url value='/novels' />" > List</a> to find something you love!</p>
+                                <p>No favorites yet. Go to the <a href="<c:url value='/novels' />">List</a> to find something you love!</p>
                             </c:otherwise>
                         </c:choose>
                     </div>
