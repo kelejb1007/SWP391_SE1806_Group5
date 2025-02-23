@@ -26,6 +26,11 @@ public class Novel {
     private double averageRating;
     private int viewCount;
     private List<String> genreNames;
+    private int ratingCount;
+    private int lastReadChapterID;   // ID chương cuối cùng đã đọc
+    private String lastChapterName; // Tên chương cuối cùng đã đọc
+     private int lastChapterNumber; 
+     private LocalDateTime lastReadDate;
     
     private String lockReason;
     private LocalDateTime datetime ;
@@ -93,6 +98,50 @@ public class Novel {
         this.staffName = staffName;
     }
 
+    
+    public int getLastReadChapterID() {
+        return lastReadChapterID;
+    }
+
+    public void setLastReadChapterID(int lastReadChapterID) {
+        this.lastReadChapterID = lastReadChapterID;
+    }
+
+    public String getLastChapterName() {
+        return lastChapterName;
+    }
+
+    public void setLastChapterName(String lastChapterName) {
+        this.lastChapterName = lastChapterName;
+    }
+
+    public int getLastChapterNumber() {
+        return lastChapterNumber;
+    }
+
+    public void setLastChapterNumber(int lastChapterNumber) {
+        this.lastChapterNumber = lastChapterNumber;
+    }
+
+    public LocalDateTime getLastReadDate() {
+        return lastReadDate;
+    }
+
+    public void setLastReadDate(LocalDateTime lastReadDate) {
+        this.lastReadDate = lastReadDate;
+    }
+
+    
+    
+    public int getRatingCount() {
+        return ratingCount;
+    }
+
+    public void setRatingCount(int ratingCount) {
+        this.ratingCount = ratingCount;
+    }
+
+    
         
     public List<String> getGenreNames() {
         return genreNames;
