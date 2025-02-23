@@ -82,6 +82,7 @@
 
 
 .chapter-list-ul {
+    
     list-style: none;
     padding: 0;
     display: grid;
@@ -91,6 +92,7 @@
 }
 
 .chapter-item {
+   
     border-bottom: 1px solid #eee;
     padding: 5px 0;
     display: flex;

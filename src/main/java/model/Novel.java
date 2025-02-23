@@ -5,6 +5,7 @@
 package model;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -27,6 +28,10 @@ public class Novel {
     private int viewCount;
     private List<String> genreNames;
     private int ratingCount;
+    private int lastReadChapterID;   // ID chương cuối cùng đã đọc
+    private String lastChapterName; // Tên chương cuối cùng đã đọc
+     private int lastChapterNumber; 
+     private LocalDateTime lastReadDate;
      
     public Novel() {
     }
@@ -65,6 +70,40 @@ public class Novel {
         this.author = author;
     }
 
+    public int getLastReadChapterID() {
+        return lastReadChapterID;
+    }
+
+    public void setLastReadChapterID(int lastReadChapterID) {
+        this.lastReadChapterID = lastReadChapterID;
+    }
+
+    public String getLastChapterName() {
+        return lastChapterName;
+    }
+
+    public void setLastChapterName(String lastChapterName) {
+        this.lastChapterName = lastChapterName;
+    }
+
+    public int getLastChapterNumber() {
+        return lastChapterNumber;
+    }
+
+    public void setLastChapterNumber(int lastChapterNumber) {
+        this.lastChapterNumber = lastChapterNumber;
+    }
+
+    public LocalDateTime getLastReadDate() {
+        return lastReadDate;
+    }
+
+    public void setLastReadDate(LocalDateTime lastReadDate) {
+        this.lastReadDate = lastReadDate;
+    }
+
+    
+    
     public int getRatingCount() {
         return ratingCount;
     }
@@ -169,9 +208,15 @@ public class Novel {
         return publishedDate;
     }
 
-    public void setPublishedDate( LocalDateTime publishedDate) {
+    
+     public void setPublishedDate(LocalDateTime publishedDate) {
         this.publishedDate = publishedDate;
     }
-    
-    
+    public String getLastReadDateFormatted() {
+    if (lastReadDate == null) {
+        return "N/A"; // Trả về N/A nếu không có dữ liệu
+    }
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+    return lastReadDate.format(formatter);
+}
 }

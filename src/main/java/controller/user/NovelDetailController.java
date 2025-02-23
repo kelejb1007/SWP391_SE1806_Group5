@@ -4,6 +4,7 @@ import DAO.ChapterDAO;
 import DAO.FavoriteDAO;
 import DAO.NovelDAO;
 import DAO.GenreDAO;
+import DAO.ReadingHistoryDAO;
 import DAO.ViewingDAO;
 import model.Novel;
 import java.io.IOException;
@@ -22,6 +23,7 @@ import jakarta.servlet.http.HttpSession;
 import java.io.PrintWriter;
 import model.Chapter;
 import model.Favorite;
+import model.ReadingHistory;
 import model.UserAccount;
 
 @WebServlet(name = "NovelDetailController", urlPatterns = {"/novel-detail"})
@@ -31,7 +33,9 @@ public class NovelDetailController extends HttpServlet {
     private GenreDAO genreDAO;
     private ChapterDAO chapterDAO;
     private ViewingDAO viewDAO;
-private FavoriteDAO favoriteDAO;
+    private FavoriteDAO favoriteDAO;
+    private ReadingHistoryDAO historyDAO;
+
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.US);
 
     @Override
@@ -41,6 +45,7 @@ private FavoriteDAO favoriteDAO;
         chapterDAO = new ChapterDAO();
         viewDAO = new ViewingDAO();
         favoriteDAO = new FavoriteDAO();
+        historyDAO = new ReadingHistoryDAO();
     }
 
     @Override
@@ -69,7 +74,7 @@ private FavoriteDAO favoriteDAO;
         // Set the novel object in request scope
         request.setAttribute("novel", novel);
 
-         HttpSession session = request.getSession();
+        HttpSession session = request.getSession();
 
         UserAccount user = (UserAccount) session.getAttribute("user");
         // In NovelDetailController
@@ -77,9 +82,22 @@ private FavoriteDAO favoriteDAO;
         if (user != null) {
             favorite = favoriteDAO.getFavoriteByNovelIdAndUserId(novelId, user.getUserID());
             request.setAttribute("favorite", favorite);  // This is set in request scope
-        }
+             ReadingHistory history = historyDAO.getReadingHistory(user.getUserID(), novelId);
+           
+                // Tạo một đối tượng ReadingHistory mới nếu chưa có
+                history = new ReadingHistory();
+                history.setUserID(user.getUserID());
+                history.setNovelID(novelId);
+                history.setLastReadDate(LocalDateTime.now()); // Đặt thời điểm đọc
+                boolean success = historyDAO.addOrUpdateReadingHistory(history);
 
-       
+            if (!success) {
+                // Xử lý lỗi nếu thêm/cập nhật thất bại (ví dụ: ghi log)
+                System.err.println("Failed to add/update reading history for user " + user.getFullName() + " and novel " + novelId);
+                // Bạn có thể muốn rethrow một exception để thông báo cho lớp gọi
+                // hoặc hiển thị một thông báo lỗi cho người dùng
+            }
+        }
 
         List<Chapter> chapters = chapterDAO.getChaptersByNovelId(novelId, null); //Lấy chapter gốc trước khi sort
 
@@ -110,15 +128,15 @@ private FavoriteDAO favoriteDAO;
         String target = "/WEB-INF/views/user/reading/novel-detail.jsp";
         // Gọi servlet /view trước khi forward đến trang chi tiết tiểu thuyết
         if (session.isNew()) {
-            viewDAO.createViewing(novelId);
+            //  viewDAO.createViewing(novelId);
         }
         int views = viewDAO.getViewsCount(novelId);
-        
-      request.setAttribute("views", views); // list chapter gốc
-         
+
+        request.setAttribute("views", views);
 
         //   request.getRequestDispatcher("/getGenre?target=" + target + "&genre=" + novel.getGenreName() + (sortParam != null ? "&sort=" + sortParam : "")).forward(request, response);
-        request.getRequestDispatcher(target).forward(request, response);
+        // request.getRequestDispatcher(target).forward(request, response);
+        request.getRequestDispatcher("/getGenre?target=" + target + (sortParam != null ? "&sort=" + sortParam : "")).forward(request, response);
     }
 
     private String getTimeElapsed(LocalDateTime chapterCreatedDate) {

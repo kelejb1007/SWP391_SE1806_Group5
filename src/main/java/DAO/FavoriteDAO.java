@@ -5,9 +5,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Favorite;
+import model.Novel;
 
 public class FavoriteDAO {
     private final DBContext db;
@@ -100,46 +103,71 @@ public class FavoriteDAO {
             }
         }
     }
-       public static void main(String[] args) {
-        FavoriteDAO favoriteDAO = new FavoriteDAO();
+       
+    // Lấy danh sách Novel yêu thích của người dùng, bao gồm tên tác giả
 
-        // 1. Test getFavoriteByNovelIdAndAccountId
-        System.out.println("--- Test getFavoriteByNovelIdAndAccountId ---");
-        int novelId = 8;
-        int accountId = 1;
-        Favorite favorite = favoriteDAO.getFavoriteByNovelIdAndUserId(novelId, accountId);
-        if (favorite != null) {
-            System.out.println("Favorite found: " + favorite.getFavoriteID() + ", Account ID: " + favorite.getUserID() + ", Novel ID: " + favorite.getNovelID() + ", Is Favorite: " + favorite.isIsFavorite());
-        } else {
-            System.out.println("Favorite not found for Novel ID: " + novelId + " and Account ID: " + accountId);
-        }
-        
-        // 2. Test addFavorite
-        System.out.println("\n--- Test addFavorite ---");
-        Favorite newFavorite = new Favorite();
-        newFavorite.setUserID(1);
-        newFavorite.setNovelID(8); // Chọn novelID khác để kiểm tra thêm
-        newFavorite.setIsFavorite(true);
-        boolean addSuccess = favoriteDAO.addFavorite(newFavorite);
-        if (addSuccess) {
-            System.out.println("Favorite added successfully.");
-            
-            // kiểm tra lại xem đã thêm vào DB chưa
-           Favorite checkFavorite = favoriteDAO.getFavoriteByNovelIdAndUserId(3,1);
-          if (checkFavorite != null) {
-                System.out.println("Favorite check found: " + checkFavorite.getFavoriteID() + ", Account ID: " + checkFavorite.getUserID() + ", Novel ID: " + checkFavorite.getNovelID() + ", Is Favorite: " + checkFavorite.isIsFavorite());
-            } else {
-                System.out.println("Favorite check not found for Novel ID: " + 3 + " and Account ID: " + 1);
+    public List<Novel> getFavoriteNovelsByUserId(int userId) {
+        List<Novel> favoriteNovels = new ArrayList<>();
+        String sql = "SELECT n.*, ua.userName AS authorName "
+                + "FROM Favorite f "
+                + "JOIN Novel n ON f.novelID = n.novelID "
+                + "JOIN UserAccount ua ON n.userID = ua.userID "
+                + "WHERE f.userID = ?";
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+
+        try {
+            connection = db.getConnection();
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, userId);
+            rs = statement.executeQuery();
+
+            while (rs.next()) {
+                Novel novel = new Novel();
+                novel.setNovelID(rs.getInt("novelID"));
+                novel.setNovelName(rs.getString("novelName"));
+                novel.setUserID(rs.getInt("userID"));
+                novel.setImageURL(rs.getString("imageURL"));
+                novel.setNovelDescription(rs.getString("novelDescription"));
+                novel.setTotalChapter(rs.getInt("totalChapter"));
+                if (rs.getTimestamp("publishedDate") != null) {
+                    novel.setPublishedDate(rs.getTimestamp("publishedDate").toLocalDateTime());
+                } else {
+                    novel.setPublishedDate(null); // Hoặc đặt giá trị mặc định nếu cần
+                }
+
+                novel.setNovelStatus(rs.getString("novelStatus"));
+
+                novel.setAuthor(rs.getString("authorName")); // Giả sử bạn thêm trường 'authorName' vào class Novel
+
+                favoriteNovels.add(novel);
             }
 
-        } else {
-            System.out.println("Failed to add favorite.");
+        } catch (SQLException e) {
+            Logger.getLogger(FavoriteDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                Logger.getLogger(FavoriteDAO.class.getName()).log(Level.SEVERE, null, e);
+            }
         }
+
+        return favoriteNovels;
+    }
 
 
         
-    }
-
+    
 
         
 }

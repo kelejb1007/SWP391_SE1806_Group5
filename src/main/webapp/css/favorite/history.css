@@ -1,0 +1,205 @@
+
+            .tab-list {
+                display: flex;
+                justify-content: center;
+                margin-bottom: 20px;
+            }
+
+            .tab-link {
+                padding: 10px 20px;
+                text-decoration: none;
+                color: #333;
+                background-color: #f0f0f0;
+                border-radius: 5px;
+                margin: 0 5px;
+            }
+
+            .tab-link.active {
+                background-color: #e4798e;
+                color: white;
+            }
+
+            .tab-content {
+                display: none;
+            }
+
+            .tab-content.active {
+                display: block;
+            }
+
+            body {
+                font-family: Arial, sans-serif;
+                margin: 20px;
+                background-color: #f4f4f4; /* Background light gray */
+                color: #333;
+            }
+
+            .history-container {
+                max-width: 800px;
+                margin: 20px auto;
+                background-color: #fff; /* Container white */
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* subtle shadow */
+            }
+
+            h1 {
+                text-align: center;
+                color: #333;
+                margin-bottom: 20px;
+                font-family: 'Macondo Swash Caps', cursive;
+                padding-bottom: 10px;
+            }
+
+            .history-item {
+                display: flex;
+                align-items: center;
+                padding: 20px;
+                margin-bottom: 15px;
+                border-bottom: 1px solid #333; /* lighter border */
+                border-radius: 8px;
+                transition: transform 0.4s ease-in-out; /* Hiệu ứng hover */
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            }
+            .history-item:hover {
+
+                background: #eee;
+            }
+            .history-item:last-child {
+                border-bottom: none; /* No border for the last item */
+            }
+
+            .history-item img {
+                width: 100px; /* Tăng kích thước ảnh */
+                height: 120px; /* Tăng kích thước ảnh */
+                object-fit: cover;
+                border-radius: 5px; /* Bo tròn ảnh nhiều hơn */
+                margin-right: 20px; /* Tăng margin */
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+                transition: transform 0.2s ease-in-out; /* Hiệu ứng hover */
+            }
+
+            .history-item img:hover {
+                transform: scale(1.05); /* Phóng to ảnh khi hover */
+            }
+
+            .novel-info {
+                flex-grow: 1;
+            }
+
+            .novel-name {
+                font-size: 1.1em;
+                font-weight: bold;
+                margin-bottom: 5px;
+                color: #333;
+                text-decoration: none; /* Remove underline */
+                display: block; /* Make it a block-level element */
+            }
+
+            .novel-name:hover {
+                color: #007bff;  /* Change color on hover */
+            }
+
+            .chapter-info {
+                font-size: 0.8em;
+                color: #666;
+                margin-bottom: 8px;
+
+                font-weight: 800;
+            }
+            .chapter-info strong { /* Áp dụng cho phần số chương */
+                color: #e4798e; /* Màu hồng làm điểm nhấn */
+                font-weight: 600; /* Độ đậm vừa phải */
+            }
+
+            .timestamp {
+                font-size: 0.8em;
+                color: #888;
+            }
+
+            .continue-reading-button {
+                background-color: #007bff; /* Primary blue */
+                color: white;
+                padding: 8px 15px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 0.9em;
+                transition: background-color 0.3s ease; /* Smooth transition */
+            }
+
+            .continue-reading-button:hover {
+                background-color: #0056b3; /* Darker blue on hover */
+            }
+            /* Kiểu dáng cho icon */
+            .continue-reading-button i {
+                margin-left: 5px; /* Khoảng cách giữa chữ và icon */
+                font-size: 0.8em; /* Kích thước icon nhỏ hơn chữ */
+            }
+            .no-history {
+                text-align: center;
+                padding: 20px;
+                color: #777;
+            }
+
+            .no-history a {
+                color: #007bff;
+                text-decoration: none;
+            }
+
+            .no-history a:hover {
+                text-decoration: underline;
+            }
+
+            .last-chapter-link {
+                display: block; /* Ensures the link takes up the full width */
+                margin-bottom: 5px;
+                color: #007bff; /* Standard link color */
+                text-decoration: none; /* Remove underline */
+                font-size: 0.9em;
+            }
+
+            .last-chapter-link:hover {
+                text-decoration: underline; /* Underline on hover for better UX */
+                color: #0056b3; /* Darker blue on hover */
+            }
+            .history-item {
+                display: flex;
+                align-items: center;
+                padding: 20px;
+                margin-bottom: 15px;
+                border-bottom: 1px solid #333;
+                border-radius: 8px;
+                transition: transform 0.4s ease-in-out;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            }
+
+            .image-container {
+                position: relative; /* Thiết lập container cho absolute positioning */
+                margin-right: 20px; /* Khoảng cách giữa ảnh và thông tin */
+            }
+
+            .history-item img {
+                width: 100px;
+                height: 120px;
+                object-fit: cover;
+                border-radius: 5px;
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+                transition: transform 0.2s ease-in-out;
+                display: block; /* Loại bỏ khoảng trắng thừa dưới ảnh */
+            }
+
+            .novel-rating {
+                position: absolute;
+                top: 0.3px;
+                right: 10px;
+                background-color: #ffc107;
+                color: #333;
+                padding: 5px 8px;
+                border-radius: 4px;
+                font-size: 0.7em;
+                font-weight: bold;
+                z-index: 1; /* Đảm bảo rating nằm trên ảnh */
+            }
