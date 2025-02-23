@@ -32,7 +32,12 @@ public class Novel {
     private String lastChapterName; // Tên chương cuối cùng đã đọc
      private int lastChapterNumber; 
      private LocalDateTime lastReadDate;
-     
+
+    
+    private String lockReason;
+    private LocalDateTime datetime ;
+    private String staffName;
+
     public Novel() {
     }
 
@@ -69,7 +74,33 @@ public class Novel {
         this.publishedDate = publishedDate;
         this.author = author;
     }
+    
+    //---------------------------------------------------------------------
+    public String getLockReason() {
+        return lockReason;
+    }
 
+    public void setLockReason(String lockReason) {
+        this.lockReason = lockReason;
+    }
+
+    public LocalDateTime getDatetime() {
+        return datetime;
+    }
+
+    public void setDatetime(LocalDateTime datetime) {
+        this.datetime = datetime;
+    }
+
+    public String getStaffName() {
+        return staffName;
+    }
+
+    public void setStaffName(String staffName) {
+        this.staffName = staffName;
+    }
+
+    
     public int getLastReadChapterID() {
         return lastReadChapterID;
     }
@@ -102,8 +133,6 @@ public class Novel {
         this.lastReadDate = lastReadDate;
     }
 
-    
-    
     public int getRatingCount() {
         return ratingCount;
     }
@@ -111,9 +140,7 @@ public class Novel {
     public void setRatingCount(int ratingCount) {
         this.ratingCount = ratingCount;
     }
-
-    
-    
+   
     public List<String> getGenreNames() {
         return genreNames;
     }
@@ -145,6 +172,8 @@ public class Novel {
     public void setAuthor(String author) {
         this.author = author;
     }
+
+
     
 
    // của Novel

@@ -1,0 +1,370 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Feb 20, 2025, 4:24:50 PM
+    Author     : Nguyen Thanh Trung
+*/
+:host, :root {
+    --rem: 16;
+}
+
+body {
+    font-family: Archivo;
+    font-size: 14px;
+}
+
+body, dd, dl, fieldset, form, h1, h2, h3, h4, h5, h6, legend, ol, p, ul {
+    margin: 0;
+    padding: 0;
+}
+
+
+
+.pr {
+    position: relative;
+}
+div {
+    display: block;
+    unicode-bidi: isolate;
+}
+
+.g_sub_hd{
+    position: relative;
+    line-height: 1.5;
+    background-color: #f5f6fc;
+    border-bottom: 1px solid #dcdce2;
+    border-top: 1px solid #dcdce2;
+    margin-bottom: 16px;
+
+}
+.g_wrap{
+    margin-left: auto;
+    margin-right: auto;
+    width: 980px;
+}
+
+.g_sub_hd .g_wrap{
+    position: relative;
+    padding: 40px 0 60px;
+
+}
+.g_sub_hd .g_wrap h2{
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 1.5;
+}
+ol, ul{
+    list-style: none;
+}
+.list{
+    line-height: 1.5;
+    margin-left: auto;
+    margin-right: auto;
+    width: 1036px;
+    padding: 0 14px
+}
+.list .list-item{
+    margin-bottom: 32px;
+    float: left;
+    margin-left: 14px;
+    margin-right: 14px;
+    width: 140px;
+    padding: 0;
+}
+
+/*cham check*/
+/*.list-item:before{
+    content: "";
+    position: absolute;
+    right: 100%;
+    top: 204px;
+    margin-right: 6px;
+    width: 6px;
+    height: 6px;
+    background-color: #3b66f5;
+    border-radius: 100%;
+}*/
+
+a, button, label {
+    cursor: pointer;
+}
+a {
+    text-decoration: none;
+    color: #3b66f5;
+}
+.book{
+    height: 262px;
+}
+
+.book a{
+    display: block;
+    color: #000;
+}
+
+address, cite, em, i {
+    font-style: normal;
+}
+
+em, i, small, strong {
+    font-weight: 400;
+}
+.detail{
+    background: #f2f2f2 url(https://noah-image.webnovel.com/noah/img/c72400dd98494ddd8ae42069efbd6eb0.png) 50% no-repeat;
+    background-size: cover;
+    display: block;
+    overflow: hidden;
+    position: relative;
+    width: 140px;
+    height: 186px;
+    border-radius: 4px;
+    margin-bottom: 8px;
+
+    vertical-align: middle;
+    text-align: center;
+}
+
+.detail:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    box-sizing: border-box;
+    border: 3px solid #3b66f5;
+    box-shadow: inset 0 0 0 1px #fff;
+    visibility: hidden;
+    opacity: 0;
+    transition: .2s;
+}
+
+.detail img{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: transform .3s ease-out, -webkit-transform .3s ease-out;
+    font-size: 0;
+}
+
+.detail img:hover {
+    transform: scale(1.1); /* Phóng to hình ảnh 1.1 lần khi hover */
+}
+
+.detail span{
+    position: absolute;
+    left: 8px;
+    bottom: 8px;
+    font-size: 12px;
+    line-height: 14px;
+    padding: 0 4px;
+    border-radius: 2px;
+
+    text-transform: uppercase;
+    color: #fff;
+    background-color: #3b66f5;
+}
+
+.book h3{
+    margin: 0;
+    max-height: 40px;
+    line-height: 20px;
+    font-size: 16px;
+    font-weight: 700;
+
+    display: -webkit-box;
+    overflow: hidden;
+    word-wrap: break-word;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.sub{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #83848f;
+    line-height: 24px;
+    display: inline;
+    margin-right: 16px;
+    font-family: Archivo;
+}
+
+.fa{
+    color: #83848f;
+}
+.faa{
+    margin-right: 4px;
+}
+
+
+
+
+
+.g_sub_hd ._tab{
+    bottom:-1px;
+    z-index:10;
+    position:absolute;
+    left:0;
+    text-transform:capitalize;
+    font-size:20px;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    overflow:hidden;
+    color: #83848f;
+}
+.g_sub_hd ._tab a{
+    vertical-align:bottom;
+    display:inline-block;
+    color: #83848f;
+    margin-right:32px;
+    padding-bottom:4px;
+    border-bottom:2px solid transparent;
+    text-decoration:none
+}
+.g_sub_hd ._tab a:after{
+    content:attr(title);
+    font-weight:700;
+    color:#fff;
+    display:block;
+    height:2px;
+    overflow:hidden;
+    margin-bottom:-2px
+}
+.g_sub_hd ._tab a:hover{
+    color:#000;
+    text-decoration:none
+}
+.g_sub_hd ._tab ._on{
+    color:#000;
+    font-weight:700;
+    border-bottom:2px solid #4c5fe2;
+}
+.g_sub_hd ._tab ._line{
+    position:absolute;
+    top:100%;
+    margin-top:-2px;
+    border-top:2px solid #4c5fe2;
+    left:0;
+    -webkit-transition:.3s;
+    transition:.3s;
+    display:none
+}
+.g_sub_hd ._tab._slide ._line{
+    display:block
+}
+.g_sub_hd ._tab._slide a{
+    border-bottom-color:transparent
+}
+
+
+.add-filter{
+    position: absolute;
+    right: 0;
+    bottom: 10px;
+    font-size: 0;
+    z-index: 11;
+}
+
+
+.g_dropdown{
+    font-size:16px;
+    float:left;
+    margin-left:32px
+}
+.m-sub-hd-opr .g_drop_hd>svg,.m-sub-hd-opr>a>svg{
+    float:left;
+    margin-top:3px;
+    margin-right:8px
+}
+.sort-drop .g_drop_bd{
+    width:216px;
+    margin-top:8px
+}
+.lib-books .m-book{
+    height:262px
+}
+.lib-books ._update:before{
+    content:"";
+    position:absolute;
+    right:100%;
+    top:204px;
+    margin-right:6px;
+    width:6px;
+    height:6px;
+    background-color:var(--c_primary);
+    border-radius:100%
+}
+.lib-books ._chk{
+    height:186px;
+    background-color:rgba(0,0,0,.2);
+    visibility:hidden;
+    opacity:0;
+    -webkit-transition:.2s;
+    transition:.2s
+}
+.lib-books ._chk span{
+    height:36px;
+    width:36px;
+    line-height:36px;
+    margin-top:-20px;
+    margin-left:-20px;
+    border:2px solid #fff;
+    color:#fff;
+    font-size:24px;
+    -webkit-transition:.2s;
+    transition:.2s;
+    -webkit-transform:scale(.6);
+    transform:scale(.6)
+}
+.lib-books ._chk span svg{
+    display:block;
+    margin:5px auto 0
+}
+.lib-books ._chk input:checked+span{
+    background-color:var(--c_primary);
+    border-color:var(--c_primary)
+}
+.lib-edit ._chk span{
+    -webkit-transform:scale(1);
+    transform:scale(1)
+}
+.lib-oprate ._remove{
+    color:#ed424b
+}
+.lib-edit .lib-oprate ._edit,.lib-oprate ._cancel,.lib-oprate ._remove{
+    display:none
+}
+.lib-edit .lib-oprate ._cancel{
+    display:inline
+}
+.lib-edit .lib-oprate ._remove{
+    display:inline;
+    opacity:.6;
+    pointer-events:none
+}
+.lib-edit .lib-books ._chk{
+    visibility:visible;
+    opacity:1
+}
+.lib-remove .lib-oprate ._remove{
+    display:inline;
+    opacity:1;
+    pointer-events:auto
+}
+.lib-books-wrap ._loading_top{
+    position:absolute;
+    left:50%;
+    top:120px;
+    margin:0 0 0 -30px
+}
+.lib-books-wrap._loading ul{
+    opacity:.2
+}
+.lib-books-wrap._loading ._loading_top{
+    display:block
+}
+

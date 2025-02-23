@@ -6,19 +6,17 @@
             display: flex;
             align-items: center; /* Căn chỉnh các item theo chiều dọc */
             padding: 8px 15px;
-            background-color: transparent; /* Thêm dòng này */
+            background-color: transparent; 
             border-radius: 5px;
             font-size: 14px;
         }
 
         .breadcrumb-item {
             text-decoration: none;
-            color: #007bff /* Màu mặc định cho link */
+            color: #6c757d /* Màu mặc định cho link */
         }
 
-        .breadcrumb-item:hover {
-            text-decoration: underline; /* Gạch chân khi hover */
-        }
+        
 
         .home-link {
             margin-right: 5px; /* Tạo khoảng cách giữa icon và separator */
@@ -31,4 +29,5 @@
 
         .current-novel {
             color: #6c757d; /* Màu cho item hiện tại */
+            font-family: 'Arial', sans-serif;
         }

@@ -1,0 +1,233 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Feb 23, 2025, 2:38:03 PM
+    Author     : Nguyen Thanh Trung
+*/
+:host, :root {
+    --rem: 16;
+}
+body {
+    font-family: Archivo;
+}
+
+body, dd, dl, fieldset, form, h1, h2, h3, h4, h5, h6, legend, ol, p, ul {
+    margin: 0;
+    padding: 0;
+}
+
+em, i, small, strong {
+    font-weight: 400;
+}
+
+.det-hd{
+    background-color: #f5f6fc;
+    margin-bottom: 48px;
+}
+
+.g_wrap{
+    margin-left: auto;
+    margin-right: auto;
+    width: 980px;
+}
+
+.link{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 24px;
+    font-size: 16px;
+    padding-bottom: 24px;
+    padding-top: 24px;
+    color: #000;
+}
+.link .a1{
+    margin-right: 4px;
+    float: left;
+    color: #000;
+}
+
+.link .a2{
+    color: #000;
+}
+
+.info{
+    margin-left: -28px;
+    margin-right: auto;
+    width: 1008px;
+    padding-left: 14px;
+    padding-right: 14px;
+    font-size: 16px;
+    position: relative;
+    color: #000;
+}
+
+._sd{
+    height: 412px;
+    width: 308px;
+    float: left;
+    margin-left: 14px;
+    margin-right: 14px;
+}
+
+
+.g_thumb{
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background: #f2f2f2 url(https://noah-image.webnovel.com/noah/img/c72400d….png) 50% no-repeat;
+    background-size: cover;
+    display: block;
+    overflow: hidden;
+    position: relative;
+    border-radius: 4px;
+}
+.g_thumb:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    border: 3px solid var(--c_primary);
+    -webkit-box-shadow: inset 0 0 0 1px #fff;
+    box-shadow: inset 0 0 0 1px #fff;
+    visibility: hidden;
+    opacity: 0;
+    -webkit-transition: .2s;
+    transition: .2s;
+}
+.g_thumb img{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: transform .3s ease-out, -webkit-transform .3s ease-out;
+    font-size: 0;
+}
+
+._mn{
+    min-height: 412px;
+    width: 644px;
+    float: left;
+    margin-left: 14px;
+    margin-right: 14px;
+    position: relative;
+}
+
+._mn h1{
+    max-height: inherit;
+    color: rgba(18, 18, 23, 0.9);
+    line-height: 40px;
+    font-size: 36px;
+    padding-bottom: 4px;
+    padding-top: 4px;
+    margin-bottom: 4px;
+    overflow: hidden;
+    font-family: Archivo;
+}
+
+._mn .detail{
+    line-height: 24px;
+    margin-bottom: 12px;
+    font-size: 0;
+    color: #000;
+}
+
+.detail i{
+    font-size: 20px;
+}
+
+
+.detail strong{
+    display: inline-block;
+    margin-right: 24px;
+    color: #000;
+    font-weight: 400;
+    vertical-align: middle;
+    font-size: 14px;
+}
+
+.author {
+    line-height: 24px;
+    margin-bottom: 12px;
+    font-weight: 400;
+    color: #000;
+}
+
+.author strong{
+    color: #83848f;
+}
+
+.bts{
+    bottom: 8px;
+    padding-bottom: 24px;
+    right: 0;
+    position: absolute;
+    left: 0;
+}
+
+/* novel-buttons */
+.novel-buttons {
+
+    margin-top: 20px; /* Push to the bottom */
+    margin-bottom: 10px; /* Add spacing below the buttons */
+    display: flex;
+    align-items: baseline;
+    margin-left: 20px;
+
+}
+
+/* read-button (Keep this for read button styling) */
+.update-button {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 20px;
+    text-decoration: none;
+    border-radius: 40px;
+    margin-right: 10px;
+    transition: background-color 0.3s;
+    font-size: 1.1em;
+    display: inline-block;
+}
+
+.remove-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    border: 2px solid #000;
+    font-size: 1em; /* Giữ kích thước hợp lý */
+    cursor: pointer;
+    outline: none;
+    transition: all 0.3s ease;
+    border-radius: 50px; /* Làm bo tròn hơn */
+    padding: 10px 15px; /* Đảm bảo nội dung có không gian */
+    color: #000;
+}
+
+/* Khi hover, đổi màu */
+.remove-btn:hover {
+    background-color: rgba(228, 77, 38, 0.2);
+    border: 2px solid #e44d26;
+    color: #e44d26;
+}
+
+.tab-content{
+    margin-bottom: 48px;
+}
+
+.tab-content h3{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 32px;
+    font-size: 24px;
+    margin-bottom: 16px;
+    font-weight: 700;
+}
