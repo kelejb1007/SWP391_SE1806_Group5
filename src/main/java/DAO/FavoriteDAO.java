@@ -112,7 +112,7 @@ public class FavoriteDAO {
                 + "FROM Favorite f "
                 + "JOIN Novel n ON f.novelID = n.novelID "
                 + "JOIN UserAccount ua ON n.userID = ua.userID "
-                + "WHERE f.userID = ?";
+                + "WHERE f.userID = ? AND n.novelStatus = 'active' \"";
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet rs = null;
