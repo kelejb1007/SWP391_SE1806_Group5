@@ -22,7 +22,7 @@ import model.Genre;
  *
  * @author Admin LienXuanThinh_ce182117
  */
-@WebServlet(name = "GenreController", urlPatterns = {"/managegenre"})
+@WebServlet(name = "ManageGenreController", urlPatterns = {"/managegenre"})
 public class GenreController extends HttpServlet {
    
     /** 

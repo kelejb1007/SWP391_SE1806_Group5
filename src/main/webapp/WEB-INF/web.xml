@@ -13,17 +13,6 @@
         <servlet-class>controller.admin.AdminDashboardController</servlet-class>
     </servlet>
     
-    
-    
-    <servlet>
-        <servlet-name>ManageAccountController</servlet-name>
-        <servlet-class>controller.staff.ManageAccountController</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>GenreController</servlet-name>
-        <servlet-class>controller.staff.GenreController</servlet-class>
-    </servlet>
-
         
         <servlet-mapping>
             <servlet-name>DashboardController</servlet-name>
@@ -37,18 +26,7 @@
             <servlet-name>AdminDashboardController</servlet-name>
             <url-pattern>/admindashboard</url-pattern>
         </servlet-mapping>
-    
-    
-        <servlet-mapping>
-            <servlet-name>ManageAccountController</servlet-name>
-            <url-pattern>/manageaccount</url-pattern>
-        </servlet-mapping>
-        <servlet-mapping>
-            <servlet-name>GenreController</servlet-name>
-            <url-pattern>/managegenre</url-pattern>
-        </servlet-mapping>
-    
-    
+
         
         <session-config>
             <session-timeout>
