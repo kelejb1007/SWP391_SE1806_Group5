@@ -83,21 +83,34 @@ public class NovelDetailController extends HttpServlet {
             favorite = favoriteDAO.getFavoriteByNovelIdAndUserId(novelId, user.getUserID());
             request.setAttribute("favorite", favorite);  // This is set in request scope
              ReadingHistory history = historyDAO.getReadingHistory(user.getUserID(), novelId);
-           
+            if (history == null) {
                 // Tạo một đối tượng ReadingHistory mới nếu chưa có
                 history = new ReadingHistory();
                 history.setUserID(user.getUserID());
                 history.setNovelID(novelId);
                 history.setLastReadDate(LocalDateTime.now()); // Đặt thời điểm đọc
-                boolean success = historyDAO.addOrUpdateReadingHistory(history);
+                boolean success = historyDAO.addReadingHistory(history);
 
-            if (!success) {
-                // Xử lý lỗi nếu thêm/cập nhật thất bại (ví dụ: ghi log)
-                System.err.println("Failed to add/update reading history for user " + user.getFullName() + " and novel " + novelId);
-                // Bạn có thể muốn rethrow một exception để thông báo cho lớp gọi
-                // hoặc hiển thị một thông báo lỗi cho người dùng
+                if (!success) {
+                    // Xử lý lỗi nếu thêm thất bại (ví dụ: ghi log)
+                    System.err.println("Failed to add reading history for user " + user.getFullName() + " and novel " + novelId);
+                    // Bạn có thể muốn rethrow một exception để thông báo cho lớp gọi
+                    // hoặc hiển thị một thông báo lỗi cho người dùng
+                }
+            } else {
+                // Cập nhật lastReadDate nếu đã tồn tại
+                history.setLastReadDate(LocalDateTime.now());
+                boolean success = historyDAO.updateLastReadDate(history);
+
+                if (!success) {
+                    // Xử lý lỗi nếu cập nhật thất bại (ví dụ: ghi log)
+                    System.err.println("Failed to update reading history for user " + user.getFullName() + " and novel " + novelId);
+                    // Bạn có thể muốn rethrow một exception để thông báo cho lớp gọi
+                    // hoặc hiển thị một thông báo lỗi cho người dùng
+                }
             }
         }
+
 
         List<Chapter> chapters = chapterDAO.getChaptersByNovelId(novelId, null); //Lấy chapter gốc trước khi sort
 

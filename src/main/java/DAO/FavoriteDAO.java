@@ -13,11 +13,13 @@ import model.Favorite;
 import model.Novel;
 
 public class FavoriteDAO {
+
     private final DBContext db;
 
     public FavoriteDAO() {
         db = new DBContext();
     }
+
     public Favorite getFavoriteByNovelIdAndUserId(int novelId, int userId) {
         Favorite favorite = null;
         String sql = "SELECT * FROM Favorite WHERE novelID = ? AND userID = ?";
@@ -41,9 +43,15 @@ public class FavoriteDAO {
             Logger.getLogger(FavoriteDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             try {
-                if (rs != null) rs.close();
-                if (statement != null) statement.close();
-                if (connection != null) connection.close();
+                if (rs != null) {
+                    rs.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
             } catch (SQLException e) {
                 Logger.getLogger(FavoriteDAO.class.getName()).log(Level.SEVERE, null, e);
             }
@@ -53,7 +61,7 @@ public class FavoriteDAO {
 
     public boolean addFavorite(Favorite favorite) {
         String sql = "INSERT INTO Favorite (userID, novelID, isFavorite) VALUES (?,?,?)";
-         Connection connection = null;
+        Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = db.getConnection();
@@ -70,8 +78,12 @@ public class FavoriteDAO {
             return false;
         } finally {
             try {
-                if (statement != null) statement.close();
-                if (connection != null) connection.close();
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
             } catch (SQLException e) {
                 Logger.getLogger(FavoriteDAO.class.getName()).log(Level.SEVERE, null, e);
             }
@@ -80,7 +92,7 @@ public class FavoriteDAO {
 
     public boolean removeFavorite(Favorite favorite) {
         String sql = "DELETE FROM Favorite WHERE userID = ? AND novelID = ?";
-         Connection connection = null;
+        Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = db.getConnection();
@@ -92,27 +104,31 @@ public class FavoriteDAO {
             return rowsAffected > 0;
         } catch (SQLException e) {
             Logger.getLogger(FavoriteDAO.class.getName()).log(Level.SEVERE, null, e);
-             e.printStackTrace();
+            e.printStackTrace();
             return false;
         } finally {
             try {
-                if (statement != null) statement.close();
-                if (connection != null) connection.close();
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
             } catch (SQLException e) {
                 Logger.getLogger(FavoriteDAO.class.getName()).log(Level.SEVERE, null, e);
             }
         }
     }
-       
-    // Lấy danh sách Novel yêu thích của người dùng, bao gồm tên tác giả
 
+    // Lấy danh sách Novel yêu thích của người dùng, bao gồm tên tác giả
     public List<Novel> getFavoriteNovelsByUserId(int userId) {
         List<Novel> favoriteNovels = new ArrayList<>();
         String sql = "SELECT n.*, ua.userName AS authorName "
                 + "FROM Favorite f "
                 + "JOIN Novel n ON f.novelID = n.novelID "
                 + "JOIN UserAccount ua ON n.userID = ua.userID "
-                + "WHERE f.userID = ? AND n.novelStatus = 'active' \"";
+                + "WHERE f.userID = ? AND n.novelStatus = 'active'";
+
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet rs = null;
@@ -165,9 +181,5 @@ public class FavoriteDAO {
         return favoriteNovels;
     }
 
-
-        
-    
-
-        
+   
 }
