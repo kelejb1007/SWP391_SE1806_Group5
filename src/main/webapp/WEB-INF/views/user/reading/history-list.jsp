@@ -48,22 +48,22 @@
 
                                 <c:choose>
                                     <c:when test="${not empty novel.lastChapterName}">
-                                        <a href="chapter?novelId=${novel.novelID}&chapterId=${novel.lastReadChapterID}" class="last-chapter-link">
+                                        <a href="chapter?id=${novel.chapterID}" class="last-chapter-link">
                                             Chapter ${novel.lastChapterNumber}: ${novel.lastChapterName}
                                         </a>
                                     </c:when>
                                     <c:otherwise>
-                                        <a href="chapter?novelId=${novel.novelID}&chapterId=${novel.lastChapterNumber}"  class="last-chapter-link">
+                                        <a href="chapter?is${novel.chapterID}"  class="last-chapter-link">
                                             Go to Chapter ${novel.lastChapterName}
                                         </a>
                                     </c:otherwise>
                                 </c:choose>
 
                                 <div class="chapter-info">
-                                    Progress: <strong>${novel.lastChapterNumber}</strong> / ${novel.totalChapter}
+                                    Progress: <strong>${novel.process}</strong> / ${novel.totalChapter}
                                 </div>
 
-                                <a href="chapter?novelId=${novel.novelID}&chapterId=${novel.lastReadChapterID}" class="continue-reading-button">Continue Reading<i class="fas fa-arrow-right"></i></a>
+                                <a href="chapter?id=${novel.chapterID}" class="continue-reading-button">Continue Reading<i class="fas fa-arrow-right"></i></a>
                             </div>
 
                             <span class="timestamp">Last read: ${novel.lastReadDateFormatted}</span>

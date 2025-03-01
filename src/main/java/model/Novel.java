@@ -28,9 +28,10 @@ public class Novel {
     private int viewCount;
     private List<String> genreNames;
     private int ratingCount;
-    private int lastReadChapterID;   // ID chương cuối cùng đã đọc
+    private int chapterID;   // ID chương cuối cùng đã đọc
     private String lastChapterName; // Tên chương cuối cùng đã đọc
      private int lastChapterNumber; 
+     private int Process;
      private LocalDateTime lastReadDate;
 
     
@@ -109,14 +110,24 @@ public class Novel {
         this.staffName = staffName;
     }
 
-    
-    public int getLastReadChapterID() {
-        return lastReadChapterID;
+    public int getChapterID() {
+        return chapterID;
     }
 
-    public void setLastReadChapterID(int lastReadChapterID) {
-        this.lastReadChapterID = lastReadChapterID;
+    public void setChapterID(int chapterID) {
+        this.chapterID = chapterID;
     }
+
+    public int getProcess() {
+        return Process;
+    }
+
+    public void setProcess(int Process) {
+        this.Process = Process;
+    }
+
+    
+   
 
     public String getLastChapterName() {
         return lastChapterName;

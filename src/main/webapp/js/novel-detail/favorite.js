@@ -10,7 +10,7 @@
         xhr.open("POST", "/NovelWeb/favorite", true);
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
-        xhr.withCredentials = true; // 🔥 Quan trọng: Gửi session cookie
+        xhr.withCredentials = true; // Quan trọng: Gửi session cookie
         xhr.onload = function() {
             if (xhr.status === 200) {
                 var button = document.getElementById("favoriteButton");

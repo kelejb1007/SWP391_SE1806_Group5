@@ -28,7 +28,7 @@ public class ChapterDAO {
 
     public List<Chapter> getChaptersByNovelId(int novelID, String sort) {
         List<Chapter> list = new ArrayList<>();
-        String sql = "SELECT chapterID, novelID, chapterNumber, chapterName, fileURL, publishedDate, chapterStatus FROM Chapter WHERE novelID = ? ORDER BY chapterNumber " + (sort != null && sort.equals("desc") ? "DESC" : "ASC");
+        String sql = "SELECT chapterID, novelID, chapterNumber, chapterName, fileURL, publishedDate, chapterStatus FROM Chapter WHERE novelID = ? AND chapterStatus ='active' ORDER BY chapterNumber " + (sort != null && sort.equals("desc") ? "DESC" : "ASC");
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet rs = null;
@@ -70,7 +70,7 @@ public class ChapterDAO {
 
     public Chapter getChapterById(int chapterID) {
         Chapter chapter = null;
-        String sql = "SELECT chapterID, novelID, chapterNumber, chapterName, fileURL, publishedDate, chapterStatus FROM Chapter WHERE chapterID = ?";
+        String sql = "SELECT chapterID, novelID, chapterNumber, chapterName, fileURL, publishedDate, chapterStatus FROM Chapter WHERE chapterID = ? AND chapterStatus ='active' ";
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet rs = null;
