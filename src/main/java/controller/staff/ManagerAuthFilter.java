@@ -27,7 +27,7 @@ public class ManagerAuthFilter implements Filter {
         HttpServletResponse res = (HttpServletResponse) response;
         HttpSession session = req.getSession();
 
-        ManagerAccount manager = (ManagerAccount) session.getAttribute("manager"); // Đổi từ "user" thành "manager"
+        ManagerAccount manager = (ManagerAccount) session.getAttribute("manager");
         if (manager == null) {
             res.sendRedirect(req.getContextPath() + "/ManagerLogin"); // Redirect nếu chưa đăng nhập
             return;
