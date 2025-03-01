@@ -3,7 +3,6 @@
     Created on : Feb 17, 2025, 9:51:01 PM
     Author     : Nguyen Ngoc Phat - CE180321
 --%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
@@ -116,7 +115,7 @@
             </form>
 
             <button class="manager-login" onclick="window.location.href = '${pageContext.request.contextPath}/ManagerLogin'">Manager Login</button>
-            <p class="register-link">Don't have an account? <a href="register.jsp">Register</a></p>
+            <p class="register-link">Don't have an account? <a href="${pageContext.request.contextPath}/Register">Register</a></p>
         </div>
     </body>
 </html>

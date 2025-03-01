@@ -112,4 +112,46 @@ public class UserAccountDAO {
         String password = "123";
         System.out.println("Hash SHA-256 của password: " + hashSHA256(password));
     }
+
+    // Khoa thêm do?n này Cho UC Rgist
+    public boolean registerUser(UserAccount user) {
+        String sql = "INSERT INTO UserAccount (userName, password, fullName, email, numberPhone, gender, isBanned) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        try ( Connection conn = dbContext.getConnection();  PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, user.getUserName());
+            stmt.setString(2, hashSHA256(user.getPassword())); // Hash mật khẩu
+            stmt.setString(3, user.getFullName());
+            stmt.setString(4, user.getEmail());
+            stmt.setString(5, user.getNumberPhone());
+            stmt.setString(6, user.getGender());
+            stmt.setBoolean(7, user.isIsBanned());
+
+            int rowsInserted = stmt.executeUpdate();
+            return rowsInserted > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    // Kiểm tra user có tồn tại không (trùng username hoặc email)
+    public boolean isUserExist(String username, String email) {
+        String sql = "SELECT userID FROM UserAccount WHERE userName = ? OR email = ?";
+        try ( Connection conn = dbContext.getConnection();  PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, username);
+            stmt.setString(2, email);
+            ResultSet rs = stmt.executeQuery();
+
+            return rs.next(); // Nếu có kết quả -> username hoặc email đã tồn tại
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    // Khoa thêm phần này cho ViewProfile
+
 }

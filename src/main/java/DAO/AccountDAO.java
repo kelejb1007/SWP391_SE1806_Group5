@@ -94,4 +94,71 @@ public class AccountDAO {
         account.setRole(rs.getString("role"));
         return account;
     }
+
+    /** Khoa thêm cho UC ManageStaff
+     * Lấy danh sách tài khoản theo vai trò.
+     * @param role Vai trò cần lấy (ví dụ: "Staff").
+     * @return Danh sách tài khoản phù hợp.
+     * @throws SQLException Nếu có lỗi truy vấn.
+     */
+    public List<ManagerAccount> getAccountsByRole(String role) throws SQLException {
+        List<ManagerAccount> listAccounts = new ArrayList<>();
+        String sql = "SELECT managerID, username, password, creationDate, fullName, email, numberPhone, gender, canLock, canApprove, role " +
+                     "FROM ManagerAccount WHERE role = ?";
+        try (Connection conn = dbContext.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setString(1, role);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    ManagerAccount account = mapResultSetToAccount(rs);
+                    listAccounts.add(account);
+                }
+            }
+        }
+        return listAccounts;
+    }
+
+    /**
+     * Tìm kiếm tài khoản nhân viên theo từ khóa.
+     * @param role Vai trò nhân viên ("Staff").
+     * @param keyword Từ khóa tìm kiếm.
+     * @return Danh sách tài khoản nhân viên phù hợp.
+     * @throws SQLException Nếu có lỗi truy vấn.
+     */
+    public List<ManagerAccount> searchAccountsByRole(String role, String keyword) throws SQLException {
+        List<ManagerAccount> listAccounts = new ArrayList<>();
+        String sql = "SELECT managerID, username, password, creationDate, fullName, email, numberPhone, gender, canLock, canApprove, role " +
+                     "FROM ManagerAccount " +
+                     "WHERE role = ? AND (username LIKE ? OR email LIKE ? OR fullName LIKE ?)";
+        try (Connection conn = dbContext.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            String searchKeyword = "%" + keyword + "%";
+            stmt.setString(1, role);
+            stmt.setString(2, searchKeyword);
+            stmt.setString(3, searchKeyword);
+            stmt.setString(4, searchKeyword);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    ManagerAccount account = mapResultSetToAccount(rs);
+                    listAccounts.add(account);
+                }
+            }
+        }
+        return listAccounts;
+    }
+
+    public ManagerAccount getAccountById(int userID) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public boolean registerUser(ManagerAccount newAccount) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public boolean isUserExist(String username, String email) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

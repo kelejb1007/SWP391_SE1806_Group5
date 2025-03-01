@@ -83,13 +83,20 @@
                         
                         
                         
-                        <!-- Manage staff -->
-                        <li>
-                            <a href="">
-                                <i class="fa fa-sitemap fa-fw"></i>
-                                Manage staff
-                            </a>
-                        </li>
+                        <!-- tui them phan nay Khoa -->      
+
+                    <li>
+                        <a href="">
+                            <i class="fa fa-sitemap fa-fw"></i>
+                            Manage Staff
+                            <span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="${pageContext.request.contextPath}/managestaff">View list of staff</a>
+                            </li>
+                        </ul>
+                    </li> 
                         
                         
                         

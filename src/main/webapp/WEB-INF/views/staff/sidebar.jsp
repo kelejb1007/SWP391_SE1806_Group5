@@ -128,8 +128,7 @@
                                 <a href="${pageContext.request.contextPath}/managegenre">View list of genres</a>
                             </li>
                         </ul>
-                    </li>   
-
+                    </li>               
                     </ul>
                     
 

@@ -12,7 +12,6 @@
 <!-- Bootstrap JS -->
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-
 <div class="header">
     <div class="logo">
         <img src="img/b3.png" alt="Logo Icon">
@@ -45,7 +44,6 @@
                                 </div>
                             </div>
                             <div class="dropdown-menu-content" id="genre-content" style="display: none;">
-
                                 <div class="column">
                                     <h6>Genre Options</h6>
                                     <ul>  <!-- Thêm <ul> -->
@@ -64,27 +62,31 @@
 
             <li class="search-li">
                 <jsp:include page="/WEB-INF/views/user/components/search.jsp" /> 
-
             </li>
 
             <li class="spacer"></li>
             <!-- Nếu chưa đăng nhập -->
             <c:if test="${empty sessionScope.user}">
                 <li><a href="<c:url value='/Login' />">Log in</a></li>
-                <li><a href="<c:url value='/register' />">Sign up</a></li>
-                </c:if>
+                <!-- Khoa thêm link vào khi ấn Sign up sẽ đưa đến Register -->
+                <li><a href="<c:url value='/Register' />">Sign up</a></li>
+            </c:if>
 
             <!-- Nếu đã đăng nhập -->
             <c:if test="${not empty sessionScope.user}">
                 <li><a href="<c:url value='/favorite' />">Favorite List</a></li>
                 <li><a href="#">My Novels</a></li>
                 <li><a href="#"> Post</a><i class="fas fa-plus"></i></li>
-
-                <li><a href="<c:url value='/Logout'/>">Logout</a></li>
-                </c:if>
+                
+                <!-- Khoa thêm nút View Profile -->
+                <li><a href="<c:url value='/viewprofile' />">View Profile</a></li>
+                <!-- Khoa thêm chức năng Logout - Khi ấn sẽ xóa session và quay về trạng thái chưa đăng nhập -->
+                <li>
+                    <form id="logoutForm" action="<c:url value='/Logout' />" method="post">
+                        <a href="#" onclick="document.getElementById('logoutForm').submit(); return false;">Logout</a>
+                    </form>
+                </li>
+            </c:if>
         </ul>
-
-
-
     </nav>
 </div>
