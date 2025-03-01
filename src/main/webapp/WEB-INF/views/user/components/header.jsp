@@ -77,7 +77,7 @@
             <!-- Nếu đã đăng nhập -->
             <c:if test="${not empty sessionScope.user}">
                 <li><a href="<c:url value='/favorite' />">Favorite List</a></li>
-                <li><a href="#">My Novels</a></li>
+                <li><a href="mynovel">My Novels</a></li>
                 <li><a href="#"> Post</a><i class="fas fa-plus"></i></li>
 
                 <li><a href="<c:url value='/Logout'/>">Logout</a></li>

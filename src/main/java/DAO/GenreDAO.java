@@ -20,6 +20,7 @@ import utils.DBContext;
  * @author Phan Hồng Tài - CE181490
  */
 public class GenreDAO {
+
     private final DBContext db;
 
     public GenreDAO() {
@@ -46,9 +47,15 @@ public class GenreDAO {
             Logger.getLogger(GenreDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             try {
-                if (rs != null) rs.close();
-                if (statement != null) statement.close();
-                if (connection != null) connection.close();
+                if (rs != null) {
+                    rs.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
             } catch (SQLException e) {
                 Logger.getLogger(GenreDAO.class.getName()).log(Level.SEVERE, null, e);
             }
@@ -76,22 +83,108 @@ public class GenreDAO {
             Logger.getLogger(GenreDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             try {
-                if (rs != null) rs.close();
-                if (statement != null) statement.close();
-                if (connection != null) connection.close();
+                if (rs != null) {
+                    rs.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
             } catch (SQLException e) {
                 Logger.getLogger(GenreDAO.class.getName()).log(Level.SEVERE, null, e);
             }
         }
         return genre;
     }
-    
-    
+
     ///Trung---------------------------------------------------------------------------
-    
-    
-    
-public static void main(String[] args) {
+    public boolean addGenreNovel(int genreID, int novelID) {
+        String sql = "INSERT INTO Genre_Novel (genreID, novelID)\n"
+                + "VALUES (?, ?)";
+        Connection connection;
+        PreparedStatement statement;
+        int n;
+        try {
+            connection = db.getConnection();
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, genreID);
+            statement.setInt(2, novelID);
+            n = statement.executeUpdate();
+            if (n != 0) {
+                return true;
+            }
+        } catch (Exception e) {
+            Logger.getLogger(NovelDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return false;
+    }
+
+    public String getGenreByNovelID(int novelID) {
+        String sql = "SELECT STRING_AGG(g.genreName, ', ') "
+                + " FROM Genre_Novel gn2 "
+                + " JOIN Genre g ON gn2.genreID = g.genreID "
+                + " WHERE gn2.novelID = ?";
+        Connection connection;
+        PreparedStatement statement;
+        ResultSet rs;
+        String genres = "";
+        try {
+            connection = db.getConnection();
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, novelID);
+            rs = statement.executeQuery();
+
+            if (rs.next()) {
+                genres = rs.getString(1);
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(NovelDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return genres;
+    }
+
+    public boolean deleteGenreNovel(int novelID) {
+        String sql = "DELETE FROM Genre_Novel \n"
+                + "where novelID = ?";
+        Connection connection;
+        PreparedStatement statement;
+        int n;
+        try {
+            connection = db.getConnection();
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, novelID);
+            n = statement.executeUpdate();
+            if (n != 0) {
+                return true;
+            }
+        } catch (Exception e) {
+            Logger.getLogger(NovelDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return false;
+    }
+
+//    public int getGenreID(String genreName) {
+//        String sql = "SELECT genreID FROM Genre WHERE genreName = ?";
+//        Connection connection;
+//        PreparedStatement statement;
+//        ResultSet rs;
+//        int genreID = -1;
+//        try {
+//            connection = db.getConnection();
+//            statement = connection.prepareStatement(sql);
+//            statement.setString(1, genreName);
+//            rs = statement.executeQuery();
+//            if (rs.next()) {
+//                genreID = rs.getInt("genreID");
+//            }
+//        } catch (SQLException e) {
+//            Logger.getLogger(GenreDAO.class.getName()).log(Level.SEVERE, null, e);
+//        }
+//        return genreID;
+//    }
+    public static void main(String[] args) {
         GenreDAO ge = new GenreDAO();
         List<Genre> list = ge.getAllGenres();
         System.out.println(list);

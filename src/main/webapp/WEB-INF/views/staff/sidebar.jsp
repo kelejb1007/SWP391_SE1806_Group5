@@ -11,9 +11,15 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Admin Sidebar</title>
         
-        <link rel="stylesheet" href="css/startmin/bootstrap.css">
+        <link rel="stylesheet" href="css/startmin/bootstrap.min.css">
         <link rel="stylesheet" href="css/startmin/startmin.css">
         <link rel="stylesheet" href="css/startmin/font-awesome.min.css" type="text/css">
+        
+        <style>
+            ul.nav.fix li{
+                width: 100%;
+            }
+        </style>
     </head>
     <body>
         <!-- Sidebar -->
@@ -22,7 +28,7 @@
 
                     
                     
-                    <ul class="nav" id="side-menu">
+                    <ul class="nav fix" id="side-menu">
                         
                         <!--Search-->
                         <li class="sidebar-search">
@@ -102,7 +108,7 @@
                         
                         
                      <li>
-                        <a href="">
+                        <a href="#">
                             <i class="fa fa-sitemap fa-fw"></i>
                             Manage Account
                             <span class="fa arrow"></span>
@@ -118,7 +124,7 @@
                     <!-- tui them phan nay LIENXUANTHINH -->      
 
                     <li>
-                        <a href="">
+                        <a href="#">
                             <i class="fa fa-sitemap fa-fw"></i>
                             Manage Genre
                             <span class="fa arrow"></span>

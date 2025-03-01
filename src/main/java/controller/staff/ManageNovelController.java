@@ -4,6 +4,7 @@
  */
 package controller.staff;
 
+import DAO.LockNovelLogDAO;
 import DAO.NovelDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,7 +17,10 @@ import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.LockNovelLog;
+import model.ManagerAccount;
 import model.Novel;
+import model.UserAccount;
 
 /**
  *
@@ -64,11 +68,11 @@ public class ManageNovelController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("manager") == null){
+        if (session == null || session.getAttribute("manager") == null) {
             response.sendRedirect("ManagerLogin");
             return;
         }
-        
+
         String action = request.getParameter("action");
         if (action == null) {
             action = "default";
@@ -126,8 +130,6 @@ public class ManageNovelController extends HttpServlet {
         }
     }
 
-   
-
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -139,6 +141,12 @@ public class ManageNovelController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("manager") == null) {
+            response.sendRedirect("ManagerLogin");
+            return;
+        }
+
         String action = request.getParameter("action");
         if (action == null) {
             action = "default";
@@ -148,24 +156,76 @@ public class ManageNovelController extends HttpServlet {
             case "lock":
                 lockNovel(request, response);
                 break;
+            case "unlock":
+                unlockNovel(request, response);
+                break;
             default:
                 viewAllNovels(request, response);
         }
     }
 
-    
     private void lockNovel(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        int novelID = Integer.parseInt(request.getParameter("novelID"));
+        String lockReason = request.getParameter("lockReason");
         NovelDAO nd = new NovelDAO();
-        List<Novel> listNovel;
+        LockNovelLogDAO ld = new LockNovelLogDAO();
+        Boolean checkChange;
+        Boolean checkAdd;
+        String message;
         try {
-            listNovel = nd.getAllActiveNovels("active");
-            request.setAttribute("listNovel", listNovel);
-            request.getRequestDispatcher("/WEB-INF/views/staff/allNovels.jsp").forward(request, response);
+            HttpSession session = request.getSession(false);
+            ManagerAccount ma = (ManagerAccount) session.getAttribute("manager");
+
+            LockNovelLog ll = new LockNovelLog(ma.getManagerID(), novelID, "lock", lockReason);
+
+            checkChange = nd.changeNovelStatus(novelID);
+            checkAdd = ld.addLockLog(ll);
+
+            if (checkChange && checkAdd) {
+                message = "Lock successfully!";
+            } else {
+                message = "Error!!!!";
+            }
+            request.setAttribute("message", message);
+            viewAllNovels(request, response);
+
         } catch (Exception ex) {
             Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    private void unlockNovel(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        int novelID = Integer.parseInt(request.getParameter("novelID"));
+        NovelDAO nd = new NovelDAO();
+        LockNovelLogDAO ld = new LockNovelLogDAO();
+        Boolean checkChange;
+        Boolean checkAdd;
+        String message;
+        try {
+            HttpSession session = request.getSession(false);
+            ManagerAccount ma = (ManagerAccount) session.getAttribute("manager");
+
+            LockNovelLog ll = new LockNovelLog(ma.getManagerID(), novelID, "unlock", null);
+
+            checkChange = nd.changeNovelStatus(novelID);
+            checkAdd = ld.addLockLog(ll);
+
+            if (checkChange && checkAdd) {
+                message = "Unlock successfully!";
+            } else {
+                message = "Error!!!!";
+            }
+            request.setAttribute("message", message);
+            response.sendRedirect("managenovel?action=viewlockedlist");
+//            viewLockedNovels(request, response);
+
+        } catch (Exception ex) {
+            Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     /**
      * Returns a short description of the servlet.
      *

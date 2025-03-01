@@ -38,30 +38,13 @@
                     </p>
 
                     <div class="add-filter"> 
-<!--                        <div class="g_dropdown"> 
-                            <strong class="g_drop_"> 
-                                <svg class="c_primary"><use xlink:href="#i-sort"></use></svg> 
-                                <span class="j_sort_desc">Recently read</span> </strong> 
-                                <p class="g_drop_bd _r j_sort_drop" data-report-l1="4"> 
-                                    <a 
-                                        data-sort="2"             
-                                        title="Recently read" 
-                                        class="g_drop_item _on" 
-                                        href="###" data-desc="Recently read" 
-                                        data-report-eid="qi_B04"> Recently read 
-                                        <svg class="g_drop_icon"><use xlink:href="#i-right"></use></svg>
-                                    </a> 
-                                    <a 
-                                        data-sort="1" 
-                                        title="Time added" 
-                                        class="g_drop_item " 
-                                        href="###" 
-                                        data-desc="Time added" 
-                                        data-report-eid="qi_B04"> Time added 
-                                        <svg class="g_drop_icon"><use xlink:href="#i-right"></use></svg>
-                                    </a> </p> 
-                        </div>-->
-                        <button type="button" class="btn btn-info"><i class="bi bi-plus-circle faa"></i>  Create a novel</button>
+                        <!--                        <form action="" method="post" >
+                                                    <input type="hidden" name="action" value="post">
+                                                    <button type="button" class="btn btn-info"><i class="bi bi-plus-circle faa"></i>  Create a novel</button>
+                                                    </form>-->
+                        <button type="button" class="btn btn-info" onclick="window.location.href = 'mynovel?action=post';">
+                            <i class="bi bi-plus-circle faa"></i>  Create a novel
+                        </button>
                     </div>
                 </div>
             </div>
@@ -81,7 +64,10 @@
                                          alt="${c.novelName}" 
                                          src="${c.imageURL}" 
                                          style="display: block;">  
-                                    <span class="_tag_sub">${c.novelStatus}</span>  
+                                    <span class="_tag_sub" 
+                                          <c:if test="${c.novelStatus == 'inactive'}">
+                                              style="background-color: red"
+                                          </c:if>>${c.novelStatus}</span>  
                                 </i> 
                                 <h3>${c.novelName}</h3> 
                             </a> 
@@ -92,13 +78,31 @@
                                                                 <svg><use xlink:href="#i-right"></use></svg>
                                                             </span>
                                                         </label> -->
-                            
-                            
-                        
+
+
+
 
 <!--                        <strong class="sub"><i class="fa fa-star fa-fw faa"></i> ${c.averageRating}</strong> -->
                             <strong style="margin: 0" class="sub"><i class="fa fa-file-text fa-fw"></i> ${c.totalChapter} Chapters</strong> 
 <!--                        <strong class="sub"><i class="fa fa-eye fa-fw faa"></i> ${c.viewCount}</strong> -->
+
+
+                            <button type="button" class="btn btn-info"
+                                    onclick="window.location.href = 'mynovel?action=update&novelID=${c.novelID}';">Update
+                            </button>
+                            <form action="mynovel" method="post" style="display: inline">
+                                <input type="hidden" name="action" value="delete">
+                                <input type="hidden" name="novelID" value="${c.novelID}">
+                                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure to delete the novel: ${c.novelName} (ID=${c.novelID})')">Delete</button>
+                            </form>
+
+                            <c:if test="${not empty message}">
+                                <script>
+                                    window.onload = function () {
+                                        alert("${message}");
+                                    };
+                                </script>
+                            </c:if>
                         </div>
                     </li>
                 </c:forEach>  

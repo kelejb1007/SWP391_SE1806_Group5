@@ -41,6 +41,15 @@ public class Novel {
     public Novel() {
     }
 
+    public Novel(String novelName, int userID, String imageURL, String novelDescription, int totalChapter) {
+        this.novelName = novelName;
+        this.userID = userID;
+        this.imageURL = imageURL;
+        this.novelDescription = novelDescription;
+        this.totalChapter = totalChapter;
+    }
+    
+
     public Novel(int novelID, String novelName, String imageURL, int totalChapter, LocalDateTime publishedDate, String author, double averageRating, int viewCount) {
         this.novelID = novelID;
         this.novelName = novelName;
