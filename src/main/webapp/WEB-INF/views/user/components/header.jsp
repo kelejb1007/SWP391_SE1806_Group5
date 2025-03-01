@@ -78,6 +78,9 @@
                 <li><a href="mynovel">My Novels</a></li>
                 <li><a href="#"> Post</a><i class="fas fa-plus"></i></li>
                 
+                <li><a href="<c:url value='/Logout'/>">Logout</a></li>
+                </c:if>
+                
                 <!-- Khoa thêm nút View Profile -->
                 <li><a href="<c:url value='/viewprofile' />">View Profile</a></li>
                 <!-- Khoa thêm chức năng Logout - Khi ấn sẽ xóa session và quay về trạng thái chưa đăng nhập -->
@@ -87,6 +90,7 @@
                     </form>
                 </li>
             </c:if>
+
         </ul>
     </nav>
 </div>
