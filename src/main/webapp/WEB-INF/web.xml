@@ -14,23 +14,33 @@
     </servlet>
     
         
-        <servlet-mapping>
-            <servlet-name>DashboardController</servlet-name>
-            <url-pattern>/dashboard</url-pattern>
-        </servlet-mapping>
-        <servlet-mapping>
-            <servlet-name>HomepageController</servlet-name>
-            <url-pattern>/homepage</url-pattern>
-        </servlet-mapping>
-        <servlet-mapping>
-            <servlet-name>AdminDashboardController</servlet-name>
-            <url-pattern>/admindashboard</url-pattern>
-        </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DashboardController</servlet-name>
+        <url-pattern>/dashboard</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HomepageController</servlet-name>
+        <url-pattern>/homepage</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminDashboardController</servlet-name>
+        <url-pattern>/admindashboard</url-pattern>
+    </servlet-mapping>
 
+    <filter>
+        <filter-name>UserAuthFilter</filter-name>
+        <filter-class>controller.user.UserAuthFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>UserAuthFilter</filter-name>
+        <url-pattern>/readChapter</url-pattern>
+        <url-pattern>/postChapter</url-pattern>
+    </filter-mapping>
         
-        <session-config>
-            <session-timeout>
-                30
-            </session-timeout>
-        </session-config>
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
 </web-app>

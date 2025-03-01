@@ -14,6 +14,7 @@ public class Chapter {
 
     private int chapterID;
     private int novelID;
+    private String novelName;
     private int chapterNumber;
     private String chapterName;
     private String fileURL;
@@ -34,10 +35,12 @@ public class Chapter {
         this.chapterStatus = chapterStatus;
     }
 
-    public Chapter(int novelId, int chapterNumber, String chapterTitle, String fileURL, LocalDateTime chapterCreatedDate, String chapterStatus) {
-        this.novelID = novelId;
+    public Chapter(int chapterID, int novelID, String novelName, int chapterNumber, String chapterName, String fileURL, LocalDateTime chapterCreatedDate, String chapterStatus) {
+        this.chapterID = chapterID;
+        this.novelID = novelID;
+        this.novelName = novelName;
         this.chapterNumber = chapterNumber;
-        this.chapterName = chapterTitle;
+        this.chapterName = chapterName;
         this.fileURL = fileURL;
         this.chapterCreatedDate = chapterCreatedDate;
         this.chapterStatus = chapterStatus;
@@ -106,6 +109,14 @@ public class Chapter {
 
     public void setTimeString(String timeString) {
         this.timeString = timeString;
+    }
+
+    public String getNovelName() {
+        return novelName;
+    }
+
+    public void setNovelName(String novelName) {
+        this.novelName = novelName;
     }
 
     @Override
