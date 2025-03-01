@@ -25,42 +25,42 @@ public class UserAuthFilter extends HttpFilter implements Filter {
             throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
-        HttpSession session = req.getSession(false);
+        HttpSession session = req.getSession(false); // Không tạo session mới nếu chưa có
 
         String originalURI = req.getRequestURI();
 
-        // Nếu là trang đọc chương và người dùng chưa đăng nhập
-        if (isRestrictedChapter(originalURI) && (session == null || session.getAttribute("user") == null)) {
-            session = req.getSession(true);
-            session.setAttribute("redirectURL", originalURI);
-            res.sendRedirect(req.getContextPath() + "/UserLogin");
+        // Nếu là trang đọc chương hoặc đăng chapter và người dùng chưa đăng nhập
+        if ((isRestrictedChapter(originalURI) || isPostChapterPage(originalURI))
+                && (session == null || session.getAttribute("user") == null)) {
+            res.sendRedirect(req.getContextPath() + "/Login");
             return;
         }
 
         chain.doFilter(request, response);
     }
 
-    private boolean isRestrictedChapter(String url) {
+    private Integer getChapterId(String url) {
         Pattern pattern = Pattern.compile(".*/readChapter\\?id=(\\d+)");
         Matcher matcher = pattern.matcher(url);
-
-        if (matcher.matches()) {
-            int chapterId = Integer.parseInt(matcher.group(1));
-            return chapterId > 3; // Chương 4 trở lên cần đăng nhập
+        if (matcher.find()) {
+            try {
+                return Integer.parseInt(matcher.group(1));
+            } catch (NumberFormatException e) {
+                return null;
+            }
         }
-        return false;
+        return null;
     }
 
-    private boolean isAllowedChapter(String url) {
-        // Kiểm tra nếu URL là đọc chương (giả sử URL có dạng /readChapter?id=4)
-        Pattern pattern = Pattern.compile(".*/readChapter\\?id=(\\d+)");
-        Matcher matcher = pattern.matcher(url);
+    private boolean isRestrictedChapter(String url) {
+        Integer chapterId = getChapterId(url);
+        return chapterId != null && chapterId > 3; // Chương 4 trở lên cần đăng nhập
+    }
 
-        if (matcher.matches()) {
-            int chapterId = Integer.parseInt(matcher.group(1)); // Lấy số chương
-            return chapterId <= 3; // Chỉ cho phép đọc từ chương 1 đến 3
-        }
-        return false;
+    private boolean isPostChapterPage(String url) {
+        Pattern pattern = Pattern.compile(".*/postChapter(\\?.*)?");
+        Matcher matcher = pattern.matcher(url);
+        return matcher.matches();
     }
 
     @Override
