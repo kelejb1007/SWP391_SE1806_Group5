@@ -11,8 +11,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Manage Novel</title>
 
-        <!--         Bootstrap Core CSS -->
-        <link rel="stylesheet" href="css/startmin/bootstrap.css">
+
+        <link rel="stylesheet" href="css/startmin/bootstrap.min.css">
         <link rel="stylesheet" href="css/startmin/startmin.css">
         <link rel="stylesheet" href="css/startmin/font-awesome.min.css" type="text/css">
         <link rel="stylesheet" href="css/startmin/metisMenu.min.css">
@@ -20,19 +20,31 @@
         <link href="css/startmin/dataTables/dataTables.bootstrap.css" rel="stylesheet">
         <link href="css/startmin/dataTables/dataTables.responsive.css" rel="stylesheet">
 
-        <script type="text/javascript">
-            function lock(novelID, novelName) {
-                if (confirm("Are you sure to lock the novel : '" + novelName + "'")) {
-                    window.location.href = "managenovel?action=lock&novelID=" + novelID;
-                }
+        <script>
+            function openLockModal(novelID, novelName) {
+                document.getElementById('novelID').value = novelID;
+                document.getElementById('lockReason').value = '';
+                document.getElementById('novelName').innerHTML = novelName + " (ID=" + novelID + ")";
+//                var modal = new bootstrap.Modal(document.getElementById('lockModal'));
+//                modal.show();
+                $("#lockModal").modal("show");
             }
-            //onclick="lock(${c.novelID}, '${c.novelName}')"
         </script>
+
     </head>
     <body>
+
         <div id="wrapper">
             <jsp:include page="header.jsp" />
             <jsp:include page="sidebar.jsp" />
+
+            <c:if test="${not empty message}">
+                <script>
+                    window.onload = function () {
+                        alert("${message}");
+                    };
+                </script>
+            </c:if>
 
 
             <div id="page-wrapper">
@@ -80,16 +92,44 @@
                                                             <button type="button" class="btn btn-info"
                                                                     onclick="window.location.href = 'managenovel?action=viewdetail&novelID=${c.novelID}';">View detail
                                                             </button>
-                                                            <form action="managenovel" method="post" style="display: inline">
-                                                                <input type="hidden" name="action" value="lock">
-                                                                <input type="hidden" name="novelID" value="${c.novelID}">
-                                                                <button type="submit" class="btn btn-danger">Lock</button>
-                                                            </form>
+                                                            <button type="button" id="open" class="btn btn-danger" onclick="openLockModal('${c.novelID}', '${c.novelName}')">Lock</button>
                                                         </td>
                                                     </tr>
                                                 </c:forEach>  
                                             </tbody>
                                         </table>
+
+                                        <!-- Modal (Popup) -->
+                                        <div id="lockModal" class="modal fade" role="dialog">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <form action="managenovel" method="post" style="display: inline">
+                                                        <div class="modal-header" style="border-bottom: none; height: 45px">
+                                                            <h4 class="modal-title"  style="float: left; margin-right: 10px; width: 95%;
+                                                                margin-bottom: 10px;display: -webkit-box; overflow: hidden; 
+/*                                                                white-space: nowrap; text-overflow: ellipsis; */
+                                                                word-wrap: break-word; -webkit-box-orient: vertical; -webkit-line-clamp: 2;
+                                                                ">You are locking the novel: <strong><span id="novelName"></span></strong></h4>
+                                                                
+                                                            <button type="button" class="close" style="float: right" data-dismiss="modal">&times;</button>
+                                                        </div>
+
+                                                        <div class="modal-body">
+                                                            <input type="hidden" name="novelID" id="novelID">
+                                                            <textarea id="lockReason" name="lockReason" class="form-control" placeholder="Enter lock reason" rows="3"></textarea>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                            <!--<button type="button" class="btn btn-danger" onclick="submitLock()">Confirm</button>-->
+
+                                                            <input type="hidden" name="action" value="lock">
+                                                            <button type="submit" class="btn btn-danger">Confirm</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -99,34 +139,24 @@
                 </div>
             </div>
         </div>
-    </div>
-    <!-- jQuery -->
-    <!-- Bootstrap Core JavaScript -->
-    <!-- Metis Menu Plugin JavaScript -->
-    <!-- Custom Theme JavaScript -->
-    <script src="js/startmin/jquery.min.js"></script>
-    <script src="js/startmin/bootstrap.min.js"></script>
-    <script src="js/startmin/metisMenu.min.js"></script>
-    <script src="js/startmin/startmin.js"></script>
+        <script src="js/startmin/jquery.min.js"></script>
+        <script src="js/startmin/bootstrap.min.js"></script>
+        <script src="js/startmin/metisMenu.min.js"></script>
+        <script src="js/startmin/startmin.js"></script>
 
-    <!-- DataTables JavaScript -->
-    <script src="js/startmin/dataTables/jquery.dataTables.min.js"></script>
-    <script src="js/startmin/dataTables/dataTables.bootstrap.min.js"></script>
+        <script src="js/startmin/dataTables/jquery.dataTables.min.js"></script>
+        <script src="js/startmin/dataTables/dataTables.bootstrap.min.js"></script>
 
-    <!-- Page-Level Demo Scripts - Tables - Use for reference -->
-    <script>
-                                                                            $(document).ready(function () {
-                                                                                $('#dataTables-example').DataTable({
-                                                                                    responsive: true
-                                                                                });
-                                                                            });
-    </script>
+        <script>
+                                                                $(document).ready(function () {
+                                                                    $('#dataTables-example').DataTable({
+                                                                        responsive: true
+                                                                    });
+                                                                });
+        </script>
 
-
-
-    <script src="js/startmin/raphael.min.js"></script>
-    <script src="js/startmin/morris.min.js"></script>
-    <script src="js/startmin/morris-data.js"></script>
-
-</body>
+        <script src="js/startmin/raphael.min.js"></script>
+        <script src="js/startmin/morris.min.js"></script>
+        <script src="js/startmin/morris-data.js"></script>
+    </body>
 </html>

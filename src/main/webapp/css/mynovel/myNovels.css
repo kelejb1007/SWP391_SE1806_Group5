@@ -111,7 +111,7 @@ em, i, small, strong {
     font-weight: 400;
 }
 .detail{
-    background: #f2f2f2 url(https://noah-image.webnovel.com/noah/img/c72400dd98494ddd8ae42069efbd6eb0.png) 50% no-repeat;
+    background: #f2f2f2 url() 50% no-repeat;
     background-size: cover;
     display: block;
     overflow: hidden;

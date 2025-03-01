@@ -11,9 +11,23 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Admin Header</title>
 
-        <link rel="stylesheet" href="css/startmin/bootstrap.css">
+        <link rel="stylesheet" href="css/startmin/bootstrap.min.css">
         <link rel="stylesheet" href="css/startmin/startmin.css">
         <link rel="stylesheet" href="css/startmin/font-awesome.min.css" type="text/css">
+
+        <style>
+            .navbar.navbar-inverse.navbar-fixed-top{
+                justify-content: initial;
+                display: block;
+                white-space: nowrap;
+                align-items: initial;
+            }
+            .dropdown-toggle::after{
+                content: none;
+            }
+
+
+        </style>
     </head>
     <body>
         <!-- Top Navigation -->
@@ -84,11 +98,11 @@
                 </li>
             </ul>
         </nav>
-            
+
         <script src="js/startmin/jquery.min.js"></script>
         <script src="js/startmin/bootstrap.min.js"></script>
         <script src="js/startmin/metisMenu.min.js"></script>
         <script src="js/startmin/startmin.js"></script>
-        
+
     </body>
 </html>

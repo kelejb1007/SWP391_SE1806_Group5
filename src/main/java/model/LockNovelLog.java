@@ -25,15 +25,11 @@ public class LockNovelLog {
     public LockNovelLog() {
     }
 
-    public LockNovelLog(int logNID, int managerID, int novelID, LocalDateTime datetime, String action, String lockReason, String staffName, String novelName) {
-        this.logNID = logNID;
+    public LockNovelLog(int managerID, int novelID, String action, String lockReason) {
         this.managerID = managerID;
         this.novelID = novelID;
-        this.datetime = datetime;
         this.action = action;
         this.lockReason = lockReason;
-        this.staffName = staffName;
-        this.novelName = novelName;
     }
 
     public int getLogNID() {

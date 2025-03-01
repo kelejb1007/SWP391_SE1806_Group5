@@ -11,8 +11,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Manage Novel</title>
 
-        <!--         Bootstrap Core CSS -->
-        <link rel="stylesheet" href="css/startmin/bootstrap.css">
+        <link rel="stylesheet" href="css/startmin/bootstrap.min.css">
         <link rel="stylesheet" href="css/startmin/startmin.css">
         <link rel="stylesheet" href="css/startmin/font-awesome.min.css" type="text/css">
         <link rel="stylesheet" href="css/startmin/metisMenu.min.css">
@@ -20,6 +19,15 @@
         <link href="css/startmin/dataTables/dataTables.bootstrap.css" rel="stylesheet">
         <link href="css/startmin/dataTables/dataTables.responsive.css" rel="stylesheet">
 
+        <script>
+            function openLockModal(novelID) {
+                document.getElementById('novelID').value = novelID;
+                document.getElementById('lockReason').value = '';
+//                var modal = new bootstrap.Modal(document.getElementById('lockModal'));
+//                modal.show();
+                $("#lockModal").modal("show");
+            }
+        </script>
     </head>
     <body>
         <div id="wrapper">
@@ -75,9 +83,9 @@
                                                                     onclick="window.location.href = 'managenovel?action=viewdetail&novelID=${c.novelID}';">View detail
                                                             </button>
                                                             <form action="managenovel" method="post" style="display: inline">
-                                                                <input type="hidden" name="action" value="lock">
+                                                                <input type="hidden" name="action" value="unlock">
                                                                 <input type="hidden" name="novelID" value="${c.novelID}">
-                                                                <button type="submit" class="btn btn-danger">Unlock</button>
+                                                                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure to unclock the novel: ${c.novelName} (ID=${c.novelID})')">Unlock</button>
                                                             </form>
                                                         </td>
                                                     </tr>
@@ -93,33 +101,27 @@
                 </div>
             </div>
         </div>
-    </div>
-    <!-- jQuery -->
-    <!-- Bootstrap Core JavaScript -->
-    <!-- Metis Menu Plugin JavaScript -->
-    <!-- Custom Theme JavaScript -->
-    <script src="js/startmin/jquery.min.js"></script>
-    <script src="js/startmin/bootstrap.min.js"></script>
-    <script src="js/startmin/metisMenu.min.js"></script>
-    <script src="js/startmin/startmin.js"></script>
+        <script src="js/startmin/jquery.min.js"></script>
+        <script src="js/startmin/bootstrap.min.js"></script>
+        <script src="js/startmin/metisMenu.min.js"></script>
+        <script src="js/startmin/startmin.js"></script>
 
-    <!-- DataTables JavaScript -->
-    <script src="js/startmin/dataTables/jquery.dataTables.min.js"></script>
-    <script src="js/startmin/dataTables/dataTables.bootstrap.min.js"></script>
+        <script src="js/startmin/dataTables/jquery.dataTables.min.js"></script>
+        <script src="js/startmin/dataTables/dataTables.bootstrap.min.js"></script>
 
-    <!-- Page-Level Demo Scripts - Tables - Use for reference -->
-    <script>
+
+        <script>
                                                                         $(document).ready(function () {
                                                                             $('#dataTables-lock').DataTable({
                                                                                 responsive: true
                                                                             });
                                                                         });
-    </script>
+        </script>
 
 
 
-    <script src="js/startmin/raphael.min.js"></script>
-    <script src="js/startmin/morris.min.js"></script>
-    <script src="js/startmin/morris-data.js"></script>
-</body>
+        <script src="js/startmin/raphael.min.js"></script>
+        <script src="js/startmin/morris.min.js"></script>
+        <script src="js/startmin/morris-data.js"></script>
+    </body>
 </html>
