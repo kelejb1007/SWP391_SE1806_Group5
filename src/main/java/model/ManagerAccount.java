@@ -23,6 +23,7 @@ public class ManagerAccount {
     private String role;
     private boolean canLock;
     private boolean canApprove;
+    private int status;
 
     public int getManagerID() {
         return managerID;
@@ -111,4 +112,15 @@ public class ManagerAccount {
     public void setCanApprove(boolean canApprove) {
         this.canApprove = canApprove;
     }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+
+   
 }

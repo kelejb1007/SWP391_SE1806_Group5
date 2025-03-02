@@ -5,20 +5,50 @@
 package model;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  *
  * @author Nguyen Ngoc Phat - CE180321
  */
 public class UserAccount {
+
     private int userID;
     private String userName;
     private String password;
     private String fullName;
     private String email;
+    private Date creationDate;
     private String numberPhone;
     private String gender;
     private boolean isBanned;
+    private Date dateOfBirth;
+    private int status;
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public Date getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
     private java.sql.Timestamp lastLogin;
 
     public int getUserID() {

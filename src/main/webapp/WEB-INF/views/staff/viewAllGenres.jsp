@@ -1,5 +1,5 @@
 <%-- 
-    Document   : viewAllGenres
+    Document   : viewAllGenres.jsp
     Created on : 23-Feb-2025, 21:10:31
     Author     : LienXuanThinh_ce182117
 --%>
@@ -30,6 +30,8 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <h1 class="page-header">List of Genres</h1>
+                            <!-- Nút thêm genre -->
+                            <a href="${pageContext.request.contextPath}/managegenre?action=add" class="btn btn-success">Add Genre</a>
                         </div>
                     </div>
                     <!-- /.row -->
@@ -49,6 +51,7 @@
                                                     <th>#</th>
                                                     <th>Genre ID</th>
                                                     <th>Genre Name</th>
+                                                    <th>Actions</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -59,12 +62,20 @@
                                                                 <td>${status.index + 1}</td>
                                                                 <td>${genre.genreID}</td>
                                                                 <td>${genre.genreName}</td>
+                                                                <td>
+                                                                    <!-- Nút xóa, có thể dùng thêm xác nhận xóa -->
+                                                                    <a href="${pageContext.request.contextPath}/managegenre?action=delete&id=${genre.genreID}" 
+                                                                       class="btn btn-danger btn-sm" 
+                                                                       onclick="return confirm('Are you sure you want to delete this genre?');">
+                                                                        Delete
+                                                                    </a>
+                                                                </td>
                                                             </tr>
                                                         </c:forEach>
                                                     </c:when>
                                                     <c:otherwise>
                                                         <tr>
-                                                            <td colspan="3" class="text-center">No genres found.</td>
+                                                            <td colspan="4" class="text-center">No genres found.</td>
                                                         </tr>
                                                     </c:otherwise>
                                                 </c:choose>

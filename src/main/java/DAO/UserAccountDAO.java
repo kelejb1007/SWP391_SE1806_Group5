@@ -3,6 +3,9 @@ package DAO;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+import model.ManagerAccount;
 import model.UserAccount;
 import utils.DBContext;
 
@@ -102,14 +105,79 @@ public class UserAccountDAO {
         UserAccount user = new UserAccount();
         user.setUserID(rs.getInt("userID"));
         user.setUserName(rs.getString("userName"));
+        user.setPassword(rs.getString("password"));
         user.setFullName(rs.getString("fullName"));
         user.setEmail(rs.getString("email"));
+        user.setCreationDate(rs.getTimestamp("creationDate"));
+        user.setNumberPhone(rs.getString("numberPhone"));
+        user.setDateOfBirth(rs.getTimestamp("dateOfBirth"));
         user.setIsBanned(rs.getBoolean("isBanned"));
+        user.setStatus(rs.getInt("status"));
         return user;
     }
 
     public static void main(String[] args) {
         String password = "123";
         System.out.println("Hash SHA-256 của password: " + hashSHA256(password));
+    }
+    //LienXuanThinh
+    // Lấy danh sách tất cả tài khoản
+
+    public List<UserAccount> getAllAccounts() throws SQLException {
+        List<UserAccount> listAccounts = new ArrayList<>();
+        String sql = "SELECT * FROM UserAccount";
+        try ( Connection conn = dbContext.getConnection();  PreparedStatement stmt = conn.prepareStatement(sql);  ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                listAccounts.add(mapResultSetToUser(rs));
+            }
+        }
+        return listAccounts;
+    }
+
+    // Tìm kiếm tài khoản theo từ khóa
+    public List<UserAccount> searchAccounts(String keyword) throws SQLException {
+        List<UserAccount> listAccounts = new ArrayList<>();
+        String sql = "SELECT * FROM UserAccount WHERE userName LIKE ? OR email LIKE ? OR fullName LIKE ?";
+        try ( Connection conn = dbContext.getConnection();  PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            String searchKeyword = "%" + keyword + "%";
+            stmt.setString(1, searchKeyword);
+            stmt.setString(2, searchKeyword);
+            stmt.setString(3, searchKeyword);
+
+            try ( ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    listAccounts.add(mapResultSetToUser(rs));
+                }
+            }
+        }
+        return listAccounts;
+    }
+
+    // Lấy danh sách tài khoản bị khóa
+    public List<UserAccount> getLockedAccounts() {
+        List<UserAccount> listAccounts = new ArrayList<>();
+        String sql = "SELECT * FROM UserAccount WHERE status = 0"; // 0 = bị khóa
+
+        try ( Connection conn = dbContext.getConnection();  PreparedStatement stmt = conn.prepareStatement(sql);  ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                listAccounts.add(mapResultSetToUser(rs));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return listAccounts;
+    }
+
+    // Cập nhật trạng thái khóa/mở khóa tài khoản
+    public void updateLockStatus(int userID, boolean newStatus) throws SQLException {
+        String sql = "UPDATE UserAccount SET status = ? WHERE userID = ?";
+        try ( Connection conn = dbContext.getConnection();  PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, newStatus ? 1 : 0); // 1 = mở khóa, 0 = khóa
+            stmt.setInt(2, userID);
+            stmt.executeUpdate();
+        }
     }
 }

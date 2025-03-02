@@ -75,17 +75,15 @@
                                             <thead>
                                                 <tr>
                                                     <th>#</th>
-                                                    <th>Manager ID</th>
-                                                    <th>Username</th>
+                                                    <th>User ID</th>
+                                                    <th>User Name</th>
                                                     <th>Creation Date</th>
                                                     <th>Full Name</th>
                                                     <th>Email</th>
-                                                    <th>Phone</th>
-                                                    <th>Gender</th>
-                                                    <th>Role</th>
-                                                    <th>Can Lock</th>
-                                                    <th>Can Approve</th>
-                                                    <th>Action</th>
+                                                    <th>Number Phone</th>                                                  
+                                                    <th>Date Of Birth</th>
+                                                    <th>Status</th>
+
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -94,33 +92,39 @@
                                                         <c:forEach var="acc" items="${listAccount}" varStatus="status">
                                                             <tr>
                                                                 <td>${status.index + 1}</td>
-                                                                <td>${acc.managerID}</td>
-                                                                <td>${acc.username}</td>
+                                                                <td>${acc.userID}</td>
+                                                                <td>${acc.userName}</td>
                                                                 <td>
                                                                     <fmt:formatDate value="${acc.creationDate}" pattern="yyyy-MM-dd HH:mm:ss" />
                                                                 </td>
                                                                 <td>${acc.fullName}</td>
                                                                 <td>${acc.email}</td>
                                                                 <td>${acc.numberPhone}</td>
-                                                                <td>${acc.gender}</td>
-                                                                <td>${acc.role}</td>
+
+                                                                <td> <fmt:formatDate value="${acc.dateOfBirth}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+
+
                                                                 <td>
                                                                     <c:choose>
-                                                                        <c:when test="${acc.canLock}">Yes</c:when>
-                                                                        <c:otherwise>No</c:otherwise>
+                                                                        <c:when test="${acc.status == 1}">Unlock</c:when>
+                                                                        <c:otherwise>Lock</c:otherwise>
                                                                     </c:choose>
                                                                 </td>
+
+
                                                                 <td>
                                                                     <c:choose>
-                                                                        <c:when test="${acc.canApprove}">Yes</c:when>
-                                                                        <c:otherwise>No</c:otherwise>
+                                                                        <c:when test="${acc.status == 1}">
+                                                                            <a href="manageaccount?action=lockUnlock&userID=${acc.userID}&status=false" class="btn btn-danger">Lock</a>
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                            <a href="manageaccount?action=lockUnlock&userID=${acc.userID}&status=true" class="btn btn-success">Unlock</a>
+                                                                        </c:otherwise>
                                                                     </c:choose>
+
                                                                 </td>
-                                                                <td>
-                                                                    <button type="button" class="btn btn-info"
-                                                                        onclick="viewDetail(${acc.managerID})">
-                                                                        View Detail
-                                                                    </button>
+
+
                                                                 </td>
                                                             </tr>
                                                         </c:forEach>
