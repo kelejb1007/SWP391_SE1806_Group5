@@ -122,4 +122,12 @@ public class UserAccount {
     public void setLastLogin(Timestamp lastLogin) {
         this.lastLogin = lastLogin;
     }
+
+    public Object getRole() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public void setUsername(String string) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

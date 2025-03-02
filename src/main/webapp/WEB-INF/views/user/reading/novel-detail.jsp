@@ -10,9 +10,10 @@
         <meta charset="UTF-8">
         <title>${novel.novelName} - Novel Detail</title>
         <link rel="stylesheet" href="css/home/header.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
-
-
+        <link rel="stylesheet" href="css/comment/usercomment.css">
         <link rel="stylesheet" href="css/novel-detail/novel-detail(d).css">
         <link rel="stylesheet" href="css/novel-detail/rating(d).css">
         <link rel="stylesheet" href="css/novel-detail/chapter-list(d).css">
@@ -181,6 +182,38 @@
                 <div class="row">
                     <div class="col-lg-8 col-md-7">
                         <section class="comment-section">
+                            <jsp:include page="/WEB-INF/views/user/comment/addcomment.jsp"></jsp:include>
+                           <h3>Bình luận</h3>
+        
+        <c:choose>
+            <c:when test="${not empty comments}">
+                <div class="comment-list">
+                    <c:forEach var="comment" items="${comments}">
+                        <div class="comment-item">
+                            <div class="comment-header">
+                                <span class="comment-user">Người dùng: ${comment.userID}</span>
+                                <span class="comment-date">(${comment.commentDate})</span>
+                            </div>
+                            <div class="comment-content">
+                                <p>${comment.content}</p>
+                            </div>
+                           <div class="dropdown">
+            <button class="btn icon-button dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-three-dots-vertical"></i>  <!-- Sử dụng icon ba chấm dọc có sẵn -->
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <li><button class="dropdown-item" type="submit" name="action" value="edit"><i class="bi bi-pencil"></i> Chỉnh sửa</button></li>
+                <li><button class="dropdown-item" type="submit" name="action" value="delete" onclick="return confirm('Bạn có chắc chắn xóa bình luận không?');"><i class="bi bi-trash"></i> Xóa</button></li>
+            </ul>
+        </div>
+                        </div>
+                    </c:forEach>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <p class="no-comments">Không có bình luận nào.</p>
+            </c:otherwise>
+        </c:choose>
 
                         </section>
                     </div>
@@ -424,5 +457,8 @@
                 }
             });
             </script>
+ 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
     </body>
 </html>
