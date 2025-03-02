@@ -94,7 +94,7 @@
                         
                         <!-- Manage comment -->
                         <li>
-                            <a href="">
+                            <a href="${pageContext.request.contextPath}/staff/comments">
                                 <i class="fa fa-sitemap fa-fw"></i>
                                 Manage comment
                             </a>

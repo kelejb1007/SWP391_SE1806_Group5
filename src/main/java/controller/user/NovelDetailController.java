@@ -1,6 +1,7 @@
 package controller.user;
 
 import DAO.ChapterDAO;
+import DAO.CommentDAO;
 import DAO.FavoriteDAO;
 import DAO.NovelDAO;
 import DAO.GenreDAO;
@@ -22,6 +23,7 @@ import java.util.Locale;
 import jakarta.servlet.http.HttpSession;
 import java.io.PrintWriter;
 import model.Chapter;
+import model.Comment;
 import model.Favorite;
 import model.ReadingHistory;
 import model.UserAccount;
@@ -35,6 +37,7 @@ public class NovelDetailController extends HttpServlet {
     private ViewingDAO viewDAO;
     private FavoriteDAO favoriteDAO;
     private ReadingHistoryDAO historyDAO;
+    private CommentDAO commentDAO;
 
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.US);
 
@@ -46,6 +49,7 @@ public class NovelDetailController extends HttpServlet {
         viewDAO = new ViewingDAO();
         favoriteDAO = new FavoriteDAO();
         historyDAO = new ReadingHistoryDAO();
+        commentDAO = new CommentDAO();
     }
 
     @Override
@@ -134,6 +138,8 @@ public class NovelDetailController extends HttpServlet {
 
         request.setAttribute("views", views);
 
+        List<Comment> comments = commentDAO.getCommentsByNovelId(novelId);
+        request.setAttribute("comments", comments);
         //   request.getRequestDispatcher("/getGenre?target=" + target + "&genre=" + novel.getGenreName() + (sortParam != null ? "&sort=" + sortParam : "")).forward(request, response);
         // request.getRequestDispatcher(target).forward(request, response);
         request.getRequestDispatcher("/getGenre?target=" + target + (sortParam != null ? "&sort=" + sortParam : "")).forward(request, response);
@@ -160,7 +166,7 @@ public class NovelDetailController extends HttpServlet {
             return minutesAgo + " minutes ago";
         }
     }
-
+        
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
