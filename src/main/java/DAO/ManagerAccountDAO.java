@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import model.ManagerAccount;
 import utils.DBContext;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -134,6 +136,45 @@ public class ManagerAccountDAO {
         return listAccounts;
     }
 
+    //LienXuanThinh
+    // Lấy danh sách tất cả tài khoản
+    public List<ManagerAccount> getAllAccounts() throws SQLException {
+        List<ManagerAccount> listAccounts = new ArrayList<>();
+        String sql = "SELECT managerID, username, password, creationDate, fullName, email, numberPhone, gender, canLock, canApprove, role, status "
+                + "FROM ManagerAccount";
+        try ( Connection conn = dbContext.getConnection();  PreparedStatement stmt = conn.prepareStatement(sql);  ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                ManagerAccount account = mapResultSetToAccount(rs);
+                listAccounts.add(account);
+            }
+        }
+        return listAccounts;
+    }
+
+    // Tìm kiếm tài khoản theo từ khóa
+    public List<ManagerAccount> searchAccounts(String keyword) throws SQLException {
+        List<ManagerAccount> listAccounts = new ArrayList<>();
+        String sql = "SELECT managerID, username, password, creationDate, fullName, email, numberPhone, gender, canLock, canApprove, role, status "
+                + "FROM ManagerAccount "
+                + "WHERE username LIKE ? OR email LIKE ? OR fullName LIKE ?";
+        try ( Connection conn = dbContext.getConnection();  PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            String searchKeyword = "%" + keyword + "%";
+            stmt.setString(1, searchKeyword);
+            stmt.setString(2, searchKeyword);
+            stmt.setString(3, searchKeyword);
+
+            try ( ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    ManagerAccount account = mapResultSetToAccount(rs);
+                    listAccounts.add(account);
+                }
+            }
+        }
+        return listAccounts;
+    }
+
     /**
      * Tìm kiếm tài khoản nhân viên theo từ khóa.
      *
@@ -165,6 +206,33 @@ public class ManagerAccountDAO {
         return listAccounts;
     }
 
+    // Lấy danh sách tài khoản bị khóa
+    public List<ManagerAccount> getLockedAccounts() {
+        List<ManagerAccount> listAccounts = new ArrayList<>();
+        String sql = "SELECT managerID, username, password, creationDate, fullName, email, numberPhone, gender, canLock, canApprove, role, status "
+                + "FROM ManagerAccount WHERE status = 0"; // Chỉ lấy tài khoản bị khóa
+
+        try ( Connection conn = dbContext.getConnection();  PreparedStatement stmt = conn.prepareStatement(sql);  ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                listAccounts.add(mapResultSetToAccount(rs));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return listAccounts;
+    }
+
+    // Cập nhật trạng thái khóa/mở khóa tài khoản
+    public void updateLockStatus(int managerID, boolean newStatus) throws SQLException {
+        String sql = "UPDATE ManagerAccount SET status = ? WHERE managerID = ?";
+        try ( Connection conn = dbContext.getConnection();  PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, newStatus ? 1 : 0); // 1 = Mở khoá, 0 = Khoá
+            stmt.setInt(2, managerID);
+            stmt.executeUpdate();
+        }
+    }
+
     private ManagerAccount mapResultSetToAccount(ResultSet rs) throws SQLException {
         ManagerAccount account = new ManagerAccount();
         account.setManagerID(rs.getInt("managerID"));
@@ -178,6 +246,9 @@ public class ManagerAccountDAO {
         account.setCanLock(rs.getBoolean("canLock"));
         account.setCanApprove(rs.getBoolean("canApprove"));
         account.setRole(rs.getString("role"));
+
+        account.setStatus(rs.getInt("status"));
         return account;
     }
+
 }

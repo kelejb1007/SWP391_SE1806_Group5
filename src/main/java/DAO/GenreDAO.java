@@ -99,6 +99,50 @@ public class GenreDAO {
         return genre;
     }
 
+   // Phương thức thêm một Genre mới
+    public void addGenre(Genre genre) {
+        String sql = "INSERT INTO Genre (genreName) VALUES (?)";
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = db.getConnection();
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, genre.getGenreName());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            Logger.getLogger(GenreDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            try {
+                if (statement != null) statement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                Logger.getLogger(GenreDAO.class.getName()).log(Level.SEVERE, null, e);
+            }
+        }
+    }
+    
+    // Phương thức xóa một Genre theo genreID
+    public void deleteGenre(int genreId) {
+        String sql = "DELETE FROM Genre WHERE genreID = ?";
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = db.getConnection();
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, genreId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            Logger.getLogger(GenreDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            try {
+                if (statement != null) statement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                Logger.getLogger(GenreDAO.class.getName()).log(Level.SEVERE, null, e);
+            }
+        }
+    }
+
     ///Trung---------------------------------------------------------------------------
     public boolean addGenreNovel(int genreID, int novelID) {
         String sql = "INSERT INTO Genre_Novel (genreID, novelID)\n"

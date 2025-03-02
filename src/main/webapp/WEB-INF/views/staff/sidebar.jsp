@@ -117,7 +117,11 @@
                             <li>
                                 <a href="${pageContext.request.contextPath}/manageaccount">View all accounts</a>
                             </li>
+                            <li>
+                                <a href="${pageContext.request.contextPath}/manageaccount?action=viewLocked">View locked accounts</a>
+                            </li>
                         </ul>
+                            
                     </li>
 
 

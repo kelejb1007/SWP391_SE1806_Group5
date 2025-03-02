@@ -1,8 +1,11 @@
 /*
+
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
+
 package controller.staff;
+
 
 import DAO.GenreDAO;
 import java.io.IOException;
@@ -61,15 +64,35 @@ public class GenreController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
          GenreDAO genreDAO = new GenreDAO();
-        try {
-            List<Genre> listGenre = genreDAO.getAllGenres();
-            request.setAttribute("listGenre", listGenre);
-            request.getRequestDispatcher("/WEB-INF/views/staff/viewAllGenres.jsp").forward(request, response);
-        } catch (Exception ex) {
-            Logger.getLogger(GenreController.class.getName()).log(Level.SEVERE, null, ex);
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error loading genres: " + ex.getMessage());
+        String action = request.getParameter("action");
+        if (action == null) {
+            // Mặc định: hiển thị danh sách Genre
+            try {
+                List<Genre> listGenre = genreDAO.getAllGenres();
+                request.setAttribute("listGenre", listGenre);
+                request.getRequestDispatcher("/WEB-INF/views/staff/viewAllGenres.jsp").forward(request, response);
+            } catch (Exception ex) {
+                Logger.getLogger(GenreController.class.getName()).log(Level.SEVERE, null, ex);
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error loading genres: " + ex.getMessage());
+            }
+        } else if (action.equals("add")) {
+            // Hiển thị form thêm genre
+            request.getRequestDispatcher("/WEB-INF/views/staff/addGenre.jsp").forward(request, response);
+        } else if (action.equals("delete")) {
+            // Xử lý xóa Genre theo id truyền vào
+            String idStr = request.getParameter("id");
+            try {
+                int genreId = Integer.parseInt(idStr);
+                genreDAO.deleteGenre(genreId);
+                // Sau khi xóa, chuyển về trang danh sách
+                response.sendRedirect(request.getContextPath() + "/managegenre");
+            } catch (NumberFormatException ex) {
+                Logger.getLogger(GenreController.class.getName()).log(Level.SEVERE, null, ex);
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid Genre ID");
+            }
         }
     }
+
 
     /** 
      * Handles the HTTP <code>POST</code> method.
@@ -81,9 +104,29 @@ public class GenreController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        String action = request.getParameter("action");
+    GenreDAO genreDAO = new GenreDAO();
+    if (action != null && action.equals("add")) {
+        // Lấy dữ liệu từ form
+        String genreName = request.getParameter("genreName");
+        
+        // Kiểm tra đầu vào: không được null, không rỗng và chỉ chứa chữ và khoảng trắng
+        if (genreName == null || genreName.trim().isEmpty() || !genreName.matches("[A-Za-z\\s]+")) {
+            request.setAttribute("errorMessage", "Invalid genre name. Only letters and spaces are allowed.");
+            request.getRequestDispatcher("/WEB-INF/views/staff/addGenre.jsp").forward(request, response);
+            return;
+        }
+        
+        Genre genre = new Genre();
+        genre.setGenreName(genreName.trim());
+        genreDAO.addGenre(genre);
+        // Sau khi thêm, chuyển về trang danh sách
+        response.sendRedirect(request.getContextPath() + "/managegenre");
+    } else {
         doGet(request, response);
     }
-
+}
+    
     /** 
      * Returns a short description of the servlet.
      * @return a String containing servlet description
