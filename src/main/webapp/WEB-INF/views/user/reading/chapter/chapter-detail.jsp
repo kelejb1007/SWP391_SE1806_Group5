@@ -205,7 +205,7 @@
                 color: #333;
             }
 
-           
+
 
             /* Dark mode styles */
             body.dark-mode {
@@ -336,7 +336,7 @@
                 background-color: #d9edff; /* Nhạt hơn */
             }
             body.pastel-blue-mode .sidebar-left{
-              box-shadow: inset -4px 0 0 rgba(0, 0, 0, 0.05); /* Hiệu ứng đường kẻ mờ tinh tế bên trái */
+                box-shadow: inset -4px 0 0 rgba(0, 0, 0, 0.05); /* Hiệu ứng đường kẻ mờ tinh tế bên trái */
             }
             body.pastel-blue-mode .sidebar-right {
                 box-shadow: inset 4px 0 0 rgba(0, 0, 0, 0.05); /* Hiệu ứng đường kẻ mờ tinh tế */
@@ -366,7 +366,7 @@
                 text-shadow: 0.5px 0.2px 0 #23527c;
 
             }
-            
+
             body.pastel-blue-mode .decorative-line {
                 display: flex;
                 align-items: center;
@@ -454,16 +454,21 @@
                             <select class="chapter-select" onchange="window.location.href = this.value;">
                                 <c:forEach var="chap" items="${chapters}">
                                     <c:choose>
-                                        <c:when test="${not empty user and chap.chapterNumber > 3}">
+                                        <%-- Trường hợp 1: Người dùng đã đăng nhập, hoàn thành 3 chapter đầu, và đang chọn chapter > 3 --%>
+                                        <c:when test="${not empty user and canViewContent and chap.chapterNumber > 3}">
                                             <option value="chapter?id=${chap.chapterID}" ${chap.chapterID == chapter.chapterID ? 'selected' : ''}>
                                                 Chapter ${chap.chapterNumber}: ${chap.chapterName}
                                             </option>
                                         </c:when>
-                                        <c:when test="${not canViewContent && chap.chapterNumber > 3}">
+
+                                        <%-- Trường hợp 2: Chapter > 3 và (chưa đăng nhập hoặc chưa hoàn thành 3 chapter đầu) --> Khóa chapter --%>
+                                        <c:when test="${chap.chapterNumber > 3 and (empty user or not canViewContent)}">
                                             <option value="#" disabled class="locked-chapter">
                                                 Chapter ${chap.chapterNumber}: ${chap.chapterName}
                                             </option>
                                         </c:when>
+
+                                        <%-- Trường hợp 3: Các chapter 1-3, hoặc người dùng đủ điều kiện xem chapter > 3 --> Hiển thị bình thường --%>
                                         <c:otherwise>
                                             <option value="chapter?id=${chap.chapterID}" ${chap.chapterID == chapter.chapterID ? 'selected' : ''}>
                                                 Chapter ${chap.chapterNumber}: ${chap.chapterName}
@@ -488,8 +493,8 @@
                                 <p>${chapterContent}</p>
                             </c:when>
                             <c:otherwise>
-                                <p>Bạn cần đăng nhập hoặc chương này yêu cầu tài khoản trả phí để đọc.</p>
-                                <a href="login">Đăng nhập</a>
+                                <p>You need to login this chapter requires an account to read.</p>
+                                <a href="Login">Login</a>
                             </c:otherwise>
                         </c:choose>
                     </div>
@@ -523,7 +528,7 @@
     function handleChapterChange(selectElement) {
         const selectedValue = selectElement.value;
         if (selectedValue === "#") {
-            alert("Bạn cần đăng nhập hoặc nâng cấp tài khoản để đọc chương này.");
+            alert("You need to login this chapter requires an account to read.");
             selectElement.selectedIndex = selectElement.options.selectedIndex; // Reset về option hiện tại.
         } else {
             window.location.href = selectedValue;

@@ -47,8 +47,8 @@
     <div id="loginPopup" style="background-color: white; padding: 20px; border-radius: 5px;">
         <h2>Login Required</h2>
         <p>You need to be logged in to rate this novel.</p>
-        <button id="closeBtn">Close</button>
-        <!-- Thêm form login của bạn vào đây -->
+        <a href="Login" id="closeBtn">Login</a>
+       
     </div>
 </div>
 
