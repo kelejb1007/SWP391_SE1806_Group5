@@ -70,24 +70,45 @@
 
             /* Khung ảnh */
             .image-container {
-                background-color: #eee; /* Màu xám */
-                padding: 5px; /* Khoảng cách giữa ảnh và khung */
-                border-radius: 5px; /* Bo góc (tùy chọn) */
+                background: #f2f2f2 url(https://noah-image.webnovel.com/noah/img/c72400dd98494ddd8ae42069efbd6eb0.png) 50% no-repeat;
+                background-size: cover;
+
+                overflow: hidden;
+                position: relative;
+                width: 200px;
+                height: 300px;
+                border-radius: 4px;
+                margin-bottom: 8px;
                 display: inline-block; /* Để container vừa với kích thước ảnh */
                 margin-bottom: 10px; /* Thêm khoảng cách bên dưới khung */
             }
-
+            .image-container:after {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                box-sizing: border-box;
+                border: 3px solid #3b66f5;
+                box-shadow: inset 0 0 0 3px #fff;
+                visibility: hidden;
+                opacity: 0;
+                transition: .2s;
+            }
             .content-header img {
-                max-width: 200px;
-                height: auto;
-                border-radius: 5px;
-                transition: transform 0.2s ease-in-out;
-                display: block; /* Loại bỏ khoảng trắng thừa dưới ảnh */
-                margin: 0 auto; /* Căn giữa ảnh trong khung */
+
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: transform .3s ease-out, -webkit-transform .3s ease-out;
             }
 
             .content-header img:hover {
-                transform: scale(1.05);
+                transform: scale(1.1); /* Phóng to hình ảnh 1.1 lần khi hover */
             }
 
             .content-header a{
@@ -140,6 +161,7 @@
                 text-align: center; /* Căn giữa tên chương */
                 padding: 0 20px; /* Thêm padding 2 bên tên chương */
                 box-sizing: border-box; /* Đảm bảo padding không làm tăng kích thước phần tử */
+                font-weight: bold;
             }
 
             /* Sidebar Content Styles */
@@ -183,28 +205,7 @@
                 color: #333;
             }
 
-            /* Pastel blue mode styles */
-            body.pastel-blue-mode {
-                background-color: #e6f3ff;
-                color: #333;
-            }
 
-            body.pastel-blue-mode .content-container {
-                background-color: #f0f8ff;
-            }
-
-            body.pastel-blue-mode .sidebar-left, body.pastel-blue-mode .sidebar-right {
-                background-color: #cce5ff;
-            }
-
-            body.pastel-blue-mode .content-header h1,
-            body.pastel-blue-mode .content-header h2,
-            body.pastel-blue-mode .chapter-content,
-            body.pastel-blue-mode .chapter-content h1,
-            body.pastel-blue-mode .chapter-content div,
-            body.pastel-blue-mode .content-header p {
-                color: #333;
-            }
 
             /* Dark mode styles */
             body.dark-mode {
@@ -320,16 +321,25 @@
 
             /* Pastel blue mode styles */
             body.pastel-blue-mode {
-                background-color: #e6f3ff;
-                color: #333;
+                background-color: #f5faff; /* Nhạt hơn */
+                color: #444; /* Mềm mại hơn */
             }
 
             body.pastel-blue-mode .content-container {
                 background-color: #f0f8ff;
+
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.05); /* Thêm đổ bóng nhẹ */
+                padding: 20px; /* Thêm padding */
             }
 
             body.pastel-blue-mode .sidebar-left, body.pastel-blue-mode .sidebar-right {
-                background-color: #cce5ff;
+                background-color: #d9edff; /* Nhạt hơn */
+            }
+            body.pastel-blue-mode .sidebar-left{
+                box-shadow: inset -4px 0 0 rgba(0, 0, 0, 0.05); /* Hiệu ứng đường kẻ mờ tinh tế bên trái */
+            }
+            body.pastel-blue-mode .sidebar-right {
+                box-shadow: inset 4px 0 0 rgba(0, 0, 0, 0.05); /* Hiệu ứng đường kẻ mờ tinh tế */
             }
 
             body.pastel-blue-mode .content-header h1,
@@ -343,16 +353,32 @@
 
             body.pastel-blue-mode .chapter-select {
                 background-color: #f0f8ff;
-                color: #333;
-                border-color: #cce5ff;
+                color: #269abc;
+                border-color: #2e6da4;
             }
 
             body.pastel-blue-mode .chapter-select-container::after {
-                color: #cce5ff;
+                color: #2e6da4; /* Tương phản hơn */
             }
 
             body.pastel-blue-mode .chapter-novel-info a {
-                color: #333;
+                color: #23527c;
+                text-shadow: 0.5px 0.2px 0 #23527c;
+
+            }
+
+            body.pastel-blue-mode .decorative-line {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 30px;
+                border-bottom: 2px solid #ccc;
+                border-bottom: 2px solid rgba(0, 0, 0, 0.1); /* Sử dụng màu shadow cho đường kẻ */
+            }
+
+            body.pastel-blue-mode .decorative-line i {
+                padding: 0 10px;
+                color: #ddd;
             }
 
             /* Dark mode styles */
@@ -428,16 +454,21 @@
                             <select class="chapter-select" onchange="window.location.href = this.value;">
                                 <c:forEach var="chap" items="${chapters}">
                                     <c:choose>
-                                        <c:when test="${not empty user and chap.chapterNumber > 3}">
+                                        <%-- Trường hợp 1: Người dùng đã đăng nhập, hoàn thành 3 chapter đầu, và đang chọn chapter > 3 --%>
+                                        <c:when test="${not empty user and canViewContent and chap.chapterNumber > 3}">
                                             <option value="chapter?id=${chap.chapterID}" ${chap.chapterID == chapter.chapterID ? 'selected' : ''}>
                                                 Chapter ${chap.chapterNumber}: ${chap.chapterName}
                                             </option>
                                         </c:when>
-                                        <c:when test="${not canViewContent && chap.chapterNumber > 3}">
+
+                                        <%-- Trường hợp 2: Chapter > 3 và (chưa đăng nhập hoặc chưa hoàn thành 3 chapter đầu) --> Khóa chapter --%>
+                                        <c:when test="${chap.chapterNumber > 3 and (empty user or not canViewContent)}">
                                             <option value="#" disabled class="locked-chapter">
                                                 Chapter ${chap.chapterNumber}: ${chap.chapterName}
                                             </option>
                                         </c:when>
+
+                                        <%-- Trường hợp 3: Các chapter 1-3, hoặc người dùng đủ điều kiện xem chapter > 3 --> Hiển thị bình thường --%>
                                         <c:otherwise>
                                             <option value="chapter?id=${chap.chapterID}" ${chap.chapterID == chapter.chapterID ? 'selected' : ''}>
                                                 Chapter ${chap.chapterNumber}: ${chap.chapterName}
@@ -462,8 +493,8 @@
                                 <p>${chapterContent}</p>
                             </c:when>
                             <c:otherwise>
-                                <p>Bạn cần đăng nhập hoặc chương này yêu cầu tài khoản trả phí để đọc.</p>
-                                <a href="login">Đăng nhập</a>
+                                <p>You need to login this chapter requires an account to read.</p>
+                                <a href="Login">Login</a>
                             </c:otherwise>
                         </c:choose>
                     </div>
@@ -494,13 +525,13 @@
     </body>
 </html>
 <script>
-function handleChapterChange(selectElement) {
-    const selectedValue = selectElement.value;
-    if (selectedValue === "#") {
-        alert("Bạn cần đăng nhập hoặc nâng cấp tài khoản để đọc chương này.");
-        selectElement.selectedIndex = selectElement.options.selectedIndex; // Reset về option hiện tại.
-    } else {
-        window.location.href = selectedValue;
+    function handleChapterChange(selectElement) {
+        const selectedValue = selectElement.value;
+        if (selectedValue === "#") {
+            alert("You need to login this chapter requires an account to read.");
+            selectElement.selectedIndex = selectElement.options.selectedIndex; // Reset về option hiện tại.
+        } else {
+            window.location.href = selectedValue;
+        }
     }
-}
 </script>

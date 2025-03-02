@@ -330,23 +330,28 @@
                         <div class="chapter-list">
                             <ul class="chapter-list-ul">
                                 <c:if test="${not empty chapters}">
-                                    <c:forEach var="chapter" items="${chapters}" varStatus = "status">
+                                    <c:forEach var="chapter" items="${chapters}" varStatus="status">
                                         <li class="chapter-item">
-                                            <div class = "chapter-item-container">
+                                            <div class="chapter-item-container">
                                                 <c:choose>
-                                                    <c:when test="${not empty user and chapter.chapterNumber > 3}">
+                                                    <%-- Trường hợp 1: Người dùng đã đăng nhập và đã hoàn thành 3 chapter đầu --%>
+                                                    <c:when test="${not empty user and canViewContent and chapter.chapterNumber > 3}">
                                                         <a href="chapter?id=${chapter.chapterID}" class="chapter-name">
                                                             <span class="chapter-number">${chapter.chapterNumber}. </span>
                                                             ${chapter.chapterName}
                                                         </a>
                                                     </c:when>
-                                                    <c:when test="${not canViewContent && chapter.chapterNumber > 3}">
+
+                                                    <%-- Trường hợp 2: Người dùng chưa hoàn thành 3 chapter đầu, hoặc chưa đăng nhập, và đang cố truy cập chapter > 3 --%>
+                                                    <c:when test="${chapter.chapterNumber > 3 and (empty user or not canViewContent)}">
                                                         <span class="chapter-name locked">
                                                             <span class="chapter-number">${chapter.chapterNumber}. </span>
                                                             ${chapter.chapterName}
                                                         </span>
                                                         <i class="fas fa-lock"></i>
                                                     </c:when>
+
+                                                    <%-- Trường hợp 3: Các chapter từ 1 đến 3 (hoặc người dùng đã hoàn thành điều kiện để xem chapter > 3) --%>
                                                     <c:otherwise>
                                                         <a href="chapter?id=${chapter.chapterID}" class="chapter-name">
                                                             <span class="chapter-number">${chapter.chapterNumber}. </span>
@@ -355,7 +360,6 @@
                                                     </c:otherwise>
                                                 </c:choose>
                                             </div>
-                                            
                                         </li>
                                     </c:forEach>
                                 </c:if>
@@ -404,14 +408,14 @@
             </div>
         </div>
     </div>
-    <script>document.addEventListener('DOMContentLoaded', function() {
-  const lockedChapters = document.querySelectorAll('.chapter-name.locked');
+    <script>document.addEventListener('DOMContentLoaded', function () {
+            const lockedChapters = document.querySelectorAll('.chapter-name.locked');
 
-  lockedChapters.forEach(chapter => {
-    chapter.addEventListener('click', function(event) {
-      event.preventDefault(); // Prevent the default action (following the link)
-      // Optionally, you can display a message to the user
-      alert('Bạn cần đăng nhập hoặc nâng cấp tài khoản để đọc chương này.');
-    });
-  });
-});</script> 
+            lockedChapters.forEach(chapter => {
+                chapter.addEventListener('click', function (event) {
+                    event.preventDefault(); // Prevent the default action (following the link)
+                    // Optionally, you can display a message to the user
+                    alert('You need to login this chapter requires an account to read.');
+                });
+            });
+        });</script> 

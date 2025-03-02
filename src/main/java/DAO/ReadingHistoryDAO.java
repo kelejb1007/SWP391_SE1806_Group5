@@ -160,6 +160,7 @@ public class ReadingHistoryDAO {
         "  ON n.novelID = r.novelID\n" +
         "LEFT JOIN ReadProgress rp\n" +
         "  ON rh.novelID = rp.novelID\n" +
+        "WHERE n.novelStatus ='active'"+
         "GROUP BY\n" +
         "  u.userID,\n" +
         "  u.userName,\n" +
