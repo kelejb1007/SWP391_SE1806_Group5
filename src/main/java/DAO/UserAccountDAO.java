@@ -112,7 +112,7 @@ public class UserAccountDAO {
         user.setNumberPhone(rs.getString("numberPhone"));
         user.setDateOfBirth(rs.getTimestamp("dateOfBirth"));
         user.setIsBanned(rs.getBoolean("isBanned"));
-        user.setStatus(rs.getInt("status"));
+//        user.setStatus(rs.getInt("status"));
         return user;
     }
 
