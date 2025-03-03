@@ -34,9 +34,17 @@ public class ManagerLoginController extends HttpServlet {
         ManagerAccount user = userDAO.authenticateUser(username, password);
         if (user != null) {
             HttpSession session = request.getSession();
-            session.setAttribute("manager", user); // Giữ session cho admin
+            session.setAttribute("manager", user); // Lưu thông tin user vào session
 
-            response.sendRedirect(request.getContextPath() + "/dashboard");
+            String role = user.getRole();
+            if ("staff".equalsIgnoreCase(role)) {
+                response.sendRedirect(request.getContextPath() + "/dashboard"); // Dashboard cho staff
+            } else if ("admin".equalsIgnoreCase(role)) {
+                response.sendRedirect(request.getContextPath() + "/admindashboard"); // Dashboard cho admin
+            } else {
+                request.setAttribute("error", "Invalid role for dashboard access.");
+                request.getRequestDispatcher("/WEB-INF/views/common/ManagerLogin.jsp").forward(request, response);
+            }
         } else {
             request.setAttribute("error", "Invalid username or password.");
             request.getRequestDispatcher("/WEB-INF/views/common/ManagerLogin.jsp").forward(request, response);
