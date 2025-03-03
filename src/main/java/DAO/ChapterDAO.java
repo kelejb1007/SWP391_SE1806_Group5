@@ -55,15 +55,7 @@ public class ChapterDAO {
             }
         } catch (SQLException e) {
             Logger.getLogger(ChapterDAO.class.getName()).log(Level.SEVERE, null, e);
-        } finally {
-            try {
-                if (rs != null) rs.close();
-                if (statement != null) statement.close();
-                if (connection != null) connection.close();
-            } catch (SQLException e) {
-                Logger.getLogger(ChapterDAO.class.getName()).log(Level.SEVERE, null, e);
-            }
-        }
+        } 
         return list;
     }
 
@@ -93,15 +85,7 @@ public class ChapterDAO {
             }
         } catch (SQLException e) {
             Logger.getLogger(ChapterDAO.class.getName()).log(Level.SEVERE, null, e);
-        } finally {
-            try {
-                if (rs != null) rs.close();
-                if (statement != null) statement.close();
-                if (connection != null) connection.close();
-            } catch (SQLException e) {
-                Logger.getLogger(ChapterDAO.class.getName()).log(Level.SEVERE, null, e);
-            }
-        }
+        } 
         return chapter;
     }
 

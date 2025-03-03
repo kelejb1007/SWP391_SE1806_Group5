@@ -81,21 +81,7 @@ public class GenreDAO {
             }
         } catch (SQLException e) {
             Logger.getLogger(GenreDAO.class.getName()).log(Level.SEVERE, null, e);
-        } finally {
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
-                if (statement != null) {
-                    statement.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                Logger.getLogger(GenreDAO.class.getName()).log(Level.SEVERE, null, e);
-            }
-        }
+        } 
         return genre;
     }
 
@@ -111,14 +97,7 @@ public class GenreDAO {
             statement.executeUpdate();
         } catch (SQLException e) {
             Logger.getLogger(GenreDAO.class.getName()).log(Level.SEVERE, null, e);
-        } finally {
-            try {
-                if (statement != null) statement.close();
-                if (connection != null) connection.close();
-            } catch (SQLException e) {
-                Logger.getLogger(GenreDAO.class.getName()).log(Level.SEVERE, null, e);
-            }
-        }
+        } 
     }
     
     // Phương thức xóa một Genre theo genreID
@@ -133,16 +112,13 @@ public class GenreDAO {
             statement.executeUpdate();
         } catch (SQLException e) {
             Logger.getLogger(GenreDAO.class.getName()).log(Level.SEVERE, null, e);
-        } finally {
-            try {
-                if (statement != null) statement.close();
-                if (connection != null) connection.close();
-            } catch (SQLException e) {
-                Logger.getLogger(GenreDAO.class.getName()).log(Level.SEVERE, null, e);
-            }
-        }
+        } 
     }
 
+    
+    
+    
+    
     ///Trung---------------------------------------------------------------------------
     public boolean addGenreNovel(int genreID, int novelID) {
         String sql = "INSERT INTO Genre_Novel (genreID, novelID)\n"

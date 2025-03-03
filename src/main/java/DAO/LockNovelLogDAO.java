@@ -46,9 +46,7 @@ public class LockNovelLogDAO {
             }
         } catch (Exception e) {
             Logger.getLogger(NovelDAO.class.getName()).log(Level.SEVERE, null, e);
-        } finally {
-            closeResources(connection, statement, rs);
-        }
+        } 
         return false;
     }
     //------------------------------------------------------------------------------------------------------------------

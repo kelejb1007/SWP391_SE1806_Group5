@@ -91,15 +91,7 @@ public class ReadingHistoryDAO {
         }
     } catch (SQLException e) {
         Logger.getLogger(ReadingHistoryDAO.class.getName()).log(Level.SEVERE, null, e);
-    } finally {
-        try {
-            if (rs != null) rs.close();
-            if (statement != null) statement.close();
-            if (connection != null) connection.close();
-        } catch (SQLException e) {
-            Logger.getLogger(ReadingHistoryDAO.class.getName()).log(Level.SEVERE, null, e);
-        }
-    }
+    } 
     return readingHistoryNovels;
 }
 
@@ -213,14 +205,6 @@ public class ReadingHistoryDAO {
         }
     } catch (SQLException e) {
         Logger.getLogger(ReadingHistoryDAO.class.getName()).log(Level.SEVERE, null, e);
-    } finally {
-        try {
-            if (rs != null) rs.close();
-            if (statement != null) statement.close();
-            if (connection != null) connection.close();
-        } catch (SQLException e) {
-            Logger.getLogger(ReadingHistoryDAO.class.getName()).log(Level.SEVERE, null, e);
-        }
     }
     return readingHistoryNovels;
 }
@@ -248,18 +232,7 @@ public class ReadingHistoryDAO {
         } catch (SQLException e) {
             Logger.getLogger(ReadingHistoryDAO.class.getName()).log(Level.SEVERE, null, e);
             return false;
-        } finally {
-            try {
-                if (statement != null) {
-                    statement.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                Logger.getLogger(ReadingHistoryDAO.class.getName()).log(Level.SEVERE, null, e);
-            }
-        }
+        } 
     }
     
 
@@ -301,21 +274,7 @@ public class ReadingHistoryDAO {
             }
         } catch (SQLException e) {
             Logger.getLogger(ReadingHistoryDAO.class.getName()).log(Level.SEVERE, null, e);
-        } finally {
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
-                if (statement != null) {
-                    statement.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                Logger.getLogger(ReadingHistoryDAO.class.getName()).log(Level.SEVERE, null, e);
-            }
-        }
+        } 
         return history;
     }
 
@@ -392,18 +351,7 @@ public class ReadingHistoryDAO {
     } catch (SQLException e) {
         Logger.getLogger(ReadingHistoryDAO.class.getName()).log(Level.SEVERE, null, e);
         return false;
-    } finally {
-        try {
-                if (statement != null) {
-                    statement.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                Logger.getLogger(ReadingHistoryDAO.class.getName()).log(Level.SEVERE, null, e);
-            }
-    }
+    } 
 }
 
     // Update reading history
@@ -439,18 +387,7 @@ public class ReadingHistoryDAO {
         } catch (SQLException e) {
             Logger.getLogger(ReadingHistoryDAO.class.getName()).log(Level.SEVERE, null, e);
             return false;
-        } finally {
-            try {
-                if (statement != null) {
-                    statement.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                Logger.getLogger(ReadingHistoryDAO.class.getName()).log(Level.SEVERE, null, e);
-            }
-        }
+        } 
     }
 
     // Delete reading history (optional)
@@ -471,18 +408,7 @@ public class ReadingHistoryDAO {
         } catch (SQLException e) {
             Logger.getLogger(ReadingHistoryDAO.class.getName()).log(Level.SEVERE, null, e);
             return false;
-        } finally {
-            try {
-                if (statement != null) {
-                    statement.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                Logger.getLogger(ReadingHistoryDAO.class.getName()).log(Level.SEVERE, null, e);
-            }
-        }
+        } 
     }
 
 }

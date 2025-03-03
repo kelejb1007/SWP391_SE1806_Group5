@@ -82,14 +82,6 @@ public class RatingDAO {
         } catch (SQLException e) {
             Logger.getLogger(RatingDAO.class.getName()).log(Level.SEVERE, null, e);
             e.printStackTrace(); // In stack trace để xem chi tiết lỗi
-        } finally {
-            try {
-                if (rs != null) rs.close();
-                if (statement != null) statement.close();
-                if (connection != null) connection.close();
-            } catch (SQLException e) {
-                Logger.getLogger(RatingDAO.class.getName()).log(Level.SEVERE, "Error closing resources", e);
-            }
         }
         return null;
     }
@@ -152,14 +144,7 @@ public class RatingDAO {
             Logger.getLogger(RatingDAO.class.getName()).log(Level.SEVERE, null, e);
              e.printStackTrace(); // In stack trace để xem chi tiết lỗi
             return false;
-        } finally {
-            try {
-                if (statement != null) statement.close();
-                if (connection != null) connection.close();
-            } catch (SQLException e) {
-                Logger.getLogger(RatingDAO.class.getName()).log(Level.SEVERE, "Error closing connection", e);
-            }
-        }
+        } 
     }
 
     public double calculateAverageRating(int novelId) {
@@ -178,15 +163,7 @@ public class RatingDAO {
         } catch (SQLException e) {
             Logger.getLogger(RatingDAO.class.getName()).log(Level.SEVERE, null, e);
              e.printStackTrace(); // In stack trace để xem chi tiết lỗi
-        } finally {
-            try {
-                 if (rs != null) rs.close();
-                if (statement != null) statement.close();
-                if (connection != null) connection.close();
-            } catch (SQLException e) {
-                Logger.getLogger(RatingDAO.class.getName()).log(Level.SEVERE, "Error closing resources", e);
-            }
-        }
+        } 
         return 0.0;
     }
 
@@ -206,15 +183,7 @@ public class RatingDAO {
         } catch (SQLException e) {
             Logger.getLogger(RatingDAO.class.getName()).log(Level.SEVERE, null, e);
              e.printStackTrace(); // In stack trace để xem chi tiết lỗi
-        } finally {
-            try {
-                 if (rs != null) rs.close();
-                if (statement != null) statement.close();
-                if (connection != null) connection.close();
-            } catch (SQLException e) {
-                Logger.getLogger(RatingDAO.class.getName()).log(Level.SEVERE, "Error closing resources", e);
-            }
-        }
+        } 
         return 0;
     }
 }

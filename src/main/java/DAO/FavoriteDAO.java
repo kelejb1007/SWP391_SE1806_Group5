@@ -41,21 +41,7 @@ public class FavoriteDAO {
             }
         } catch (SQLException e) {
             Logger.getLogger(FavoriteDAO.class.getName()).log(Level.SEVERE, null, e);
-        } finally {
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
-                if (statement != null) {
-                    statement.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                Logger.getLogger(FavoriteDAO.class.getName()).log(Level.SEVERE, null, e);
-            }
-        }
+        } 
         return favorite;
     }
 
@@ -76,17 +62,6 @@ public class FavoriteDAO {
             Logger.getLogger(FavoriteDAO.class.getName()).log(Level.SEVERE, null, e);
             e.printStackTrace();
             return false;
-        } finally {
-            try {
-                if (statement != null) {
-                    statement.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                Logger.getLogger(FavoriteDAO.class.getName()).log(Level.SEVERE, null, e);
-            }
         }
     }
 
@@ -106,18 +81,7 @@ public class FavoriteDAO {
             Logger.getLogger(FavoriteDAO.class.getName()).log(Level.SEVERE, null, e);
             e.printStackTrace();
             return false;
-        } finally {
-            try {
-                if (statement != null) {
-                    statement.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                Logger.getLogger(FavoriteDAO.class.getName()).log(Level.SEVERE, null, e);
-            }
-        }
+        } 
     }
 
     // Lấy danh sách Novel yêu thích của người dùng, bao gồm tên tác giả
@@ -162,21 +126,7 @@ public class FavoriteDAO {
 
         } catch (SQLException e) {
             Logger.getLogger(FavoriteDAO.class.getName()).log(Level.SEVERE, null, e);
-        } finally {
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
-                if (statement != null) {
-                    statement.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                Logger.getLogger(FavoriteDAO.class.getName()).log(Level.SEVERE, null, e);
-            }
-        }
+        } 
 
         return favoriteNovels;
     }

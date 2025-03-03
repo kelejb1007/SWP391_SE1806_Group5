@@ -67,15 +67,7 @@ public class ViewingDAO {
             }
         } catch (SQLException e) {
             Logger.getLogger(ViewingDAO.class.getName()).log(Level.SEVERE, null, e);
-        } finally {
-            try {
-                if (rs != null) rs.close();
-                if (statement != null) statement.close();
-                if (connection != null) connection.close();
-            } catch (SQLException e) {
-                Logger.getLogger(ViewingDAO.class.getName()).log(Level.SEVERE, null, e);
-            }
-        }
+        } 
         return views;
     }
 

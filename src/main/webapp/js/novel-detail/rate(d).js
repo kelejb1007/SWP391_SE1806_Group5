@@ -110,7 +110,7 @@
                             // Update the UI with the new values
                             updateAverageRatingUI(averageRating);
                             updateRatingCountUI(ratingCount);
-                            setUserRating(userScore)
+                            setUserRating(userScore);
                         } else {
                             console.error("Unexpected response format:", response);
                             alert("Unexpected response from server.");
