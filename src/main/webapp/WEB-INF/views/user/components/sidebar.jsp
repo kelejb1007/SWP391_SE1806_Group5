@@ -9,6 +9,9 @@
             Genre <i class="fas fa-caret-down"></i>
         </h2>
         <ul class="category-list" id="categoryList">
+            <li class="category-item ${empty selectedGenre ? 'active' : ''}">
+                <a href="novels?filter=${selectedFilter}&genre=">All</a>
+            </li>
             <c:forEach var="genre" items="${genres}">
                 <li class="category-item ${genre.genreName.equals(selectedGenre) ? 'active' : ''}">
                     <a href="novels?filter=${selectedFilter}&genre=${genre.genreName}">

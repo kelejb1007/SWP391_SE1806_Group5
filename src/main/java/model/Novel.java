@@ -33,7 +33,7 @@ public class Novel {
      private int lastChapterNumber; 
      private int Process;
      private LocalDateTime lastReadDate;
-
+     private LocalDateTime  latestChapterDate;
     
     private String lockReason;
     private LocalDateTime datetime ;
@@ -124,6 +124,14 @@ public class Novel {
 
     public void setProcess(int Process) {
         this.Process = Process;
+    }
+
+    public LocalDateTime getLatestChapterDate() {
+        return latestChapterDate;
+    }
+
+    public void setLatestChapterDate(LocalDateTime latestChapterDate) {
+        this.latestChapterDate = latestChapterDate;
     }
 
     

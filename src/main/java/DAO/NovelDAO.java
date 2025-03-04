@@ -233,7 +233,6 @@ public class NovelDAO {
         return novelID;
     }
 
-    
     public boolean updateNovel(Novel novel) {
         String sql = "UPDATE Novel SET "
                 + "novelName = ?, imageURL = ?,"
@@ -259,7 +258,7 @@ public class NovelDAO {
         }
         return false;
     }
-    
+
     public boolean deleteNovel(int novelID) {
         String sql = "UPDATE Novel SET "
                 + "novelStatus = 'inactive' "
@@ -446,13 +445,13 @@ public class NovelDAO {
 
     public List<Novel> getNovelsByTimeUpdate() {
         List<Novel> list = new ArrayList<>();
-        String sql = "SELECT n.novelID, n.novelName, n.userID, n.imageURL, n.novelDescription, n.totalChapter, n.publishedDate, n.novelStatus, ua.fullName AS author, COALESCE(AVG(r.score), 0) AS averageRating "
+        String sql = "SELECT TOP 6 n.novelID, n.novelName, n.imageURL, ua.userName AS author, MAX(c.publishedDate) AS latestChapterDate, MAX(c.chapterID) AS latestChapterID "
                 + "FROM Novel n "
                 + "JOIN UserAccount ua ON n.userID = ua.userID "
-                + "LEFT JOIN Rating r ON n.novelID = r.novelID "
+                + "JOIN Chapter c ON n.novelID = c.novelID "
                 + "WHERE n.novelStatus = 'active' "
-                + "GROUP BY n.novelID, n.novelName, n.userID, n.imageURL, n.novelDescription, n.totalChapter, n.publishedDate, n.novelStatus, ua.fullName "
-                + "ORDER BY n.publishedDate DESC";
+                + "GROUP BY n.novelID, n.novelName, n.imageURL, ua.userName "
+                + "ORDER BY latestChapterDate DESC";
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -465,15 +464,10 @@ public class NovelDAO {
                 Novel novel = new Novel();
                 novel.setNovelID(resultSet.getInt("novelID"));
                 novel.setNovelName(resultSet.getString("novelName"));
-                novel.setUserID(resultSet.getInt("userID"));
                 novel.setImageURL(resultSet.getString("imageURL"));
-                novel.setNovelDescription(resultSet.getString("novelDescription"));
-                novel.setTotalChapter(resultSet.getInt("totalChapter"));
-                novel.setPublishedDate(resultSet.getTimestamp("publishedDate") != null
-                        ? resultSet.getTimestamp("publishedDate").toLocalDateTime() : null);
-                novel.setNovelStatus(resultSet.getString("novelStatus"));
                 novel.setAuthor(resultSet.getString("author"));
-                novel.setAverageRating(resultSet.getDouble("averageRating")); // Lấy từ resultSet
+                novel.setChapterID(resultSet.getInt("latestChapterID")); // Lấy chapterID mới nhất
+                novel.setLatestChapterDate(resultSet.getTimestamp("latestChapterDate") != null ? resultSet.getTimestamp("latestChapterDate").toLocalDateTime() : null); // Thêm dòng này nếu bạn có trường latestChapterDate trong Novel model
                 list.add(novel);
             }
         } catch (SQLException e) {
@@ -482,6 +476,12 @@ public class NovelDAO {
             closeResources(connection, statement, resultSet);
         }
         return list;
+    }
+
+    public static void main(String[] args) {
+        NovelDAO n = new NovelDAO();
+        List<Novel> list = n.getNovelsByTimeUpdate();
+        System.out.println(list);
     }
 
     public List<Novel> getNovelsByPopularity() {
@@ -596,9 +596,11 @@ public class NovelDAO {
         List<Novel> list = new ArrayList<>();
         String sql = "SELECT n.novelID, n.novelName, n.userID, n.imageURL, n.novelDescription, "
                 + "n.totalChapter, n.publishedDate, n.novelStatus, ua.fullName AS author, "
-                + "COALESCE(AVG(r.score), 0) AS averageRating, COUNT(v.novelID) AS viewCount "
+                + "COALESCE(AVG(r.score), 0) AS averageRating, COUNT(v.novelID) AS viewCount, "
+                + "MAX(c.publishedDate) AS latestChapterDate " // Thêm latestChapterDate
                 + "FROM Novel n "
                 + "JOIN UserAccount ua ON n.userID = ua.userID "
+                + "LEFT JOIN Chapter c ON n.novelID = c.novelID "
                 + "LEFT JOIN Rating r ON n.novelID = r.novelID "
                 + "LEFT JOIN Viewing v ON n.novelID = v.novelID ";
 
@@ -618,9 +620,12 @@ public class NovelDAO {
         if ("rating".equals(filterType)) {
             sql += "ORDER BY averageRating DESC";
         } else if ("time".equals(filterType)) {
-            sql += "ORDER BY n.publishedDate DESC";
+            sql += "ORDER BY COALESCE(MAX(c.publishedDate), n.publishedDate) DESC"; // Sắp xếp theo latestChapterDate hoặc publishedDate
         } else if ("popular".equals(filterType)) {
             sql += "ORDER BY viewCount DESC"; // Sắp xếp theo lượt xem
+        } //Thêm đoạn này vào để sắp xếp theo novelID nếu không có filterType
+        else {
+            sql += "ORDER BY n.novelID DESC";
         }
 
         try ( Connection connection = db.getConnection();  PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -645,42 +650,13 @@ public class NovelDAO {
                 novel.setAuthor(resultSet.getString("author"));
                 novel.setAverageRating(resultSet.getDouble("averageRating"));
                 novel.setViewCount(resultSet.getInt("viewCount")); // Thêm thông tin viewCount
+                novel.setLatestChapterDate(resultSet.getTimestamp("latestChapterDate") != null ? resultSet.getTimestamp("latestChapterDate").toLocalDateTime() : null);
                 list.add(novel);
             }
         } catch (SQLException e) {
             Logger.getLogger(NovelDAO.class.getName()).log(Level.SEVERE, null, e);
         }
         return list;
-    }
-
-// Lọc danh sách theo genre (sau khi đã lọc theo filter)
-    public List<Novel> filterNovelsByGenre(List<Novel> novels, String genreName) {
-        List<Novel> filteredList = new ArrayList<>();
-        for (Novel novel : novels) {
-            if (isNovelInGenre(novel.getNovelID(), genreName)) {
-                filteredList.add(novel);
-            }
-        }
-        return filteredList;
-    }
-
-// Kiểm tra xem một truyện có thuộc genre không
-    private boolean isNovelInGenre(int novelID, String genreName) {
-        String sql = "SELECT COUNT(*) FROM Genre_Novel gn "
-                + "JOIN Genre g ON gn.genreID = g.genreID "
-                + "WHERE gn.novelID = ? AND g.genreName = ?";
-
-        try ( Connection connection = db.getConnection();  PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, novelID);
-            statement.setString(2, genreName);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                return resultSet.getInt(1) > 0;
-            }
-        } catch (SQLException e) {
-            Logger.getLogger(NovelDAO.class.getName()).log(Level.SEVERE, null, e);
-        }
-        return false;
     }
 
     //------------------------------------------------------------------------------------------------------------------

@@ -84,12 +84,9 @@ public class NovelController extends HttpServlet {
             novels = novelDAO.searchNovels(searchQuery);
         } else {
             // 1. Lọc theo filter trước
-            novels = getNovelsByFilter(selectedFilter, selectedGenre); // Pass selectedGenre here
+            novels = getNovelsByFilter(selectedFilter, selectedGenre); 
 
-            // 2. Nếu có genre, tiếp tục lọc theo genre
-            if (selectedGenre != null && !selectedGenre.isEmpty()) {
-                novels = novelDAO.filterNovelsByGenre(novels, selectedGenre);
-            }
+
         }
 
         // Gán danh sách vào request
