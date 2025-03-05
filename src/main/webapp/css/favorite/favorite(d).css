@@ -233,3 +233,44 @@ html {
 ::-webkit-scrollbar-thumb:hover {
     background: #d15c74;
 }
+
+
+/* Style for the form */
+.search-form-container {
+    margin-left: 50px;
+    text-align: center; 
+    margin-bottom: 20px; 
+}
+
+
+#searchQuery {
+    border: 2px solid pink; 
+    border-radius: 20px;       
+    padding: 5px;           
+    color: pink;           
+}
+
+
+#searchQuery:focus {
+    outline: none;            
+    border-color: #e8c4c4;   
+    box-shadow: 0 0 5px rgba(228, 121, 142, 0.5); 
+}
+#searchQuery::placeholder {
+    color: #c7254e;         
+    opacity: 0.7;         }
+
+.search-button {
+    background-color: transparent;
+    border: none !important;
+    color: #d15c74;
+    cursor: pointer;
+    font-size: inherit; 
+    padding: 0; 
+}
+
+/* Style the submit button on hover */
+.search-button:hover {
+    color: #e4798e; 
+    border: none !important;
+}

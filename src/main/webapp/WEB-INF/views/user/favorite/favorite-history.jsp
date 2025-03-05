@@ -6,9 +6,9 @@
     <head>
         <meta charset="UTF-8">
         <title>Favorite | History</title>
+        <link rel="stylesheet" href="css/favorite/favorite(d).css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="css/home/header.css">
-        <link rel="stylesheet" href="css/favorite/favorite.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Macondo+Swash+Caps&display=swap">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
@@ -32,6 +32,17 @@
                         <div id="favorites-list">
                         <c:choose>
                             <c:when test="${not empty favoriteNovels}">
+                                <div class="search-form-container">
+                                    <form action="favorite" method="get" id="searchForm" >
+                                        <input type="text" name="searchQuery" id="searchQuery" placeholder="Enter a novel name" >
+                                        <input type="hidden" name="action" value="search">
+                                        <button type="submit" class="search-button"> <i class="fas fa-search"></i></button>
+
+                                        <c:if test="${not empty errorMessage}">
+                                            <p style="color: red;">${errorMessage}</p>
+                                        </c:if>
+                                    </form>
+                                </div>
                                 <c:forEach var="novel" items="${favoriteNovels}">
                                     <div class="favorite-item">
                                         <img src="${novel.imageURL}" alt="${novel.novelName}">
@@ -67,7 +78,7 @@
                 </div>
             </div>
             <script>
-            
+
                 // Tab management
                 document.addEventListener("DOMContentLoaded", function () {
                     const tabLinks = document.querySelectorAll(".tab-link");
@@ -96,7 +107,8 @@
 
 
         </script>
-        <script src="js/home/header.js"></script>
+
+        <script src="js/home/header(d).js"></script>
         <script src="js/favorite/favorite.js"></script>
     </body>
 </html>

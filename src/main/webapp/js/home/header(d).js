@@ -31,7 +31,22 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-
+function toggleAvatarDropdown() {
+    const dropdownMenu = document.getElementById("avatarDropdownMenu");
+    if (dropdownMenu) {
+        dropdownMenu.classList.toggle("show");
+    } else {
+        console.error("Avatar dropdown menu element not found!");
+    }
+}
+window.addEventListener('click', function(event) {
+    if (!event.target.closest(".avatar-dropdown1")) {
+        const dropdownMenu = document.getElementById("avatarDropdownMenu");
+        if (dropdownMenu) {
+            dropdownMenu.classList.remove("show");
+        }
+    }
+});
 
 
 

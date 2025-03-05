@@ -15,7 +15,7 @@
         <link rel="stylesheet" href="css/startmin/startmin.css">
         <link rel="stylesheet" href="css/startmin/font-awesome.min.css" type="text/css">
 
-        <link rel="stylesheet" href="css/home/header.css">
+        <link rel="stylesheet" href="css/home/header(d).css">
         <link rel="stylesheet" href="css/mynovel/myNovels.css">
 
         <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700&display=swap" rel="stylesheet">
@@ -111,7 +111,7 @@
 
 
         <jsp:include page="/WEB-INF/views/user/components/footer.jsp"></jsp:include>
-        <script src="js/home/header.js"></script>
+        <script src="js/home/header(d).js"></script>
     </body>
 
 </html>

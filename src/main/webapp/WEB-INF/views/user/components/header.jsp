@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+ <link rel="stylesheet" href="css/home/avatar.css">
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -70,25 +70,32 @@
                 <li><a href="<c:url value='/Login' />">Log in</a></li>
                 <!-- Khoa thêm link vào khi ấn Sign up sẽ đưa đến Register -->
                 <li><a href="<c:url value='/Register' />">Sign up</a></li>
-            </c:if>
+                </c:if>
 
             <!-- Nếu đã đăng nhập -->
             <c:if test="${not empty sessionScope.user}">
-                <li><a href="<c:url value='/favorite' />">Favorite List</a></li>
-                <li><a href="mynovel">My Novels</a></li>
                 <li><a href="#"> Post</a><i class="fas fa-plus"></i></li>
-                
-                
-                <!-- Khoa thêm nút View Profile -->
-                <li><a href="<c:url value='/viewprofile' />">View Profile</a></li>
-                <!-- Khoa thêm chức năng Logout - Khi ấn sẽ xóa session và quay về trạng thái chưa đăng nhập -->
-                <li>
-                    <form id="logoutForm" action="<c:url value='/Logout' />" method="post">
-                        <a href="#" onclick="document.getElementById('logoutForm').submit(); return false;">Logout</a>
-                    </form>
+
+                <li class="avatar-dropdown1">
+                    <div class="avatar-container" onclick="toggleAvatarDropdown()">
+                        <img src="#" alt="User Avatar" class="avatar">
+                    </div>
+
+                    <div class="dropdown-menu1" id="avatarDropdownMenu">
+                        <a href="<c:url value='/favorite' />">Favorite List</a>
+                        <a href="mynovel">My Novels</a>
+                        <a href="<c:url value='/viewprofile' />">View Profile</a>
+                        <form id="logoutForm" action="<c:url value='/Logout' />" method="post">
+                            <a href="#" onclick="document.getElementById('logoutForm').submit(); return false;">Logout</a>
+                        </form>
+                    </div>
                 </li>
             </c:if>
+
 
         </ul>
     </nav>
 </div>
+  <script>
+
+</script>

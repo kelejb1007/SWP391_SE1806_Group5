@@ -131,5 +131,50 @@ public class FavoriteDAO {
         return favoriteNovels;
     }
 
+   public List<Novel> searchFavoriteNovelsByUserId(int userId, String query) {
+        List<Novel> favoriteNovels = new ArrayList<>();
+        String sql = "SELECT n.*, ua.userName AS authorName "
+                + "FROM Favorite f "
+                + "JOIN Novel n ON f.novelID = n.novelID "
+                + "JOIN UserAccount ua ON n.userID = ua.userID "
+                + "WHERE f.userID = ? AND n.novelStatus = 'active' AND n.novelName LIKE ?";
+
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+
+        try {
+            connection = db.getConnection();
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, userId);
+            statement.setString(2, "%" + query + "%"); // Thêm điều kiện tìm kiếm theo tên tiểu thuyết
+            rs = statement.executeQuery();
+
+            while (rs.next()) {
+                Novel novel = new Novel();
+                novel.setNovelID(rs.getInt("novelID"));
+                novel.setNovelName(rs.getString("novelName"));
+                novel.setUserID(rs.getInt("userID"));
+                novel.setImageURL(rs.getString("imageURL"));
+                novel.setNovelDescription(rs.getString("novelDescription"));
+                novel.setTotalChapter(rs.getInt("totalChapter"));
+                if (rs.getTimestamp("publishedDate") != null) {
+                    novel.setPublishedDate(rs.getTimestamp("publishedDate").toLocalDateTime());
+                } else {
+                    novel.setPublishedDate(null); // Hoặc đặt giá trị mặc định nếu cần
+                }
+
+                novel.setNovelStatus(rs.getString("novelStatus"));
+
+                novel.setAuthor(rs.getString("authorName")); // Giả sử bạn thêm trường 'authorName' vào class Novel
+
+                favoriteNovels.add(novel);
+            }
+
+        } catch (SQLException e) {
+            Logger.getLogger(FavoriteDAO.class.getName()).log(Level.SEVERE, null, e);
+        } 
+        return favoriteNovels;
+    }
    
 }

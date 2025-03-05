@@ -9,7 +9,7 @@
     <head>
         <meta charset="UTF-8">
         <title>${novel.novelName} - Novel Detail</title>
-        <link rel="stylesheet" href="css/home/header.css">
+        <link rel="stylesheet" href="css/home/header(d).css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
@@ -234,7 +234,7 @@
                 <script src="js/novel-detail/rate(d).js"></script>
 
                 <script src="js/novel-detail/favorite.js"></script>
-                <script src="js/home/header.js"></script>
+                <script src="js/home/header(d).js"></script>
                 <script src="js/lock7.js"></script>
                 <script>
             // chapter-list(d).js
