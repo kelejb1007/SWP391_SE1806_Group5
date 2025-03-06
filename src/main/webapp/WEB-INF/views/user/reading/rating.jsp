@@ -39,7 +39,7 @@
     <span class="rating-score">
         ${novel.averageRating != null ? String.format("%.2f", novel.averageRating) : "0.00"}
     </span>
-   <span class="rating-count">(${novel.ratingCount} ratings)</span>
+    <span class="rating-count">(${novel.ratingCount} ratings)</span>
 </div>
 
 <!-- Login Popup -->
@@ -48,7 +48,7 @@
         <h2>Login Required</h2>
         <p>You need to be logged in to rate this novel.</p>
         <a href="Login" id="closeBtn">Login</a>
-       
+
     </div>
 </div>
 
@@ -96,24 +96,24 @@
         function initBarRating(rating) {
             console.log("Initializing Bar Rating with rating:", rating, "and isLoggedIn:", isLoggedIn);
 
-            barRatingInstance = $('#novelRating').barrating({ // Bỏ readOnly
+            barRatingInstance = $('#novelRating').barrating({// Bỏ readOnly
                 theme: 'fontawesome-stars', // Chọn theme phù hợp
                 initialRating: rating,
                 //readonly: readOnly,  // Loại bỏ readonly
                 allowEmpty: false, // Không cho phép bỏ đánh giá
-                onSelect: function(value, text, event) {
+                onSelect: function (value, text, event) {
                     console.log("onSelect triggered. Rating:", value);
                     if (isLoggedIn) { // Kiểm tra isLoggedIn là boolean
                         rateNovel(novelId, value);
                     } else {
                         showLoginForm();
-                         // Đặt lại giá trị đã chọn nếu chưa đăng nhập
-                         $('#novelRating').barrating('clear');
+                        // Đặt lại giá trị đã chọn nếu chưa đăng nhập
+                        $('#novelRating').barrating('clear');
                     }
                 }
             });
 
-             $('#novelRating').barrating('show');  // Hiển thị sau khi khởi tạo
+            $('#novelRating').barrating('show');  // Hiển thị sau khi khởi tạo
         }
 
         // Hàm đánh giá novel
@@ -153,7 +153,7 @@
                         if (values.length === 3) {
                             const averageRating = parseFloat(values[0]);
                             const ratingCount = parseInt(values[1]);
-                             const userScore = parseInt(values[2]);
+                            const userScore = parseInt(values[2]);
 
                             console.log("Parsed values: averageRating =", averageRating, "ratingCount =", ratingCount, "userScore =", userScore);
 
@@ -187,12 +187,12 @@
 
         // Cập nhật UI rating count
         function updateRatingCountUI(ratingCount) {
-            $('.rating-count').text(`(${novel.ratingCount} ratings)`); // Sửa lại để lấy từ tham số
+            $('.rating-count').text('(' + ratingCount + ' ratings)');
         }
 
         function setUserRating(userScore) {
-           //$('#novelRating').barrating('set', userScore);
-           $('#novelRating').barrating('destroy'); // Hủy widget
+            //$('#novelRating').barrating('set', userScore);
+            $('#novelRating').barrating('destroy'); // Hủy widget
             initBarRating(userScore); // Khởi tạo lại
 
         }

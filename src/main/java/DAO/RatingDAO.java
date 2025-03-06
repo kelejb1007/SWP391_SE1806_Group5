@@ -186,4 +186,10 @@ public class RatingDAO {
         } 
         return 0;
     }
+    public static void main(String[] args) {
+        RatingDAO r = new RatingDAO();
+        int ratingCount = 0;
+        ratingCount = r.getRatingCount(9);
+        System.out.println(ratingCount);
+    }
 }
