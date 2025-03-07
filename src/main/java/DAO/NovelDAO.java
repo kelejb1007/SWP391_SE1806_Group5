@@ -596,7 +596,9 @@ public class NovelDAO {
         List<Novel> list = new ArrayList<>();
         String sql = "SELECT n.novelID, n.novelName, n.userID, n.imageURL, n.novelDescription, "
                 + "n.totalChapter, n.publishedDate, n.novelStatus, ua.fullName AS author, "
-                + "COALESCE(AVG(r.score), 0) AS averageRating, COUNT(v.novelID) AS viewCount, "
+                + "COALESCE(AVG(r.score), 0) AS averageRating,"
+                + "((SELECT COUNT(*) FROM Viewing v WHERE v.novelID = n.novelID) + "
+                + "(SELECT COUNT(*) FROM Rating r2 WHERE r2.novelID = n.novelID)) AS popularityScore,"
                 + "MAX(c.publishedDate) AS latestChapterDate " // Thêm latestChapterDate
                 + "FROM Novel n "
                 + "JOIN UserAccount ua ON n.userID = ua.userID "
@@ -622,10 +624,7 @@ public class NovelDAO {
         } else if ("time".equals(filterType)) {
             sql += "ORDER BY COALESCE(MAX(c.publishedDate), n.publishedDate) DESC"; // Sắp xếp theo latestChapterDate hoặc publishedDate
         } else if ("popular".equals(filterType)) {
-            sql += "ORDER BY viewCount DESC"; // Sắp xếp theo lượt xem
-        } //Thêm đoạn này vào để sắp xếp theo novelID nếu không có filterType
-        else {
-            sql += "ORDER BY n.novelID DESC";
+            sql += "ORDER BY popularityScore DESC";
         }
 
         try ( Connection connection = db.getConnection();  PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -649,7 +648,7 @@ public class NovelDAO {
                 novel.setNovelStatus(resultSet.getString("novelStatus"));
                 novel.setAuthor(resultSet.getString("author"));
                 novel.setAverageRating(resultSet.getDouble("averageRating"));
-                novel.setViewCount(resultSet.getInt("viewCount")); // Thêm thông tin viewCount
+                novel.setPopularityScore(resultSet.getInt("popularityScore")); // Thêm điểm phổ biến
                 novel.setLatestChapterDate(resultSet.getTimestamp("latestChapterDate") != null ? resultSet.getTimestamp("latestChapterDate").toLocalDateTime() : null);
                 list.add(novel);
             }

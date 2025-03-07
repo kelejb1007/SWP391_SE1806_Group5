@@ -28,6 +28,7 @@ public class Novel {
     private int viewCount;
     private List<String> genreNames;
     private int ratingCount;
+    private int popularityScore;
     private int chapterID;   // ID chương cuối cùng đã đọc
     private String lastChapterName; // Tên chương cuối cùng đã đọc
      private int lastChapterNumber; 
@@ -132,6 +133,14 @@ public class Novel {
 
     public void setLatestChapterDate(LocalDateTime latestChapterDate) {
         this.latestChapterDate = latestChapterDate;
+    }
+
+    public int getPopularityScore() {
+        return popularityScore;
+    }
+
+    public void setPopularityScore(int popularityScore) {
+        this.popularityScore = popularityScore;
     }
 
     
