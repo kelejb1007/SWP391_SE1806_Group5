@@ -112,7 +112,7 @@ public class UserAccountDAO {
         user.setNumberPhone(rs.getString("numberPhone"));
         user.setDateOfBirth(rs.getTimestamp("dateOfBirth"));
         user.setIsBanned(rs.getBoolean("isBanned"));
-//        user.setStatus(rs.getInt("status"));
+        user.setStatus(rs.getInt("status"));
         return user;
     }
 
@@ -162,10 +162,8 @@ public class UserAccountDAO {
     }
     // Khoa thêm phần này cho ViewProfile
 
-    
     //LienXuanThinh
     // Lấy danh sách tất cả tài khoản
-
     public List<UserAccount> getAllAccounts() throws SQLException {
         List<UserAccount> listAccounts = new ArrayList<>();
         String sql = "SELECT * FROM UserAccount";
@@ -223,4 +221,38 @@ public class UserAccountDAO {
             stmt.executeUpdate();
         }
     }
+
+    public List<UserAccount> getAccountStatistics() {
+        List<UserAccount> useraccount = new ArrayList<>();
+        String sql = "SELECT YEAR(creationDate) AS year, "
+                + "MONTH(creationDate) AS month, "
+                + "DAY(creationDate) AS day, "
+                + "COUNT(userID) AS totalAccounts, "
+                + "SUM(CASE WHEN status = 1 THEN 1 ELSE 0 END) AS totalActiveAccounts, "
+                + "SUM(CASE WHEN MONTH(creationDate) = MONTH(GETDATE()) "
+                + "AND YEAR(creationDate) = YEAR(GETDATE()) THEN 1 ELSE 0 END) AS totalAccountsThisMonth, "
+                + "SUM(CASE WHEN MONTH(creationDate) = MONTH(DATEADD(MONTH, -1, GETDATE())) "
+                + "AND YEAR(creationDate) = YEAR(DATEADD(MONTH, -1, GETDATE())) THEN 1 ELSE 0 END) AS totalAccountsLastMonth "
+                + "FROM UserAccount "
+                + "GROUP BY YEAR(creationDate), MONTH(creationDate), DAY(creationDate) "
+                + "ORDER BY YEAR(creationDate) DESC, MONTH(creationDate) DESC, DAY(creationDate) DESC;";
+
+        try ( Connection conn = dbContext.getConnection();  PreparedStatement ps = conn.prepareStatement(sql);  ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                UserAccount useracc = new UserAccount();
+                useracc.setYear(rs.getInt("year"));
+                useracc.setMonth(rs.getInt("month"));
+                useracc.setDay(rs.getInt("day"));
+                useracc.setTotalAccounts(rs.getInt("totalAccounts"));
+                useracc.setTotalActiveAccounts(rs.getInt("totalActiveAccounts"));
+                useracc.setTotalAccountsThisMonth(rs.getInt("totalAccountsThisMonth"));
+                useracc.setTotalAccountsLastMonth(rs.getInt("totalAccountsLastMonth"));
+                useraccount.add(useracc);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return useraccount;
+    }
+
 }

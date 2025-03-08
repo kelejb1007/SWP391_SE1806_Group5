@@ -28,6 +28,14 @@
                 window.location.href = "manageaccount?action=viewdetail&managerID=" + managerID;
             }
         </script>
+
+        <script>
+            function showLockModal(userID) {
+                $("#lockUserID").val(userID);
+                $("#lockModal").modal("show");
+            }
+        </script>
+
     </head>
     <body>
         <div id="wrapper">
@@ -82,8 +90,7 @@
                                                     <th>Email</th>
                                                     <th>Number Phone</th>                                                  
                                                     <th>Date Of Birth</th>
-                                                    <th>Status</th>
-
+                                                    <th></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -104,27 +111,14 @@
                                                                 <td> <fmt:formatDate value="${acc.dateOfBirth}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 
 
-                                                                <td>
-                                                                    <c:choose>
-                                                                        <c:when test="${acc.status == 1}">Unlock</c:when>
-                                                                        <c:otherwise>Lock</c:otherwise>
-                                                                    </c:choose>
-                                                                </td>
 
 
                                                                 <td>
                                                                     <c:choose>
                                                                         <c:when test="${acc.status == 1}">
-                                                                            <a href="manageaccount?action=lockUnlock&userID=${acc.userID}&status=false" class="btn btn-danger">Lock</a>
+                                                                            <button type="button" class="btn btn-danger" onclick="showLockModal(${acc.userID})">Lock</button>
                                                                         </c:when>
-                                                                        <c:otherwise>
-                                                                            <a href="manageaccount?action=lockUnlock&userID=${acc.userID}&status=true" class="btn btn-success">Unlock</a>
-                                                                        </c:otherwise>
                                                                     </c:choose>
-
-                                                                </td>
-
-
                                                                 </td>
                                                             </tr>
                                                         </c:forEach>
@@ -153,6 +147,27 @@
             <!-- /#page-wrapper -->
         </div>
         <!-- /#wrapper -->
+        <!-- Modal nhập lý do khóa -->
+        <div id="lockModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Lock Account</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <label>Reason for Lock:</label>
+                        <textarea class="form-control"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger">Confirm Lock</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- jQuery -->
         <script src="js/startmin/jquery.min.js"></script>
@@ -166,11 +181,13 @@
         <script src="js/startmin/dataTables/jquery.dataTables.min.js"></script>
         <script src="js/startmin/dataTables/dataTables.bootstrap.min.js"></script>
         <script>
-            $(document).ready(function () {
-                $('#dataTables-example').DataTable({
-                    responsive: true
-                });
-            });
+                                                                                $(document).ready(function () {
+                                                                                    $('#dataTables-example').DataTable({
+                                                                                        responsive: true
+                                                                                    });
+                                                                                });
         </script>
+
+
     </body>
 </html>

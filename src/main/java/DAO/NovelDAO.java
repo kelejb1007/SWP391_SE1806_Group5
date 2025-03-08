@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Novel;
+import model.ReadingHistory;
 import utils.DBContext;
 
 /**
@@ -233,7 +234,6 @@ public class NovelDAO {
         return novelID;
     }
 
-    
     public boolean updateNovel(Novel novel) {
         String sql = "UPDATE Novel SET "
                 + "novelName = ?, imageURL = ?,"
@@ -259,7 +259,7 @@ public class NovelDAO {
         }
         return false;
     }
-    
+
     public boolean deleteNovel(int novelID) {
         String sql = "UPDATE Novel SET "
                 + "novelStatus = 'inactive' "
@@ -701,5 +701,78 @@ public class NovelDAO {
         }
     }
 
+    // Thống kê số lượng tiểu thuyết đã đăng
+    public List<Novel> getNovelsPostedStatistics() {
+        List<Novel> statsList = new ArrayList<>();
+        String sql = "SELECT YEAR(publishedDate) AS year, "
+                + "MONTH(publishedDate) AS month, "
+                + "DATEPART(WK, publishedDate) AS week, "
+                + "COUNT(novelID) AS totalNovelsPosted, "
+                + "(SELECT COUNT(novelID) "
+                + " FROM Novel "
+                + " WHERE MONTH(publishedDate) = CASE WHEN MONTH(GETDATE()) = 1 THEN 12 ELSE MONTH(GETDATE()) - 1 END "
+                + " AND YEAR(publishedDate) = CASE WHEN MONTH(GETDATE()) = 1 THEN YEAR(GETDATE()) - 1 ELSE YEAR(GETDATE()) END) AS totalNovelsPostedLastMonth, "
+                + "(SELECT COUNT(novelID) "
+                + " FROM Novel "
+                + " WHERE MONTH(publishedDate) = MONTH(GETDATE()) AND YEAR(publishedDate) = YEAR(GETDATE())) AS totalNovelsPostedThisMonth "
+                + "FROM Novel "
+                + "GROUP BY YEAR(publishedDate), MONTH(publishedDate), DATEPART(WK, publishedDate) "
+                + "ORDER BY YEAR(publishedDate), MONTH(publishedDate), DATEPART(WK, publishedDate);";
+
+        try ( Connection conn = db.getConnection();  PreparedStatement ps = conn.prepareStatement(sql);  ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                Novel novel = new Novel();
+                novel.setYear(rs.getInt("year"));
+                novel.setMonth(rs.getInt("month"));
+                novel.setWeek(rs.getInt("week"));
+                novel.setTotalNovelsPosted(rs.getInt("totalNovelsPosted"));
+                novel.setTotalNovelsPostedLastMonth(rs.getInt("totalNovelsPostedLastMonth"));
+                novel.setTotalNovelsPostedThisMonth(rs.getInt("totalNovelsPostedThisMonth"));
+                statsList.add(novel);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return statsList;
+    }
+
+// Thống kê số lượng tiểu thuyết đã đọc
+    public List<ReadingHistory> getNovelsReadStatistics() {
+        List<ReadingHistory> statsList = new ArrayList<>();
+        String sql = "SELECT YEAR(rh.lastReadDate) AS year, "
+                + "MONTH(rh.lastReadDate) AS month, "
+                + "DATEPART(WK, rh.lastReadDate) AS week, "
+                + "COUNT(rh.novelID) AS totalNovelsRead, "
+                + "(SELECT COUNT(rh.novelID) "
+                + " FROM ReadingHistory rh "
+                + " WHERE MONTH(rh.lastReadDate) = CASE WHEN MONTH(GETDATE()) = 1 THEN 12 ELSE MONTH(GETDATE()) - 1 END "
+                + " AND YEAR(rh.lastReadDate) = CASE WHEN MONTH(GETDATE()) = 1 THEN YEAR(GETDATE()) - 1 ELSE YEAR(GETDATE()) END) AS totalNovelsReadLastMonth, "
+                + "(SELECT COUNT(rh.novelID) "
+                + " FROM ReadingHistory rh "
+                + " WHERE MONTH(rh.lastReadDate) = MONTH(GETDATE()) AND YEAR(rh.lastReadDate) = YEAR(GETDATE())) AS totalNovelsReadThisMonth "
+                + "FROM ReadingHistory rh "
+                + "GROUP BY YEAR(rh.lastReadDate), MONTH(rh.lastReadDate), DATEPART(WK, rh.lastReadDate) "
+                + "ORDER BY YEAR(rh.lastReadDate), MONTH(rh.lastReadDate), DATEPART(WK, rh.lastReadDate);";
+
+        try ( Connection conn = db.getConnection();  PreparedStatement ps = conn.prepareStatement(sql);  ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                ReadingHistory readingHistory = new ReadingHistory();
+                readingHistory.setYear(rs.getInt("year"));
+                readingHistory.setMonth(rs.getInt("month"));
+                readingHistory.setWeek(rs.getInt("week"));
+                readingHistory.setTotalNovelsRead(rs.getInt("totalNovelsRead"));
+                readingHistory.setTotalNovelsReadLastMonth(rs.getInt("totalNovelsReadLastMonth"));
+                readingHistory.setTotalNovelsReadThisMonth(rs.getInt("totalNovelsReadThisMonth"));
+                statsList.add(readingHistory);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return statsList;
+    }
+
 }
+
+
+
      //------------------------------------------------------------------------------------------------------------------

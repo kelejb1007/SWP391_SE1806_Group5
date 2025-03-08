@@ -13,6 +13,7 @@ import java.util.List;
  * @author Phan Hồng Tài - CE181490
  */
 public class Novel {
+
     private int novelID;
     private String novelName;
     private int userID;
@@ -21,6 +22,69 @@ public class Novel {
     private int totalChapter;
     private String novelStatus;
     private LocalDateTime publishedDate;
+    private int favoriteCount;
+     private int month;
+    private int week;
+      private int year;
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+    private int totalNovelsPosted;
+    private int totalNovelsPostedLastMonth;
+    private int totalNovelsPostedThisMonth;
+
+    public int getMonth() {
+        return month;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+    public int getWeek() {
+        return week;
+    }
+
+    public void setWeek(int week) {
+        this.week = week;
+    }
+
+    public int getTotalNovelsPosted() {
+        return totalNovelsPosted;
+    }
+
+    public void setTotalNovelsPosted(int totalNovelsPosted) {
+        this.totalNovelsPosted = totalNovelsPosted;
+    }
+
+    public int getTotalNovelsPostedLastMonth() {
+        return totalNovelsPostedLastMonth;
+    }
+
+    public void setTotalNovelsPostedLastMonth(int totalNovelsPostedLastMonth) {
+        this.totalNovelsPostedLastMonth = totalNovelsPostedLastMonth;
+    }
+
+    public int getTotalNovelsPostedThisMonth() {
+        return totalNovelsPostedThisMonth;
+    }
+
+    public void setTotalNovelsPostedThisMonth(int totalNovelsPostedThisMonth) {
+        this.totalNovelsPostedThisMonth = totalNovelsPostedThisMonth;
+    }
+
+    public int getFavoriteCount() {
+        return favoriteCount;
+    }
+
+    public void setFavoriteCount(int favoriteCount) {
+        this.favoriteCount = favoriteCount;
+    }
 
     //Lấy từ bảng khác
     private String author;
@@ -30,13 +94,12 @@ public class Novel {
     private int ratingCount;
     private int chapterID;   // ID chương cuối cùng đã đọc
     private String lastChapterName; // Tên chương cuối cùng đã đọc
-     private int lastChapterNumber; 
-     private int Process;
-     private LocalDateTime lastReadDate;
+    private int lastChapterNumber;
+    private int Process;
+    private LocalDateTime lastReadDate;
 
-    
     private String lockReason;
-    private LocalDateTime datetime ;
+    private LocalDateTime datetime;
     private String staffName;
 
     public Novel() {
@@ -49,7 +112,6 @@ public class Novel {
         this.novelDescription = novelDescription;
         this.totalChapter = totalChapter;
     }
-    
 
     public Novel(int novelID, String novelName, String imageURL, int totalChapter, LocalDateTime publishedDate, String author, double averageRating, int viewCount) {
         this.novelID = novelID;
@@ -61,7 +123,6 @@ public class Novel {
         this.averageRating = averageRating;
         this.viewCount = viewCount;
     }
-    
 
     public Novel(int novelID, String novelName, int userID, String imageURL, String novelDescription, int totalChapter, String novelStatus, LocalDateTime publishedDate) {
         this.novelID = novelID;
@@ -74,7 +135,7 @@ public class Novel {
         this.publishedDate = publishedDate;
     }
 
-    public Novel(int novelID, String novelName, String author,String imageURL, String novelDescription, int totalChapter, String novelStatus, LocalDateTime publishedDate) {
+    public Novel(int novelID, String novelName, String author, String imageURL, String novelDescription, int totalChapter, String novelStatus, LocalDateTime publishedDate) {
         this.novelID = novelID;
         this.novelName = novelName;
         this.imageURL = imageURL;
@@ -84,7 +145,7 @@ public class Novel {
         this.publishedDate = publishedDate;
         this.author = author;
     }
-    
+
     //---------------------------------------------------------------------
     public String getLockReason() {
         return lockReason;
@@ -126,9 +187,6 @@ public class Novel {
         this.Process = Process;
     }
 
-    
-   
-
     public String getLastChapterName() {
         return lastChapterName;
     }
@@ -160,7 +218,7 @@ public class Novel {
     public void setRatingCount(int ratingCount) {
         this.ratingCount = ratingCount;
     }
-   
+
     public List<String> getGenreNames() {
         return genreNames;
     }
@@ -193,10 +251,7 @@ public class Novel {
         this.author = author;
     }
 
-
-    
-
-   // của Novel
+    // của Novel
     public int getNovelID() {
         return novelID;
     }
@@ -257,15 +312,15 @@ public class Novel {
         return publishedDate;
     }
 
-    
-     public void setPublishedDate(LocalDateTime publishedDate) {
+    public void setPublishedDate(LocalDateTime publishedDate) {
         this.publishedDate = publishedDate;
     }
+
     public String getLastReadDateFormatted() {
-    if (lastReadDate == null) {
-        return "N/A"; // Trả về N/A nếu không có dữ liệu
+        if (lastReadDate == null) {
+            return "N/A"; // Trả về N/A nếu không có dữ liệu
+        }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        return lastReadDate.format(formatter);
     }
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-    return lastReadDate.format(formatter);
-}
 }

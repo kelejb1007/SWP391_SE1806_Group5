@@ -24,6 +24,69 @@ public class UserAccount {
     private boolean isBanned;
     private Date dateOfBirth;
     private int status;
+    private int year;
+    private int month;
+    private int day;
+    private int totalAccounts;
+    private int totalActiveAccounts;
+    private int totalAccountsThisMonth;
+    private int totalAccountsLastMonth;
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+    public int getDay() {
+        return day;
+    }
+
+    public void setDay(int day) {
+        this.day = day;
+    }
+
+    public int getTotalAccounts() {
+        return totalAccounts;
+    }
+
+    public void setTotalAccounts(int totalAccounts) {
+        this.totalAccounts = totalAccounts;
+    }
+
+    public int getTotalActiveAccounts() {
+        return totalActiveAccounts;
+    }
+
+    public void setTotalActiveAccounts(int totalActiveAccounts) {
+        this.totalActiveAccounts = totalActiveAccounts;
+    }
+
+    public int getTotalAccountsThisMonth() {
+        return totalAccountsThisMonth;
+    }
+
+    public void setTotalAccountsThisMonth(int totalAccountsThisMonth) {
+        this.totalAccountsThisMonth = totalAccountsThisMonth;
+    }
+
+    public int getTotalAccountsLastMonth() {
+        return totalAccountsLastMonth;
+    }
+
+    public void setTotalAccountsLastMonth(int totalAccountsLastMonth) {
+        this.totalAccountsLastMonth = totalAccountsLastMonth;
+    }
 
     public Date getCreationDate() {
         return creationDate;

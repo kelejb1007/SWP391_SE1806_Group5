@@ -4,7 +4,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controller.staff;
+package controller.admin;
 
 
 import DAO.GenreDAO;
@@ -70,14 +70,14 @@ public class GenreController extends HttpServlet {
             try {
                 List<Genre> listGenre = genreDAO.getAllGenres();
                 request.setAttribute("listGenre", listGenre);
-                request.getRequestDispatcher("/WEB-INF/views/staff/viewAllGenres.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/views/admin/viewAllGenres.jsp").forward(request, response);
             } catch (Exception ex) {
                 Logger.getLogger(GenreController.class.getName()).log(Level.SEVERE, null, ex);
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error loading genres: " + ex.getMessage());
             }
         } else if (action.equals("add")) {
             // Hiển thị form thêm genre
-            request.getRequestDispatcher("/WEB-INF/views/staff/addGenre.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/admin/addGenre.jsp").forward(request, response);
         } else if (action.equals("delete")) {
             // Xử lý xóa Genre theo id truyền vào
             String idStr = request.getParameter("id");
