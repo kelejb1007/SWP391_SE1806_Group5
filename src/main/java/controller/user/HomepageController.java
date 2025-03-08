@@ -4,12 +4,17 @@
  */
 package controller.user;
 
+import DAO.NovelDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import model.Novel;
 
 /**
  *
@@ -55,9 +60,24 @@ public class HomepageController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Include Home.jsp thay vì forward
-        request.getRequestDispatcher("/getGenre?target=/WEB-INF/views/user/Home.jsp").include(request, response);
+       
+        viewUpdateNovels(request, response);
+        
+    }
+    
+     private void viewUpdateNovels(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        NovelDAO nd = new NovelDAO();
+        List<Novel> listNovel;
+        try {
+           
+            listNovel = nd.getNovelsByTimeUpdate();
+            request.setAttribute("listNovel", listNovel);
+           request.getRequestDispatcher("/getGenre?target=/WEB-INF/views/user/Home.jsp").include(request, response);
 
+        } catch (Exception ex) {
+            Logger.getLogger(HomepageController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
