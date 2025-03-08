@@ -1,0 +1,84 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Mar 3, 2025, 5:29:51 PM
+    Author     : Nguyen Thanh Trung
+*/
+
+/*Posting history-----------------------------------------------------------------------*/
+.ant-empty {
+    margin: 0 8px;
+    font-size: 14px;
+    line-height: 1.5715;
+    text-align: center;
+}
+
+.ant-empty-image img {
+    height: 100%;
+}
+
+img {
+    vertical-align: middle;
+    border-style: none;
+}
+
+.message{
+    margin-bottom: 16px;
+    font-size: 18px;
+    line-height: 18px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.message_sub{
+    margin-bottom: 16px;
+    font-size: 14px;
+    line-height: 20px;
+    color: rgba(20, 27, 44, .6);
+}
+
+.ant-btn-background-ghost.ant-btn-primary {
+    color: #3b66f5;
+    border-color: #3b66f5;
+    text-shadow: none;
+    background: transparent;
+    -webkit-appearance: button;
+}
+button.ant-btn {
+    border-radius: 8px;
+}
+
+.button--4vWlZ {
+    text-transform: lowercase;
+    font-feature-settings: "smcp";
+    font-variant: small-caps;
+    box-shadow: none !important;
+    letter-spacing: 1px;
+}
+
+.ant-btn {
+    line-height: 1.5715;
+    position: relative;
+    display: inline-block;
+    font-weight: 500;
+    white-space: nowrap;
+    text-align: center;
+    background-image: none;
+    box-shadow: 0 2px 0 rgba(0, 0, 0, .015);
+    cursor: pointer;
+    transition: all .3scubic-bezier(.645,.045,.355,1);
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    touch-action: manipulation;
+    height: 32px;
+    padding: 4px 15px;
+    font-size: 14px;
+    border-radius: 4px;
+    color: rgba(18, 18, 23, .9);
+    border: 1px solid rgba(18, 18, 23, .1);
+    background: #fff;
+}

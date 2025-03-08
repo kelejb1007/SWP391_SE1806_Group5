@@ -4,6 +4,7 @@
  */
 package DAO;
 
+import com.sun.javafx.scene.control.skin.VirtualFlow;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -45,20 +46,6 @@ public class GenreDAO {
             }
         } catch (SQLException e) {
             Logger.getLogger(GenreDAO.class.getName()).log(Level.SEVERE, null, e);
-        } finally {
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
-                if (statement != null) {
-                    statement.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                Logger.getLogger(GenreDAO.class.getName()).log(Level.SEVERE, null, e);
-            }
         }
         return genres;
     }
@@ -81,11 +68,11 @@ public class GenreDAO {
             }
         } catch (SQLException e) {
             Logger.getLogger(GenreDAO.class.getName()).log(Level.SEVERE, null, e);
-        } 
+        }
         return genre;
     }
 
-   // Phương thức thêm một Genre mới
+    // Phương thức thêm một Genre mới
     public void addGenre(Genre genre) {
         String sql = "INSERT INTO Genre (genreName) VALUES (?)";
         Connection connection = null;
@@ -97,9 +84,9 @@ public class GenreDAO {
             statement.executeUpdate();
         } catch (SQLException e) {
             Logger.getLogger(GenreDAO.class.getName()).log(Level.SEVERE, null, e);
-        } 
+        }
     }
-    
+
     // Phương thức xóa một Genre theo genreID
     public void deleteGenre(int genreId) {
         String sql = "DELETE FROM Genre WHERE genreID = ?";
@@ -112,13 +99,9 @@ public class GenreDAO {
             statement.executeUpdate();
         } catch (SQLException e) {
             Logger.getLogger(GenreDAO.class.getName()).log(Level.SEVERE, null, e);
-        } 
+        }
     }
 
-    
-    
-    
-    
     ///Trung---------------------------------------------------------------------------
     public boolean addGenreNovel(int genreID, int novelID) {
         String sql = "INSERT INTO Genre_Novel (genreID, novelID)\n"
@@ -164,7 +147,33 @@ public class GenreDAO {
         }
         return genres;
     }
+    
+    
 
+    public List<Integer> getListGenreIDByNovelID(int novelID) {
+        String sql = "SELECT genreID "
+                + " FROM Genre_Novel "
+                + " WHERE novelID = ?";
+        Connection connection;
+        PreparedStatement statement;
+        ResultSet rs;
+        List<Integer> list = new ArrayList<>();
+        try {
+            connection = db.getConnection();
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, novelID);
+            rs = statement.executeQuery();
+            while (rs.next()) {
+                list.add(rs.getInt("genreID"));
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(NovelDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return list;
+    }
+
+    
+    
     public boolean deleteGenreNovel(int novelID) {
         String sql = "DELETE FROM Genre_Novel \n"
                 + "where novelID = ?";

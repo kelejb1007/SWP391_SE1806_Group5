@@ -4,8 +4,10 @@
  */
 package controller.staff;
 
+import DAO.GenreDAO;
 import DAO.LockNovelLogDAO;
 import DAO.NovelDAO;
+import DAO.NovelSubmissionDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -20,6 +22,7 @@ import java.util.logging.Logger;
 import model.LockNovelLog;
 import model.ManagerAccount;
 import model.Novel;
+import model.NovelSubmission;
 import model.UserAccount;
 
 /**
@@ -85,6 +88,9 @@ public class ManageNovelController extends HttpServlet {
             case "viewlockedlist":
                 viewLockedNovels(request, response);
                 break;
+            case "viewsubmission":
+                viewSubmission(request, response);
+                break;
             default:
                 viewAllNovels(request, response);
         }
@@ -95,11 +101,16 @@ public class ManageNovelController extends HttpServlet {
         NovelDAO nd = new NovelDAO();
         List<Novel> listNovel;
         try {
-            listNovel = nd.getAllActiveNovels("active");
-            request.setAttribute("listNovel", listNovel);
-            request.getRequestDispatcher("/WEB-INF/views/staff/allNovels.jsp").forward(request, response);
+            listNovel = nd.getNovelByStatus("active");
+            if (listNovel.isEmpty()) {
+                request.setAttribute("listnull", "No novels available");
+            } else {
+                request.setAttribute("listNovel", listNovel);
+                request.getRequestDispatcher("/WEB-INF/views/staff/allNovels.jsp").forward(request, response);
+            }
         } catch (Exception ex) {
-            Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("error", "There are some error");
+            request.getRequestDispatcher("/WEB-INF/views/staff/allNovels.jsp").forward(request, response);
         }
     }
 
@@ -125,6 +136,24 @@ public class ManageNovelController extends HttpServlet {
             listNovel = nd.getLockedNovels();
             request.setAttribute("listNovel", listNovel);
             request.getRequestDispatcher("/WEB-INF/views/staff/lockedNovels.jsp").forward(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void viewSubmission(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        NovelSubmissionDAO ns = new NovelSubmissionDAO();
+        List<NovelSubmission> list;
+        String listMes = null;
+        try {
+            list = ns.getAllSubmisstion();
+            if (list.isEmpty()) {
+                listMes = "nulllll";
+            }
+            request.setAttribute("listMes", listMes);
+            request.setAttribute("list", list);
+            request.getRequestDispatcher("/WEB-INF/views/staff/submission.jsp").forward(request, response);
         } catch (Exception ex) {
             Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -159,6 +188,12 @@ public class ManageNovelController extends HttpServlet {
             case "unlock":
                 unlockNovel(request, response);
                 break;
+            case "approve":
+                approveNovel(request, response);
+                break;
+            case "reject":
+                rejectNovel(request, response);
+                break;
             default:
                 viewAllNovels(request, response);
         }
@@ -179,7 +214,7 @@ public class ManageNovelController extends HttpServlet {
 
             LockNovelLog ll = new LockNovelLog(ma.getManagerID(), novelID, "lock", lockReason);
 
-            checkChange = nd.changeNovelStatus(novelID);
+            checkChange = nd.changeNovelStatus(novelID, "inactive");
             checkAdd = ld.addLockLog(ll);
 
             if (checkChange && checkAdd) {
@@ -194,7 +229,7 @@ public class ManageNovelController extends HttpServlet {
             Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     private void unlockNovel(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         int novelID = Integer.parseInt(request.getParameter("novelID"));
@@ -209,7 +244,7 @@ public class ManageNovelController extends HttpServlet {
 
             LockNovelLog ll = new LockNovelLog(ma.getManagerID(), novelID, "unlock", null);
 
-            checkChange = nd.changeNovelStatus(novelID);
+            checkChange = nd.changeNovelStatus(novelID, "active");
             checkAdd = ld.addLockLog(ll);
 
             if (checkChange && checkAdd) {
@@ -220,6 +255,83 @@ public class ManageNovelController extends HttpServlet {
             request.setAttribute("message", message);
             response.sendRedirect("managenovel?action=viewlockedlist");
 //            viewLockedNovels(request, response);
+
+        } catch (Exception ex) {
+            Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void approveNovel(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        int submissionNID = Integer.parseInt(request.getParameter("submissionNID"));
+        int novelID = Integer.parseInt(request.getParameter("novelID"));
+        int draftID = Integer.parseInt(request.getParameter("draftID"));
+        String type = request.getParameter("type");
+        NovelSubmissionDAO nSubDAO = new NovelSubmissionDAO();
+        NovelDAO nDAO = new NovelDAO();
+        GenreDAO genDAO = new GenreDAO();
+        String message;
+        try {
+            HttpSession session = request.getSession(false);
+            ManagerAccount ma = (ManagerAccount) session.getAttribute("manager");
+
+            NovelSubmission ns = new NovelSubmission();
+            ns.setSubmissionNID(submissionNID);
+            ns.setManagerID(ma.getManagerID());
+            ns.setStatus("approved");
+
+            if (type.equals("post")) {
+                nSubDAO.updateSubmission(ns);
+                nDAO.changeNovelStatus(novelID, "active");
+                nDAO.updatePublicDate(novelID);
+            } else {
+                nSubDAO.updateSubmission(ns);
+                nDAO.updateNovel(nDAO.getNovelByID(draftID), novelID);
+                genDAO.deleteGenreNovel(novelID);
+                List<Integer> genres = genDAO.getListGenreIDByNovelID(draftID);
+                for (int i = 0; i < genres.size(); i++) {
+                    genDAO.addGenreNovel(genres.get(i), novelID);
+                }
+
+            }
+
+//            request.setAttribute("message", message);
+            viewSubmission(request, response);
+
+        } catch (Exception ex) {
+            Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void rejectNovel(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        int submissionNID = Integer.parseInt(request.getParameter("submissionNID"));
+        int novelID = Integer.parseInt(request.getParameter("novelID"));
+        String type = request.getParameter("type");
+        String rejectReason = request.getParameter("rejectReason");
+        NovelSubmissionDAO nSubDAO = new NovelSubmissionDAO();
+        NovelDAO nDAO = new NovelDAO();
+        GenreDAO genDAO = new GenreDAO();
+        String message;
+        try {
+            HttpSession session = request.getSession(false);
+            ManagerAccount ma = (ManagerAccount) session.getAttribute("manager");
+
+            NovelSubmission ns = new NovelSubmission();
+            ns.setSubmissionNID(submissionNID);
+            ns.setManagerID(ma.getManagerID());
+            ns.setStatus("rejected");
+            ns.setReasonRejected(rejectReason);
+
+            if (type.equals("post")) {
+                nSubDAO.updateSubmission(ns);
+                nDAO.changeNovelStatus(novelID, "inactive");
+            } else {
+                nSubDAO.updateSubmission(ns);
+            }
+
+//            request.setAttribute("message", message);
+            viewSubmission(request, response);
 
         } catch (Exception ex) {
             Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);

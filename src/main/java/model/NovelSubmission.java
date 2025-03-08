@@ -24,15 +24,21 @@ public class NovelSubmission {
     private int novelID;
     private int userID;
     private int managerID;
-    private LocalDateTime submissionDate;
-    private LocalDateTime approvalDate;
+    private String submissionDate;
+    private String approvalDate;
     private String status;
     private String reasonRejected;
+    private String type;
+    private int draftID;
+
+    private String novelName;
+    private String userName;
+    private int draftName;
 
     public NovelSubmission() {
     }
 
-    public NovelSubmission(int submissionNID, int novelID, int userID, int managerID, LocalDateTime submissionDate, LocalDateTime approvalDate, String status, String reasonRejected) {
+    public NovelSubmission(int submissionNID, int novelID, int userID, int managerID, String submissionDate, String approvalDate, String status, String reasonRejected) {
         this.submissionNID = submissionNID;
         this.novelID = novelID;
         this.userID = userID;
@@ -41,6 +47,22 @@ public class NovelSubmission {
         this.approvalDate = approvalDate;
         this.status = status;
         this.reasonRejected = reasonRejected;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getNovelName() {
+        return novelName;
+    }
+
+    public void setNovelName(String novelName) {
+        this.novelName = novelName;
     }
 
     public int getSubmissionNID() {
@@ -75,19 +97,19 @@ public class NovelSubmission {
         this.managerID = managerID;
     }
 
-    public LocalDateTime getSubmissionDate() {
+    public String getSubmissionDate() {
         return submissionDate;
     }
 
-    public void setSubmissionDate(LocalDateTime submissionDate) {
+    public void setSubmissionDate(String submissionDate) {
         this.submissionDate = submissionDate;
     }
 
-    public LocalDateTime getApprovalDate() {
+    public String getApprovalDate() {
         return approvalDate;
     }
 
-    public void setApprovalDate(LocalDateTime approvalDate) {
+    public void setApprovalDate(String approvalDate) {
         this.approvalDate = approvalDate;
     }
 
@@ -106,5 +128,23 @@ public class NovelSubmission {
     public void setReasonRejected(String reasonRejected) {
         this.reasonRejected = reasonRejected;
     }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public int getDraftID() {
+        return draftID;
+    }
+
+    public void setDraftID(int draftID) {
+        this.draftID = draftID;
+    }
+    
+    
 
 }
