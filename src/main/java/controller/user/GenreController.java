@@ -54,7 +54,7 @@ throws ServletException, IOException {
 
         // Kiểm tra target
         String target = request.getParameter("target");
-
+        
         // Kiểm tra target có hợp lệ không (quan trọng để tránh lỗi)
         if (target != null && !target.isEmpty()) {
             // Forward request sau khi kiểm tra target

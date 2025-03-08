@@ -19,6 +19,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
@@ -137,28 +139,39 @@ public class ChapterController extends HttpServlet {
     }
 
     private String getChapterContent(Chapter chapter, HttpServletRequest request) {
-        String fileURL = chapter.getFileURL();
+       String fileURL = chapter.getFileURL();
         if (fileURL == null || fileURL.isEmpty()) {
             return "Chapter content not available.";
         }
 
-        ServletContext context = request.getServletContext();
-        String realPath = context.getRealPath("/");
-        File file = new File(realPath + fileURL);
-
         StringBuilder content = new StringBuilder();
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-8"))) {
 
-            String line;
-            while ((line = reader.readLine()) != null) {
-                content.append(line).append("\n");
+        try {
+            URL url = new URL(fileURL);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("User-Agent", "Mozilla/5.0");
+            
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                // Quy tắc: Văn bản giữa dấu "" sẽ được in nghiêng
+              line = line.replaceAll("([“”\"])(.*?)([“”\"])", "$1<span class='in-nghieng'>$2</span>$3");
+
+
+
+                if (!line.trim().isEmpty()) {
+                    content.append("<p>").append(line).append("</p>\n");
+                }
+            }
             }
         } catch (IOException e) {
             System.out.println("Error in getChapterContent: " + e.getMessage());
             return "Chapter content not available.";
         }
+
         return content.toString();
-    }
+        }
 
     private String getTimeElapsed(LocalDateTime chapterCreatedDate) {
         if (chapterCreatedDate == null) {

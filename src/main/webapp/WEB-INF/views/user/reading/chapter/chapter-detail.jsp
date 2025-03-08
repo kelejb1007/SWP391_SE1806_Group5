@@ -7,14 +7,17 @@
     <head>
         <meta charset="UTF-8">
         <title>Novel Chapter</title>
+        <link rel="stylesheet" href="css/chapter-content/chapter-content.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link href="https://fonts.googleapis.com/css2?family=Satisfy&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Macondo+Swash+Caps&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.5/font/bootstrap-icons.min.css">
         <style>
             /* General Styling */
             body {
-                font-family: Arial, sans-serif;
+                font-family: 'Merriweather', serif;
                 margin: 0;
                 background-color: #f0f0f0;
                 line-height: 1.6;
@@ -161,7 +164,9 @@
                 text-align: center; /* Căn giữa tên chương */
                 padding: 0 20px; /* Thêm padding 2 bên tên chương */
                 box-sizing: border-box; /* Đảm bảo padding không làm tăng kích thước phần tử */
-                font-weight: bold;
+                font-weight: 600;
+                font-style: italic;
+                opacity: 0.6;
             }
 
             /* Sidebar Content Styles */
@@ -189,7 +194,7 @@
             }
 
             body.white-mode .content-container {
-                background-color: #fff;
+                background-color: #269abc;
             }
 
             body.white-mode .sidebar-left, body.white-mode .sidebar-right {
@@ -284,7 +289,7 @@
 
             /* White mode styles */
             body.white-mode {
-                background-color: #f0f0f0;
+                background-color: #269abc;
                 color: #333;
             }
 
@@ -293,7 +298,13 @@
             }
 
             body.white-mode .sidebar-left, body.white-mode .sidebar-right {
-                background-color: #ddd;
+                background-color: #d9edff; /* Nhạt hơn */
+            }
+            body.white-mode .sidebar-left{
+                box-shadow: inset -4px 0 0 rgba(0, 0, 0, 0.05); /* Hiệu ứng đường kẻ mờ tinh tế bên trái */
+            }
+            body.white-mode .sidebar-right {
+                box-shadow: inset 4px 0 0 rgba(0, 0, 0, 0.05); /* Hiệu ứng đường kẻ mờ tinh tế */
             }
 
             body.white-mode .content-header h1,
@@ -392,7 +403,13 @@
             }
 
             body.dark-mode .sidebar-left, body.dark-mode .sidebar-right {
-                background-color: #2d2d2d;
+                background-color: #269abc;
+            }
+            body.dark-mode .sidebar-left{
+                box-shadow: inset -4px 0 0 rgba(0, 0, 0, 0.05); /* Hiệu ứng đường kẻ mờ tinh tế bên trái */
+            }
+            body.dark-mode .sidebar-right {
+                box-shadow: inset 4px 0 0 rgba(0, 0, 0, 0.05); /* Hiệu ứng đường kẻ mờ tinh tế */
             }
 
             body.dark-mode .decorative-line {
@@ -431,6 +448,35 @@
             }
             body.dark-mode .chapter-novel-info a {
                 color: #d4c7b0;
+            }
+
+            .chapter-content p {
+                font-family: 'Open Sans', sans-serif;
+                letter-spacing: 0.02em;
+                text-indent: 0.8rem;
+                line-height: 1.7;
+                margin-bottom: 20px;
+                opacity: 0.7;
+                text-align: justify-all;
+                -webkit-hyphens: auto;
+                -moz-hyphens: auto;
+                -ms-hyphens: auto;
+                hyphens: auto;
+
+            }
+            .chapter-content p strong {
+                font-weight: bold;
+            }
+
+
+            .chapter-content .in-nghieng {
+                font-family: 'Open Sans', sans-serif;
+                font-style: italic;
+                font-size: 1.1rem;
+                /*color: #d9534f; */
+                font-weight: 600;
+                text-indent: 0.5rem;
+                opacity: 0.7;
             }
 
         </style>

@@ -122,7 +122,7 @@ public class NovelDetailController extends HttpServlet {
         List<Chapter> sortedChapters = new ArrayList<>(chapters);
 
         // Sắp xếp danh sách chapter nếu có parameter
-        if (sortParam != null && !sortParam.isEmpty()) {
+        if (sortParam != null && !sortParam.isEmpty() && chapters.size() > 1) {
             sortedChapters = chapterDAO.getChaptersByNovelId(novelId, sortParam);
         }
 
