@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package controller.user;
 
 import DAO.FavoriteDAO;
@@ -23,9 +22,10 @@ import model.UserAccount;
  *
  * @author Phan Hồng Tài - CE181490
  */
-@WebServlet(name="FavoriteController", urlPatterns={"/favorite"})
+@WebServlet(name = "FavoriteController", urlPatterns = {"/favorite"})
 public class FavoriteController extends HttpServlet {
-   private FavoriteDAO favoriteDAO;
+
+    private FavoriteDAO favoriteDAO;
 
     @Override
     public void init() throws ServletException {
@@ -41,10 +41,58 @@ public class FavoriteController extends HttpServlet {
         if (action == null || action.equals("list")) {
             // Hiển thị danh sách yêu thích
             viewFavoriteList(request, response);
+
+        } else if ("search".equals(action)) {
+            searchFavorite(request, response);
         } else {
             // Xử lý AJAX request để kiểm tra trạng thái yêu thích
             handleFavoriteStatus(request, response);
         }
+    }
+
+    private void searchFavorite(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        UserAccount user = (UserAccount) session.getAttribute("user");
+
+        if (user == null) {
+            response.sendRedirect("Login");
+            return;
+        }
+
+        String searchQuery = request.getParameter("searchQuery");
+
+        // Server-side validation
+        if (searchQuery == null || searchQuery.trim().isEmpty()) {
+            request.setAttribute("errorMessage", "Please enter the name of the novel.");
+            viewFavoriteList(request, response);
+            return;
+        }
+
+        searchQuery = searchQuery.trim();  // Trim the search query
+
+        if (searchQuery.length() < 3) {
+            request.setAttribute("errorMessage", "The key for search must be at least 3 characters.");
+            viewFavoriteList(request, response);
+            return;
+        }
+
+        String regex = "^[a-zA-Z\\s\\u00C0-\\u1FFF]*$";
+        if (!searchQuery.matches(regex)) {
+            request.setAttribute("errorMessage", "Novel titles cannot contain numbers or special characters.");
+            viewFavoriteList(request, response);
+            return;
+        }
+        
+        List<Novel> favoriteNovels = favoriteDAO.searchFavoriteNovelsByUserId(user.getUserID(), searchQuery);
+        if(favoriteNovels == null){
+            request.setAttribute("errorMessage", "Not found this novel in your favorite.");
+            viewFavoriteList(request, response);
+            return;
+        }
+        request.setAttribute("favoriteNovels", favoriteNovels);
+        request.setAttribute("searchQuery", searchQuery);
+        request.getRequestDispatcher("/getGenre?target=/WEB-INF/views/user/favorite/favorite-history.jsp").forward(request, response);
     }
 
     private void viewFavoriteList(HttpServletRequest request, HttpServletResponse response)
@@ -54,13 +102,13 @@ public class FavoriteController extends HttpServlet {
 
         if (user == null) {
             // Chưa đăng nhập, chuyển hướng đến trang đăng nhập
-            response.sendRedirect("login"); // Thay "login" bằng URL trang đăng nhập của bạn
+            response.sendRedirect("Login"); // Thay "login" bằng URL trang đăng nhập của bạn
             return;
         }
 
         // Lấy danh sách tiểu thuyết yêu thích từ DAO
         List<Novel> favoriteNovels = favoriteDAO.getFavoriteNovelsByUserId(user.getUserID());
-
+        
         // Đặt danh sách vào request attribute
         request.setAttribute("favoriteNovels", favoriteNovels);
 
@@ -114,6 +162,13 @@ public class FavoriteController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        addRemoveFavorite(request, response);
+
+    }
+
+    private void addRemoveFavorite(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/plain;charset=UTF-8");
         PrintWriter out = response.getWriter();

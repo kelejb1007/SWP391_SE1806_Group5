@@ -95,7 +95,7 @@ public class RatingController extends HttpServlet {
             if (success) {
                 // Calculate the average rating after successfully adding/updating the rating
                 averageRating = ratingDAO.calculateAverageRating(novelId);
-              //  ratingCount = ratingDAO.getRatingCount(novelId);
+               ratingCount = ratingDAO.getRatingCount(novelId);
                 
                 System.out.println("RatingController: averageRating = " + averageRating + ", ratingCount = " + ratingCount);
             }

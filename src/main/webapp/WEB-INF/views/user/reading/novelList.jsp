@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <title>Novel List</title>
    
-     <link rel="stylesheet" href="css/home/header.css?v=2">
+     <link rel="stylesheet" href="css/home/header(d).css">
     <link rel="stylesheet" href="css/home/novel-list.css">
    
     <link rel="stylesheet" href="css/home/filter.css">
@@ -67,8 +67,8 @@
    
                                       
     <jsp:include page="/WEB-INF/views/user/components/footer.jsp"></jsp:include>
-     <script src="js/home/header.js"></script>
+     <script src="js/home/header(d).js"></script>
    <script src="js/home/sidebar.js"></script>
-     <script src="js/lock.js"></script>
+   
 </body>
 </html>

@@ -1,11 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8">
         <title>NovelReader</title>
-        <link rel="stylesheet" href="css/home/home.css">
-         <link rel="stylesheet" href="css/home/header.css">
+        <link rel="stylesheet" href="css/home/home(d).css">
+        <link rel="stylesheet" href="css/home/header(d).css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Macondo+Swash+Caps&display=swap">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -15,12 +17,11 @@
     </head>
 
     <body>
-        <div class="container">
-            <header>
-
-
+        
                 <jsp:include page="/WEB-INF/views/user/components/header.jsp" /> 
-            </header>
+        <div class="container">
+           
+          
 
             <main>
                 <!-- Slider Section -->
@@ -85,32 +86,26 @@
                         <!-- Last Update Section -->
                         <section class="last-update">
                             <h2>Last Update</h2>
+
+
+
                             <div class="novels">
-                                <div class="novel-item">
-                                    <div class="novel-cover"></div>
-                                    <p>Name novel</p>
-                                </div>
-                                <div class="novel-item">
-                                    <div class="novel-cover"></div>
-                                    <p>Name novel</p>
-                                </div>
-                                <div class="novel-item">
-                                    <div class="novel-cover"></div>
-                                    <p>Name novel</p>
-                                </div>
-                                <div class="novel-item">
-                                    <div class="novel-cover"></div>
-                                    <p>Name novel</p>
-                                </div>
-                                <div class="novel-item">
-                                    <div class="novel-cover"></div>
-                                    <p>Name novel</p>
-                                </div>
-                                <div class="novel-item">
-                                    <div class="novel-cover"></div>
-                                    <p>Name novel</p>
-                                </div>
+
+                                <c:forEach var="c" items="${listNovel}" >
+                                    <div class="novel-item">
+
+
+                                        <div class="novel-cover">
+
+                                            <img src="${c.imageURL}" alt="${c.novelName}" width="100%" object-fit: cover
+                                                 height="100%" >
+                                        </div>
+
+                                        <a href="chapter?id=${c.chapterID}"><p>${c.novelName}</p></a>
+                                    </div>
+                                </c:forEach> 
                             </div>
+
                         </section>
                     </div>  <!-- Closing col-lg-8 -->
 
@@ -173,6 +168,6 @@
         </div>
 
         <script src="js/home/home.js"></script>
-        <script src="js/home/header.js"></script>
+        <script src="js/home/header(d).js"></script>
     </body>
 </html>
