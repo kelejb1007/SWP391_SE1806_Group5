@@ -70,15 +70,15 @@
                 <li><a href="<c:url value='/Login' />">Log in</a></li>
                 <!-- Khoa thêm link vào khi ấn Sign up sẽ đưa đến Register -->
                 <li><a href="<c:url value='/Register' />">Sign up</a></li>
-            </c:if>
+                </c:if>
 
             <!-- Nếu đã đăng nhập -->
             <c:if test="${not empty sessionScope.user}">
                 <li><a href="<c:url value='/favorite' />">Favorite List</a></li>
                 <li><a href="mynovel">My Novels</a></li>
                 <li><a href="#"> Post</a><i class="fas fa-plus"></i></li>
-                
-                
+
+
                 <!-- Khoa thêm nút View Profile -->
                 <li><a href="<c:url value='/viewprofile' />">View Profile</a></li>
                 <!-- Khoa thêm chức năng Logout - Khi ấn sẽ xóa session và quay về trạng thái chưa đăng nhập -->

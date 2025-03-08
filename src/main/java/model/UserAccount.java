@@ -24,7 +24,7 @@ public class UserAccount {
     private boolean isBanned;
     private Date dateOfBirth;
     private int status;
-
+    private String imageUML; // thêm image cho Avatar
     public Date getCreationDate() {
         return creationDate;
     }
@@ -122,7 +122,15 @@ public class UserAccount {
     public void setLastLogin(Timestamp lastLogin) {
         this.lastLogin = lastLogin;
     }
+    // cho phan Profile
+    // Getter và Setter cho imageUML cho Avatar
+    public String getImageUML() {
+        return imageUML;
+    }
 
+    public void setImageUML(String imageUML) {
+        this.imageUML = imageUML;
+    }
     public Object getRole() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }

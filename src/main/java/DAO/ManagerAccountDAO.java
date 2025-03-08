@@ -121,7 +121,7 @@ public class ManagerAccountDAO {
      */
     public List<ManagerAccount> getAccountsByRole(String role) throws SQLException {
         List<ManagerAccount> listAccounts = new ArrayList<>();
-        String sql = "SELECT managerID, username, password, creationDate, fullName, email, numberPhone, gender, canLock, canApprove, role "
+        String sql = "SELECT managerID, username, password, creationDate, fullName, email, numberPhone, gender, canLock, canApprove, role  "
                 + "FROM ManagerAccount WHERE role = ?";
         try ( Connection conn = dbContext.getConnection();  PreparedStatement stmt = conn.prepareStatement(sql)) {
 
@@ -247,8 +247,43 @@ public class ManagerAccountDAO {
         account.setCanApprove(rs.getBoolean("canApprove"));
         account.setRole(rs.getString("role"));
 
-        account.setStatus(rs.getInt("status"));
+//        account.setStatus(rs.getInt("status"));
         return account;
     }
+    //Khoa thêm cho Register Staff
 
+    public boolean isUserExist(String username, String email) {
+        String sql = "SELECT managerID FROM ManagerAccount WHERE userName = ? OR email = ?";
+        try ( Connection conn = dbContext.getConnection();  PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, username);
+            stmt.setString(2, email);
+            ResultSet rs = stmt.executeQuery();
+
+            // Nếu có kết quả, tức là đã có tài khoản với username hoặc email này
+            return rs.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean registerUser(ManagerAccount newAccount) {
+        String sql = "INSERT INTO ManagerAccount (username, password, fullName, email, numberPhone, gender, role) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        try ( Connection conn = dbContext.getConnection();  PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, newAccount.getUsername());
+            stmt.setString(2, newAccount.getPassword());
+            stmt.setString(3, newAccount.getFullName());
+            stmt.setString(4, newAccount.getEmail());
+            stmt.setString(5, newAccount.getNumberPhone());
+            stmt.setString(6, newAccount.getGender());
+            stmt.setString(7, newAccount.getRole());  // Đây là "Staff" mặc định nếu chưa thay đổi
+
+            int rowsInserted = stmt.executeUpdate();
+            return rowsInserted > 0;  // Trả về true nếu có ít nhất 1 dòng được chèn vào
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
