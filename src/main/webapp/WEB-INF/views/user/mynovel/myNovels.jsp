@@ -16,10 +16,11 @@
         <link rel="stylesheet" href="css/startmin/font-awesome.min.css" type="text/css">
 
         <link rel="stylesheet" href="css/home/header.css">
-        <link rel="stylesheet" href="css/mynovel/myNovels.css">
+        <link rel="stylesheet" href="css/mynovel/myNovel.css">
 
         <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
 
 
     </head>
@@ -27,35 +28,40 @@
     <body>
         <jsp:include page="/WEB-INF/views/user/components/header.jsp"></jsp:include>
 
-            <div class="g_sub_hd">
-                <div class="g_wrap pr" data-report-l1="2"> 
-                    <Strong><h2 class="">My Novels</h2> </Strong> 
+        <c:if test="${not empty message}">
+            <script>
+                window.onload = function () {
+                    alert("${message}");
+                };
+            </script>
+        </c:if>
 
-                    <p class="_tab _slide" data-report-l1="1">
-                        <a href="###" title="My Novels" class="_on">My Novels</a>
-                        <a href="/history" title="Poting History" data-report-eid="qi_B02">Posting History</a>
-                        <!--                    <i class="_line" style="width: 67px; left: 0px;"></i>-->
-                    </p>
 
-                    <div class="add-filter"> 
-                        <!--                        <form action="" method="post" >
-                                                    <input type="hidden" name="action" value="post">
-                                                    <button type="button" class="btn btn-info"><i class="bi bi-plus-circle faa"></i>  Create a novel</button>
-                                                    </form>-->
-                        <button type="button" class="btn btn-info" onclick="window.location.href = 'mynovel?action=post';">
-                            <i class="bi bi-plus-circle faa"></i>  Create a novel
-                        </button>
-                    </div>
+        <div class="g_sub_hd">
+            <div class="g_wrap pr" data-report-l1="2"> 
+                <Strong><h2 class="">My Novels</h2> </Strong> 
+
+                <p class="_tab _slide" data-report-l1="1">
+                    <a href="mynovel" title="My Novels" class="_on">My Novels</a>
+                    <a href="mynovel?action=viewposthistory" title="Poting History">Submission History</a>
+                </p>
+
+                <div class="add-filter"> 
+                    <button type="button" class="btn btn-info" onclick="window.location.href = 'mynovel?action=post';">
+                        <i class="bi bi-plus-circle faa"></i>  Create a novel
+                    </button>
                 </div>
-            </div>
 
-            <div>
-                <ul class="row list">
+            </div>
+        </div>
+
+        <div>
+            <ul class="row list">
                 <c:forEach var="c" items="${requestScope.listNovel}" >
                     <li class="pr col-md-2 list-item ">
                         <div class="book"> 
-                            <a href="mynovel?action=viewdetail&novelID=${c.novelID}" title="${c.novelName}" > 
-                                <i class="detail"> 
+                            <a href="mynovel?action=viewdetail&novelID=${c.novelID}" title="${c.novelName}"> 
+                                <i class="detail">
                                     <!-- dung canvas API -->
                                     <img cross-origin="anonymous"  
                                          data-original="${c.imageURL}" 
@@ -63,48 +69,51 @@
                                          height="186" 
                                          alt="${c.novelName}" 
                                          src="${c.imageURL}" 
-                                         style="display: block;">  
+                                         style="display: block;"> 
+
+
                                     <span class="_tag_sub" 
                                           <c:if test="${c.novelStatus == 'inactive'}">
                                               style="background-color: red"
-                                          </c:if>>${c.novelStatus}</span>  
+                                          </c:if>>${c.novelStatus}
+                                    </span> 
+                                    <span class="_tag_sub">
+                                        <strong style="color: white" class="sub"><i style="color: white" class="fa fa-eye fa-fw faa"></i> ${c.viewCount}</strong>
+                                        <strong style="color: white" class="sub"><i style="color: white" class="fa fa-star fa-fw faa"></i> ${c.averageRating}</strong>
+                                    </span>  
                                 </i> 
                                 <h3>${c.novelName}</h3> 
                             </a> 
-
-                            <!--                            <label class="labell">
-                                                            <input type="checkbox" name="" class="hide" value="28967119200447901" data-ntype="100">
-                                                            <span class="pa t50% l50% br100% trans">
-                                                                <svg><use xlink:href="#i-right"></use></svg>
-                                                            </span>
-                                                        </label> -->
-
-
-
-
-<!--                        <strong class="sub"><i class="fa fa-star fa-fw faa"></i> ${c.averageRating}</strong> -->
                             <strong style="margin: 0" class="sub"><i class="fa fa-file-text fa-fw"></i> ${c.totalChapter} Chapters</strong> 
-<!--                        <strong class="sub"><i class="fa fa-eye fa-fw faa"></i> ${c.viewCount}</strong> -->
 
+                            <ul class="novel_nav_sub">
+                                <span class="title">
+                                    <strong class="sub"><i class="fa fa-eye fa-fw faa"></i> ${c.viewCount}</strong>
+                                    <strong class="sub"><i class="fa fa-star fa-fw faa"></i> ${c.averageRating}</strong> 
+                                </span>
 
-                            <button type="button" class="btn btn-info"
-                                    onclick="window.location.href = 'mynovel?action=update&novelID=${c.novelID}';">Update
-                            </button>
-                            <form action="mynovel" method="post" style="display: inline">
-                                <input type="hidden" name="action" value="delete">
-                                <input type="hidden" name="novelID" value="${c.novelID}">
-                                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure to delete the novel: ${c.novelName} (ID=${c.novelID})')">Delete</button>
-                            </form>
+                                <li class="list">
+                                    <a class="g_sd_sub_option" href="mynovel?action=update&novelID=${c.novelID}">
+                                        <strong class="str">Update</strong>
+                                    </a>
+                                </li>
 
-                            <c:if test="${not empty message}">
-                                <script>
-                                    window.onload = function () {
-                                        alert("${message}");
-                                    };
-                                </script>
-                            </c:if>
+                                <li class="list">
+                                    <form action="mynovel" method="post" style="display: inline">
+                                        <input type="hidden" name="action" value="delete">
+                                        <input type="hidden" name="novelID" value="${c.novelID}">
+                                        <button type="submit" class="g_sd_sub_option" onclick="return confirm('Are you sure to delete the novel: ${c.novelName} (ID=${c.novelID})')">
+                                            <strong class="str">Delete</strong>
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
                         </div>
                     </li>
+
+
+
+
                 </c:forEach>  
             </ul>
         </div>
@@ -113,5 +122,4 @@
         <jsp:include page="/WEB-INF/views/user/components/footer.jsp"></jsp:include>
         <script src="js/home/header.js"></script>
     </body>
-
 </html>

@@ -29,7 +29,7 @@ public class NovelDAO {
     }
 
     //Admin-------------------------------------------------------------------------------------------------------------
-    public List<Novel> getAllActiveNovels(String s) {
+    public List<Novel> getNovelByStatus(String s) {
         List<Novel> list = new ArrayList<>();
         String sql = "SELECT n.novelID, n.novelName, n.imageURL, n.totalChapter, n.publishedDate, u.fullName, COALESCE(ROUND(AVG(r.score), 2), 0) AS averageRating, COUNT(v.novelID) AS viewCount\n"
                 + "FROM Novel n \n"
@@ -143,12 +143,31 @@ public class NovelDAO {
         return novel;
     }
 
-    public boolean changeNovelStatus(int novelID) {
+    public boolean changeNovelStatus(int novelID, String status) {
         String sql = "UPDATE Novel\n"
-                + "SET novelStatus = CASE \n"
-                + "            WHEN novelStatus = 'active' THEN 'inactive'\n"
-                + "	       ELSE 'active'\n"
-                + "	       END\n"
+                + "SET novelStatus = ?\n"
+                + "WHERE novelID = ?";
+        Connection connection;
+        PreparedStatement statement;
+        int n;
+        try {
+            connection = db.getConnection();
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, status);
+            statement.setInt(2, novelID);
+            n = statement.executeUpdate();
+            if (n != 0) {
+                return true;
+            }
+        } catch (Exception e) {
+            Logger.getLogger(NovelDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return false;
+    }
+
+    public boolean updatePublicDate(int novelID) {
+        String sql = "UPDATE Novel\n"
+                + "SET publishedDate = SYSDATETIME()\n"
                 + "WHERE novelID = ?";
         Connection connection;
         PreparedStatement statement;
@@ -176,7 +195,7 @@ public class NovelDAO {
                 + "JOIN UserAccount u ON n.UserID = u.UserID \n"
                 + "LEFT JOIN Rating r ON n.novelID = r.novelID\n"
                 + "LEFT JOIN Viewing v ON n.novelID = v.novelID\n"
-                + "WHERE n.UserID = '" + userID + "'\n"
+                + "WHERE n.UserID = ? AND n.novelStatus IN ('active', 'inactive')\n"
                 + "GROUP BY n.novelID, n.novelName, n.imageURL, n.totalChapter, n.novelStatus, n.publishedDate, u.fullName";
         Connection connection;
         PreparedStatement statement;
@@ -184,6 +203,7 @@ public class NovelDAO {
         try {
             connection = db.getConnection();
             statement = connection.prepareStatement(sql);
+            statement.setInt(1, userID);
             rs = statement.executeQuery();
             while (rs.next()) {
                 Novel m = new Novel();
@@ -206,7 +226,7 @@ public class NovelDAO {
 
     public int addNovel(Novel novel) {
         String sql = "INSERT INTO Novel (novelName, userID, imageURL, novelDescription, totalChapter, publishedDate, novelStatus)\n"
-                + "VALUES (?, ?, ?, ?, ?, NULL, 'pending')";
+                + "VALUES (?, ?, ?, ?, ?, NULL, ?)";
         Connection connection;
         PreparedStatement statement;
         ResultSet rs;
@@ -220,6 +240,7 @@ public class NovelDAO {
             statement.setString(3, novel.getImageURL());
             statement.setString(4, novel.getNovelDescription());
             statement.setInt(5, novel.getTotalChapter());
+            statement.setString(6, novel.getNovelStatus());
             n = statement.executeUpdate();
             if (n > 0) {
                 rs = statement.getGeneratedKeys();
@@ -233,8 +254,7 @@ public class NovelDAO {
         return novelID;
     }
 
-    
-    public boolean updateNovel(Novel novel) {
+    public boolean updateNovel(Novel draft, int novelID) {
         String sql = "UPDATE Novel SET "
                 + "novelName = ?, imageURL = ?,"
                 + "novelDescription = ?, totalChapter = ?"
@@ -245,11 +265,11 @@ public class NovelDAO {
         try {
             connection = db.getConnection();
             statement = connection.prepareStatement(sql);
-            statement.setString(1, novel.getNovelName());
-            statement.setString(2, novel.getImageURL());
-            statement.setString(3, novel.getNovelDescription());
-            statement.setInt(4, novel.getTotalChapter());
-            statement.setInt(5, novel.getNovelID());
+            statement.setString(1, draft.getNovelName());
+            statement.setString(2, draft.getImageURL());
+            statement.setString(3, draft.getNovelDescription());
+            statement.setInt(4, draft.getTotalChapter());
+            statement.setInt(5, novelID);
             n = statement.executeUpdate();
             if (n != 0) {
                 return true;
@@ -259,7 +279,7 @@ public class NovelDAO {
         }
         return false;
     }
-    
+
     public boolean deleteNovel(int novelID) {
         String sql = "UPDATE Novel SET "
                 + "novelStatus = 'inactive' "

@@ -38,10 +38,10 @@
             <div class="container-fluid">
 
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-sm-12">
                         <h1 class="page-header">Update Novel</h1>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-sm-12">
                         <div class="panel panel-info">
                             <div class="panel-heading" style="font-size: 18px">
                                 Novel Information

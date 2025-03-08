@@ -42,12 +42,13 @@ public class Novel {
     public Novel() {
     }
 
-    public Novel(String novelName, int userID, String imageURL, String novelDescription, int totalChapter) {
+    public Novel(String novelName, int userID, String imageURL, String novelDescription, int totalChapter, String novelStatus) {
         this.novelName = novelName;
         this.userID = userID;
         this.imageURL = imageURL;
         this.novelDescription = novelDescription;
         this.totalChapter = totalChapter;
+        this.novelStatus = novelStatus;
     }
     
 

@@ -37,7 +37,6 @@
 
                         <span>/</span> 
                         <a class="a2" href="mynovel"  title="My novels"> My novels </a>
-
                         <span>/</span> 
                         <span>${novel.novelName}</span> 
                 </p>

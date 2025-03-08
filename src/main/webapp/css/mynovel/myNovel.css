@@ -368,3 +368,102 @@ em, i, small, strong {
     display:block
 }
 
+
+
+
+
+.novel_nav_sub{
+    padding: 4px 0;
+    border-radius: 8px;
+    list-style: none;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    top: 10%;
+    left: 70%;
+    margin-left: 0;
+    transform: translateY(-50%);
+    background-color: #fff;
+    box-shadow: 0 8px 24px 0 rgba(0, 0, 0, .16);
+    width: 130px;
+    transition: .3s;
+    z-index: 1000
+}
+
+.novel_nav_sub:before {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: 50%;
+    transform: translate(-100%, -50%);
+    border: 8px solid transparent;
+    border-right-color: #fff;
+}
+
+.novel_nav_sub:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -36px;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.novel_nav_sub .title{
+    display: flex;
+    padding: 8px 12px 0;
+    color: rgba(20, 27, 44, .6);
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 12px;
+    width: 100%;
+}
+
+.novel_nav_sub .list{
+    position: relative;
+    display: flex;
+    padding: 6px;
+    align-items: center;
+    width: 100%;
+}
+
+.list button{
+    all: unset;
+    cursor: pointer;
+    color: red;
+
+    padding-left: 8px;
+}
+
+.list button:hover{
+    text-decoration: underline;
+}
+
+.list:hover{
+    background-color: #f5f6fc;
+}
+
+.g_sd_sub_option{
+    flex: 1 1;
+    display: flex;
+    transition: .3s;
+    cursor: pointer;
+    color: #141b2c;
+    width: 100%;
+    padding-left: 8px;
+}
+
+.str{
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 24px;
+}
+
+.book:hover .novel_nav_sub, .novel_nav_sub:hover{
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+}
