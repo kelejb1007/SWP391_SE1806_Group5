@@ -13,7 +13,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.UserAccount;
-
+/**
+ * @author KHOA
+ */
 @WebServlet(name = "EditProfileController", urlPatterns = {"/editProfile"})
 public class EditProfileController extends HttpServlet {
 

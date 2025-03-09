@@ -272,6 +272,22 @@ public class UserAccountDAO {
             return false;
         }
     }
+    //ChangePass
+    public boolean changePassword(String username, String currentPassword, String newPassword, String confirmPassword) {
+    if (!newPassword.equals(confirmPassword)) {
+        return false;
+    }
+    String sql = "UPDATE UserAccount SET password = ? WHERE userName = ? AND password = ?";
+    try (Connection conn = dbContext.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+        stmt.setString(1, hashSHA256(newPassword));
+        stmt.setString(2, username);
+        stmt.setString(3, hashSHA256(currentPassword));
+        return stmt.executeUpdate() > 0;
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return false;
+}
 }
 
 

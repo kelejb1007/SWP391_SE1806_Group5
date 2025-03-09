@@ -272,7 +272,7 @@ public class ManagerAccountDAO {
                 + "VALUES (?, ?, ?, ?, ?, ?, ?)";
         try ( Connection conn = dbContext.getConnection();  PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, newAccount.getUsername());
-            stmt.setString(2, newAccount.getPassword());
+            stmt.setString(2, hashSHA256(newAccount.getPassword())); // Hash mật khẩu
             stmt.setString(3, newAccount.getFullName());
             stmt.setString(4, newAccount.getEmail());
             stmt.setString(5, newAccount.getNumberPhone());
@@ -284,6 +284,64 @@ public class ManagerAccountDAO {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    //DetailStaff
+    public ManagerAccount getAccountById(int managerID) throws SQLException {
+        ManagerAccount account = null;
+        String sql = "SELECT * FROM ManagerAccount WHERE managerID = ?";
+
+        try ( Connection conn = dbContext.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, managerID);
+            try ( ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    account = new ManagerAccount();
+                    account.setManagerID(rs.getInt("managerID"));
+                    account.setUsername(rs.getString("username"));
+                    account.setFullName(rs.getString("fullName"));
+                    account.setEmail(rs.getString("email"));
+                    account.setNumberPhone(rs.getString("numberPhone"));
+                    account.setGender(rs.getString("gender"));
+                    account.setRole(rs.getString("role"));
+                    account.setCreationDate(rs.getDate("creationDate"));
+                    account.setStatus(rs.getInt("status"));
+                }
+            }
+        }
+        return account;
+    }
+
+    //EditlStaff
+
+
+    public boolean isEmailExists(String email, int excludeManagerID) throws SQLException {
+        String query = "SELECT COUNT(*) FROM ManagerAccount WHERE email = ? AND managerID != ?";
+        try (Connection conn = dbContext.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, email);
+            stmt.setInt(2, excludeManagerID);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        }
+        return false;
+    }
+
+    public void updateAccount(int managerID, String fullName, String email, String numberPhone, String gender, String role, int status) throws SQLException {
+        String query = "UPDATE ManagerAccount SET fullName = ?, email = ?, numberPhone = ?, gender = ?, role = ?, status = ? WHERE managerID = ?";
+        try (Connection conn = dbContext.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, fullName);
+            stmt.setString(2, email);
+            stmt.setString(3, numberPhone);
+            stmt.setString(4, gender);
+            stmt.setString(5, role);
+            stmt.setInt(6, status);
+            stmt.setInt(7, managerID);
+            stmt.executeUpdate();
         }
     }
 }

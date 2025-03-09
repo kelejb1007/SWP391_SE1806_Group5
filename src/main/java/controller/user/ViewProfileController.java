@@ -14,7 +14,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.UserAccount;
-
+/**
+ * @author KHOA
+ */
 @WebServlet(name = "ViewProfileController", urlPatterns = {"/viewprofile"})
 public class ViewProfileController extends HttpServlet {
 
