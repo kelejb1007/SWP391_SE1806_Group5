@@ -12,7 +12,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Lock Chapter</title>
     <!-- Bootstrap Core CSS -->
-    <link rel="stylesheet" href="css/startmin/bootstrap.css">
+    <link rel="stylesheet" href="css/startmin/bootstrap.min.css">
     <link rel="stylesheet" href="css/startmin/startmin.css">
     <link rel="stylesheet" href="css/startmin/font-awesome.min.css" type="text/css">
     <link rel="stylesheet" href="css/startmin/metisMenu.min.css">
