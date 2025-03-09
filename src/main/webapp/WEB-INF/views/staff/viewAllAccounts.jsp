@@ -14,7 +14,7 @@
         <title>Manage Accounts</title>
 
         <!-- Bootstrap Core CSS -->
-        <link rel="stylesheet" href="css/startmin/bootstrap.css">
+        <link rel="stylesheet" href="css/startmin/bootstrap.min.css">
         <link rel="stylesheet" href="css/startmin/startmin.css">
         <link rel="stylesheet" href="css/startmin/font-awesome.min.css" type="text/css">
         <link rel="stylesheet" href="css/startmin/metisMenu.min.css">
@@ -115,7 +115,7 @@
 
                                                                 <td>
                                                                     <c:choose>
-                                                                        <c:when test="${acc.status == 1}">
+                                                                        <c:when test="${acc.status == 0}">
                                                                             <button type="button" class="btn btn-danger" onclick="showLockModal(${acc.userID})">Lock</button>
                                                                         </c:when>
                                                                     </c:choose>
