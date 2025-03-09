@@ -21,16 +21,17 @@ import utils.DBContext;
  * @author Nguyen Ngoc Phat - CE180321
  */
 public class PostChapterDAO {
+
     private final DBContext db;
     private static final Logger LOGGER = Logger.getLogger(PostChapterDAO.class.getName());
     private static final String BASE_DIR = "chapters"; // Sử dụng đường dẫn tương đối cố định
 
     public PostChapterDAO(ServletContext context) {
         db = new DBContext();
-        
+
         // Log thông tin về thư mục gốc
         LOGGER.log(Level.INFO, "Base directory path: {0}", BASE_DIR);
-        
+
         // Đảm bảo thư mục gốc "chapters" tồn tại trong context thực tế
         String realPath = context.getRealPath(BASE_DIR);
         File baseDirFile = new File(realPath != null ? realPath : BASE_DIR);
@@ -38,40 +39,42 @@ public class PostChapterDAO {
             boolean created = baseDirFile.mkdirs();
             LOGGER.log(Level.INFO, "Base directory created: {0}", created);
         }
-        
+
         // Kiểm tra quyền ghi
         LOGGER.log(Level.INFO, "Base directory can write: {0}", baseDirFile.canWrite());
     }
 
     /**
      * Tạo thư mục cho novel dựa trên tên
+     *
      * @param novelName Tên của novel
      * @return Đường dẫn tương đối đến thư mục hoặc null nếu thất bại
      */
     public String createNovelDirectory(String novelName) {
         String safeName = novelName.replaceAll("[^a-zA-Z0-9-_]", "_"); // Làm sạch tên, loại bỏ ký tự nguy hiểm
         String dirPath = Paths.get(BASE_DIR, safeName).toString(); // "chapters/The_Mystic_World"
-        
+
         LOGGER.log(Level.INFO, "Creating novel directory at: {0}", dirPath);
-        
+
         // Lấy đường dẫn thực tế để tạo thư mục
         String realPath = getRealPath(dirPath);
         File directory = new File(realPath);
         if (!directory.exists()) {
             boolean created = directory.mkdirs();
             LOGGER.log(Level.INFO, "Novel directory created: {0}", created);
-            
+
             if (!created) {
                 LOGGER.log(Level.SEVERE, "Failed to create directory: {0}", dirPath);
                 return null;
             }
         }
-        
+
         return dirPath; // Trả về đường dẫn tương đối (không thay thế \ bằng / vì đã là định dạng chuẩn)
     }
-    
+
     /**
      * Lấy đường dẫn đến file chapter
+     *
      * @param novelName Tên novel
      * @param chapterNumber Số chapter
      * @return Đường dẫn tương đối file hoặc null nếu không thể tạo thư mục
@@ -81,22 +84,23 @@ public class PostChapterDAO {
         if (dirPath == null) {
             return null;
         }
-        
+
         // Tạo đường dẫn file với định dạng "ch{NUMBER}.txt"
         String filePath = Paths.get(dirPath, "ch" + chapterNumber + ".txt").toString();
         LOGGER.log(Level.INFO, "Chapter file path (relative): {0}", filePath);
         return filePath; // Trả về đường dẫn tương đối
     }
-    
+
     /**
      * Lưu nội dung chapter vào file
+     *
      * @param filePath Đường dẫn file tương đối
      * @param content Nội dung cần lưu
      * @return true nếu thành công, false nếu thất bại
      */
     public boolean saveChapterContent(String filePath, String content) {
         LOGGER.log(Level.INFO, "Saving content to file: {0}", filePath);
-        
+
         // Lấy đường dẫn thực tế để ghi file
         String realPath = getRealPath(filePath);
         File parent = new File(realPath).getParentFile();
@@ -105,8 +109,8 @@ public class PostChapterDAO {
             boolean parentCreated = parent.mkdirs();
             LOGGER.log(Level.INFO, "Parent directory created: {0}", parentCreated);
         }
-        
-        try (FileWriter writer = new FileWriter(realPath)) {
+
+        try ( FileWriter writer = new FileWriter(realPath)) {
             writer.write(content);
             LOGGER.log(Level.INFO, "Content successfully written to file");
             return true;
@@ -116,16 +120,17 @@ public class PostChapterDAO {
             return false;
         }
     }
-    
+
     /**
      * Lưu nội dung chapter từ InputStream (upload file)
+     *
      * @param filePath Đường dẫn file tương đối
      * @param inputStream Stream dữ liệu
      * @return true nếu thành công, false nếu thất bại
      */
     public boolean saveChapterFile(String filePath, InputStream inputStream) {
         LOGGER.log(Level.INFO, "Saving uploaded file to: {0}", filePath);
-        
+
         // Lấy đường dẫn thực tế để ghi file
         String realPath = getRealPath(filePath);
         File parent = new File(realPath).getParentFile();
@@ -134,7 +139,7 @@ public class PostChapterDAO {
             boolean parentCreated = parent.mkdirs();
             LOGGER.log(Level.INFO, "Parent directory created: {0}", parentCreated);
         }
-        
+
         try {
             Files.copy(inputStream, Paths.get(realPath), StandardCopyOption.REPLACE_EXISTING);
             LOGGER.log(Level.INFO, "File successfully saved");
@@ -153,11 +158,11 @@ public class PostChapterDAO {
         }
 
         String getMaxChapterQuery = "SELECT MAX(chapterNumber) AS maxId FROM Chapter WHERE novelID = ?";
-        try (Connection connection = db.getConnection(); PreparedStatement maxStmt = connection.prepareStatement(getMaxChapterQuery)) {
+        try ( Connection connection = db.getConnection();  PreparedStatement maxStmt = connection.prepareStatement(getMaxChapterQuery)) {
             maxStmt.setInt(1, chapter.getNovelID());
 
             int nextChapterNumber = 1; // Mặc định chapterNumber bắt đầu từ 1
-            try (ResultSet rs = maxStmt.executeQuery()) {
+            try ( ResultSet rs = maxStmt.executeQuery()) {
                 if (rs.next() && !rs.wasNull()) {
                     nextChapterNumber = rs.getInt("maxId") + 1;
                 }
@@ -166,9 +171,9 @@ public class PostChapterDAO {
             // Tạo đường dẫn file chapter với định dạng mới (tương đối)
             String novelName = chapter.getNovelName() != null ? chapter.getNovelName() : "Unknown";
             LOGGER.log(Level.INFO, "Creating file path for novel: {0}, chapter: {1}", new Object[]{novelName, nextChapterNumber});
-            
+
             String filePath = getChapterFilePath(novelName, nextChapterNumber);
-            
+
             if (filePath == null) {
                 LOGGER.log(Level.SEVERE, "Failed to create directory for novel: {0}", novelName);
                 return -1;
@@ -177,7 +182,7 @@ public class PostChapterDAO {
             String insertChapterQuery = "INSERT INTO Chapter (novelID, chapterNumber, chapterName, fileURL, publishedDate, chapterStatus) "
                     + "VALUES (?, ?, ?, ?, ?, ?)";
 
-            try (PreparedStatement insertStmt = connection.prepareStatement(insertChapterQuery, Statement.RETURN_GENERATED_KEYS)) {
+            try ( PreparedStatement insertStmt = connection.prepareStatement(insertChapterQuery, Statement.RETURN_GENERATED_KEYS)) {
                 insertStmt.setInt(1, chapter.getNovelID());
                 insertStmt.setInt(2, nextChapterNumber);
                 insertStmt.setString(3, chapter.getChapterName());
@@ -193,7 +198,7 @@ public class PostChapterDAO {
                 LOGGER.log(Level.INFO, "Rows inserted: {0}", rowsInserted);
 
                 if (rowsInserted > 0) {
-                    try (ResultSet generatedKeys = insertStmt.getGeneratedKeys()) {
+                    try ( ResultSet generatedKeys = insertStmt.getGeneratedKeys()) {
                         if (generatedKeys.next()) {
                             int generatedId = generatedKeys.getInt(1);
                             LOGGER.log(Level.INFO, "Generated chapter ID: {0}", generatedId);
@@ -211,7 +216,7 @@ public class PostChapterDAO {
 
     public int getNextChapterNumber(int novelId) {
         String query = "SELECT COALESCE(MAX(chapterNumber), 0) + 1 FROM Chapter WHERE novelID = ?";
-        try (Connection conn = db.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = db.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setInt(1, novelId);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -228,7 +233,7 @@ public class PostChapterDAO {
 
     public boolean updateChapterFilePath(int chapterID, String filePath) {
         String updateQuery = "UPDATE Chapter SET fileURL = ? WHERE chapterID = ?";
-        try (Connection connection = db.getConnection(); PreparedStatement ps = connection.prepareStatement(updateQuery)) {
+        try ( Connection connection = db.getConnection();  PreparedStatement ps = connection.prepareStatement(updateQuery)) {
             ps.setString(1, filePath); // Sử dụng đường dẫn tương đối
             ps.setInt(2, chapterID);
             int updated = ps.executeUpdate();
@@ -243,7 +248,9 @@ public class PostChapterDAO {
 
     /**
      * Chuyển đổi đường dẫn tương đối thành đường dẫn thực tế
-     * @param relativePath Đường dẫn tương đối (ví dụ: "chapters/The_Mystic_World/ch1.txt")
+     *
+     * @param relativePath Đường dẫn tương đối (ví dụ:
+     * "chapters/The_Mystic_World/ch1.txt")
      * @return Đường dẫn thực tế trên hệ thống
      */
     private String getRealPath(String relativePath) {
@@ -265,5 +272,261 @@ public class PostChapterDAO {
             }
         }
         return realPath;
+    }
+
+    /**
+     * Lấy thông tin chapter theo chapterID
+     *
+     * @param chapterId ID của chapter
+     * @return Đối tượng Chapter hoặc null nếu không tìm thấy
+     */
+    public Chapter getChapterById(int chapterId) {
+        String sql = "SELECT c.chapterID, c.novelID, c.chapterNumber, c.chapterName, c.fileURL, c.publishedDate, c.chapterStatus, n.novelName "
+                + "FROM Chapter c "
+                + "JOIN Novel n ON c.novelID = n.novelID "
+                + "WHERE c.chapterID = ?";
+
+        try ( Connection connection = db.getConnection();  PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, chapterId);
+            try ( ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    Chapter chapter = new Chapter();
+                    chapter.setChapterID(rs.getInt("chapterID"));
+                    chapter.setNovelID(rs.getInt("novelID"));
+                    chapter.setChapterNumber(rs.getInt("chapterNumber"));
+                    chapter.setChapterName(rs.getString("chapterName"));
+                    chapter.setFileURL(rs.getString("fileURL"));
+                    Timestamp timestamp = rs.getTimestamp("publishedDate");
+                    chapter.setChapterCreatedDate(timestamp != null ? timestamp.toLocalDateTime() : null);
+                    chapter.setChapterStatus(rs.getString("chapterStatus"));
+                    chapter.setNovelName(rs.getString("novelName"));
+                    return chapter;
+                }
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error fetching chapter by ID: " + chapterId, e);
+        }
+        return null;
+    }
+
+    /**
+     * Kiểm tra chapterNumber có tồn tại trong novel không
+     *
+     * @param novelId ID của novel
+     * @param chapterNumber Số chapter cần kiểm tra
+     * @return true nếu đã tồn tại, false nếu không
+     */
+    public boolean isChapterNumberExists(int novelId, int chapterNumber) {
+        String sql = "SELECT COUNT(*) FROM Chapter WHERE novelID = ? AND chapterNumber = ?";
+        try ( Connection connection = db.getConnection();  PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, novelId);
+            statement.setInt(2, chapterNumber);
+            try ( ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error checking chapter number existence for novel ID: " + novelId, e);
+        }
+        return false;
+    }
+
+    /**
+     * Cập nhật thông tin chapter
+     *
+     * @param chapter Đối tượng Chapter chứa thông tin cập nhật
+     * @return true nếu cập nhật thành công, false nếu thất bại
+     */
+    public boolean updateChapter(Chapter chapter) {
+        String sql = "UPDATE Chapter SET chapterNumber = ?, chapterName = ? WHERE chapterID = ?";
+        try ( Connection connection = db.getConnection();  PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, chapter.getChapterNumber());
+            statement.setString(2, chapter.getChapterName());
+            statement.setInt(3, chapter.getChapterID());
+            int rowsUpdated = statement.executeUpdate();
+            LOGGER.log(Level.INFO, "Rows updated: " + rowsUpdated + " for chapter ID: " + chapter.getChapterID());
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error updating chapter ID: " + chapter.getChapterID(), e);
+            return false;
+        }
+    }
+
+    /**
+     * Xóa chapter theo chapterID
+     *
+     * @param chapterId ID của chapter cần xóa
+     * @return true nếu xóa thành công, false nếu thất bại
+     */
+    public boolean deleteChapter(int chapterId) {
+        // Lấy thông tin chapter để lấy fileURL trước khi xóa
+        Chapter chapter = getChapterById(chapterId);
+        if (chapter == null) {
+            LOGGER.log(Level.WARNING, "Chapter not found for ID: {0}", chapterId);
+            return false;
+        }
+
+        String filePath = chapter.getFileURL();
+        String deleteSql = "DELETE FROM Chapter WHERE chapterID = ?";
+
+        try ( Connection connection = db.getConnection();  PreparedStatement statement = connection.prepareStatement(deleteSql)) {
+            statement.setInt(1, chapterId);
+            int rowsDeleted = statement.executeUpdate();
+            LOGGER.log(Level.INFO, "Rows deleted: {0} for chapter ID: {1}", new Object[]{rowsDeleted, chapterId});
+
+            if (rowsDeleted > 0) {
+                // Xóa file nội dung chapter nếu tồn tại
+                if (filePath != null && !filePath.isEmpty()) {
+                    String realPath = getRealPath(filePath);
+                    java.io.File file = new java.io.File(realPath);
+                    if (file.exists()) {
+                        boolean fileDeleted = file.delete();
+                        LOGGER.log(Level.INFO, "Chapter file deleted: {0}, success: {1}", new Object[]{realPath, fileDeleted});
+                    } else {
+                        LOGGER.log(Level.WARNING, "Chapter file does not exist: {0}", realPath);
+                    }
+                }
+                return true;
+            }
+            return false;
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error deleting chapter ID: {0}", chapterId);
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    /**
+     * Lấy thông tin chapter dựa trên novelName và chapterNumber
+     *
+     * @param novelName Tên của novel
+     * @param chapterNumber Số chapter
+     * @return Đối tượng Chapter hoặc null nếu không tìm thấy
+     */
+    public Chapter getChapterByNovelNameAndChapterNumber(String novelName, int chapterNumber) {
+        String sql = "SELECT c.chapterID, c.novelID, c.chapterNumber, c.chapterName, c.fileURL, c.publishedDate, c.chapterStatus, n.novelName "
+                + "FROM Chapter c "
+                + "JOIN Novel n ON c.novelID = n.novelID "
+                + "WHERE n.novelName = ? AND c.chapterNumber = ?";
+
+        try (Connection connection = db.getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, novelName);
+            statement.setInt(2, chapterNumber);
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    Chapter chapter = new Chapter();
+                    chapter.setChapterID(rs.getInt("chapterID"));
+                    chapter.setNovelID(rs.getInt("novelID"));
+                    chapter.setChapterNumber(rs.getInt("chapterNumber"));
+                    chapter.setChapterName(rs.getString("chapterName"));
+                    chapter.setFileURL(rs.getString("fileURL"));
+                    Timestamp timestamp = rs.getTimestamp("publishedDate");
+                    chapter.setChapterCreatedDate(timestamp != null ? timestamp.toLocalDateTime() : null);
+                    chapter.setChapterStatus(rs.getString("chapterStatus"));
+                    chapter.setNovelName(rs.getString("novelName"));
+                    return chapter;
+                }
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error fetching chapter by novelName: " + novelName + " and chapterNumber: " + chapterNumber, e);
+        }
+        return null;
+    }
+
+    /**
+     * Xóa chapter dựa trên novelName và chapterNumber
+     *
+     * @param novelName Tên của novel
+     * @param chapterNumber Số chapter
+     * @return true nếu xóa thành công, false nếu thất bại
+     */
+    public boolean deleteChapter(String novelName, int chapterNumber) {
+        // Lấy thông tin chapter để lấy fileURL và chapterID trước khi xóa
+        Chapter chapter = getChapterByNovelNameAndChapterNumber(novelName, chapterNumber);
+        if (chapter == null) {
+            LOGGER.log(Level.WARNING, "Chapter not found for novelName: {0}, chapterNumber: {1}", new Object[]{novelName, chapterNumber});
+            return false;
+        }
+
+        String filePath = chapter.getFileURL();
+        int chapterId = chapter.getChapterID();
+
+        Connection connection = null;
+        try {
+            connection = db.getConnection();
+            connection.setAutoCommit(false);
+
+            // Xóa các bản ghi liên quan trong ChapterSubmission
+            String deleteSubmissionSql = "DELETE FROM ChapterSubmission WHERE chapterID = ?";
+            try (PreparedStatement stmt = connection.prepareStatement(deleteSubmissionSql)) {
+                stmt.setInt(1, chapterId);
+                stmt.executeUpdate();
+                LOGGER.log(Level.INFO, "Deleted related ChapterSubmission records for chapter ID: {0}", chapterId);
+            }
+
+            // Xóa các bản ghi liên quan trong LockChapterLog
+            String deleteLockLogSql = "DELETE FROM LockChapterLog WHERE chapterID = ?";
+            try (PreparedStatement stmt = connection.prepareStatement(deleteLockLogSql)) {
+                stmt.setInt(1, chapterId);
+                stmt.executeUpdate();
+                LOGGER.log(Level.INFO, "Deleted related LockChapterLog records for chapter ID: {0}", chapterId);
+            }
+
+            // Xóa các bản ghi liên quan trong ReadingHistory
+            String deleteReadingHistorySql = "DELETE FROM ReadingHistory WHERE chapterID = ?";
+            try (PreparedStatement stmt = connection.prepareStatement(deleteReadingHistorySql)) {
+                stmt.setInt(1, chapterId);
+                stmt.executeUpdate();
+                LOGGER.log(Level.INFO, "Deleted related ReadingHistory records for chapter ID: {0}", chapterId);
+            }
+
+            // Xóa bản ghi trong Chapter
+            String deleteChapterSql = "DELETE FROM Chapter WHERE novelID = (SELECT novelID FROM Novel WHERE novelName = ?) AND chapterNumber = ?";
+            try (PreparedStatement statement = connection.prepareStatement(deleteChapterSql)) {
+                statement.setString(1, novelName);
+                statement.setInt(2, chapterNumber);
+                int rowsDeleted = statement.executeUpdate();
+                LOGGER.log(Level.INFO, "Rows deleted: {0} for novelName: {1}, chapterNumber: {2}", new Object[]{rowsDeleted, novelName, chapterNumber});
+
+                if (rowsDeleted > 0) {
+                    // Xóa file nội dung chapter nếu tồn tại
+                    if (filePath != null && !filePath.isEmpty()) {
+                        String realPath = getRealPath(filePath);
+                        File file = new File(realPath);
+                        if (file.exists()) {
+                            boolean fileDeleted = file.delete();
+                            LOGGER.log(Level.INFO, "Chapter file deleted: {0}, success: {1}", new Object[]{realPath, fileDeleted});
+                        } else {
+                            LOGGER.log(Level.WARNING, "Chapter file does not exist: {0}", realPath);
+                        }
+                    }
+                    connection.commit();
+                    return true;
+                }
+                connection.rollback();
+                return false;
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error deleting chapter for novelName: {0}, chapterNumber: {1}", new Object[]{novelName, chapterNumber});
+            e.printStackTrace();
+            if (connection != null) {
+                try {
+                    connection.rollback();
+                } catch (SQLException ex) {
+                    LOGGER.log(Level.SEVERE, "Error rolling back transaction", ex);
+                }
+            }
+            return false;
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.setAutoCommit(true);
+                    connection.close();
+                } catch (SQLException e) {
+                    LOGGER.log(Level.SEVERE, "Error closing connection", e);
+                }
+            }
+        }
     }
 }

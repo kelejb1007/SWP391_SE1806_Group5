@@ -1,6 +1,6 @@
 package model;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  *
@@ -13,32 +13,34 @@ public class ManageChapter {
     private int chapterNumber;
     private String chapterName;
     private String fileURL;
-    private LocalDateTime publishedDate;  // Đổi từ chapterCreatedDate
+    private Date publishedDate;
     private String chapterStatus;
     private boolean isLocked;
 
     // Thêm các thuộc tính liên quan đến khóa chương
-    private LocalDateTime lockDateTime;
+    private Date lockDateTime;
     private String lockAction;
     private String lockReason;
+    private String novelName;
 
     public ManageChapter() {
     }
 
     public ManageChapter(int chapterID, int novelID, int chapterNumber, String chapterName, String fileURL,
-            LocalDateTime publishedDate, String chapterStatus, boolean isLocked,
-            LocalDateTime lockDateTime, String lockAction, String lockReason) {
+            Date publishedDate, String chapterStatus, boolean isLocked,
+            Date lockDateTime, String lockAction, String lockReason, String novelName) {
         this.chapterID = chapterID;
         this.novelID = novelID;
         this.chapterNumber = chapterNumber;
         this.chapterName = chapterName;
         this.fileURL = fileURL;
-        this.publishedDate = publishedDate;
+        this.publishedDate = publishedDate; // Sửa lại
         this.chapterStatus = chapterStatus;
         this.isLocked = isLocked;
-        this.lockDateTime = lockDateTime;
+        this.lockDateTime = lockDateTime; // Sửa lại
         this.lockAction = lockAction;
         this.lockReason = lockReason;
+        this.novelName = novelName; // Thêm novelName vào constructor
     }
 
     public int getChapterID() {
@@ -81,11 +83,11 @@ public class ManageChapter {
         this.fileURL = fileURL;
     }
 
-    public LocalDateTime getPublishedDate() {
+    public Date getPublishedDate() {
         return publishedDate;
     }
 
-    public void setPublishedDate(LocalDateTime publishedDate) {
+    public void setPublishedDate(Date publishedDate) {
         this.publishedDate = publishedDate;
     }
 
@@ -105,11 +107,11 @@ public class ManageChapter {
         this.isLocked = isLocked;
     }
 
-    public LocalDateTime getLockDateTime() {
+    public Date getLockDateTime() { // Thay LocalDateTime bằng Date
         return lockDateTime;
     }
 
-    public void setLockDateTime(LocalDateTime lockDateTime) {
+    public void setLockDateTime(Date lockDateTime) { // Thay LocalDateTime bằng Date
         this.lockDateTime = lockDateTime;
     }
 
@@ -129,20 +131,29 @@ public class ManageChapter {
         this.lockReason = lockReason;
     }
 
+    public String getNovelName() {
+        return novelName;
+    }
+
+    public void setNovelName(String novelName) {
+        this.novelName = novelName;
+    }
+
     @Override
     public String toString() {
-        return "ManageChapter{"
-                + "chapterID=" + chapterID
-                + ", novelID=" + novelID
-                + ", chapterNumber=" + chapterNumber
-                + ", chapterName='" + chapterName + '\''
-                + ", fileURL='" + fileURL + '\''
-                + ", publishedDate=" + publishedDate
-                + ", chapterStatus='" + chapterStatus + '\''
-                + ", isLocked=" + isLocked
-                + ", lockDateTime=" + lockDateTime
-                + ", lockAction='" + lockAction + '\''
-                + ", lockReason='" + lockReason + '\''
-                + '}';
+        return "ManageChapter{" +
+                "chapterID=" + chapterID +
+                ", novelID=" + novelID +
+                ", novelName='" + novelName + '\'' +
+                ", chapterNumber=" + chapterNumber +
+                ", chapterName='" + chapterName + '\'' +
+                ", fileURL='" + fileURL + '\'' +
+                ", publishedDate=" + publishedDate +
+                ", chapterStatus='" + chapterStatus + '\'' +
+                ", isLocked=" + isLocked +
+                ", lockDateTime=" + lockDateTime +
+                ", lockAction='" + lockAction + '\'' +
+                ", lockReason='" + lockReason + '\'' +
+                '}';
     }
 }

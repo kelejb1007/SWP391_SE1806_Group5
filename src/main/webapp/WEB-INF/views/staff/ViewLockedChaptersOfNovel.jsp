@@ -1,6 +1,6 @@
 <%-- 
-    Document   : viewLockedChapter.jsp
-    Created on : Mar 1, 2025, 6:26:16 PM
+    Document   : ViewLockedChaptersByNovel.jsp
+    Created on : Mar 8, 2025
     Author     : Nguyen Ngoc Phat - CE180321
 --%>
 
@@ -11,22 +11,41 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Manage Locked Chapters</title>
+        <title>Locked Chapters of Novel</title>
 
         <!-- Bootstrap Core CSS -->
-        <link rel="stylesheet" href="css/startmin/bootstrap.css">
-        <link rel="stylesheet" href="css/startmin/startmin.css">
-        <link rel="stylesheet" href="css/startmin/font-awesome.min.css" type="text/css">
-        <link rel="stylesheet" href="css/startmin/metisMenu.min.css">
+        <link rel="stylesheet" href="css/startmin/bootstrap.css" />
+        <link rel="stylesheet" href="css/startmin/startmin.css" />
+        <link rel="stylesheet" href="css/startmin/font-awesome.min.css" type="text/css" />
+        <link rel="stylesheet" href="css/startmin/metisMenu.min.css" />
 
-        <link href="css/startmin/dataTables/dataTables.bootstrap.css" rel="stylesheet">
-        <link href="css/startmin/dataTables/dataTables.responsive.css" rel="stylesheet">
+        <link href="css/startmin/dataTables/dataTables.bootstrap.css" rel="stylesheet" />
+        <link href="css/startmin/dataTables/dataTables.responsive.css" rel="stylesheet" />
 
         <script>
+            function checkResource(resource) {
+                if (!document.querySelector(resource)) {
+                    console.error("Resource not found: " + resource);
+                }
+            }
+            window.onload = function () {
+                checkResource("link[href='css/startmin/bootstrap.css']");
+                checkResource("link[href='css/startmin/dataTables/dataTables.bootstrap.css']");
+            };
+
             function openUnlockModal(chapterID, chapterName) {
                 document.getElementById('chapterID').value = chapterID;
                 document.getElementById('unlockChapterName').innerHTML = chapterName + " (ID=" + chapterID + ")";
+                const message = "${message}";
+                if (message) {
+                    document.getElementById('unlockMessage').innerHTML = message;
+                    document.getElementById('unlockMessage').style.display = "block";
+                }
                 $("#unlockModal").modal("show");
+            }
+
+            function clearModalMessage() {
+                document.getElementById('unlockMessage').style.display = "none";
             }
         </script>
     </head>
@@ -47,14 +66,24 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-lg-12">
-                            <h1 class="page-header">MANAGE CHAPTERS</h1>
+                            <h1 class="page-header">
+                                MANAGE CHAPTERS
+                            </h1>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    List of All Locked Chapters
+                                    List of Locked Chapters 
+                                    <c:choose>
+                                        <c:when test="${not empty novelId and novelId > 0}">
+                                            ${novelId}
+                                        </c:when>
+                                        <c:otherwise>
+                                            N/A
+                                        </c:otherwise>
+                                    </c:choose>
                                 </div>
                                 <div class="panel-body">
                                     <div class="table-responsive">
@@ -63,7 +92,6 @@
                                                 <tr>
                                                     <th>#</th>
                                                     <th>Chapter ID</th>
-                                                    <th>Novel Name</th>
                                                     <th>Chapter Name</th>
                                                     <th>Published Date</th>
                                                     <th>Status</th>
@@ -77,9 +105,10 @@
                                                             <tr>
                                                                 <td>${status.index + 1}</td>
                                                                 <td>${chapter.chapterID}</td>
-                                                                <td>${chapter.novelName}</td>
                                                                 <td>${chapter.chapterName}</td>
-                                                                <td><fmt:formatDate value="${chapter.publishedDate}" pattern="dd/MM/yyyy HH:mm" /></td>
+                                                                <td>
+                                                                    <fmt:formatDate value="${chapter.publishedDate}" pattern="dd/MM/yyyy HH:mm" />
+                                                                </td>
                                                                 <td>${chapter.chapterStatus}</td>
                                                                 <td>
                                                                     <button type="button" class="btn btn-success"
@@ -92,7 +121,7 @@
                                                     </c:when>
                                                     <c:otherwise>
                                                         <tr>
-                                                            <td colspan="7">No locked chapters found</td>
+                                                            <td colspan="6">No locked chapters found for this novel</td>
                                                         </tr>
                                                     </c:otherwise>
                                                 </c:choose>
@@ -110,14 +139,15 @@
                                                                 word-wrap: break-word; -webkit-box-orient: vertical; -webkit-line-clamp: 2;">
                                                                 You are unlocking the chapter: <strong><span id="unlockChapterName"></span></strong>
                                                             </h4>
-                                                            <button type="button" class="close" style="float: right" data-dismiss="modal">×</button>
+                                                            <button type="button" class="close" style="float: right" data-dismiss="modal" onclick="clearModalMessage()">×</button>
                                                         </div>
                                                         <div class="modal-body">
                                                             <input type="hidden" name="chapterId" id="chapterID">
+                                                            <p id="unlockMessage" style="color: red; display: none;"></p>
                                                             <p>Are you sure you want to unlock this chapter?</p>
                                                         </div>
                                                         <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="clearModalMessage()">Cancel</button>
                                                             <input type="hidden" name="action" value="unlock">
                                                             <button type="submit" class="btn btn-success">Confirm</button>
                                                         </div>
@@ -152,7 +182,13 @@
                 $('#dataTables-example').DataTable({
                     responsive: true,
                     "pageLength": 10,
-                    "order": [[1, "desc"]]
+                    "order": [[1, "desc"]],
+                    "language": {
+                        "emptyTable": "No data available in table",
+                        "info": "Showing _START_ to _END_ of _TOTAL_ entries",
+                        "infoEmpty": "Showing 0 to 0 of 0 entries",
+                        "infoFiltered": "(filtered from _MAX_ total entries)"
+                    }
                 });
             });
         </script>

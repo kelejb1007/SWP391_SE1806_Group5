@@ -37,7 +37,7 @@ public class PostChapterController extends HttpServlet {
             request.setAttribute("messageType", "error");
             request.setAttribute("novelId", null); // Đặt tạm để JSP biết có lỗi
             request.setAttribute("nextChapterNumber", null);
-            request.getRequestDispatcher("/WEB-INF/views/user/postChapter.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/user/chapter/postChapter.jsp").forward(request, response);
             return;
         }
 
@@ -50,7 +50,7 @@ public class PostChapterController extends HttpServlet {
                 request.setAttribute("messageType", "error");
                 request.setAttribute("novelId", null);
                 request.setAttribute("nextChapterNumber", null);
-                request.getRequestDispatcher("/WEB-INF/views/user/postChapter.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/views/user/chapter/postChapter.jsp").forward(request, response);
                 return;
             }
         }
@@ -63,7 +63,7 @@ public class PostChapterController extends HttpServlet {
             request.setAttribute("messageType", "error");
             request.setAttribute("novelId", null);
             request.setAttribute("nextChapterNumber", null);
-            request.getRequestDispatcher("/WEB-INF/views/user/postChapter.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/user/chapter/postChapter.jsp").forward(request, response);
             return;
         }
 
@@ -78,7 +78,7 @@ public class PostChapterController extends HttpServlet {
         request.setAttribute("novelName", novel.getNovelName());
         request.setAttribute("nextChapterNumber", nextChapterNumber);
         request.setAttribute("filePath", filePath);
-        request.getRequestDispatcher("/WEB-INF/views/user/postChapter.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/user/chapter/postChapter.jsp").forward(request, response);
     }
 
     @Override
@@ -102,7 +102,7 @@ public class PostChapterController extends HttpServlet {
             request.setAttribute("messageType", "error");
             request.setAttribute("novelId", novelIdParam != null ? Integer.parseInt(novelIdParam) : null);
             request.setAttribute("nextChapterNumber", null);
-            request.getRequestDispatcher("/WEB-INF/views/user/postChapter.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/user/chapter/postChapter.jsp").forward(request, response);
             return;
         }
 
@@ -114,7 +114,7 @@ public class PostChapterController extends HttpServlet {
                 request.setAttribute("messageType", "error");
                 request.setAttribute("novelId", null);
                 request.setAttribute("nextChapterNumber", null);
-                request.getRequestDispatcher("/WEB-INF/views/user/postChapter.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/views/user/chapter/postChapter.jsp").forward(request, response);
                 return;
             }
 
@@ -142,7 +142,7 @@ public class PostChapterController extends HttpServlet {
                     request.setAttribute("messageType", "error");
                     request.setAttribute("novelId", novelId);
                     request.setAttribute("nextChapterNumber", null);
-                    request.getRequestDispatcher("/WEB-INF/views/user/postChapter.jsp").forward(request, response);
+                    request.getRequestDispatcher("/WEB-INF/views/user/chapter/postChapter.jsp").forward(request, response);
                     return;
                 }
 
@@ -167,7 +167,7 @@ public class PostChapterController extends HttpServlet {
                     request.setAttribute("message", "Chapter posted successfully!");
                     request.setAttribute("messageType", "success");
                     
-                    request.getRequestDispatcher("/WEB-INF/views/user/postChapter.jsp").forward(request, response);
+                    request.getRequestDispatcher("/WEB-INF/views/user/chapter/postChapter.jsp").forward(request, response);
                     return;
                 } else {
                     LOGGER.log(Level.SEVERE, "Failed to save chapter content");
@@ -175,7 +175,7 @@ public class PostChapterController extends HttpServlet {
                     request.setAttribute("messageType", "error");
                     request.setAttribute("novelId", novelId);
                     request.setAttribute("nextChapterNumber", null);
-                    request.getRequestDispatcher("/WEB-INF/views/user/postChapter.jsp").forward(request, response);
+                    request.getRequestDispatcher("/WEB-INF/views/user/chapter/postChapter.jsp").forward(request, response);
                 }
             } else {
                 LOGGER.log(Level.SEVERE, "Failed to post chapter, returned ID: {0}", chapterID);
@@ -183,7 +183,7 @@ public class PostChapterController extends HttpServlet {
                 request.setAttribute("messageType", "error");
                 request.setAttribute("novelId", novelId);
                 request.setAttribute("nextChapterNumber", null);
-                request.getRequestDispatcher("/WEB-INF/views/user/postChapter.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/views/user/chapter/postChapter.jsp").forward(request, response);
             }
         } catch (NumberFormatException e) {
             LOGGER.log(Level.SEVERE, "Invalid number format for Novel ID.", e);
@@ -191,14 +191,14 @@ public class PostChapterController extends HttpServlet {
             request.setAttribute("messageType", "error");
             request.setAttribute("novelId", null);
             request.setAttribute("nextChapterNumber", null);
-            request.getRequestDispatcher("/WEB-INF/views/user/postChapter.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/user/chapter/postChapter.jsp").forward(request, response);
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Error writing chapter file.", e);
             request.setAttribute("message", "Error writing chapter file.");
             request.setAttribute("messageType", "error");
             request.setAttribute("novelId", novelIdParam != null ? Integer.parseInt(novelIdParam) : null);
             request.setAttribute("nextChapterNumber", null);
-            request.getRequestDispatcher("/WEB-INF/views/user/postChapter.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/user/chapter/postChapter.jsp").forward(request, response);
         }
     }
 }
