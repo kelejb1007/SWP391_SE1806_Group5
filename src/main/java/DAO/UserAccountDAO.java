@@ -111,7 +111,7 @@ public class UserAccountDAO {
         user.setCreationDate(rs.getTimestamp("creationDate"));
         user.setNumberPhone(rs.getString("numberPhone"));
         user.setDateOfBirth(rs.getTimestamp("dateOfBirth"));
-        user.setIsBanned(rs.getBoolean("isBanned"));
+        user.setStatus(rs.getInt("status"));
 //        user.setStatus(rs.getInt("status"));
         return user;
     }
@@ -123,7 +123,7 @@ public class UserAccountDAO {
 
     // Khoa thêm do?n này Cho UC Rgist
     public boolean registerUser(UserAccount user) {
-        String sql = "INSERT INTO UserAccount (userName, password, fullName, email, numberPhone, gender, isBanned) "
+        String sql = "INSERT INTO UserAccount (userName, password, fullName, email, numberPhone, gender, status) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?)";
         try ( Connection conn = dbContext.getConnection();  PreparedStatement stmt = conn.prepareStatement(sql)) {
 
@@ -133,7 +133,7 @@ public class UserAccountDAO {
             stmt.setString(4, user.getEmail());
             stmt.setString(5, user.getNumberPhone());
             stmt.setString(6, user.getGender());
-            stmt.setBoolean(7, user.isIsBanned());
+            stmt.setInt(7, user.getStatus());
 
             int rowsInserted = stmt.executeUpdate();
             return rowsInserted > 0;

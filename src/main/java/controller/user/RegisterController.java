@@ -96,7 +96,7 @@ public class RegisterController extends HttpServlet {
         newUser.setEmail(email);
         newUser.setNumberPhone(numberPhone);
         newUser.setGender(gender);
-        newUser.setIsBanned(false); // Mặc định không bị khóa
+        newUser.setStatus(0); // Mặc định không bị khóa
 
         boolean isRegistered = userDao.registerUser(newUser);
         if (isRegistered) {

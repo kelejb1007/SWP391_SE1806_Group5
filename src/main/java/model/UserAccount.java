@@ -21,7 +21,6 @@ public class UserAccount {
     private Date creationDate;
     private String numberPhone;
     private String gender;
-    private boolean isBanned;
     private Date dateOfBirth;
     private int status;
 
@@ -105,14 +104,6 @@ public class UserAccount {
 
     public void setGender(String gender) {
         this.gender = gender;
-    }
-
-    public boolean isIsBanned() {
-        return isBanned;
-    }
-
-    public void setIsBanned(boolean isBanned) {
-        this.isBanned = isBanned;
     }
 
     public Timestamp getLastLogin() {
