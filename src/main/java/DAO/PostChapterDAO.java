@@ -186,7 +186,7 @@ public class PostChapterDAO {
                 insertStmt.setInt(1, chapter.getNovelID());
                 insertStmt.setInt(2, nextChapterNumber);
                 insertStmt.setString(3, chapter.getChapterName());
-                insertStmt.setString(4, filePath); // Lưu đường dẫn tương đối: "chapters/The_Mystic_World/ch2.txt"
+                insertStmt.setString(4, chapter.getFileURL()); // Lưu đường dẫn tương đối: "chapters/The_Mystic_World/ch2.txt"
 
                 insertStmt.setTimestamp(5, chapter.getChapterCreatedDate() != null
                         ? Timestamp.valueOf(chapter.getChapterCreatedDate())

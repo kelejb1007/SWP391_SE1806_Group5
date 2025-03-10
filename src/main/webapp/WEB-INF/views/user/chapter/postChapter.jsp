@@ -77,7 +77,7 @@
             %>
 
             <% if (novelId == null || nextChapterNumber == null) { %>
-            <p class="message error">Error: Novel ID or Chapter Number is missing.</p>
+            <p class="message error"><%=message%></p>
             <% } else {%>
 
             <form action="<%= request.getContextPath()%>/postChapter" method="post" enctype="multipart/form-data">
