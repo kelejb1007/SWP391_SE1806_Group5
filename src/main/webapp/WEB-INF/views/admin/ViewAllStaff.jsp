@@ -61,7 +61,15 @@
                                             <td>${staff.gender}</td>
                                             <td>${staff.role}</td>
                                             <td>
-                                                <button class="btn btn-info" onclick="viewDetail(${staff.managerID})">View Detail</button>
+                                                <button type="button" class="btn btn-info" 
+                                                        onclick="window.location.href = '${pageContext.request.contextPath}/viewStaff?managerID=${staff.managerID}';">
+                                                    View Detail
+                                                </button>
+                                                <button type="button" class="btn btn-warning" 
+                                                        onclick="window.location.href = '${pageContext.request.contextPath}/EditStaff?managerID=${staff.managerID}';">
+                                                    <a href="../../../../java/DAO/ManagerAccountDAO.java"></a>
+                                                    Edit
+                                                </button>
                                             </td>
                                         </tr>
                                     </c:forEach>

@@ -75,20 +75,20 @@
                         <li>
                             <a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
-                        <li class="divider"></li>
+                        <li class="divider"></li>                                  
                         <li>
-                            <a href="#"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                            <a href="${pageContext.request.contextPath}/ManagerLogout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
                     </ul>
-
                 </li>
+
             </ul>
         </nav>
-            
+
         <script src="js/startmin/jquery.min.js"></script>
         <script src="js/startmin/bootstrap.min.js"></script>
         <script src="js/startmin/metisMenu.min.js"></script>
         <script src="js/startmin/startmin.js"></script>
-        
+
     </body>
 </html>

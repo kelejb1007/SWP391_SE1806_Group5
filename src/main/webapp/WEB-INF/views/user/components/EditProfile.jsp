@@ -1,7 +1,7 @@
 <%-- 
-    Document   : ViewProfile
-    Created on : Feb 28, 2025, 5:52:24 AM
-    Author     : Khoa
+    Document   : EditProfile
+    Created on : Mar 8, 2025, 6:00:12 PM
+    Author     : default
 --%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
@@ -9,7 +9,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>User Profile</title>
+        <title>Edit Profile</title>
         <style>
             body {
                 font-family: Arial, sans-serif;
@@ -17,12 +17,12 @@
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-                min-height: 100vh; /* Ensures body covers full screen height */
+                min-height: 100vh;
                 margin: 0;
             }
 
             .container {
-                flex-grow: 1; /* Expands to fill available space */
+                flex-grow: 1;
                 display: flex;
                 justify-content: center;
                 align-items: center;
@@ -105,22 +105,11 @@
                 padding: 10px;
                 width: 100%;
                 text-align: center;
-                margin-top: auto; /* Pushes footer to bottom */
+                margin-top: auto;
             }
 
             footer p {
                 margin: 0;
-            }
-
-            @media (max-width: 768px) {
-                .profile-form {
-                    max-width: 90%;
-                    padding: 15px;
-                }
-
-                h2 {
-                    font-size: 1.8em;
-                }
             }
         </style>
     </head>
@@ -128,36 +117,36 @@
 
         <div class="container">
             <div class="profile-form">
-                <h2>User Profile</h2>
+                <h2>Edit Profile</h2>
 
                 <div class="avatar-container">
-                    <img src="<%= request.getContextPath()%>/img/a1.jpg" alt="User Avatar" class="avatar">
+                    <img src="${user.imageUML}" alt="User Avatar" class="avatar">
                 </div>
-                <form method="POST">
-                    <label for="username">User name</label>
-                    <input type="text" id="username" value="${user.userName}" readonly>
 
-                    <label for="fullname">Full name</label>
-                    <input type="text" id="fullname" value="${user.fullName}" readonly>
-
-                    <label for="creationDate">Creation Date</label>
-                    <input type="text" id="creationDate" value="${user.creationDate}" readonly>
+                <form method="POST" action="<%= request.getContextPath()%>/editProfile">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" name="fullName" value="${user.fullName}" required>
 
                     <label for="email">Email</label>
-                    <input type="text" id="email" value="${user.email}" readonly>
+                    <input type="email" id="email" name="email" value="${user.email}" required>
 
-                    <label for="numberPhone">Number phone</label>
-                    <input type="text" id="numberPhone" value="${user.numberPhone}" readonly>
+                    <label for="numberPhone">Number Phone</label>
+                    <input type="text" id="numberPhone" name="numberPhone" value="${user.numberPhone}">
 
                     <label for="dateOfBirth">Date of Birth</label>
-                    <input type="text" id="dateOfBirth" value="${user.dateOfBirth}" readonly>
+                    <input type="date" id="dateOfBirth" name="dateOfBirth" value="${user.dateOfBirth}">
 
                     <label for="gender">Gender</label>
-                    <input type="text" id="gender" value="${user.gender}" readonly>
-                    <!-- Khoa thêm nút Edit Profile -->
-                    <a href="<%= request.getContextPath()%>/editProfile">
-                        <button type="button">Edit</button>
-                    </a>
+                    <select id="gender" name="gender">
+                        <option value="Male" ${user.gender == 'Male' ? 'selected' : ''}>Male</option>
+                        <option value="Female" ${user.gender == 'Female' ? 'selected' : ''}>Female</option>
+                        
+                    </select>
+
+                    <label for="imageUML">Avatar URL</label>
+                    <input type="text" id="imageUML" name="imageUML" value="${user.imageUML}">
+
+                    <button type="submit">Save Changes</button>
                     <button type="button" onclick="window.location.href = 'http://localhost:8080/NovelWeb/homepage'" 
                             style="margin-top: 10px; background-color: #ccc; color: black; padding: 10px; border-radius: 8px; border: none; cursor: pointer;">
                         Back to Home
@@ -172,3 +161,6 @@
 
     </body>
 </html>
+
+
+

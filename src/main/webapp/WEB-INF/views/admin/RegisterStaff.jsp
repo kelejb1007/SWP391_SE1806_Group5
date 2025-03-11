@@ -1,15 +1,16 @@
 <%-- 
-    Document   : Register
-    Created on : Feb 26, 2025, 7:42:08 AM
-    Author     : KHOA
+    Document   : RegisterStaff
+    Created on : Mar 3, 2025, 3:03:43 PM
+    Author     : Khoa
 --%>
+
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up</title>
+    <title>Register Staff</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -27,7 +28,7 @@
             padding: 20px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             width: 100%;
-            max-width: 350px;
+            max-width: 360px;
             text-align: center;
         }
 
@@ -41,7 +42,7 @@
             font-size: 14px;
             color: #4d94ff;
             display: block;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
             text-align: left;
         }
 
@@ -105,10 +106,6 @@
             h2 {
                 font-size: 1.8em;
             }
-
-            input, select {
-                font-size: 14px;
-            }
         }
     </style>
     <script>
@@ -127,8 +124,8 @@
 <body>
 
     <div class="signup-form">
-        <h2>Sign Up</h2>
-        <form action="Register" method="post" onsubmit="return validateForm()">
+        <h2>Create Staff Account</h2>
+        <form action="RegisterStaff" method="post" onsubmit="return validateForm()">
             <div class="error">
                 <%= request.getAttribute("error") != null ? request.getAttribute("error") : "" %>
             </div>
@@ -168,7 +165,5 @@
 
 </body>
 </html>
-
-
 
 
