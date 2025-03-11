@@ -314,34 +314,38 @@ public class ManagerAccountDAO {
 
     //EditlStaff
 
+public void updateAccount(int managerID, String username, String fullName, String email, String numberPhone, String gender) throws SQLException {
+    String query = "UPDATE ManagerAccount SET username = ?, fullName = ?, email = ?, numberPhone = ?, gender = ? WHERE managerID = ?";
+    
+    try (Connection conn = dbContext.getConnection();
+         PreparedStatement pstmt = conn.prepareStatement(query)) {
+        
+        pstmt.setString(1, username);
+        pstmt.setString(2, fullName);
+        pstmt.setString(3, email);
+        pstmt.setString(4, numberPhone);
+        pstmt.setString(5, gender);
+        pstmt.setInt(6, managerID);
 
-    public boolean isEmailExists(String email, int excludeManagerID) throws SQLException {
-        String query = "SELECT COUNT(*) FROM ManagerAccount WHERE email = ? AND managerID != ?";
-        try (Connection conn = dbContext.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setString(1, email);
-            stmt.setInt(2, excludeManagerID);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getInt(1) > 0;
-                }
-            }
-        }
-        return false;
-    }
-
-    public void updateAccount(int managerID, String fullName, String email, String numberPhone, String gender, String role, int status) throws SQLException {
-        String query = "UPDATE ManagerAccount SET fullName = ?, email = ?, numberPhone = ?, gender = ?, role = ?, status = ? WHERE managerID = ?";
-        try (Connection conn = dbContext.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setString(1, fullName);
-            stmt.setString(2, email);
-            stmt.setString(3, numberPhone);
-            stmt.setString(4, gender);
-            stmt.setString(5, role);
-            stmt.setInt(6, status);
-            stmt.setInt(7, managerID);
-            stmt.executeUpdate();
-        }
+        pstmt.executeUpdate();
     }
 }
+
+    public boolean isEmailExists(String email, int managerID) throws SQLException {
+    String query = "SELECT COUNT(*) FROM ManagerAccount WHERE email = ? AND ManagerID != ?";
+    try (Connection conn = dbContext.getConnection();
+         PreparedStatement ps = conn.prepareStatement(query)) {
+        
+        ps.setString(1, email);
+        ps.setInt(2, managerID);
+        
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt(1) > 0; // Nếu có ít nhất 1 kết quả, email đã tồn tại
+            }
+        }
+    }
+    return false;
+}
+}
+

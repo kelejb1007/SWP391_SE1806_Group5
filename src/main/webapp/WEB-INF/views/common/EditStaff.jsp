@@ -3,7 +3,6 @@
     Created on : Mar 9, 2025, 6:59:56 PM
     Author     : default
 --%>
-
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -24,6 +23,11 @@
 
                 <form action="${pageContext.request.contextPath}/EditStaff" method="post">
                     <input type="hidden" name="managerID" value="${staff.managerID}" />
+
+                    <div class="form-group">
+                        <label>Username:</label>
+                        <input type="text" class="form-control" name="username" value="${staff.username}" required>
+                    </div>
 
                     <div class="form-group">
                         <label>Full Name:</label>
@@ -48,19 +52,6 @@
                         </select>
                     </div>
 
-                    <div class="form-group">
-                        <label>Role:</label>
-                        <input type="text" class="form-control" name="role" value="${staff.role}" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Status:</label>
-                        <select class="form-control" name="status">
-                            <option value="1" ${staff.status == 1 ? 'selected' : ''}>Active</option>
-                            <option value="0" ${staff.status == 0 ? 'selected' : ''}>Inactive</option>
-                        </select>
-                    </div>
-
                     <button type="submit" class="btn btn-success">Save Changes</button>
                     <a href="${pageContext.request.contextPath}/managestaff" class="btn btn-default">Cancel</a>
                 </form>
@@ -69,3 +60,4 @@
     </div>
 </body>
 </html>
+

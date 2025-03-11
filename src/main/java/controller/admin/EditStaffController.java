@@ -14,6 +14,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import model.ManagerAccount;
 
 /**
+ * Servlet xử lý cập nhật thông tin nhân viên
+ * 
  * @author KHOA
  */
 @WebServlet(name = "EditStaffController", urlPatterns = {"/EditStaff"})
@@ -56,12 +58,11 @@ public class EditStaffController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         int managerID = Integer.parseInt(request.getParameter("managerID"));
+        String username = request.getParameter("username");
         String fullName = request.getParameter("fullName");
         String email = request.getParameter("email");
         String numberPhone = request.getParameter("numberPhone");
         String gender = request.getParameter("gender");
-        String role = request.getParameter("role");
-        int status = Integer.parseInt(request.getParameter("status"));
 
         ManagerAccountDAO accountDAO = new ManagerAccountDAO();
 
@@ -73,10 +74,10 @@ public class EditStaffController extends HttpServlet {
                 return;
             }
 
-            // Check if email already exists (excluding the current user's email)
+            // Kiểm tra email đã tồn tại chưa (trừ email của nhân viên hiện tại)
             if (accountDAO.isEmailExists(email, managerID)) {
                 request.setAttribute("error", "Email already exists. Please use a different email.");
-                request.setAttribute("staff", staff); // Không tạo mới đối tượng
+                request.setAttribute("staff", staff); 
                 request.getRequestDispatcher("/WEB-INF/views/common/EditStaff.jsp").forward(request, response);
                 return;
             }
@@ -84,13 +85,13 @@ public class EditStaffController extends HttpServlet {
             // Kiểm tra số điện thoại có chứa chữ cái hay không
             if (containsLetter(numberPhone)) {
                 request.setAttribute("error", "Invalid phone number. It must not contain letters.");
-                request.setAttribute("staff", staff); // Không tạo mới đối tượng
+                request.setAttribute("staff", staff);
                 request.getRequestDispatcher("/WEB-INF/views/common/EditStaff.jsp").forward(request, response);
                 return;
             }
 
-            // Cập nhật thông tin
-            accountDAO.updateAccount(managerID, fullName, email, numberPhone, gender, role, status);
+            // Cập nhật thông tin nhân viên
+            accountDAO.updateAccount(managerID, username, fullName, email, numberPhone, gender);
             response.sendRedirect("managestaff");
         } catch (SQLException ex) {
             Logger.getLogger(EditStaffController.class.getName()).log(Level.SEVERE, null, ex);
