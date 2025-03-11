@@ -1,5 +1,6 @@
 package DAO;
 
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
@@ -112,6 +113,7 @@ public class UserAccountDAO {
         user.setNumberPhone(rs.getString("numberPhone"));
         user.setDateOfBirth(rs.getTimestamp("dateOfBirth"));
         user.setStatus(rs.getInt("status"));
+        user.setGender(rs.getString("gender"));
 //        user.setStatus(rs.getInt("status"));
         return user;
     }
@@ -160,12 +162,9 @@ public class UserAccountDAO {
         }
         return false;
     }
-    // Khoa thêm phần này cho ViewProfile
 
-    
     //LienXuanThinh
     // Lấy danh sách tất cả tài khoản
-
     public List<UserAccount> getAllAccounts() throws SQLException {
         List<UserAccount> listAccounts = new ArrayList<>();
         String sql = "SELECT * FROM UserAccount";
@@ -223,4 +222,74 @@ public class UserAccountDAO {
             stmt.executeUpdate();
         }
     }
+    // Khoa thêm phần này cho ViewProfile
+
+    public UserAccount getUserByUsername(String username) {
+        // Câu truy vấn SQL lấy thông tin người dùng từ bảng UserAccount
+        String sql = "SELECT * FROM UserAccount WHERE userName = ?";
+        try ( Connection conn = dbContext.getConnection();  PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, username);  // Set giá trị username
+            ResultSet rs = stmt.executeQuery();  // Thực thi câu truy vấn
+
+            if (rs.next()) {
+                return mapResultSetToUser(rs);  // Chuyển đổi ResultSet thành đối tượng UserAccount
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;  // Trả về null nếu không tìm thấy user
+    }
+
+    public void updateUserImage(String username, String imageUrl) {
+        String sql = "UPDATE UserAccount SET imageUML = ? WHERE userName = ?";
+        try ( Connection conn = new DBContext().getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, imageUrl);
+            ps.setString(2, username);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    // Khoa thêm phần này cho EditProfile  
+    public boolean updateUser(UserAccount user) {
+        String sql = "UPDATE UserAccount SET fullName = ?, email = ?, numberPhone = ?, dateOfBirth = ?, gender = ?, imageUML = ? WHERE userID = ?";
+        
+        try (Connection conn = dbContext .getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             
+            stmt.setString(1, user.getFullName());
+            stmt.setString(2, user.getEmail());
+            stmt.setString(3, user.getNumberPhone());
+            stmt.setDate(4, new java.sql.Date(user.getDateOfBirth().getTime())); // ✅ Đúng kiểu
+            stmt.setString(5, user.getGender());
+            stmt.setString(6, user.getImageUML());
+            stmt.setInt(7, user.getUserID());
+
+            return stmt.executeUpdate() > 0;
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    //ChangePass
+    public boolean changePassword(String username, String currentPassword, String newPassword, String confirmPassword) {
+    if (!newPassword.equals(confirmPassword)) {
+        return false;
+    }
+    String sql = "UPDATE UserAccount SET password = ? WHERE userName = ? AND password = ?";
+    try (Connection conn = dbContext.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+        stmt.setString(1, hashSHA256(newPassword));
+        stmt.setString(2, username);
+        stmt.setString(3, hashSHA256(currentPassword));
+        return stmt.executeUpdate() > 0;
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return false;
 }
+}
+
+
+
+

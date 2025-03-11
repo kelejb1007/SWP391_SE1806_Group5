@@ -121,7 +121,7 @@ public class ManagerAccountDAO {
      */
     public List<ManagerAccount> getAccountsByRole(String role) throws SQLException {
         List<ManagerAccount> listAccounts = new ArrayList<>();
-        String sql = "SELECT managerID, username, password, creationDate, fullName, email, numberPhone, gender, canLock, canApprove, role "
+        String sql = "SELECT managerID, username, password, creationDate, fullName, email, numberPhone, gender, canLock, canApprove, role  "
                 + "FROM ManagerAccount WHERE role = ?";
         try ( Connection conn = dbContext.getConnection();  PreparedStatement stmt = conn.prepareStatement(sql)) {
 
@@ -247,8 +247,101 @@ public class ManagerAccountDAO {
         account.setCanApprove(rs.getBoolean("canApprove"));
         account.setRole(rs.getString("role"));
 
-        account.setStatus(rs.getInt("status"));
+//        account.setStatus(rs.getInt("status"));
+        return account;
+    }
+    //Khoa thêm cho Register Staff
+
+    public boolean isUserExist(String username, String email) {
+        String sql = "SELECT managerID FROM ManagerAccount WHERE userName = ? OR email = ?";
+        try ( Connection conn = dbContext.getConnection();  PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, username);
+            stmt.setString(2, email);
+            ResultSet rs = stmt.executeQuery();
+
+            // Nếu có kết quả, tức là đã có tài khoản với username hoặc email này
+            return rs.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean registerUser(ManagerAccount newAccount) {
+        String sql = "INSERT INTO ManagerAccount (username, password, fullName, email, numberPhone, gender, role) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        try ( Connection conn = dbContext.getConnection();  PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, newAccount.getUsername());
+            stmt.setString(2, hashSHA256(newAccount.getPassword())); // Hash mật khẩu
+            stmt.setString(3, newAccount.getFullName());
+            stmt.setString(4, newAccount.getEmail());
+            stmt.setString(5, newAccount.getNumberPhone());
+            stmt.setString(6, newAccount.getGender());
+            stmt.setString(7, newAccount.getRole());  // Đây là "Staff" mặc định nếu chưa thay đổi
+
+            int rowsInserted = stmt.executeUpdate();
+            return rowsInserted > 0;  // Trả về true nếu có ít nhất 1 dòng được chèn vào
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    //DetailStaff
+    public ManagerAccount getAccountById(int managerID) throws SQLException {
+        ManagerAccount account = null;
+        String sql = "SELECT * FROM ManagerAccount WHERE managerID = ?";
+
+        try ( Connection conn = dbContext.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, managerID);
+            try ( ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    account = new ManagerAccount();
+                    account.setManagerID(rs.getInt("managerID"));
+                    account.setUsername(rs.getString("username"));
+                    account.setFullName(rs.getString("fullName"));
+                    account.setEmail(rs.getString("email"));
+                    account.setNumberPhone(rs.getString("numberPhone"));
+                    account.setGender(rs.getString("gender"));
+                    account.setRole(rs.getString("role"));
+                    account.setCreationDate(rs.getDate("creationDate"));
+                    account.setStatus(rs.getInt("status"));
+                }
+            }
+        }
         return account;
     }
 
+    //EditlStaff
+
+
+    public boolean isEmailExists(String email, int excludeManagerID) throws SQLException {
+        String query = "SELECT COUNT(*) FROM ManagerAccount WHERE email = ? AND managerID != ?";
+        try (Connection conn = dbContext.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, email);
+            stmt.setInt(2, excludeManagerID);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        }
+        return false;
+    }
+
+    public void updateAccount(int managerID, String fullName, String email, String numberPhone, String gender, String role, int status) throws SQLException {
+        String query = "UPDATE ManagerAccount SET fullName = ?, email = ?, numberPhone = ?, gender = ?, role = ?, status = ? WHERE managerID = ?";
+        try (Connection conn = dbContext.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, fullName);
+            stmt.setString(2, email);
+            stmt.setString(3, numberPhone);
+            stmt.setString(4, gender);
+            stmt.setString(5, role);
+            stmt.setInt(6, status);
+            stmt.setInt(7, managerID);
+            stmt.executeUpdate();
+        }
+    }
 }
