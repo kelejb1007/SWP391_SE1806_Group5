@@ -132,16 +132,6 @@ public class UserAccount {
         this.lastLogin = lastLogin;
     }
 
-    // cho phan Profile
-    // Getter và Setter cho imageUML cho Avatar
-    public String getImageUML() {
-        return imageUML;
-    }
-
-    public void setImageUML(String imageUML) {
-        this.imageUML = imageUML;
-    }
-
     public Object getRole() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }

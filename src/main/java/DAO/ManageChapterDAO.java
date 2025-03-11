@@ -52,7 +52,7 @@ public class ManageChapterDAO {
     }
 
     public boolean lockChapter(int chapterID, int managerID, String lockReason) {
-        String sql = "UPDATE Chapter SET chapterStatus = 'inactive' WHERE chapterID = ? AND chapterStatus = 'active'";
+        String sql = "UPDATE Chapter SET chapterStatus = 'locked' WHERE chapterID = ? AND chapterStatus = 'active'";
         String logSql = "INSERT INTO LockChapterLog (managerID, chapterID, datetime, action, lockReason) VALUES (?, ?, GETDATE(), 'lock', ?)";
 
         try (Connection conn = db.getConnection()) {
@@ -66,7 +66,7 @@ public class ManageChapterDAO {
                     logStmt.setString(3, lockReason != null && !lockReason.trim().isEmpty() ? lockReason : "No reason provided");
                     logStmt.executeUpdate();
                     conn.commit();
-                    Logger.getLogger(ManageChapterDAO.class.getName()).log(Level.INFO, "Chapter with ID {0} has been locked (status set to inactive).", chapterID);
+                    Logger.getLogger(ManageChapterDAO.class.getName()).log(Level.INFO, "Chapter with ID {0} has been locked (status set to locked).", chapterID);
                     return true;
                 } else {
                     conn.rollback();
@@ -90,7 +90,7 @@ public class ManageChapterDAO {
                 + "n.novelName "
                 + "FROM Chapter c "
                 + "JOIN Novel n ON c.novelID = n.novelID "
-                + "WHERE c.chapterStatus = 'inactive'";
+                + "WHERE c.chapterStatus = 'locked'";
 
         try (Connection connection = db.getConnection(); PreparedStatement statement = connection.prepareStatement(sql); ResultSet rs = statement.executeQuery()) {
             while (rs.next()) {
@@ -118,7 +118,7 @@ public class ManageChapterDAO {
         List<ManageChapter> list = new ArrayList<>();
         String sql = "SELECT c.chapterID, c.novelID, c.chapterNumber, c.chapterName, c.fileURL, c.publishedDate, c.chapterStatus "
                 + "FROM Chapter c "
-                + "WHERE c.novelID = ? AND c.chapterStatus = 'inactive'";
+                + "WHERE c.novelID = ? AND c.chapterStatus = 'locked'";
 
         try (Connection connection = db.getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, novelID);
@@ -168,12 +168,12 @@ public class ManageChapterDAO {
             return false;
         }
 
-        if (!currentStatus.equalsIgnoreCase("inactive")) {
-            Logger.getLogger(ManageChapterDAO.class.getName()).log(Level.WARNING, "Chapter with ID {0} cannot be unlocked because its status is {1} (expected: inactive).", new Object[]{chapterID, currentStatus});
+        if (!currentStatus.equalsIgnoreCase("locked")) {
+            Logger.getLogger(ManageChapterDAO.class.getName()).log(Level.WARNING, "Chapter with ID {0} cannot be unlocked because its status is {1} (expected: locked).", new Object[]{chapterID, currentStatus});
             return false;
         }
 
-        String sql = "UPDATE Chapter SET chapterStatus = 'active' WHERE chapterID = ? AND chapterStatus = 'inactive'";
+        String sql = "UPDATE Chapter SET chapterStatus = 'active' WHERE chapterID = ? AND chapterStatus = 'locked'";
         String logSql = "INSERT INTO LockChapterLog (managerID, chapterID, datetime, action, lockReason) VALUES (?, ?, GETDATE(), 'unlock', ?)";
 
         try (Connection conn = db.getConnection()) {
@@ -191,7 +191,7 @@ public class ManageChapterDAO {
                     return true;
                 } else {
                     conn.rollback();
-                    Logger.getLogger(ManageChapterDAO.class.getName()).log(Level.WARNING, "No chapter found with ID {0} to unlock or status is not inactive.", chapterID);
+                    Logger.getLogger(ManageChapterDAO.class.getName()).log(Level.WARNING, "No chapter found with ID {0} to unlock or status is not locked.", chapterID);
                     return false;
                 }
             } catch (SQLException e) {
@@ -229,7 +229,7 @@ public class ManageChapterDAO {
 
     public boolean updateChapterLock(int chapterID, int managerID, boolean isLock, String reason) {
         String action = isLock ? "lock" : "unlock";
-        String newStatus = isLock ? "inactive" : "active";
+        String newStatus = isLock ? "locked" : "active";
         String sql = "UPDATE Chapter SET chapterStatus = ? WHERE chapterID = ?";
         String logSql = "INSERT INTO LockChapterLog (managerID, chapterID, datetime, action, lockReason) VALUES (?, ?, GETDATE(), ?, ?)";
 
@@ -319,7 +319,7 @@ public class ManageChapterDAO {
     }
 
     public boolean rejectChapter(int chapterID, int managerID, String rejectReason) {
-        String sql = "UPDATE Chapter SET chapterStatus = 'inactive' WHERE chapterID = ? AND chapterStatus = 'pending'";
+        String sql = "UPDATE Chapter SET chapterStatus = 'rejected' WHERE chapterID = ? AND chapterStatus = 'pending'";
         try (Connection connection = db.getConnection()) {
             connection.setAutoCommit(false);
             try (PreparedStatement stmt = connection.prepareStatement(sql); PreparedStatement logStmt = connection.prepareStatement(
@@ -332,7 +332,7 @@ public class ManageChapterDAO {
                     logStmt.setString(3, rejectReason != null && !rejectReason.trim().isEmpty() ? rejectReason : "No reason provided");
                     logStmt.executeUpdate();
                     connection.commit();
-                    Logger.getLogger(ManageChapterDAO.class.getName()).log(Level.INFO, "Chapter with ID {0} has been rejected (status set to inactive).", chapterID);
+                    Logger.getLogger(ManageChapterDAO.class.getName()).log(Level.INFO, "Chapter with ID {0} has been rejected (status set to rejected).", chapterID);
                     return true;
                 } else {
                     connection.rollback();

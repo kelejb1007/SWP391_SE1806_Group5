@@ -215,7 +215,7 @@ public class ManageChapterController extends HttpServlet {
             } else {
                 boolean rejectResult = chapterDAO.rejectChapter(chapterId, managerId, rejectReason);
                 if (rejectResult) {
-                    message = "Chapter rejected successfully! Status set to 'inactive'.";
+                    message = "Chapter rejected successfully! Status set to 'rejected'.";
                 } else {
                     message = "Failed to reject chapter! An error occurred.";
                 }
@@ -256,7 +256,7 @@ public class ManageChapterController extends HttpServlet {
             } else {
                 boolean lockResult = chapterDAO.lockChapter(chapterId, managerId, lockReason);
                 if (lockResult) {
-                    message = "Chapter locked successfully! Status set to 'inactive'.";
+                    message = "Chapter locked successfully! Status set to 'locked'.";
                 } else {
                     message = "Failed to lock chapter! An error occurred.";
                 }
@@ -371,7 +371,7 @@ public class ManageChapterController extends HttpServlet {
 
             LockChapterLog ll = new LockChapterLog(ma.getManagerID(), chapterID, "lock", lockReason);
 
-            checkChange = cd.changeChapterStatus(chapterID, "inactive");
+            checkChange = cd.changeChapterStatus(chapterID, "locked");
             checkAdd = ld.addLockLog(ll);
 
             if (checkChange && checkAdd) {
@@ -471,7 +471,7 @@ public class ManageChapterController extends HttpServlet {
 
             if (type.equals("post")) {
                 nSubDAO.updateSubmission(cs);
-                cDAO.changeChapterStatus(chapterID, "inactive");
+                cDAO.changeChapterStatus(chapterID, "rejected");
             } else {
                 nSubDAO.updateSubmission(cs);
             }
