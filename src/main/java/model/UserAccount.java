@@ -18,11 +18,31 @@ public class UserAccount {
     private String password;
     private String fullName;
     private String email;
+    private String imageUML;
     private Date creationDate;
     private String numberPhone;
     private String gender;
     private Date dateOfBirth;
     private int status;
+    private String type;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+    
+    
+
+    public String getImageUML() {
+        return imageUML;
+    }
+
+    public void setImageUML(String imageUML) {
+        this.imageUML = imageUML;
+    }
 
     public Date getCreationDate() {
         return creationDate;
@@ -121,4 +141,5 @@ public class UserAccount {
     public void setUsername(String string) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
 }

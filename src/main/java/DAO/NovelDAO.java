@@ -29,7 +29,7 @@ public class NovelDAO {
     }
 
     //Admin-------------------------------------------------------------------------------------------------------------
-    public List<Novel> getNovelByStatus(String s) {
+    public List<Novel> getNovelByStatus(String s) throws SQLException{
         List<Novel> list = new ArrayList<>();
         String sql = "SELECT n.novelID, n.novelName, n.imageURL, n.totalChapter, n.publishedDate, u.fullName, COALESCE(ROUND(AVG(r.score), 2), 0) AS averageRating, COUNT(v.novelID) AS viewCount\n"
                 + "FROM Novel n \n"
@@ -57,7 +57,7 @@ public class NovelDAO {
         return list;
     }
 
-    public List<Novel> getLockedNovels() {
+    public List<Novel> getLockedNovels() throws SQLException{
         List<Novel> list = new ArrayList<>();
         String sql = "WITH LatestLock AS (\n"
                 + "    SELECT novelID, MAX(datetime) AS latestLockDate\n"
@@ -73,7 +73,7 @@ public class NovelDAO {
                 + "JOIN ManagerAccount m ON ll.managerID = m.managerID\n"
                 + "JOIN Novel n ON ll.novelID = n.novelID\n"
                 + "JOIN UserAccount u ON n.UserID = u.UserID \n"
-                + "WHERE n.novelStatus = 'inactive' \n"
+                + "WHERE n.novelStatus = 'locked' \n"
                 + "ORDER BY ll.datetime DESC;";
 
         Connection connection;
@@ -102,7 +102,7 @@ public class NovelDAO {
     }
 
 // Use for staff and user my novel
-    public Novel getNovelByID(int novelID) {
+    public Novel getNovelByID(int novelID) throws SQLException{
         String sql = "SELECT n.novelID, n.novelName, n.imageURL, n.novelDescription, n.totalChapter, n.novelStatus, n.publishedDate, \n"
                 + "u.fullName as author, COALESCE(ROUND(AVG(r.score), 2), 0) AS averageRating, COUNT(v.novelID) AS viewCount, \n"
                 + "(SELECT STRING_AGG(g.genreName, ', ') "
@@ -143,7 +143,7 @@ public class NovelDAO {
         return novel;
     }
 
-    public boolean changeNovelStatus(int novelID, String status) {
+    public boolean changeNovelStatus(int novelID, String status) throws SQLException{
         String sql = "UPDATE Novel\n"
                 + "SET novelStatus = ?\n"
                 + "WHERE novelID = ?";
@@ -195,7 +195,7 @@ public class NovelDAO {
                 + "JOIN UserAccount u ON n.UserID = u.UserID \n"
                 + "LEFT JOIN Rating r ON n.novelID = r.novelID\n"
                 + "LEFT JOIN Viewing v ON n.novelID = v.novelID\n"
-                + "WHERE n.UserID = ? AND n.novelStatus IN ('active', 'inactive')\n"
+                + "WHERE n.UserID = ? AND n.novelStatus IN ('active')\n"
                 + "GROUP BY n.novelID, n.novelName, n.imageURL, n.totalChapter, n.novelStatus, n.publishedDate, u.fullName";
         Connection connection;
         PreparedStatement statement;
@@ -282,7 +282,7 @@ public class NovelDAO {
 
     public boolean deleteNovel(int novelID) {
         String sql = "UPDATE Novel SET "
-                + "novelStatus = 'inactive' "
+                + "novelStatus = 'deleted' "
                 + "where novelID = ?";
         Connection connection;
         PreparedStatement statement;

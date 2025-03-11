@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -103,13 +104,19 @@ public class ManageNovelController extends HttpServlet {
         try {
             listNovel = nd.getNovelByStatus("active");
             if (listNovel.isEmpty()) {
-                request.setAttribute("listnull", "No novels available");
+                request.setAttribute("message", "No novels available");
+                request.getRequestDispatcher("/WEB-INF/views/staff/allNovels.jsp").forward(request, response);
             } else {
                 request.setAttribute("listNovel", listNovel);
                 request.getRequestDispatcher("/WEB-INF/views/staff/allNovels.jsp").forward(request, response);
             }
-        } catch (Exception ex) {
-            request.setAttribute("error", "There are some error");
+        } catch (ServletException | IOException ex) {
+            Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("error", "There are some error in Servlet");
+            request.getRequestDispatcher("/WEB-INF/views/staff/allNovels.jsp").forward(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("error", "There are some error in SQL");
             request.getRequestDispatcher("/WEB-INF/views/staff/allNovels.jsp").forward(request, response);
         }
     }
@@ -117,14 +124,36 @@ public class ManageNovelController extends HttpServlet {
     private void viewNovelDetail(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         NovelDAO nd = new NovelDAO();
-        int novelID = Integer.parseInt(request.getParameter("novelID"));
+        String novelID_raw = request.getParameter("novelID");
+        int novelID;
         Novel nl;
         try {
-            nl = nd.getNovelByID(novelID);
-            request.setAttribute("novel", nl);
-            request.getRequestDispatcher("/WEB-INF/views/staff/novelDetail.jsp").forward(request, response);
-        } catch (Exception ex) {
+            if (novelID_raw == null) {
+                request.setAttribute("popup", "No Novel ID provided");
+                viewAllNovels(request, response);
+            } else {
+                novelID = Integer.parseInt(novelID_raw);
+                nl = nd.getNovelByID(novelID);
+                if (nl == null) {
+                    request.setAttribute("popup", "Novel not found");
+                    viewAllNovels(request, response);
+                } else {
+                    request.setAttribute("novel", nl);
+                    request.getRequestDispatcher("/WEB-INF/views/staff/novelDetail.jsp").forward(request, response);
+                }
+            }
+        } catch (ServletException | IOException ex) {
             Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("error", "There are some error in Servlet");
+            request.getRequestDispatcher("/WEB-INF/views/staff/novelDetail.jsp").forward(request, response);
+        } catch (NumberFormatException ex) {
+            Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("error", "Invalid number format for NovelID");
+            request.getRequestDispatcher("/WEB-INF/views/staff/novelDetail.jsp").forward(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("error", "There are some error in SQL");
+            request.getRequestDispatcher("/WEB-INF/views/staff/novelDetail.jsp").forward(request, response);
         }
     }
 
@@ -132,12 +161,26 @@ public class ManageNovelController extends HttpServlet {
             throws ServletException, IOException {
         NovelDAO nd = new NovelDAO();
         List<Novel> listNovel;
+        String popup = request.getParameter("popup");
         try {
             listNovel = nd.getLockedNovels();
-            request.setAttribute("listNovel", listNovel);
-            request.getRequestDispatcher("/WEB-INF/views/staff/lockedNovels.jsp").forward(request, response);
-        } catch (Exception ex) {
+            if (listNovel.isEmpty()) {
+                request.setAttribute("message", "No novels available");
+                request.getRequestDispatcher("/WEB-INF/views/staff/lockedNovels.jsp").forward(request, response);
+            } else {
+                request.setAttribute("popup", popup);
+                request.setAttribute("listNovel", listNovel);
+                request.getRequestDispatcher("/WEB-INF/views/staff/lockedNovels.jsp").forward(request, response);
+            }
+
+        } catch (ServletException | IOException ex) {
             Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("error", "There are some error in Servlet");
+            request.getRequestDispatcher("/WEB-INF/views/staff/lockedNovels.jsp").forward(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("error", "There are some error in SQL");
+            request.getRequestDispatcher("/WEB-INF/views/staff/lockedNovels.jsp").forward(request, response);
         }
     }
 
@@ -145,17 +188,23 @@ public class ManageNovelController extends HttpServlet {
             throws ServletException, IOException {
         NovelSubmissionDAO ns = new NovelSubmissionDAO();
         List<NovelSubmission> list;
-        String listMes = null;
         try {
             list = ns.getAllSubmisstion();
             if (list.isEmpty()) {
-                listMes = "nulllll";
+                request.setAttribute("message", "No novels available");
+                request.getRequestDispatcher("/WEB-INF/views/staff/submission.jsp").forward(request, response);
+            } else {
+                request.setAttribute("list", list);
+                request.getRequestDispatcher("/WEB-INF/views/staff/submission.jsp").forward(request, response);
             }
-            request.setAttribute("listMes", listMes);
-            request.setAttribute("list", list);
-            request.getRequestDispatcher("/WEB-INF/views/staff/submission.jsp").forward(request, response);
-        } catch (Exception ex) {
+        } catch (ServletException | IOException ex) {
             Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("error", "There are some error in Servlet");
+            request.getRequestDispatcher("/WEB-INF/views/staff/submission.jsp").forward(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("error", "There are some error in SQL");
+            request.getRequestDispatcher("/WEB-INF/views/staff/submission.jsp").forward(request, response);
         }
     }
 
@@ -201,63 +250,87 @@ public class ManageNovelController extends HttpServlet {
 
     private void lockNovel(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int novelID = Integer.parseInt(request.getParameter("novelID"));
+        String novelID_raw = request.getParameter("novelID");
         String lockReason = request.getParameter("lockReason");
-        NovelDAO nd = new NovelDAO();
-        LockNovelLogDAO ld = new LockNovelLogDAO();
-        Boolean checkChange;
-        Boolean checkAdd;
-        String message;
+
+        NovelDAO nDAO = new NovelDAO();
+        LockNovelLogDAO lDAO = new LockNovelLogDAO();
+
         try {
-            HttpSession session = request.getSession(false);
-            ManagerAccount ma = (ManagerAccount) session.getAttribute("manager");
+            int novelID = Integer.parseInt(novelID_raw);
 
-            LockNovelLog ll = new LockNovelLog(ma.getManagerID(), novelID, "lock", lockReason);
-
-            checkChange = nd.changeNovelStatus(novelID, "inactive");
-            checkAdd = ld.addLockLog(ll);
-
-            if (checkChange && checkAdd) {
-                message = "Lock successfully!";
+            if (!nDAO.changeNovelStatus(novelID, "locked")) {
+                request.setAttribute("popup", "Error in transfering status");
+                viewAllNovels(request, response);
             } else {
-                message = "Error!!!!";
-            }
-            request.setAttribute("message", message);
-            viewAllNovels(request, response);
+                HttpSession session = request.getSession(false);
+                ManagerAccount ma = (ManagerAccount) session.getAttribute("manager");
 
-        } catch (Exception ex) {
+                LockNovelLog ll = new LockNovelLog(ma.getManagerID(), novelID, "lock", lockReason);
+                if (!lDAO.addLockLog(ll)) {
+                    nDAO.changeNovelStatus(novelID, "active");
+                    request.setAttribute("popup", "Error in adding to Locking Log");
+                    viewAllNovels(request, response);
+                } else {
+                    request.setAttribute("popup", "Lock successfully!");
+                    viewAllNovels(request, response);
+                }
+            }
+
+        } catch (ServletException | IOException ex) {
             Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("error", "There are some error in Servlet");
+            request.getRequestDispatcher("/WEB-INF/views/staff/allNovels.jsp").forward(request, response);
+        } catch (NumberFormatException ex) {
+            Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("error", "Invalid number format for NovelID");
+            request.getRequestDispatcher("/WEB-INF/views/staff/allNovels.jsp").forward(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("error", "There are some error in SQL");
+            request.getRequestDispatcher("/WEB-INF/views/staff/allNovels.jsp").forward(request, response);
         }
     }
 
     private void unlockNovel(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int novelID = Integer.parseInt(request.getParameter("novelID"));
-        NovelDAO nd = new NovelDAO();
-        LockNovelLogDAO ld = new LockNovelLogDAO();
-        Boolean checkChange;
-        Boolean checkAdd;
-        String message;
+        String novelID_raw = request.getParameter("novelID");
+
+        NovelDAO nDAO = new NovelDAO();
+        LockNovelLogDAO lDAO = new LockNovelLogDAO();
         try {
-            HttpSession session = request.getSession(false);
-            ManagerAccount ma = (ManagerAccount) session.getAttribute("manager");
+            int novelID = Integer.parseInt(novelID_raw);
 
-            LockNovelLog ll = new LockNovelLog(ma.getManagerID(), novelID, "unlock", null);
-
-            checkChange = nd.changeNovelStatus(novelID, "active");
-            checkAdd = ld.addLockLog(ll);
-
-            if (checkChange && checkAdd) {
-                message = "Unlock successfully!";
+            if (!nDAO.changeNovelStatus(novelID, "active")) {
+                request.setAttribute("popup", "Error in transfering status");
+                viewLockedNovels(request, response);
             } else {
-                message = "Error!!!!";
-            }
-            request.setAttribute("message", message);
-            response.sendRedirect("managenovel?action=viewlockedlist");
-//            viewLockedNovels(request, response);
+                HttpSession session = request.getSession(false);
+                ManagerAccount ma = (ManagerAccount) session.getAttribute("manager");
 
-        } catch (Exception ex) {
+                LockNovelLog ll = new LockNovelLog(ma.getManagerID(), novelID, "unlock", null);
+                if (!lDAO.addLockLog(ll)) {
+                    nDAO.changeNovelStatus(novelID, "locked");
+                    request.setAttribute("popup", "Error in adding to Locking Log");
+                    viewLockedNovels(request, response);
+                } else {
+//                    viewLockedNovels(request, response);
+                    response.sendRedirect("managenovel?action=viewlockedlist&popup=Unlock successfully!");
+                }
+            }
+
+        } catch (ServletException | IOException ex) {
             Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("error", "There are some error in Servlet");
+            request.getRequestDispatcher("/WEB-INF/views/staff/lockedNovels.jsp").forward(request, response);
+        } catch (NumberFormatException ex) {
+            Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("error", "Invalid number format for NovelID");
+            request.getRequestDispatcher("/WEB-INF/views/staff/lockedNovels.jsp").forward(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("error", "There are some error in SQL");
+            request.getRequestDispatcher("/WEB-INF/views/staff/lockedNovels.jsp").forward(request, response);
         }
     }
 
@@ -325,7 +398,7 @@ public class ManageNovelController extends HttpServlet {
 
             if (type.equals("post")) {
                 nSubDAO.updateSubmission(ns);
-                nDAO.changeNovelStatus(novelID, "inactive");
+                nDAO.changeNovelStatus(novelID, "rejected");
             } else {
                 nSubDAO.updateSubmission(ns);
             }

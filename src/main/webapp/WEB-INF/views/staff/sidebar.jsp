@@ -72,7 +72,7 @@
                                 <a href="${pageContext.request.contextPath}/managenovel?action=viewlockedlist">View locked novels</a>
                             </li>
                             <li>
-                                <a href="#">Approve novel</a>
+                                <a href="${pageContext.request.contextPath}/managenovel?action=viewsubmission">Approve novel</a>
                             </li>
                         </ul>
                     </li>
