@@ -61,7 +61,7 @@ public class PostChapterHistoryController extends HttpServlet {
             }
 
             // Chuyển tiếp đến JSP để hiển thị
-            request.getRequestDispatcher("/WEB-INF/views/user/chapter/PostChapterHistory.jsp").forward(request, response);
+            request.getRequestDispatcher("/getGenre?target=/WEB-INF/views/user/chapter/PostChapterHistory.jsp").forward(request, response);
         } catch (NumberFormatException e) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid ID format");
         } catch (Exception e) {

@@ -16,8 +16,7 @@ public class ManageChapter {
     private Date publishedDate;
     private String chapterStatus;
     private boolean isLocked;
-
-    // Thêm các thuộc tính liên quan đến khóa chương
+    private boolean isPending; // Thêm thuộc tính để đánh dấu chapter pending
     private Date lockDateTime;
     private String lockAction;
     private String lockReason;
@@ -34,13 +33,14 @@ public class ManageChapter {
         this.chapterNumber = chapterNumber;
         this.chapterName = chapterName;
         this.fileURL = fileURL;
-        this.publishedDate = publishedDate; // Sửa lại
+        this.publishedDate = publishedDate;
         this.chapterStatus = chapterStatus;
         this.isLocked = isLocked;
-        this.lockDateTime = lockDateTime; // Sửa lại
+        this.isPending = false; // Giá trị mặc định
+        this.lockDateTime = lockDateTime;
         this.lockAction = lockAction;
         this.lockReason = lockReason;
-        this.novelName = novelName; // Thêm novelName vào constructor
+        this.novelName = novelName;
     }
 
     public int getChapterID() {
@@ -107,11 +107,19 @@ public class ManageChapter {
         this.isLocked = isLocked;
     }
 
-    public Date getLockDateTime() { // Thay LocalDateTime bằng Date
+    public boolean isPending() {
+        return isPending;
+    }
+
+    public void setPending(boolean isPending) {
+        this.isPending = isPending;
+    }
+
+    public Date getLockDateTime() {
         return lockDateTime;
     }
 
-    public void setLockDateTime(Date lockDateTime) { // Thay LocalDateTime bằng Date
+    public void setLockDateTime(Date lockDateTime) {
         this.lockDateTime = lockDateTime;
     }
 
@@ -132,7 +140,7 @@ public class ManageChapter {
     }
 
     public String getNovelName() {
-        return novelName;
+        return novelName; // Sửa từ chapterName thành novelName
     }
 
     public void setNovelName(String novelName) {
@@ -151,6 +159,7 @@ public class ManageChapter {
                 ", publishedDate=" + publishedDate +
                 ", chapterStatus='" + chapterStatus + '\'' +
                 ", isLocked=" + isLocked +
+                ", isPending=" + isPending +
                 ", lockDateTime=" + lockDateTime +
                 ", lockAction='" + lockAction + '\'' +
                 ", lockReason='" + lockReason + '\'' +

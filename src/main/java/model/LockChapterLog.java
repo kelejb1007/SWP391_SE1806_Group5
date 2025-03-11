@@ -8,111 +8,48 @@ import java.time.LocalDateTime;
  * @author Nguyen Ngoc Phat - CE180321
  */
 public class LockChapterLog {
-
-    private int chapterID;
-    private int novelID;
-    private String novelName;
-    private int chapterNumber;
-    private String chapterName;
-    private String fileURL;
-    private LocalDateTime chapterCreatedDate;
-    private String chapterStatus;
-    private int logID;
-    private String action;
-    private String lockReason;
-    private Timestamp lockDate; // Giả định có thêm cột thời gian khóa trong LockChapterLog
+    private int logCID;
+     private int managerID;
+     private int chapterID;
+     private LocalDateTime datetime;
+     private String action;
+     private String lockReason;
+     
+     private String staffName;
+     private String chapterName;
 
     public LockChapterLog() {
     }
 
-    public LockChapterLog(int chapterID, int novelID, String novelName, int chapterNumber, String chapterName,
-            String fileURL, LocalDateTime chapterCreatedDate, String chapterStatus,
-            int logID, String action, String lockReason, Timestamp lockDate) {
+    public LockChapterLog(int managerID, int chapterID, String action, String lockReason) {
+        this.managerID = managerID;
         this.chapterID = chapterID;
-        this.novelID = novelID;
-        this.novelName = novelName;
-        this.chapterNumber = chapterNumber;
-        this.chapterName = chapterName;
-        this.fileURL = fileURL;
-        this.chapterCreatedDate = chapterCreatedDate;
-        this.chapterStatus = chapterStatus;
-        this.logID = logID;
         this.action = action;
         this.lockReason = lockReason;
-        this.lockDate = lockDate;
     }
 
-    // Getters và Setters cho tất cả các thuộc tính
+    public int getLogCID() {
+        return logCID;
+    }
+
+    public void setLogCID(int logCID) {
+        this.logCID = logCID;
+    }
+
+    public int getManagerID() {
+        return managerID;
+    }
+
+    public void setManagerID(int managerID) {
+        this.managerID = managerID;
+    }
+
     public int getChapterID() {
         return chapterID;
     }
 
     public void setChapterID(int chapterID) {
         this.chapterID = chapterID;
-    }
-
-    public int getNovelID() {
-        return novelID;
-    }
-
-    public void setNovelID(int novelID) {
-        this.novelID = novelID;
-    }
-
-    public String getNovelName() {
-        return novelName;
-    }
-
-    public void setNovelName(String novelName) {
-        this.novelName = novelName;
-    }
-
-    public int getChapterNumber() {
-        return chapterNumber;
-    }
-
-    public void setChapterNumber(int chapterNumber) {
-        this.chapterNumber = chapterNumber;
-    }
-
-    public String getChapterName() {
-        return chapterName;
-    }
-
-    public void setChapterName(String chapterName) {
-        this.chapterName = chapterName;
-    }
-
-    public String getFileURL() {
-        return fileURL;
-    }
-
-    public void setFileURL(String fileURL) {
-        this.fileURL = fileURL;
-    }
-
-    public LocalDateTime getChapterCreatedDate() {
-        return chapterCreatedDate;
-    }
-
-    public void setChapterCreatedDate(LocalDateTime chapterCreatedDate) {
-        this.chapterCreatedDate = chapterCreatedDate;
-    }
-
-    public String getChapterStatus() {
-        return chapterStatus;
-    }
-
-    public void setChapterStatus(String chapterStatus) {
-        this.chapterStatus = chapterStatus;
-    }
-
-    public int getLogID() {
-        return logID;
-    }
-
-    public void setLogID(int logID) {
-        this.logID = logID;
     }
 
     public String getAction() {
@@ -131,11 +68,21 @@ public class LockChapterLog {
         this.lockReason = lockReason;
     }
 
-    public Timestamp getLockDate() {
-        return lockDate;
+    public String getStaffName() {
+        return staffName;
     }
 
-    public void setLockDate(Timestamp lockDate) {
-        this.lockDate = lockDate;
+    public void setStaffName(String staffName) {
+        this.staffName = staffName;
     }
+
+    public String getChapterName() {
+        return chapterName;
+    }
+
+    public void setChapterName(String chapterName) {
+        this.chapterName = chapterName;
+    }
+     
+     
 }

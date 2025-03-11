@@ -72,7 +72,7 @@
                                 <a href="${pageContext.request.contextPath}/managenovel?action=viewlockedlist">View locked novels</a>
                             </li>
                             <li>
-                                <a href="#">Approve novel</a>
+                                <a href="${pageContext.request.contextPath}/managenovel?action=viewsubmission">Approve novel</a>
                             </li>
                         </ul>
                     </li>
@@ -97,7 +97,7 @@
                                 <a href="${pageContext.request.contextPath}/managechapter?action=allnovelforlockedchapter">View locked chapters of a novel</a>
                             </li>
                             <li>
-                                <a href="${pageContext.request.contextPath}/managechapter?action=approvechapter">Approve chapter</a>
+                                <a href="${pageContext.request.contextPath}/managechapter?action=viewsubmisson">Approve chapter</a>
                             </li>
                         </ul>
                     </li>

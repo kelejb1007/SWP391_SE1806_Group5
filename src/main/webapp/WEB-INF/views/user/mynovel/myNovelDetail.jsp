@@ -17,7 +17,7 @@
         <link rel="stylesheet" href="css/startmin/startmin.css">
         <link rel="stylesheet" href="css/startmin/font-awesome.min.css" type="text/css">
 
-        <link rel="stylesheet" href="css/mynovel/myNovelDetail.css" type="text/css">
+        <link rel="stylesheet" href="css/mynovel/myNovelDetail(d).css" type="text/css">
         <link rel="stylesheet" href="css/novel-detail/chapter-list(d).css">
         <link rel="stylesheet" href="css/novel-detail/novel-detail(d).css">
 
@@ -74,6 +74,7 @@
                                 <a href="" class="update-button">Update</a>
                                 <a href="" class="remove-button"></a>
                                 <button class="remove-btn">Delete</button>
+                                <a href="${pageContext.request.contextPath}/postChapter?novelId=${novel.novelID}" class="create-button">Create chapter</a>
                             </div>
                         </div>
                     </div>
@@ -105,8 +106,8 @@
             <h3>Description</h3>
             <p>${novel.novelDescription}</p>
         </div>
-        
-        
+
+
 
 
 

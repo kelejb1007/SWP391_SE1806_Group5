@@ -23,29 +23,12 @@
         <link href="css/startmin/dataTables/dataTables.responsive.css" rel="stylesheet" />
 
         <script>
-            function checkResource(resource) {
-                if (!document.querySelector(resource)) {
-                    console.error("Resource not found: " + resource);
-                }
-            }
-            window.onload = function () {
-                checkResource("link[href='css/startmin/bootstrap.css']");
-                checkResource("link[href='css/startmin/dataTables/dataTables.bootstrap.css']");
-            };
-
-            function openUnlockModal(chapterID, chapterName) {
+            function openLockModal(chapterID) {
                 document.getElementById('chapterID').value = chapterID;
-                document.getElementById('unlockChapterName').innerHTML = chapterName + " (ID=" + chapterID + ")";
-                const message = "${message}";
-                if (message) {
-                    document.getElementById('unlockMessage').innerHTML = message;
-                    document.getElementById('unlockMessage').style.display = "block";
-                }
-                $("#unlockModal").modal("show");
-            }
-
-            function clearModalMessage() {
-                document.getElementById('unlockMessage').style.display = "none";
+                document.getElementById('lockReason').value = '';
+//                var modal = new bootstrap.Modal(document.getElementById('lockModal'));
+//                modal.show();
+                $("#lockModal").modal("show");
             }
         </script>
     </head>
@@ -61,7 +44,6 @@
                     };
                 </script>
             </c:if>
-
             <div id="page-wrapper">
                 <div class="container-fluid">
                     <div class="row">
@@ -75,15 +57,7 @@
                         <div class="col-lg-12">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    List of Locked Chapters 
-                                    <c:choose>
-                                        <c:when test="${not empty novelId and novelId > 0}">
-                                            ${novelId}
-                                        </c:when>
-                                        <c:otherwise>
-                                            N/A
-                                        </c:otherwise>
-                                    </c:choose>
+                                    List of Locked Chapters for ${chapter.novelName}
                                 </div>
                                 <div class="panel-body">
                                     <div class="table-responsive">
@@ -105,16 +79,17 @@
                                                             <tr>
                                                                 <td>${status.index + 1}</td>
                                                                 <td>${chapter.chapterID}</td>
-                                                                <td>${chapter.chapterName}</td>
+                                                                <td><a href="managechapter?action=viewchapter&id=${chapter.chapterID}" title="${chapter.chapterName}">${chapter.chapterName}</a></td>
                                                                 <td>
                                                                     <fmt:formatDate value="${chapter.publishedDate}" pattern="dd/MM/yyyy HH:mm" />
                                                                 </td>
                                                                 <td>${chapter.chapterStatus}</td>
                                                                 <td>
-                                                                    <button type="button" class="btn btn-success"
-                                                                            onclick="openUnlockModal('${chapter.chapterID}', '${chapter.chapterName}')">
-                                                                        Unlock
-                                                                    </button>
+                                                                    <form action="managechapter" method="post" style="display: inline">
+                                                                        <input type="hidden" name="action" value="unlock">
+                                                                        <input type="hidden" name="chapterID" value="${chapter.chapterID}">
+                                                                        <button type="submit" class="btn btn-info" onclick="return confirm('Are you sure to unclock the chapter: ${chapter.chapterName} (ID=${chapter.chapterID})')">Unlock</button>
+                                                                    </form>
                                                                 </td>
                                                             </tr>
                                                         </c:forEach>
@@ -127,34 +102,6 @@
                                                 </c:choose>
                                             </tbody>
                                         </table>
-
-                                        <!-- Unlock Modal -->
-                                        <div id="unlockModal" class="modal fade" role="dialog">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <form action="managechapter" method="post" style="display: inline">
-                                                        <div class="modal-header" style="border-bottom: none; height: 45px">
-                                                            <h4 class="modal-title" style="float: left; margin-right: 10px; width: 95%;
-                                                                margin-bottom: 10px; display: -webkit-box; overflow: hidden; 
-                                                                word-wrap: break-word; -webkit-box-orient: vertical; -webkit-line-clamp: 2;">
-                                                                You are unlocking the chapter: <strong><span id="unlockChapterName"></span></strong>
-                                                            </h4>
-                                                            <button type="button" class="close" style="float: right" data-dismiss="modal" onclick="clearModalMessage()">×</button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <input type="hidden" name="chapterId" id="chapterID">
-                                                            <p id="unlockMessage" style="color: red; display: none;"></p>
-                                                            <p>Are you sure you want to unlock this chapter?</p>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="clearModalMessage()">Cancel</button>
-                                                            <input type="hidden" name="action" value="unlock">
-                                                            <button type="submit" class="btn btn-success">Confirm</button>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -178,19 +125,19 @@
         <script src="js/startmin/dataTables/dataTables.bootstrap.min.js"></script>
 
         <script>
-            $(document).ready(function () {
-                $('#dataTables-example').DataTable({
-                    responsive: true,
-                    "pageLength": 10,
-                    "order": [[1, "desc"]],
-                    "language": {
-                        "emptyTable": "No data available in table",
-                        "info": "Showing _START_ to _END_ of _TOTAL_ entries",
-                        "infoEmpty": "Showing 0 to 0 of 0 entries",
-                        "infoFiltered": "(filtered from _MAX_ total entries)"
-                    }
-                });
-            });
+                                                                            $(document).ready(function () {
+                                                                                $('#dataTables-example').DataTable({
+                                                                                    responsive: true,
+                                                                                    "pageLength": 10,
+                                                                                    "order": [[1, "desc"]],
+                                                                                    "language": {
+                                                                                        "emptyTable": "No data available in table",
+                                                                                        "info": "Showing _START_ to _END_ of _TOTAL_ entries",
+                                                                                        "infoEmpty": "Showing 0 to 0 of 0 entries",
+                                                                                        "infoFiltered": "(filtered from _MAX_ total entries)"
+                                                                                    }
+                                                                                });
+                                                                            });
         </script>
     </body>
 </html>

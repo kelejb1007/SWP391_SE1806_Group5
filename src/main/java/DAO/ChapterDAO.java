@@ -88,6 +88,35 @@ public class ChapterDAO {
         } 
         return chapter;
     }
+    
+    public Chapter getChapterForStaffById(int chapterID) {
+        Chapter chapter = null;
+        String sql = "SELECT chapterID, novelID, chapterNumber, chapterName, fileURL, publishedDate, chapterStatus FROM Chapter WHERE chapterID = ?";
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        try {
+            connection = db.getConnection();
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, chapterID);
+            rs = statement.executeQuery();
+            if(rs.next()){
+                chapter = new Chapter();
+                chapter.setChapterID(rs.getInt("chapterID"));
+                chapter.setNovelID(rs.getInt("novelID"));
+                chapter.setChapterNumber(rs.getInt("chapterNumber"));
+                chapter.setChapterName(rs.getString("chapterName"));
+                chapter.setFileURL(rs.getString("fileURL"));
+                // Chuyển đổi từ Timestamp sang LocalDateTime (nếu publishedDate có thể null)
+                java.sql.Timestamp timestamp = rs.getTimestamp("publishedDate");
+                chapter.setChapterCreatedDate(timestamp != null ? timestamp.toLocalDateTime() : null);
+                chapter.setChapterStatus(rs.getString("chapterStatus"));
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(ChapterDAO.class.getName()).log(Level.SEVERE, null, e);
+        } 
+        return chapter;
+    }
 
     public static void main(String[] args) {
         ChapterDAO c = new ChapterDAO();

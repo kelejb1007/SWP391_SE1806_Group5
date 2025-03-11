@@ -1,5 +1,7 @@
 package controller.user;
 
+import DAO.ChapterDAO;
+import DAO.ChapterSubmissionDAO;
 import DAO.PostChapterDAO;
 import model.Chapter;
 import model.Novel;
@@ -24,6 +26,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Map;
+import model.UserAccount;
 import utils.CloudinaryUtils;
 
 @WebServlet(name = "PostChapterController", urlPatterns = {"/postChapter"})
@@ -95,11 +98,16 @@ public class PostChapterController extends HttpServlet {
             throws ServletException, IOException {
         PostChapterDAO postChapterDAO = new PostChapterDAO(getServletContext());
         NovelDAO novelDAO = new NovelDAO();
+        ChapterDAO chapterDAO = new ChapterDAO();
 
         String novelIdParam = request.getParameter("novelId");
+        String chapterIdParam = request.getParameter("chapterID");
         String chapterTitle = request.getParameter("chapterName");
         String chapterContent = request.getParameter("chapterContent");
         Part filePart = request.getPart("file");
+
+        ChapterSubmissionDAO subDAO = new ChapterSubmissionDAO();
+        String message;
 
         LOGGER.log(Level.INFO, "Processing post request with novelId: {0}, chapterTitle: {1}, content length: {2}, has file: {3}",
                 new Object[]{novelIdParam, chapterTitle,
@@ -115,7 +123,11 @@ public class PostChapterController extends HttpServlet {
             return;
         }
 
+        int chapterID;
         try {
+            HttpSession session = request.getSession(false);
+            UserAccount ua = (UserAccount) session.getAttribute("user");
+
             int novelId = Integer.parseInt(novelIdParam);
             Novel novel = novelDAO.getNovelById(novelId);
             if (novel == null) {
@@ -129,7 +141,7 @@ public class PostChapterController extends HttpServlet {
             String fileURL = null;
             if (filePart != null && filePart.getSize() > 0) {
                 fileURL = getFile(filePart);
-            } else if (chapterContent != null){
+            } else if (chapterContent != null) {
                 fileURL = getFileByContent(chapterContent);
             }
 
@@ -143,17 +155,23 @@ public class PostChapterController extends HttpServlet {
                     LocalDateTime.now(),
                     "pending"
             );
-
+           
             LOGGER.log(Level.INFO, "Attempting to post chapter for novel: {0}", novel.getNovelName());
-            int chapterID = postChapterDAO.postChapter(newChapter);
+            chapterID = postChapterDAO.postChapter(newChapter);
 
+            if (subDAO.addPostingSubmission(chapterID, ua.getUserID(), "post")) {
+                message = "Create novel and send posting requirement successfully!";
+            } else {
+                message = "Error in sending posting requirement!!!!";
+            }
+            
             request.setAttribute("novelId", novelId);
             request.setAttribute("novelName", novel.getNovelName());
             request.setAttribute("nextChapterNumber", postChapterDAO.getNextChapterNumber(novelId));
             request.setAttribute("filePath", fileURL);
             request.setAttribute("message", "Chapter posted successfully!");
             request.setAttribute("messageType", "success");
-            request.getRequestDispatcher("/WEB-INF/views/user/postChapter.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/user/chapter/postChapter.jsp").forward(request, response);
             //            if (chapterID > 0) {
             //                int chapterNumber = postChapterDAO.getNextChapterNumber(novelId) - 1;
             //                String filePath = postChapterDAO.getChapterFilePath(novel.getNovelName(), chapterNumber);
@@ -249,7 +267,7 @@ public class PostChapterController extends HttpServlet {
         String fileUrl = (String) uploadResult.get("secure_url");
         return fileUrl;
     }
-    
+
     public String getFileByContent(String content) throws IOException {
         String filePath = "temp.txt";
         Files.write(Paths.get(filePath), content.getBytes());

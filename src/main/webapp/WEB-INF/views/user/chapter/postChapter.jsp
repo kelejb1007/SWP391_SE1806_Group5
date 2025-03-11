@@ -4,7 +4,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="css/home/header.css">
-        <title>Post a New Chapter</title>
+        <title>Post Chapter</title>
         <style>
             body {
                 font-family: Arial, sans-serif;
@@ -51,13 +51,22 @@
             }
             textarea {
                 width: 100%;
-                height: 150px;
+                height: 230px;
                 resize: none;
                 font-size: 18px;
                 padding: 8px;
             }
             h2 {
                 text-align: center;
+            }
+            
+            .areaInput {
+                font-family: 'Open Sans', sans-serif;
+                font-size: 1.1rem;
+                /*color: #d9534f; */
+                font-weight: 600;
+                text-indent: 0.5rem;
+                opacity: 0.7;
             }
         </style>
     </head>
@@ -111,7 +120,7 @@
 
                 <div class="form-group" id="textInput">
                     <label for="chapterContent">Chapter Content:</label>
-                    <textarea id="chapterContent" name="chapterContent" required></textarea>
+                    <textarea class="areaInput" id="chapterContent" name="chapterContent" required></textarea>
                 </div>
 
                 <div class="form-group" id="fileInput" style="display: none;">
@@ -148,7 +157,6 @@
                     manualInput.style.display = "none";
                     fileInput.style.display = "block";
                     textArea.required = false;
-                    textArea.value = "";
                     fileField.required = true;
                 }
             }

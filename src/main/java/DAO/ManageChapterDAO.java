@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Chapter;
 import model.ManageChapter;
-import model.Novel;
 import utils.DBContext;
 
 /**
@@ -22,8 +22,10 @@ public class ManageChapterDAO {
 
     public List<ManageChapter> getChaptersByNovelId(int novelID) {
         List<ManageChapter> list = new ArrayList<>();
-        String sql = "SELECT c.chapterID, c.novelID, c.chapterNumber, c.chapterName, c.fileURL, c.publishedDate, c.chapterStatus "
+        String sql = "SELECT c.chapterID, c.novelID, c.chapterNumber, c.chapterName, c.fileURL, c.publishedDate, c.chapterStatus, "
+                + "n.novelName "
                 + "FROM Chapter c "
+                + "JOIN Novel n ON c.novelID = n.novelID "
                 + "WHERE c.novelID = ? AND c.chapterStatus = 'active'";
 
         try (Connection connection = db.getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -39,6 +41,7 @@ public class ManageChapterDAO {
                     Timestamp timestamp = rs.getTimestamp("publishedDate");
                     chapter.setPublishedDate(timestamp != null ? new java.util.Date(timestamp.getTime()) : null);
                     chapter.setChapterStatus(rs.getString("chapterStatus"));
+                    chapter.setNovelName(rs.getString("novelName"));
                     list.add(chapter);
                 }
             }
@@ -50,7 +53,7 @@ public class ManageChapterDAO {
 
     public boolean lockChapter(int chapterID, int managerID, String lockReason) {
         String sql = "UPDATE Chapter SET chapterStatus = 'inactive' WHERE chapterID = ? AND chapterStatus = 'active'";
-        String logSql = "INSERT INTO LockChapterLog (managerID, chapterID, dateTime, action, lockReason) VALUES (?, ?, GETDATE(), 'lock', ?)";
+        String logSql = "INSERT INTO LockChapterLog (managerID, chapterID, datetime, action, lockReason) VALUES (?, ?, GETDATE(), 'lock', ?)";
 
         try (Connection conn = db.getConnection()) {
             conn.setAutoCommit(false);
@@ -60,7 +63,7 @@ public class ManageChapterDAO {
                 if (rowsUpdated > 0) {
                     logStmt.setInt(1, managerID);
                     logStmt.setInt(2, chapterID);
-                    logStmt.setString(3, lockReason != null ? lockReason : "No reason provided");
+                    logStmt.setString(3, lockReason != null && !lockReason.trim().isEmpty() ? lockReason : "No reason provided");
                     logStmt.executeUpdate();
                     conn.commit();
                     Logger.getLogger(ManageChapterDAO.class.getName()).log(Level.INFO, "Chapter with ID {0} has been locked (status set to inactive).", chapterID);
@@ -87,7 +90,7 @@ public class ManageChapterDAO {
                 + "n.novelName "
                 + "FROM Chapter c "
                 + "JOIN Novel n ON c.novelID = n.novelID "
-                + "WHERE c.chapterStatus = 'inactive'"; // Chỉ lấy chapter có chapterStatus = 'inactive'
+                + "WHERE c.chapterStatus = 'inactive'";
 
         try (Connection connection = db.getConnection(); PreparedStatement statement = connection.prepareStatement(sql); ResultSet rs = statement.executeQuery()) {
             while (rs.next()) {
@@ -101,11 +104,10 @@ public class ManageChapterDAO {
                 chapter.setPublishedDate(timestamp != null ? new java.util.Date(timestamp.getTime()) : null);
                 chapter.setNovelName(rs.getString("novelName"));
                 chapter.setChapterStatus(rs.getString("chapterStatus"));
-                chapter.setLocked(true); // Đánh dấu là locked vì chapterStatus = 'inactive'
+                chapter.setLocked(true);
                 list.add(chapter);
-                System.out.println("Found locked chapter: " + chapter.getChapterID() + " - " + chapter.getChapterName());
             }
-            System.out.println("Number of locked chapters in getAllLockedChapters: " + list.size());
+            Logger.getLogger(ManageChapterDAO.class.getName()).log(Level.INFO, "Number of locked chapters: {0}", list.size());
         } catch (SQLException e) {
             Logger.getLogger(ManageChapterDAO.class.getName()).log(Level.SEVERE, "Error in getAllLockedChapters: " + e.getMessage(), e);
         }
@@ -116,7 +118,7 @@ public class ManageChapterDAO {
         List<ManageChapter> list = new ArrayList<>();
         String sql = "SELECT c.chapterID, c.novelID, c.chapterNumber, c.chapterName, c.fileURL, c.publishedDate, c.chapterStatus "
                 + "FROM Chapter c "
-                + "WHERE c.novelID = ? AND c.chapterStatus = 'inactive'"; // Chỉ lấy chapter có chapterStatus = 'inactive'
+                + "WHERE c.novelID = ? AND c.chapterStatus = 'inactive'";
 
         try (Connection connection = db.getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, novelID);
@@ -131,12 +133,11 @@ public class ManageChapterDAO {
                     Timestamp timestamp = rs.getTimestamp("publishedDate");
                     chapter.setPublishedDate(timestamp != null ? new java.util.Date(timestamp.getTime()) : null);
                     chapter.setChapterStatus(rs.getString("chapterStatus"));
-                    chapter.setLocked(true); // Đánh dấu là locked vì chapterStatus = 'inactive'
+                    chapter.setLocked(true);
                     list.add(chapter);
-                    System.out.println("Found locked chapter for novel ID " + novelID + ": " + chapter.getChapterID() + " - " + chapter.getChapterName());
                 }
-                System.out.println("Total locked chapters for novel ID " + novelID + ": " + list.size());
             }
+            Logger.getLogger(ManageChapterDAO.class.getName()).log(Level.INFO, "Number of locked chapters for novel ID {0}: {1}", new Object[]{novelID, list.size()});
         } catch (SQLException e) {
             Logger.getLogger(ManageChapterDAO.class.getName()).log(Level.SEVERE, "Error in getLockedChaptersByNovelId: " + e.getMessage(), e);
         }
@@ -159,7 +160,6 @@ public class ManageChapterDAO {
     }
 
     public boolean unlockChapter(int chapterID, int managerID) {
-        // Kiểm tra trạng thái hiện tại của chapter
         String currentStatus = getCurrentChapterStatus(chapterID);
         Logger.getLogger(ManageChapterDAO.class.getName()).log(Level.INFO, "Current status of chapter ID {0}: {1}", new Object[]{chapterID, currentStatus});
 
@@ -174,21 +174,18 @@ public class ManageChapterDAO {
         }
 
         String sql = "UPDATE Chapter SET chapterStatus = 'active' WHERE chapterID = ? AND chapterStatus = 'inactive'";
-        String logSql = "INSERT INTO LockChapterLog (managerID, chapterID, dateTime, action, lockReason) VALUES (?, ?, GETDATE(), 'unlock', 'Chapter unlocked by staff')";
+        String logSql = "INSERT INTO LockChapterLog (managerID, chapterID, datetime, action, lockReason) VALUES (?, ?, GETDATE(), 'unlock', ?)";
 
         try (Connection conn = db.getConnection()) {
             conn.setAutoCommit(false);
             try (PreparedStatement stmt = conn.prepareStatement(sql); PreparedStatement logStmt = conn.prepareStatement(logSql)) {
                 stmt.setInt(1, chapterID);
                 int rows = stmt.executeUpdate();
-                Logger.getLogger(ManageChapterDAO.class.getName()).log(Level.INFO, "Rows updated in Chapter table: {0}", rows);
-
                 if (rows > 0) {
                     logStmt.setInt(1, managerID);
                     logStmt.setInt(2, chapterID);
-                    int logRows = logStmt.executeUpdate();
-                    Logger.getLogger(ManageChapterDAO.class.getName()).log(Level.INFO, "Rows inserted into LockChapterLog: {0}", logRows);
-
+                    logStmt.setString(3, "Chapter unlocked by staff");
+                    logStmt.executeUpdate();
                     conn.commit();
                     Logger.getLogger(ManageChapterDAO.class.getName()).log(Level.INFO, "Chapter with ID {0} has been unlocked (status set to active).", chapterID);
                     return true;
@@ -207,12 +204,34 @@ public class ManageChapterDAO {
             return false;
         }
     }
+    
+    public boolean changeChapterStatus(int chapterID, String status) {
+        String sql = "UPDATE Chapter\n"
+                + "SET chapterStatus = ?\n"
+                + "WHERE chapterID = ?";
+        Connection connection;
+        PreparedStatement statement;
+        int n;
+        try {
+            connection = db.getConnection();
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, status);
+            statement.setInt(2, chapterID);
+            n = statement.executeUpdate();
+            if (n != 0) {
+                return true;
+            }
+        } catch (Exception e) {
+            Logger.getLogger(ChapterDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return false;
+    }
 
     public boolean updateChapterLock(int chapterID, int managerID, boolean isLock, String reason) {
         String action = isLock ? "lock" : "unlock";
-        String newStatus = isLock ? "inactive" : "active"; // Đồng bộ với logic lock/unlock
+        String newStatus = isLock ? "inactive" : "active";
         String sql = "UPDATE Chapter SET chapterStatus = ? WHERE chapterID = ?";
-        String logSql = "INSERT INTO LockChapterLog (managerID, chapterID, dateTime, action, lockReason) VALUES (?, ?, GETDATE(), ?, ?)";
+        String logSql = "INSERT INTO LockChapterLog (managerID, chapterID, datetime, action, lockReason) VALUES (?, ?, GETDATE(), ?, ?)";
 
         try (Connection conn = db.getConnection()) {
             conn.setAutoCommit(false);
@@ -224,12 +243,14 @@ public class ManageChapterDAO {
                     logStmt.setInt(1, managerID);
                     logStmt.setInt(2, chapterID);
                     logStmt.setString(3, action);
-                    logStmt.setString(4, reason != null ? reason : "");
+                    logStmt.setString(4, reason != null && !reason.trim().isEmpty() ? reason : "No reason provided");
                     logStmt.executeUpdate();
                     conn.commit();
+                    Logger.getLogger(ManageChapterDAO.class.getName()).log(Level.INFO, "Chapter with ID {0} {1} successfully.", new Object[]{chapterID, action});
                     return true;
                 }
                 conn.rollback();
+                Logger.getLogger(ManageChapterDAO.class.getName()).log(Level.WARNING, "Failed to {0} chapter with ID {1}.", new Object[]{action, chapterID});
             }
         } catch (SQLException e) {
             Logger.getLogger(ManageChapterDAO.class.getName()).log(Level.SEVERE, "Error in updateChapterLock: " + e.getMessage(), e);
@@ -237,25 +258,166 @@ public class ManageChapterDAO {
         return false;
     }
 
+    public List<ManageChapter> getPendingChapters() {
+        List<ManageChapter> list = new ArrayList<>();
+        String sql = "SELECT c.chapterID, c.novelID, c.chapterNumber, c.chapterName, c.fileURL, c.publishedDate, c.chapterStatus, "
+                + "n.novelName "
+                + "FROM Chapter c "
+                + "JOIN Novel n ON c.novelID = n.novelID "
+                + "WHERE c.chapterStatus = 'pending'";
+
+        try (Connection connection = db.getConnection(); PreparedStatement statement = connection.prepareStatement(sql); ResultSet rs = statement.executeQuery()) {
+            while (rs.next()) {
+                ManageChapter chapter = new ManageChapter();
+                chapter.setChapterID(rs.getInt("chapterID"));
+                chapter.setNovelID(rs.getInt("novelID"));
+                chapter.setChapterNumber(rs.getInt("chapterNumber"));
+                chapter.setChapterName(rs.getString("chapterName"));
+                chapter.setFileURL(rs.getString("fileURL"));
+                Timestamp timestamp = rs.getTimestamp("publishedDate");
+                chapter.setPublishedDate(timestamp != null ? new java.util.Date(timestamp.getTime()) : null);
+                chapter.setNovelName(rs.getString("novelName"));
+                chapter.setChapterStatus(rs.getString("chapterStatus"));
+                chapter.setPending(true);
+                list.add(chapter);
+            }
+            Logger.getLogger(ManageChapterDAO.class.getName()).log(Level.INFO, "Number of pending chapters: {0}", list.size());
+        } catch (SQLException e) {
+            Logger.getLogger(ManageChapterDAO.class.getName()).log(Level.SEVERE, "Error in getPendingChapters: " + e.getMessage(), e);
+        }
+        return list;
+    }
+
     public boolean approveChapter(int chapterID, int managerID) {
-        String sql = "UPDATE Chapter SET chapterStatus = 'approved' WHERE chapterID = ? AND chapterStatus != 'approved'";
-        try (Connection connection = db.getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, chapterID);
-            int rowsAffected = statement.executeUpdate();
-            if (rowsAffected > 0) {
-                String logSql = "INSERT INTO LockChapterLog (managerID, chapterID, dateTime, action, lockReason) "
-                        + "VALUES (?, ?, GETDATE(), 'approve', 'Chapter approved by staff')";
-                try (PreparedStatement logStatement = connection.prepareStatement(logSql)) {
-                    logStatement.setInt(1, managerID);
-                    logStatement.setInt(2, chapterID);
-                    logStatement.executeUpdate();
+        String sql = "UPDATE Chapter SET chapterStatus = 'active' WHERE chapterID = ? AND chapterStatus = 'pending'";
+        try (Connection connection = db.getConnection()) {
+            connection.setAutoCommit(false);
+            try (PreparedStatement stmt = connection.prepareStatement(sql); PreparedStatement logStmt = connection.prepareStatement(
+                    "INSERT INTO LockChapterLog (managerID, chapterID, datetime, action, lockReason) VALUES (?, ?, GETDATE(), 'approve', ?)")) {
+                stmt.setInt(1, chapterID);
+                int rowsAffected = stmt.executeUpdate();
+                if (rowsAffected > 0) {
+                    logStmt.setInt(1, managerID);
+                    logStmt.setInt(2, chapterID);
+                    logStmt.setString(3, "Chapter approved by staff");
+                    logStmt.executeUpdate();
+                    connection.commit();
+                    Logger.getLogger(ManageChapterDAO.class.getName()).log(Level.INFO, "Chapter with ID {0} has been approved (status set to active).", chapterID);
+                    return true;
+                } else {
+                    connection.rollback();
+                    Logger.getLogger(ManageChapterDAO.class.getName()).log(Level.WARNING, "No chapter found with ID {0} to approve or not in pending status.", chapterID);
                 }
-                return true;
+            } catch (SQLException e) {
+                connection.rollback();
+                Logger.getLogger(ManageChapterDAO.class.getName()).log(Level.SEVERE, "SQL Error in approveChapter: " + e.getMessage(), e);
             }
         } catch (SQLException e) {
-            Logger.getLogger(ManageChapterDAO.class.getName()).log(Level.SEVERE, "Error in approveChapter: " + e.getMessage(), e);
+            Logger.getLogger(ManageChapterDAO.class.getName()).log(Level.SEVERE, "Connection Error in approveChapter: " + e.getMessage(), e);
         }
         return false;
+    }
+
+    public boolean rejectChapter(int chapterID, int managerID, String rejectReason) {
+        String sql = "UPDATE Chapter SET chapterStatus = 'inactive' WHERE chapterID = ? AND chapterStatus = 'pending'";
+        try (Connection connection = db.getConnection()) {
+            connection.setAutoCommit(false);
+            try (PreparedStatement stmt = connection.prepareStatement(sql); PreparedStatement logStmt = connection.prepareStatement(
+                    "INSERT INTO LockChapterLog (managerID, chapterID, datetime, action, lockReason) VALUES (?, ?, GETDATE(), 'reject', ?)")) {
+                stmt.setInt(1, chapterID);
+                int rowsAffected = stmt.executeUpdate();
+                if (rowsAffected > 0) {
+                    logStmt.setInt(1, managerID);
+                    logStmt.setInt(2, chapterID);
+                    logStmt.setString(3, rejectReason != null && !rejectReason.trim().isEmpty() ? rejectReason : "No reason provided");
+                    logStmt.executeUpdate();
+                    connection.commit();
+                    Logger.getLogger(ManageChapterDAO.class.getName()).log(Level.INFO, "Chapter with ID {0} has been rejected (status set to inactive).", chapterID);
+                    return true;
+                } else {
+                    connection.rollback();
+                    Logger.getLogger(ManageChapterDAO.class.getName()).log(Level.WARNING, "No chapter found with ID {0} to reject or not in pending status.", chapterID);
+                }
+            } catch (SQLException e) {
+                connection.rollback();
+                Logger.getLogger(ManageChapterDAO.class.getName()).log(Level.SEVERE, "SQL Error in rejectChapter: " + e.getMessage(), e);
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(ManageChapterDAO.class.getName()).log(Level.SEVERE, "Connection Error in rejectChapter: " + e.getMessage(), e);
+        }
+        return false;
+    }
+    
+    public boolean updatePublicDate(int chapterID) {
+        String sql = "UPDATE Chapter\n"
+                + "SET publishedDate = SYSDATETIME()\n"
+                + "WHERE chapterID = ?";
+        Connection connection;
+        PreparedStatement statement;
+        int n;
+        try {
+            connection = db.getConnection();
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, chapterID);
+            n = statement.executeUpdate();
+            if (n != 0) {
+                return true;
+            }
+        } catch (Exception e) {
+            Logger.getLogger(ManageChapterDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return false;
+    }
+    
+    public boolean updateChapter(ManageChapter draft, int chapterID) {
+        String sql = "UPDATE Novel SET "
+                + "chapterName = ?, fileURL = ?,"
+                + "where chapterID = ?";
+        Connection connection;
+        PreparedStatement statement;
+        int n;
+        try {
+            connection = db.getConnection();
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, draft.getNovelName());
+            statement.setString(2, draft.getFileURL());
+            statement.setInt(3, chapterID);
+            n = statement.executeUpdate();
+            if (n != 0) {
+                return true;
+            }
+        } catch (Exception e) {
+            Logger.getLogger(ManageChapterDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return false;
+    }
+    
+    public ManageChapter getChapterById(int chapterID) {
+        ManageChapter chapter = null;
+        String sql = "SELECT chapterID, novelID, chapterNumber, chapterName, fileURL, publishedDate, chapterStatus FROM Chapter WHERE chapterID = ?";
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        try {
+            connection = db.getConnection();
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, chapterID);
+            rs = statement.executeQuery();
+            if(rs.next()){
+                chapter = new ManageChapter();
+                chapter.setChapterID(rs.getInt("chapterID"));
+                chapter.setNovelID(rs.getInt("novelID"));
+                chapter.setChapterNumber(rs.getInt("chapterNumber"));
+                chapter.setChapterName(rs.getString("chapterName"));
+                chapter.setFileURL(rs.getString("fileURL"));
+                // Chuyển đổi từ Timestamp sang LocalDateTime (nếu publishedDate có thể null)
+                java.sql.Timestamp timestamp = rs.getTimestamp("publishedDate");
+                chapter.setChapterStatus(rs.getString("chapterStatus"));
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(ManageChapterDAO.class.getName()).log(Level.SEVERE, null, e);
+        } 
+        return chapter;
     }
 
     public static void main(String[] args) {
@@ -287,13 +449,21 @@ public class ManageChapterDAO {
             System.out.println(chapter);
         }
 
-        // 4. Kiểm tra getCurrentChapterStatus
+        // 4. Kiểm tra getPendingChapters
+        System.out.println("\n=== Testing getPendingChapters ===");
+        List<ManageChapter> pendingChapters = chapterDAO.getPendingChapters();
+        System.out.println("Pending chapters:");
+        for (ManageChapter chapter : pendingChapters) {
+            System.out.println(chapter);
+        }
+
+        // 5. Kiểm tra getCurrentChapterStatus
         System.out.println("\n=== Testing getCurrentChapterStatus ===");
         int chapterId = 1;
         String currentStatus = chapterDAO.getCurrentChapterStatus(chapterId);
         System.out.println("Current status for chapter ID " + chapterId + ": " + currentStatus);
 
-        // 5. Kiểm tra lockChapter
+        // 6. Kiểm tra lockChapter
         System.out.println("\n=== Testing lockChapter ===");
         chapterId = 1;
         int managerId = 1;
@@ -301,18 +471,26 @@ public class ManageChapterDAO {
         boolean lockResult = chapterDAO.lockChapter(chapterId, managerId, reason);
         System.out.println("Lock chapter result: " + lockResult);
 
-        // 6. Kiểm tra unlockChapter
+        // 7. Kiểm tra unlockChapter
         System.out.println("\n=== Testing unlockChapter ===");
         chapterId = 1;
         managerId = 1;
         boolean unlockResult = chapterDAO.unlockChapter(chapterId, managerId);
         System.out.println("Unlock chapter result: " + unlockResult);
 
-        // 7. Kiểm tra approveChapter
+        // 8. Kiểm tra approveChapter
         System.out.println("\n=== Testing approveChapter ===");
-        chapterId = 1;
+        chapterId = 19; // Sử dụng chapter pending
         managerId = 1;
         boolean approveResult = chapterDAO.approveChapter(chapterId, managerId);
         System.out.println("Approve chapter result: " + approveResult);
+
+        // 9. Kiểm tra rejectChapter
+        System.out.println("\n=== Testing rejectChapter ===");
+        chapterId = 20; // Sử dụng chapter pending
+        managerId = 1;
+        String rejectReason = "Test reject reason";
+        boolean rejectResult = chapterDAO.rejectChapter(chapterId, managerId, rejectReason);
+        System.out.println("Reject chapter result: " + rejectResult);
     }
 }

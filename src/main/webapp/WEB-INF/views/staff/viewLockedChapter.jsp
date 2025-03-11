@@ -23,10 +23,12 @@
         <link href="css/startmin/dataTables/dataTables.responsive.css" rel="stylesheet">
 
         <script>
-            function openUnlockModal(chapterID, chapterName) {
+            function openLockModal(chapterID) {
                 document.getElementById('chapterID').value = chapterID;
-                document.getElementById('unlockChapterName').innerHTML = chapterName + " (ID=" + chapterID + ")";
-                $("#unlockModal").modal("show");
+                document.getElementById('lockReason').value = '';
+//                var modal = new bootstrap.Modal(document.getElementById('lockModal'));
+//                modal.show();
+                $("#lockModal").modal("show");
             }
         </script>
     </head>
@@ -78,14 +80,15 @@
                                                                 <td>${status.index + 1}</td>
                                                                 <td>${chapter.chapterID}</td>
                                                                 <td>${chapter.novelName}</td>
-                                                                <td>${chapter.chapterName}</td>
+                                                                <td><a href="managechapter?action=viewchapter&id=${chapter.chapterID}" title="${chapter.novelName}">${chapter.chapterName}</a></td>
                                                                 <td><fmt:formatDate value="${chapter.publishedDate}" pattern="dd/MM/yyyy HH:mm" /></td>
                                                                 <td>${chapter.chapterStatus}</td>
                                                                 <td>
-                                                                    <button type="button" class="btn btn-success"
-                                                                            onclick="openUnlockModal('${chapter.chapterID}', '${chapter.chapterName}')">
-                                                                        Unlock
-                                                                    </button>
+                                                                    <form action="managechapter" method="post" style="display: inline">
+                                                                        <input type="hidden" name="action" value="unlock">
+                                                                        <input type="hidden" name="chapterID" value="${chapter.chapterID}">
+                                                                        <button type="submit" class="btn btn-info" onclick="return confirm('Are you sure to unclock the chapter: ${chapter.chapterName} (ID=${chapter.chapterID})')">Unlock</button>
+                                                                    </form>
                                                                 </td>
                                                             </tr>
                                                         </c:forEach>
@@ -98,33 +101,6 @@
                                                 </c:choose>
                                             </tbody>
                                         </table>
-
-                                        <!-- Unlock Modal -->
-                                        <div id="unlockModal" class="modal fade" role="dialog">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <form action="managechapter" method="post" style="display: inline">
-                                                        <div class="modal-header" style="border-bottom: none; height: 45px">
-                                                            <h4 class="modal-title" style="float: left; margin-right: 10px; width: 95%;
-                                                                margin-bottom: 10px; display: -webkit-box; overflow: hidden; 
-                                                                word-wrap: break-word; -webkit-box-orient: vertical; -webkit-line-clamp: 2;">
-                                                                You are unlocking the chapter: <strong><span id="unlockChapterName"></span></strong>
-                                                            </h4>
-                                                            <button type="button" class="close" style="float: right" data-dismiss="modal">×</button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <input type="hidden" name="chapterId" id="chapterID">
-                                                            <p>Are you sure you want to unlock this chapter?</p>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                                            <input type="hidden" name="action" value="unlock">
-                                                            <button type="submit" class="btn btn-success">Confirm</button>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -148,13 +124,13 @@
         <script src="js/startmin/dataTables/dataTables.bootstrap.min.js"></script>
 
         <script>
-            $(document).ready(function () {
-                $('#dataTables-example').DataTable({
-                    responsive: true,
-                    "pageLength": 10,
-                    "order": [[1, "desc"]]
-                });
-            });
+                                                                            $(document).ready(function () {
+                                                                                $('#dataTables-example').DataTable({
+                                                                                    responsive: true,
+                                                                                    "pageLength": 10,
+                                                                                    "order": [[1, "desc"]]
+                                                                                });
+                                                                            });
         </script>
     </body>
 </html>

@@ -339,11 +339,10 @@ public class PostChapterDAO {
      * @return true nếu cập nhật thành công, false nếu thất bại
      */
     public boolean updateChapter(Chapter chapter) {
-        String sql = "UPDATE Chapter SET chapterNumber = ?, chapterName = ? WHERE chapterID = ?";
+        String sql = "UPDATE Chapter SET chapterName = ? WHERE chapterID = ?";
         try ( Connection connection = db.getConnection();  PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, chapter.getChapterNumber());
-            statement.setString(2, chapter.getChapterName());
-            statement.setInt(3, chapter.getChapterID());
+            statement.setString(1, chapter.getChapterName());
+            statement.setInt(2, chapter.getChapterID());
             int rowsUpdated = statement.executeUpdate();
             LOGGER.log(Level.INFO, "Rows updated: " + rowsUpdated + " for chapter ID: " + chapter.getChapterID());
             return rowsUpdated > 0;

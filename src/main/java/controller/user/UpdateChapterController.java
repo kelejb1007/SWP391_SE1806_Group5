@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package controller.user;
 
+import DAO.ChapterDAO;
 import DAO.PostChapterDAO;
 import DAO.NovelDAO;
 import model.Chapter;
@@ -19,39 +19,45 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 /**
  *
  * @author Nguyen Ngoc Phat - CE180321
  */
-@WebServlet(name="UpdateChapterController", urlPatterns={"/updateChapter"})
+@WebServlet(name = "UpdateChapterController", urlPatterns = {"/updateChapter"})
 @MultipartConfig(maxFileSize = 1048576) // Giới hạn file 1MB
 public class UpdateChapterController extends HttpServlet {
-   
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UpdateChapterController</title>");  
+            out.println("<title>Servlet UpdateChapterController</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet UpdateChapterController at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet UpdateChapterController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
-    } 
+    }
 
     private static final Logger LOGGER = Logger.getLogger(UpdateChapterController.class.getName());
 
@@ -89,6 +95,10 @@ public class UpdateChapterController extends HttpServlet {
                 return;
             }
 
+            String chapterContent = getChapterContent(chapter, request);
+            chapterContent = chapterContent.replaceAll("<p>", "    ").replaceAll("</p>", "\n");
+            request.setAttribute("chapterContent", chapterContent);
+
             request.setAttribute("chapter", chapter);
             request.setAttribute("novelId", chapter.getNovelID());
             request.setAttribute("novelName", novel.getNovelName());
@@ -98,6 +108,39 @@ public class UpdateChapterController extends HttpServlet {
             request.setAttribute("messageType", "error");
             request.getRequestDispatcher("/WEB-INF/views/user/chapter/updateChapter.jsp").forward(request, response);
         }
+    }
+
+    private String getChapterContent(Chapter chapter, HttpServletRequest request) {
+        String fileURL = chapter.getFileURL();
+        if (fileURL == null || fileURL.isEmpty()) {
+            return "Chapter content not available.";
+        }
+
+        StringBuilder content = new StringBuilder();
+
+        try {
+            URL url = new URL(fileURL);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("User-Agent", "Mozilla/5.0");
+
+            try ( BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    // Quy tắc: Văn bản giữa dấu "" sẽ được in nghiêng
+                    line = line.replaceAll("([“”\"])(.*?)([“”\"])", "$1<span class='in-nghieng'>$2</span>$3");
+
+                    if (!line.trim().isEmpty()) {
+                        content.append("<p>").append(line).append("</p>\n");
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Error in getChapterContent: " + e.getMessage());
+            return "Chapter content not available.";
+        }
+
+        return content.toString();
     }
 
     @Override
@@ -209,7 +252,7 @@ public class UpdateChapterController extends HttpServlet {
         }
     }
 
-    /** 
+    /**
      * Returns a short description of the servlet.
      * @return a String containing servlet description
      */

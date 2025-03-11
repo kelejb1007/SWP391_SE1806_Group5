@@ -10,7 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" href="css/home/header.css">
+        <link rel="stylesheet" href="css/home/header(d).css">
         <title>Update Chapter</title>
         <style>
             body {
@@ -58,7 +58,7 @@
             }
             textarea {
                 width: 100%;
-                height: 150px;
+                height: 230px;
                 resize: none;
                 font-size: 18px;
                 padding: 8px;
@@ -66,7 +66,16 @@
             h2 {
                 text-align: center;
             }
-        </style>
+            
+            .areaInput {
+                font-family: 'Open Sans', sans-serif;
+                font-size: 1.1rem;
+                /*color: #d9534f; */
+                font-weight: 600;
+                text-indent: 0.5rem;
+                opacity: 0.7;
+            }
+        </style>       
     </head>
     <body>
         <header>
@@ -88,15 +97,6 @@
             <% } else {%>
 
             <form action="<%= request.getContextPath()%>/updateChapter" method="post" enctype="multipart/form-data">
-                <div class="form-group">
-                    <label for="chapterId">Chapter ID:</label>
-                    <input type="number" id="chapterId" name="chapterId" value="<%= chapter.getChapterID()%>" readonly>
-                </div>
-
-                <div class="form-group">
-                    <label for="novelId">Novel ID:</label>
-                    <input type="number" id="novelId" name="novelId" value="<%= novelId%>" readonly>
-                </div>
 
                 <div class="form-group">
                     <label for="novelName">Novel Name:</label>
@@ -123,7 +123,7 @@
 
                 <div class="form-group" id="textInput">
                     <label for="chapterContent">Chapter Content:</label>
-                    <textarea id="chapterContent" name="chapterContent" required></textarea>
+                    <textarea class="areaInput" id="chapterContent" name="chapterContent" >${chapterContent}</textarea>
                 </div>
 
                 <div class="form-group" id="fileInput" style="display: none;">
@@ -154,11 +154,11 @@
                     textArea.required = true;
                     fileField.required = false;
                     fileField.value = "";
+                    
                 } else {
                     manualInput.style.display = "none";
                     fileInput.style.display = "block";
                     textArea.required = false;
-                    textArea.value = "";
                     fileField.required = true;
                 }
             }

@@ -115,7 +115,7 @@ public class NovelSubmissionDAO {
     public List<NovelSubmission> getAllSubmisstion() {
         List<NovelSubmission> list = new ArrayList<>();
         String sql = "SELECT ns.submissionNID, ns.novelID, ns.userID, ns.managerID, ns.draftID, ns.submissionDate, \n"
-                + "ns.approvalDate, ns.type, status, ns.reasonRejected, n.novelName, us.userName\n"
+                + "ns.approvalDate, ns.type, ns.status, ns.reasonRejected, n.novelName, us.userName\n"
                 + "FROM NovelSubmission ns\n"
                 + "JOIN Novel n ON n.novelID = ns.novelID\n"
                 + "JOIN UserAccount us ON us.userID = ns.userID\n"

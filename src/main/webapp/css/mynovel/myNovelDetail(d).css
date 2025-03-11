@@ -218,6 +218,28 @@ em, i, small, strong {
     color: #e44d26;
 }
 
+.create-button {
+    margin-left: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    border: 2px solid #000;
+    font-size: 1em; /* Giữ kích thước hợp lý */
+    cursor: pointer;
+    outline: none;
+    transition: all 0.3s ease;
+    border-radius: 50px; /* Làm bo tròn hơn */
+    padding: 10px 15px; /* Đảm bảo nội dung có không gian */
+    color: #000;
+}
+
+.create-button:hover {
+    background-color: #d0e9c6;
+    border: 2px solid #31b131;
+    color: #31b131;
+}
+
 .tab-content{
     margin-bottom: 48px;
 }
