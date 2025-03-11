@@ -7,6 +7,7 @@ package DAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -112,7 +113,7 @@ public class NovelSubmissionDAO {
     }
 
     //staff---------------------------------------------------------------------------------------
-    public List<NovelSubmission> getAllSubmisstion() {
+    public List<NovelSubmission> getAllSubmisstion() throws SQLException{
         List<NovelSubmission> list = new ArrayList<>();
         String sql = "SELECT ns.submissionNID, ns.novelID, ns.userID, ns.managerID, ns.draftID, ns.submissionDate, \n"
                 + "ns.approvalDate, ns.type, ns.status, ns.reasonRejected, n.novelName, us.userName\n"

@@ -26,7 +26,7 @@ public class LockNovelLogDAO {
     }
 
     //Admin-------------------------------------------------------------------------------------------------------------
-    public boolean addLockLog(LockNovelLog ln) {
+    public boolean addLockLog(LockNovelLog ln) throws SQLException{
         String sql = "insert into LockNovelLog (managerID, novelID, action, lockReason)\n"
                    + "values (?, ?, ?, ?)";
         Connection connection = null;

@@ -56,12 +56,12 @@ public class UserAccountDAO {
     }
 
     // Tạo user mới từ Google
-    public void createUserFromGoogle(String email, String fullName) {
-        String sql = "INSERT INTO UserAccount (email, fullName, role) VALUES (?, ?, 'user')";
+    public void createUserFromGoogle(String email, String userName) {
+        String sql = "INSERT INTO UserAccount (email, userName, type) VALUES (?, ?, 'google')";
         try ( Connection conn = dbContext.getConnection();  PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, email);
-            stmt.setString(2, fullName);
+            stmt.setString(2, userName);
             stmt.executeUpdate();
 
         } catch (SQLException e) {

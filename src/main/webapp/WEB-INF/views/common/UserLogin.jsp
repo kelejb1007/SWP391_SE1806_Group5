@@ -3,6 +3,7 @@
     Created on : Feb 17, 2025, 9:51:01 PM
     Author     : Nguyen Ngoc Phat - CE180321
 --%>
+<%@ page import="com.google.api.services.oauth2.model.Userinfo" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
@@ -20,6 +21,7 @@
                 height: 100vh;
             }
             .login-container {
+                position: relative;
                 background: rgba(255, 255, 255, 0.9);
                 padding: 25px;
                 border-radius: 15px;
@@ -57,11 +59,11 @@
             button:hover {
                 background: #483D8B;
             }
-            .manager-login {
+            .gg-login {
                 background: #4B0082;
                 margin-top: 5px;
             }
-            .manager-login:hover {
+            .gg-login:hover {
                 background: #360061;
             }
             .register-link {
@@ -79,7 +81,18 @@
                 color: red;
                 margin-bottom: 10px;
             }
+            .manager-login{
+                position: absolute;
+                right: -500px;
+                top: -160px;
+                width: 150px;
+                height: 40px
+            }
         </style>
+
+        <link rel="stylesheet" href="css/startmin/font-awesome.min.css" type="text/css">
+
+
         <script>
             function validateForm() {
                 var username = document.getElementById("username").value.trim();
@@ -100,7 +113,7 @@
         <div class="login-container">
             <h2>User Login</h2>
 
-            <!-- Hiển thị thông báo lỗi -->
+
             <c:if test="${not empty requestScope.error}">
                 <p class="error-message">${requestScope.error}</p>
             </c:if>
@@ -114,8 +127,12 @@
                 <button type="submit">Login</button>
             </form>
 
+            <button type="button" class="gg-login" onclick="window.location.href = '${pageContext.request.contextPath}/Login?action=google'">
+                <i class="fa fa-google-plus"></i> Log in with Google
+            </button>
             <button class="manager-login" onclick="window.location.href = '${pageContext.request.contextPath}/ManagerLogin'">Manager Login</button>
             <p class="register-link">Don't have an account? <a href="${pageContext.request.contextPath}/Register">Register</a></p>
         </div>
+
     </body>
 </html>
