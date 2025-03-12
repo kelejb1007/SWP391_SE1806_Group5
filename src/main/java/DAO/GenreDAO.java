@@ -4,7 +4,7 @@
  */
 package DAO;
 
-import com.sun.javafx.scene.control.skin.VirtualFlow;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -28,7 +28,7 @@ public class GenreDAO {
         db = new DBContext();
     }
 
-    public List<Genre> getAllGenres() {
+    public List<Genre> getAllGenres() throws Exception{
         List<Genre> genres = new ArrayList<>();
         String sql = "SELECT * FROM Genre";
         Connection connection = null;
@@ -213,9 +213,5 @@ public class GenreDAO {
 //        }
 //        return genreID;
 //    }
-    public static void main(String[] args) {
-        GenreDAO ge = new GenreDAO();
-        List<Genre> list = ge.getAllGenres();
-        System.out.println(list);
-    }
+   
 }
