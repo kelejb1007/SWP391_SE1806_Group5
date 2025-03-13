@@ -1,4 +1,4 @@
-package controller.admin;
+package controller.admin.managestaff;
 
 import DAO.ManagerAccountDAO;
 import model.ManagerAccount;

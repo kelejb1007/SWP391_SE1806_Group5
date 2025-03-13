@@ -200,7 +200,7 @@ public class UserAccountDAO {
     // Lấy danh sách tài khoản bị khóa
     public List<UserAccount> getLockedAccounts() {
         List<UserAccount> listAccounts = new ArrayList<>();
-        String sql = "SELECT * FROM UserAccount WHERE status = 0"; // 0 = bị khóa
+        String sql = "SELECT * FROM UserAccount WHERE status = 1"; // 1 = bị khóa
 
         try ( Connection conn = dbContext.getConnection();  PreparedStatement stmt = conn.prepareStatement(sql);  ResultSet rs = stmt.executeQuery()) {
 

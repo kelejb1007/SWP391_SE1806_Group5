@@ -1,4 +1,4 @@
-package controller.user;
+package controller.user.reading;
 
 import DAO.ViewingDAO;
 import jakarta.servlet.Filter;

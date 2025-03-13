@@ -103,6 +103,27 @@ public class GenreDAO {
     }
 
     ///Trung---------------------------------------------------------------------------
+     public List<String> getListGenreName() {
+        String sql = "SELECT genreName "
+                + " FROM Genre ";
+        Connection connection;
+        PreparedStatement statement;
+        ResultSet rs;
+        List<String> list = new ArrayList<>();
+        try {
+            connection = db.getConnection();
+            statement = connection.prepareStatement(sql);
+            rs = statement.executeQuery();
+            while (rs.next()) {
+                list.add(rs.getString("genreName"));
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(NovelDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return list;
+    }
+    
+    
     public boolean addGenreNovel(int genreID, int novelID) {
         String sql = "INSERT INTO Genre_Novel (genreID, novelID)\n"
                 + "VALUES (?, ?)";
@@ -148,7 +169,7 @@ public class GenreDAO {
         return genres;
     }
     
-    
+   
 
     public List<Integer> getListGenreIDByNovelID(int novelID) {
         String sql = "SELECT genreID "

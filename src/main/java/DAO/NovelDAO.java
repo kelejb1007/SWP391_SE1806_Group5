@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,26 +30,33 @@ public class NovelDAO {
     }
 
     //Admin-------------------------------------------------------------------------------------------------------------
-    public List<Novel> getNovelByStatus(String s) throws SQLException{
+    public List<Novel> getNovelByStatus(String status) throws SQLException{
         List<Novel> list = new ArrayList<>();
-        String sql = "SELECT n.novelID, n.novelName, n.imageURL, n.totalChapter, n.publishedDate, u.fullName, COALESCE(ROUND(AVG(r.score), 2), 0) AS averageRating, COUNT(v.novelID) AS viewCount\n"
+        String sql = "SELECT n.novelID, n.novelName, n.imageURL, n.totalChapter, n.publishedDate, u.fullName, COALESCE(ROUND(AVG(r.score), 2), 0) AS averageRating, COUNT(v.novelID) AS viewCount,\n"
+                + "(SELECT STRING_AGG(g.genreName, ', ') "
+                + " FROM Genre_Novel gn2 "
+                + " JOIN Genre g ON gn2.genreID = g.genreID\n"
+                + " WHERE gn2.novelID = n.novelID) AS genres "
                 + "FROM Novel n \n"
                 + "JOIN UserAccount u ON n.UserID = u.UserID \n"
                 + "LEFT JOIN Rating r ON n.novelID = r.novelID\n"
                 + "LEFT JOIN Viewing v ON n.novelID = v.novelID\n"
-                + "WHERE novelStatus = '" + s + "'\n"
-                + "GROUP BY n.novelID, n.novelName, n.imageURL, n.totalChapter, n.publishedDate, u.fullName";
+                + "WHERE novelStatus = ?\n"
+                + "GROUP BY n.novelID, n.novelName, n.imageURL, n.totalChapter, n.publishedDate, u.fullName\n"
+                + "ORDER BY n.publishedDate DESC";
         Connection connection;
         PreparedStatement statement;
         ResultSet rs;
         try {
             connection = db.getConnection();
             statement = connection.prepareStatement(sql);
+            statement.setString(1, status);
             rs = statement.executeQuery();
             while (rs.next()) {
                 Novel m = new Novel(rs.getInt("novelID"), rs.getString("novelName"), rs.getString("imageURL"), rs.getInt("totalChapter"),
                         (rs.getTimestamp("publishedDate") != null ? rs.getTimestamp("publishedDate").toLocalDateTime() : null),
-                        rs.getString("fullName"), rs.getDouble("averageRating"), rs.getInt("viewCount"));
+                        rs.getString("fullName"), rs.getDouble("averageRating"), rs.getInt("viewCount"), rs.getString("genres"));
+                m.setPublishDate2(new Date(rs.getTimestamp("publishedDate") != null ? rs.getTimestamp("publishedDate").getTime(): null));
                 list.add(m);
             }
         } catch (SQLException e) {
@@ -67,7 +75,11 @@ public class NovelDAO {
                 + "SELECT \n"
                 + "    n.novelID, n.novelName, n.totalChapter, n.publishedDate,\n"
                 + "    u.fullName as author, m.fullName as staffName,\n"
-                + "    ll.datetime ,ll.lockReason\n"
+                + "    ll.datetime ,ll.lockReason,\n"
+                + "    (SELECT STRING_AGG(g.genreName, ', ') "
+                + "    FROM Genre_Novel gn2 "
+                + "    JOIN Genre g ON gn2.genreID = g.genreID\n"
+                + "    WHERE gn2.novelID = n.novelID) AS genres "
                 + "FROM LatestLock l\n"
                 + "JOIN LockNovelLog ll ON (l.novelID = ll.novelID AND l.latestLockDate = ll.datetime) OR (l.novelID = ll.novelID AND l.latestLockDate is null AND ll.datetime is null)\n"
                 + "JOIN ManagerAccount m ON ll.managerID = m.managerID\n"
@@ -93,6 +105,7 @@ public class NovelDAO {
                 m.setStaffName(rs.getString("staffName"));
                 m.setDatetime(rs.getTimestamp("datetime") != null ? rs.getTimestamp("datetime").toLocalDateTime() : null);
                 m.setLockReason(rs.getString("lockReason"));
+                m.setGenres(rs.getString("genres"));
                 list.add(m);
             }
         } catch (SQLException e) {
@@ -136,6 +149,7 @@ public class NovelDAO {
                 novel.setAuthor(rs.getString("author"));
                 novel.setAverageRating(rs.getDouble("averageRating"));
                 novel.setViewCount(rs.getInt("viewCount"));
+                novel.setGenres(rs.getString("genres"));
             }
         } catch (SQLException e) {
             Logger.getLogger(NovelDAO.class.getName()).log(Level.SEVERE, null, e);

@@ -1,4 +1,4 @@
-package controller.staff;
+package controller.staff.managechapter;
 
 import DAO.ChapterDAO;
 import DAO.ChapterSubmissionDAO;
@@ -6,6 +6,7 @@ import DAO.LockChapterLogDAO;
 import DAO.LockNovelLogDAO;
 import DAO.ManageChapterDAO;
 import DAO.NovelDAO;
+import controller.staff.managenovel.ManageNovelController;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;

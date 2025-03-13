@@ -106,7 +106,7 @@
 
                                                                 <td>
                                                                     <c:choose>
-                                                                        <c:when test="${acc.status == 1}">Unlock</c:when>
+                                                                        <c:when test="${acc.status == 0}">Unlock</c:when>
                                                                         <c:otherwise>Lock</c:otherwise>
                                                                     </c:choose>
                                                                 </td>
@@ -114,7 +114,7 @@
 
                                                                 <td>
                                                                     <c:choose>
-                                                                        <c:when test="${acc.status == 1}">
+                                                                        <c:when test="${acc.status == 0}">
                                                                             <a href="manageaccount?action=lockUnlock&userID=${acc.userID}&status=false" class="btn btn-danger">Lock</a>
                                                                         </c:when>
                                                                         <c:otherwise>

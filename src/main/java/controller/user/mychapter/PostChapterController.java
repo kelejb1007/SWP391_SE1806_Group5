@@ -1,4 +1,4 @@
-package controller.user;
+package controller.user.mychapter;
 
 import DAO.ChapterDAO;
 import DAO.ChapterSubmissionDAO;

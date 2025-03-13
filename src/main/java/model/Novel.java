@@ -6,6 +6,7 @@ package model;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -13,6 +14,7 @@ import java.util.List;
  * @author Phan Hồng Tài - CE181490
  */
 public class Novel {
+
     private int novelID;
     private String novelName;
     private int userID;
@@ -31,14 +33,16 @@ public class Novel {
     private int popularityScore;
     private int chapterID;   // ID chương cuối cùng đã đọc
     private String lastChapterName; // Tên chương cuối cùng đã đọc
-     private int lastChapterNumber; 
-     private int Process;
-     private LocalDateTime lastReadDate;
-     private LocalDateTime  latestChapterDate;
-    
+    private int lastChapterNumber;
+    private int Process;
+    private LocalDateTime lastReadDate;
+    private LocalDateTime latestChapterDate;
+
     private String lockReason;
-    private LocalDateTime datetime ;
+    private LocalDateTime datetime;
     private String staffName;
+    private String genres;
+    private Date publishDate2;
 
     public Novel() {
     }
@@ -51,9 +55,8 @@ public class Novel {
         this.totalChapter = totalChapter;
         this.novelStatus = novelStatus;
     }
-    
 
-    public Novel(int novelID, String novelName, String imageURL, int totalChapter, LocalDateTime publishedDate, String author, double averageRating, int viewCount) {
+    public Novel(int novelID, String novelName, String imageURL, int totalChapter, LocalDateTime publishedDate, String author, double averageRating, int viewCount, String genres) {
         this.novelID = novelID;
         this.novelName = novelName;
         this.imageURL = imageURL;
@@ -62,32 +65,26 @@ public class Novel {
         this.author = author;
         this.averageRating = averageRating;
         this.viewCount = viewCount;
-    }
-    
-
-    public Novel(int novelID, String novelName, int userID, String imageURL, String novelDescription, int totalChapter, String novelStatus, LocalDateTime publishedDate) {
-        this.novelID = novelID;
-        this.novelName = novelName;
-        this.userID = userID;
-        this.imageURL = imageURL;
-        this.novelDescription = novelDescription;
-        this.totalChapter = totalChapter;
-        this.novelStatus = novelStatus;
-        this.publishedDate = publishedDate;
+        this.genres = genres;
     }
 
-    public Novel(int novelID, String novelName, String author,String imageURL, String novelDescription, int totalChapter, String novelStatus, LocalDateTime publishedDate) {
-        this.novelID = novelID;
-        this.novelName = novelName;
-        this.imageURL = imageURL;
-        this.novelDescription = novelDescription;
-        this.totalChapter = totalChapter;
-        this.novelStatus = novelStatus;
-        this.publishedDate = publishedDate;
-        this.author = author;
-    }
-    
     //---------------------------------------------------------------------
+    public Date getPublishDate2() {
+        return publishDate2;
+    }
+
+    public void setPublishDate2(Date publishDate2) {
+        this.publishDate2 = publishDate2;
+    }
+
+    public String getGenres() {
+        return genres;
+    }
+
+    public void setGenres(String genres) {
+        this.genres = genres;
+    }
+
     public String getLockReason() {
         return lockReason;
     }
@@ -144,9 +141,6 @@ public class Novel {
         this.popularityScore = popularityScore;
     }
 
-    
-   
-
     public String getLastChapterName() {
         return lastChapterName;
     }
@@ -178,7 +172,7 @@ public class Novel {
     public void setRatingCount(int ratingCount) {
         this.ratingCount = ratingCount;
     }
-   
+
     public List<String> getGenreNames() {
         return genreNames;
     }
@@ -211,10 +205,7 @@ public class Novel {
         this.author = author;
     }
 
-
-    
-
-   // của Novel
+    // của Novel
     public int getNovelID() {
         return novelID;
     }
@@ -275,15 +266,15 @@ public class Novel {
         return publishedDate;
     }
 
-    
-     public void setPublishedDate(LocalDateTime publishedDate) {
+    public void setPublishedDate(LocalDateTime publishedDate) {
         this.publishedDate = publishedDate;
     }
+
     public String getLastReadDateFormatted() {
-    if (lastReadDate == null) {
-        return "N/A"; // Trả về N/A nếu không có dữ liệu
+        if (lastReadDate == null) {
+            return "N/A"; // Trả về N/A nếu không có dữ liệu
+        }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        return lastReadDate.format(formatter);
     }
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-    return lastReadDate.format(formatter);
-}
 }

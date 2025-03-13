@@ -1,4 +1,4 @@
-package controller.user;
+package controller.user.reading;
 
 import DAO.NovelDAO;
 import model.Novel;

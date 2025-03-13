@@ -2,14 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.user;
+package controller.user.mynovel;
 
 import DAO.GenreDAO;
 import DAO.NovelDAO;
 import DAO.NovelSubmissionDAO;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
-import controller.staff.ManageNovelController;
+import controller.staff.managenovel.ManageNovelController;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;

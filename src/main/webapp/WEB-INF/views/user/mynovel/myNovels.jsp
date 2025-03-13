@@ -88,6 +88,9 @@
                             </a> 
                             <strong style="margin: 0" class="sub"><i class="fa fa-file-text fa-fw"></i> ${c.totalChapter} Chapters</strong> 
 
+                            
+                            
+                            
                             <ul class="novel_nav_sub">
                                 <span class="title">
                                     <strong class="sub"><i class="fa fa-eye fa-fw faa"></i> ${c.viewCount}</strong>

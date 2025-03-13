@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.staff;
+package controller.staff.managenovel;
 
 import DAO.GenreDAO;
 import DAO.LockNovelLogDAO;
@@ -17,9 +17,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Genre;
 import model.LockNovelLog;
 import model.ManagerAccount;
 import model.Novel;
@@ -100,13 +102,42 @@ public class ManageNovelController extends HttpServlet {
     private void viewAllNovels(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         NovelDAO nd = new NovelDAO();
-        List<Novel> listNovel;
+        GenreDAO genDAO = new GenreDAO();
+        List<Novel> listNovel = new ArrayList<>();
+        List<String> listGenreName;
+        String[] genCheckedArr = request.getParameterValues("genChecked");
+
         try {
-            listNovel = nd.getNovelByStatus("active");
+            listGenreName = genDAO.getListGenreName();
+            if (genCheckedArr != null) {
+                List<Novel> listAllNovel = nd.getNovelByStatus("active");
+
+                for (int i = 0; i < listAllNovel.size(); i++) {
+                    Novel nl = listAllNovel.get(i);
+                    int id = nl.getNovelID();
+                    String genreOfNovel = genDAO.getGenreByNovelID(id);
+
+                    for (int j = 0; j < genCheckedArr.length; j++) {
+                        if (genreOfNovel.contains(genCheckedArr[j])) {
+                            listNovel.add(nl);
+                            break;
+                        }
+                    }
+                }
+            } else {
+                listNovel = nd.getNovelByStatus("active");
+            }
+            
+            String genChecked = (genCheckedArr != null) ? String.join(", ", genCheckedArr) : "";
+
             if (listNovel.isEmpty()) {
                 request.setAttribute("message", "No novels available");
+                request.setAttribute("listGenreName", listGenreName);
+                request.setAttribute("genChecked", genChecked);
                 request.getRequestDispatcher("/WEB-INF/views/staff/allNovels.jsp").forward(request, response);
             } else {
+                request.setAttribute("listGenreName", listGenreName);
+                request.setAttribute("genChecked", genChecked);
                 request.setAttribute("listNovel", listNovel);
                 request.getRequestDispatcher("/WEB-INF/views/staff/allNovels.jsp").forward(request, response);
             }
