@@ -24,6 +24,13 @@ public class NovelController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = request.getParameter("action");
+        String genre = request.getParameter("genre");
+        String filter = request.getParameter("filter");
+
+        if ((genre == null || genre.trim().isEmpty()) && (filter == null || filter.trim().isEmpty())) {
+            viewAllNovel(request, response);
+            return;
+        }
         if (action == null) {
             action = "default"; // Gán giá trị mặc định
         }
@@ -31,7 +38,7 @@ public class NovelController extends HttpServlet {
             case "search":
                 searchNovelList(request, response);
                 break;
-            
+
             default:
                 viewNovelList(request, response); // Không có actions
                 break;
@@ -69,9 +76,7 @@ public class NovelController extends HttpServlet {
             //Danh sách tìm kiếm
             List<Novel> novels = novelDAO.searchNovels(searchQuery);
 
-            
             request.setAttribute("novels", novels);
-            
 
             request.setAttribute("searchQuery", searchQuery);
             String target = "/WEB-INF/views/user/reading/novelList.jsp";
