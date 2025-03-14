@@ -11,6 +11,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -72,6 +74,10 @@ public class HomepageController extends HttpServlet {
         try {
            
             listNovel = nd.getNovelsByTimeUpdate();
+            for (Novel n : listNovel) {
+            String timeString = getTimeElapsed(n.getLatestChapterDate());
+            n.setTimeString(timeString);
+        }
             request.setAttribute("listNovel", listNovel);
            request.getRequestDispatcher("/getGenre?target=/WEB-INF/views/user/Home.jsp").include(request, response);
 
@@ -79,7 +85,27 @@ public class HomepageController extends HttpServlet {
             Logger.getLogger(HomepageController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+private String getTimeElapsed(LocalDateTime chapterCreatedDate) {
+        if (chapterCreatedDate == null) {
+            return "";
+        }
+        LocalDateTime now = LocalDateTime.now();
+        Duration duration = Duration.between(chapterCreatedDate, now);
+        long diffMillis = duration.toMillis();
+        if (diffMillis / (1000 * 60 * 60 * 24 * 365) >= 1) {
+            long yearsAgo = diffMillis / (1000 * 60 * 60 * 24 * 365);
+            return yearsAgo + " years ago";
+        } else if (diffMillis / (1000 * 60 * 60 * 24) >= 1) {
+            long daysAgo = diffMillis / (1000 * 60 * 60 * 24);
+            return daysAgo + " days ago";
+        } else if (diffMillis / (1000 * 60 * 60) >= 1) {
+            long hoursAgo = diffMillis / (1000 * 60 * 60);
+            return hoursAgo + " hours ago";
+        } else {
+            long minutesAgo = diffMillis / (1000 * 60);
+            return minutesAgo + " minutes ago";
+        }
+    }
     /**
      * Handles the HTTP <code>POST</code> method.
      *

@@ -23,7 +23,8 @@ public class Novel {
     private int totalChapter;
     private String novelStatus;
     private LocalDateTime publishedDate;
-
+    
+    private String timeString;
     //Lấy từ bảng khác
     private String author;
     private double averageRating;
@@ -205,6 +206,15 @@ public class Novel {
         this.author = author;
     }
 
+    public String getTimeString() {
+        return timeString;
+    }
+
+    public void setTimeString(String timeString) {
+        this.timeString = timeString;
+    }
+
+    
     // của Novel
     public int getNovelID() {
         return novelID;

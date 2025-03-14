@@ -480,12 +480,12 @@ public class NovelDAO {
 
     public List<Novel> getNovelsByTimeUpdate() {
         List<Novel> list = new ArrayList<>();
-        String sql = "SELECT TOP 6 n.novelID, n.novelName, n.imageURL, ua.userName AS author, MAX(c.publishedDate) AS latestChapterDate, MAX(c.chapterID) AS latestChapterID "
+        String sql = "SELECT TOP 6 n.novelID, n.novelName, n.imageURL, ua.userName AS author, n.totalChapter, MAX(c.publishedDate) AS latestChapterDate, MAX(c.chapterID) AS latestChapterID "
                 + "FROM Novel n "
                 + "JOIN UserAccount ua ON n.userID = ua.userID "
                 + "JOIN Chapter c ON n.novelID = c.novelID "
                 + "WHERE n.novelStatus = 'active' "
-                + "GROUP BY n.novelID, n.novelName, n.imageURL, ua.userName "
+                + "GROUP BY n.novelID, n.novelName, n.imageURL, ua.userName, n.totalChapter "
                 + "ORDER BY latestChapterDate DESC";
         Connection connection = null;
         PreparedStatement statement = null;
@@ -501,6 +501,7 @@ public class NovelDAO {
                 novel.setNovelName(resultSet.getString("novelName"));
                 novel.setImageURL(resultSet.getString("imageURL"));
                 novel.setAuthor(resultSet.getString("author"));
+                  novel.setTotalChapter(resultSet.getInt("totalChapter"));
                 novel.setChapterID(resultSet.getInt("latestChapterID")); // Lấy chapterID mới nhất
                 novel.setLatestChapterDate(resultSet.getTimestamp("latestChapterDate") != null ? resultSet.getTimestamp("latestChapterDate").toLocalDateTime() : null); // Thêm dòng này nếu bạn có trường latestChapterDate trong Novel model
                 list.add(novel);

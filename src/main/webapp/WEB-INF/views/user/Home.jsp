@@ -6,7 +6,7 @@
     <head>
         <meta charset="UTF-8">
         <title>NovelReader</title>
-        <link rel="stylesheet" href="css/home/home(d).css">
+        <link rel="stylesheet" href="css/home/home1.css">
         <link rel="stylesheet" href="css/home/header(d).css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Macondo+Swash+Caps&display=swap">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -17,11 +17,11 @@
     </head>
 
     <body>
-        
-                <jsp:include page="/WEB-INF/views/user/components/header.jsp" /> 
+
+        <jsp:include page="/WEB-INF/views/user/components/header.jsp" /> 
         <div class="container">
-           
-          
+
+
 
             <main>
                 <!-- Slider Section -->
@@ -96,13 +96,19 @@
 
 
                                         <div class="novel-cover">
-
+                                            <span class="_tag_sub">
+                                                <strong style="color: white" class="sub"> ${c.timeString}</strong>
+                                            </span>  
                                             <img src="${c.imageURL}" alt="${c.novelName}" width="100%" object-fit: cover
                                                  height="100%" >
+                                            
                                         </div>
-
-                                        <a href="chapter?id=${c.chapterID}"><p>${c.novelName}</p></a>
+                                      
+                                        <a href="chapter?id=${c.chapterID}"><h3>${c.novelName}</h3></a>
+                                          <strong style="margin: 0" class="sub"><i class="fa fa-file-text fa-fw"></i> ${c.totalChapter} Chapters</strong> 
+                                     
                                     </div>
+                                        
                                 </c:forEach> 
                             </div>
 
