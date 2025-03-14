@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="css/home/header.css">
+        <link rel="stylesheet" href="css/home/header(d).css">
         
         <link rel="stylesheet" href="css/favorite/history.css">
 

@@ -1,32 +1,20 @@
 package controller.user.reading;
 
-import DAO.ChapterDAO;
-import DAO.CommentDAO;
-import DAO.FavoriteDAO;
-import DAO.NovelDAO;
-import DAO.GenreDAO;
-import DAO.ReadingHistoryDAO;
-import DAO.ViewingDAO;
-import model.Novel;
-import java.io.IOException;
+import DAO.*;
+import model.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import jakarta.servlet.http.HttpSession;
-import java.io.PrintWriter;
-import model.Chapter;
-import model.Comment;
-import model.Favorite;
-import model.ReadingHistory;
-import model.UserAccount;
 
 @WebServlet(name = "NovelDetailController", urlPatterns = {"/novel-detail"})
 public class NovelDetailController extends HttpServlet {
@@ -55,107 +43,126 @@ public class NovelDetailController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        try {
+            // 1. Xác thực và lấy ID tiểu thuyết
+            int novelId = getNovelIdFromRequest(request, response);
+            if (novelId == -1) return; // Error already handled
 
-        String novelIdParam = request.getParameter("id");
-        String sortParam = request.getParameter("sort");
+           // 2. Lấy thông tin chi tiết về tiểu thuyết
+            Novel novel = getNovelDetails(novelId, request, response);
+            if (novel == null) return; // Error already handled
 
-        if (novelIdParam == null || novelIdParam.isEmpty()) {
-            // If id not supplied send error
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing id parameter");
-            return;
+            // 3. Xử lý dữ liệu cụ thể của người dùng (yêu thích, lịch sử đọc)
+            handleUserData(novelId, request);
+
+           // 4. Lấy và sắp xếp các chương
+            List<Chapter> chapters = getChapters(novelId, request);
+
+            // 5. Lấy số lượt xem
+            int views = viewDAO.getViewsCount(novelId);
+            request.setAttribute("views", views);
+
+           // 6. Lấy bình luận
+            List<Comment> comments = commentDAO.getCommentsByNovelId(novelId);
+            request.setAttribute("comments", comments);
+
+            // 7. Forward
+            forwardToView(novel, chapters, request, response);
+
+        } catch (Exception e) {
+            // Handle unexpected exceptions
+            e.printStackTrace(); // Log the error
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An error occurred");
         }
+    }
 
-        int novelId = Integer.parseInt(novelIdParam);
+    private int getNovelIdFromRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String novelIdParam = request.getParameter("id");
+        if (novelIdParam == null || novelIdParam.isEmpty()) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing id parameter");
+            return -1;
+        }
+        return Integer.parseInt(novelIdParam);
+    }
 
-        // Retrieve the novel from database using novel id
+    private Novel getNovelDetails(int novelId, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         Novel novel = novelDAO.getNovelById(novelId);
         if (novel == null) {
-            // If novel is not found, return error
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Novel not found");
-            return;
+            return null;
         }
-
-        // Set the novel object in request scope
         request.setAttribute("novel", novel);
+        return novel;
+    }
 
+    private void handleUserData(int novelId, HttpServletRequest request) {
         HttpSession session = request.getSession();
-
         UserAccount user = (UserAccount) session.getAttribute("user");
-        // In NovelDetailController
-        Favorite favorite = null;
+
         if (user != null) {
-            favorite = favoriteDAO.getFavoriteByNovelIdAndUserId(novelId, user.getUserID());
-            request.setAttribute("favorite", favorite);  // This is set in request scope
-             ReadingHistory history = historyDAO.getReadingHistory(user.getUserID(), novelId);
-            if (history == null) {
-                // Tạo một đối tượng ReadingHistory mới nếu chưa có
-                history = new ReadingHistory();
-                history.setUserID(user.getUserID());
-                history.setNovelID(novelId);
-                history.setLastReadDate(LocalDateTime.now()); // Đặt thời điểm đọc
-                boolean success = historyDAO.addReadingHistory(history);
+            // Handle favorites
+            Favorite favorite = favoriteDAO.getFavoriteByNovelIdAndUserId(novelId, user.getUserID());
+            request.setAttribute("favorite", favorite);
 
-                if (!success) {
-                    // Xử lý lỗi nếu thêm thất bại (ví dụ: ghi log)
-                    System.err.println("Failed to add reading history for user " + user.getFullName() + " and novel " + novelId);
-                    // Bạn có thể muốn rethrow một exception để thông báo cho lớp gọi
-                    // hoặc hiển thị một thông báo lỗi cho người dùng
-                }
-            } else {
-                // Cập nhật lastReadDate nếu đã tồn tại
-                history.setLastReadDate(LocalDateTime.now());
-                boolean success = historyDAO.updateLastReadDate(history);
+            // Handle reading history
+            updateReadingHistory(user, novelId);
+        }
+    }
 
-                if (!success) {
-                    // Xử lý lỗi nếu cập nhật thất bại (ví dụ: ghi log)
-                    System.err.println("Failed to update reading history for user " + user.getFullName() + " and novel " + novelId);
-                    // Bạn có thể muốn rethrow một exception để thông báo cho lớp gọi
-                    // hoặc hiển thị một thông báo lỗi cho người dùng
-                }
+    private void updateReadingHistory(UserAccount user, int novelId) {
+        ReadingHistory history = historyDAO.getReadingHistory(user.getUserID(), novelId);
+        if (history == null) {
+            history = new ReadingHistory();
+            history.setUserID(user.getUserID());
+            history.setNovelID(novelId);
+            history.setLastReadDate(LocalDateTime.now());
+            boolean success = historyDAO.addReadingHistory(history);
+             if (!success) {
+                // Xử lý lỗi nếu thêm thất bại (ví dụ: ghi log)
+                System.err.println("Failed to add reading history for user " + user.getFullName() + " and novel " + novelId);
+                // Bạn có thể muốn rethrow một exception để thông báo cho lớp gọi
+                // hoặc hiển thị một thông báo lỗi cho người dùng
+            }
+        } else {
+            history.setLastReadDate(LocalDateTime.now());
+            boolean success = historyDAO.updateLastReadDate(history);
+             if (!success) {
+                // Xử lý lỗi nếu cập nhật thất bại (ví dụ: ghi log)
+                System.err.println("Failed to update reading history for user " + user.getFullName() + " and novel " + novelId);
+                // Bạn có thể muốn rethrow một exception để thông báo cho lớp gọi
+                // hoặc hiển thị một thông báo lỗi cho người dùng
             }
         }
+    }
 
+    private List<Chapter> getChapters(int novelId, HttpServletRequest request) {
+        String sortParam = request.getParameter("sort");
+        List<Chapter> chapters = chapterDAO.getChaptersByNovelId(novelId, null); // Get original list
 
-        List<Chapter> chapters = chapterDAO.getChaptersByNovelId(novelId, null); //Lấy chapter gốc trước khi sort
-
-        // Tạo bản sao của danh sách chapters để sắp xếp
         List<Chapter> sortedChapters = new ArrayList<>(chapters);
-
-        // Sắp xếp danh sách chapter nếu có parameter
         if (sortParam != null && !sortParam.isEmpty() && chapters.size() > 1) {
             sortedChapters = chapterDAO.getChaptersByNovelId(novelId, sortParam);
         }
 
-        // Calculate time elapsed for each chapter, and set timeString
-        for (Chapter chapter : sortedChapters) {
-            String timeString = getTimeElapsed(chapter.getChapterCreatedDate());
-            chapter.setTimeString(timeString);
-        }
-        // Calculate time elapsed for each chapter, and set timeString
+        setTimeElapsedForChapters(chapters);
+        setTimeElapsedForChapters(sortedChapters);
+
+        request.setAttribute("chapters", chapters);
+        request.setAttribute("sortedChapters", sortedChapters);
+        request.setAttribute("sort", sortParam);
+        return chapters; // Or sortedChapters if you want to return the sorted list
+    }
+
+    private void setTimeElapsedForChapters(List<Chapter> chapters) {
         for (Chapter chapter : chapters) {
             String timeString = getTimeElapsed(chapter.getChapterCreatedDate());
             chapter.setTimeString(timeString);
         }
+    }
 
-        request.setAttribute("chapters", chapters); // list chapter gốc
-        request.setAttribute("sortedChapters", sortedChapters); // list chapter sau khi sort
-
-        request.setAttribute("sort", sortParam);
-        // Forward the request to novelDetail.jsp
+    private void forwardToView(Novel novel, List<Chapter> chapters, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String target = "/WEB-INF/views/user/reading/novel-detail.jsp";
-        // Gọi servlet /view trước khi forward đến trang chi tiết tiểu thuyết
-        if (session.isNew()) {
-            //  viewDAO.createViewing(novelId);
-        }
-        int views = viewDAO.getViewsCount(novelId);
-
-        request.setAttribute("views", views);
-
-        List<Comment> comments = commentDAO.getCommentsByNovelId(novelId);
-        request.setAttribute("comments", comments);
-        //   request.getRequestDispatcher("/getGenre?target=" + target + "&genre=" + novel.getGenreName() + (sortParam != null ? "&sort=" + sortParam : "")).forward(request, response);
-        // request.getRequestDispatcher(target).forward(request, response);
-        request.getRequestDispatcher("/getGenre?target=" + target + (sortParam != null ? "&sort=" + sortParam : "")).forward(request, response);
+        request.getRequestDispatcher("/getGenre?target=" + target + (request.getParameter("sort") != null ? "&sort=" + request.getParameter("sort") : "")).forward(request, response);
     }
 
     private String getTimeElapsed(LocalDateTime chapterCreatedDate) {
@@ -179,13 +186,10 @@ public class NovelDetailController extends HttpServlet {
             return minutesAgo + " minutes ago";
         }
     }
-        
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
 
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // KHÔNG LÀM GÌ CẢ. RatingController SẼ XỬ LÝ
         // ĐỪNG ĐỂ TRỐNG, HÃY ĐỂ NÓ Ở ĐÂY, MẶC DÙ KHÔNG LÀM GÌ.
     }
-
 }
