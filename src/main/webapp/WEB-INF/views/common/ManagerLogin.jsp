@@ -71,6 +71,7 @@
                 margin-bottom: 10px;
             }
         </style>
+        <link rel="icon" type="image/png" href="img/logo.jpg">
 
         <script>
             function validateForm() {

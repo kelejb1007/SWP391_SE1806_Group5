@@ -15,6 +15,7 @@
         <link rel="stylesheet" href="css/startmin/startmin.css">
         <link rel="stylesheet" href="css/startmin/font-awesome.min.css" type="text/css">
 
+        <link rel="icon" type="image/png" href="img/logo.jpg">
         <style>
             .navbar.navbar-inverse.navbar-fixed-top{
                 justify-content: initial;

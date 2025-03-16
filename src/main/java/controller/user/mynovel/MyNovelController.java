@@ -79,8 +79,11 @@ public class MyNovelController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
+
+        HttpSession session = request.getSession();
         if (session == null || session.getAttribute("user") == null) {
+            String redirectURL = request.getRequestURI();
+            session.setAttribute("redirectURL", redirectURL);
             response.sendRedirect("Login");
             return;
         }
@@ -112,10 +115,16 @@ public class MyNovelController extends HttpServlet {
             throws ServletException, IOException {
         NovelDAO nd = new NovelDAO();
         List<Novel> listNovel;
+        String message = null;
         try {
             HttpSession session = request.getSession(false);
             UserAccount us = (UserAccount) session.getAttribute("user");
             listNovel = nd.getMyNovels(us.getUserID());
+            
+            if (listNovel.isEmpty()) {
+                message = "No Novels!";
+            }
+            request.setAttribute("message", message);
             request.setAttribute("listNovel", listNovel);
             request.getRequestDispatcher("/WEB-INF/views/user/mynovel/myNovels.jsp").forward(request, response);
         } catch (Exception ex) {
@@ -183,12 +192,12 @@ public class MyNovelController extends HttpServlet {
             UserAccount us = (UserAccount) session.getAttribute("user");
 
             list = nd.getSubmisstionHistory(us.getUserID());
-            if (list == null) {
-                message = "No Novels!";
+            if (list.isEmpty()) {
+                message = "No Submissions!";
             }
-            request.setAttribute("message", message);
-            request.setAttribute("list", list);
-            request.getRequestDispatcher("/WEB-INF/views/user/mynovel/postingHistory.jsp").forward(request, response);
+                request.setAttribute("message", message);
+                request.setAttribute("list", list);
+                request.getRequestDispatcher("/WEB-INF/views/user/mynovel/postingHistory.jsp").forward(request, response);
         } catch (Exception ex) {
             Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -237,7 +246,7 @@ public class MyNovelController extends HttpServlet {
         String novelName = request.getParameter("novelName");
         String novelDescription = request.getParameter("novelDescription");
         int totalChapter = Integer.parseInt(request.getParameter("totalChapter"));
-        String[] genreList = request.getParameterValues("genreList");
+        String[] genreChosen = request.getParameterValues("genreList");
 //        String genres = (genreNames != null) ? String.join(", ", genreNames) : "";
         String imageURL = request.getParameter("file_hidden");
         Part filePart = request.getPart("imageURL");
@@ -260,12 +269,17 @@ public class MyNovelController extends HttpServlet {
 
             novelID = nDAO.addNovel(nl);
             if (novelID != -1) {
-                if (genreList != null) {
-                    for (int i = 0; i < genreList.length; i++) {
-                        genDAO.addGenreNovel(Integer.parseInt(genreList[i]), novelID);
+                if (genreChosen != null) {
+                    for (int i = 0; i < genreChosen.length; i++) {
+                        genDAO.addGenreNovel(Integer.parseInt(genreChosen[i]), novelID);
                     }
                 }
-                if (subDAO.addPostingSubmission(novelID, ua.getUserID(), "post")) {
+
+                NovelSubmission ns = new NovelSubmission();
+                ns.setNovelID(novelID);
+                ns.setUserID(ua.getUserID());
+                ns.setType("post");
+                if (subDAO.addPostingSubmission(ns)) {
                     message = "Create novel and send posting requirement successfully!";
                 } else {
                     message = "Error in sending posting requirement!!!!";
@@ -317,7 +331,13 @@ public class MyNovelController extends HttpServlet {
                         genDAO.addGenreNovel(Integer.parseInt(genreList[i]), novelDraftID);
                     }
                 }
-                if (subDAO.addUpdatingSubmission(novelID, ua.getUserID(), "update", novelDraftID)) {
+
+                NovelSubmission ns = new NovelSubmission();
+                ns.setNovelID(novelID);
+                ns.setUserID(ua.getUserID());
+                ns.setType("update");
+                ns.setDraftID(novelDraftID);
+                if (subDAO.addUpdatingSubmission(ns)) {
                     message = "Send update requirement successfully!";
                 } else {
                     message = "Error in sending update requirement!!!!";
@@ -325,33 +345,15 @@ public class MyNovelController extends HttpServlet {
             } else {
                 message = "Error in creating novel!!!!";
             }
-//            Novel nv = new Novel();
-//            nv.setNovelID(novelID);
-//            nv.setNovelName(novelName);
-//            nv.setImageURL(imageURL);
-//            nv.setNovelDescription(novelDescription);
-//            nv.setTotalChapter(totalChapter);
-
-//            if (nDAO.updateNovel(nv) && genDAO.deleteGenreNovel(novelID)) {
-//                if (genreList != null) {
-//                    for (int i = 0; i < genreList.length; i++) {
-//                        genDAO.addGenreNovel(Integer.parseInt(genreList[i]), novelID);
-//                    }
-//                }
-//                message = "Create novel and send posting requirement successfully!";
-//            } else {
-//                message = "Error in creating novel!!!!";
-//            }
 
             request.setAttribute("message", message);
             viewMyNovels(request, response);
-//            response.sendRedirect("mynovel?action=post");
         } catch (Exception ex) {
             Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public String getImg(Part filePart) throws IOException {
+    private String getImg(Part filePart) throws IOException {
         String fileName = filePart.getSubmittedFileName();
 
         // Lưu file tạm thời
@@ -376,31 +378,6 @@ public class MyNovelController extends HttpServlet {
         return imageUrl;
     }
 
-//    public String getFile(Part filePart) throws IOException {
-//        String fileName = filePart.getSubmittedFileName();
-//
-//        // Lưu file tạm thời
-//        File tempFile = new File(System.getProperty("java.io.tmpdir"), fileName);
-//        try ( InputStream input = filePart.getInputStream();  FileOutputStream output = new FileOutputStream(tempFile)) {
-//            byte[] buffer = new byte[1024];
-//            int bytesRead;
-//            while ((bytesRead = input.read(buffer)) != -1) {
-//                output.write(buffer, 0, bytesRead);
-//            }
-//        }
-//
-//        // Kết nối Cloudinary và upload ảnh
-//        Cloudinary cloudinary = CloudinaryUtils.getInstance();
-//        Map uploadResult = cloudinary.uploader().upload(tempFile, ObjectUtils.asMap(
-//            "resource_type", "auto")); // Tự động xác định loại file (hình ảnh, PDF, v.v.)
-//
-//        // Xóa file tạm
-//        tempFile.delete();
-//
-//         // Lấy URL file từ Cloudinary
-//        String fileUrl = (String) uploadResult.get("secure_url");
-//        return fileUrl;
-//    }
     private void deleteNovel(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         int novelID = Integer.parseInt(request.getParameter("novelID"));

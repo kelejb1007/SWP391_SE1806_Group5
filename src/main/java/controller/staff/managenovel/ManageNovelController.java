@@ -18,6 +18,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -107,6 +108,8 @@ public class ManageNovelController extends HttpServlet {
         List<String> listGenreName;
         String[] genCheckedArr = request.getParameterValues("genChecked");
 
+//        String[] columnList = {"#", "Author", "Total of chapter", "Genres", "Published Date", "Rating Average", "View"};
+        String[] columnCheck = request.getParameterValues("columnCheck");
         try {
             listGenreName = genDAO.getListGenreName();
             if (genCheckedArr != null) {
@@ -128,17 +131,29 @@ public class ManageNovelController extends HttpServlet {
                 listNovel = nd.getNovelByStatus("active");
             }
             
-            String genChecked = (genCheckedArr != null) ? String.join(", ", genCheckedArr) : "";
+            String genChecked = (genCheckedArr != null) ? String.join(", ", genCheckedArr) : "All";
+            String columnCheckString;
+            if (columnCheck != null) {
+                 columnCheckString = String.join(", ", columnCheck);
+            } else {
+                columnCheckString = "#, Author, Total of chapter, Genres, Published Date, Rating Average, View";
+            }
+
+            
 
             if (listNovel.isEmpty()) {
                 request.setAttribute("message", "No novels available");
                 request.setAttribute("listGenreName", listGenreName);
                 request.setAttribute("genChecked", genChecked);
+                request.setAttribute("columnCheck", columnCheckString);
+
                 request.getRequestDispatcher("/WEB-INF/views/staff/allNovels.jsp").forward(request, response);
             } else {
                 request.setAttribute("listGenreName", listGenreName);
                 request.setAttribute("genChecked", genChecked);
                 request.setAttribute("listNovel", listNovel);
+                request.setAttribute("columnCheck", columnCheckString);
+
                 request.getRequestDispatcher("/WEB-INF/views/staff/allNovels.jsp").forward(request, response);
             }
         } catch (ServletException | IOException ex) {
@@ -196,7 +211,7 @@ public class ManageNovelController extends HttpServlet {
         try {
             listNovel = nd.getLockedNovels();
             if (listNovel.isEmpty()) {
-                request.setAttribute("message", "No novels available");
+                request.setAttribute("listnull", "No novels available");
                 request.getRequestDispatcher("/WEB-INF/views/staff/lockedNovels.jsp").forward(request, response);
             } else {
                 request.setAttribute("popup", popup);
@@ -222,7 +237,7 @@ public class ManageNovelController extends HttpServlet {
         try {
             list = ns.getAllSubmisstion();
             if (list.isEmpty()) {
-                request.setAttribute("message", "No novels available");
+                request.setAttribute("listnull", "No submissions available");
                 request.getRequestDispatcher("/WEB-INF/views/staff/submission.jsp").forward(request, response);
             } else {
                 request.setAttribute("list", list);

@@ -89,7 +89,7 @@
                 height: 40px
             }
         </style>
-
+        <link rel="icon" type="image/png" href="img/logo.jpg">
         <link rel="stylesheet" href="css/startmin/font-awesome.min.css" type="text/css">
 
 

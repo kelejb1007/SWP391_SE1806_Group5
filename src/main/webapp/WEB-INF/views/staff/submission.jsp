@@ -31,6 +31,12 @@
 //                modal.show();
                 $("#lockModal").modal("show");
             }
+
+            function viewDetail(event, novelID) {
+                if (event.target.tagName.toLowerCase() !== 'button') {
+                    window.location.href = 'managenovel?action=viewdetail&novelID=' + novelID;
+                }
+            }
         </script>
     </head>
     <body>
@@ -39,7 +45,13 @@
         <div id="wrapper">
             <jsp:include page="header.jsp" />
             <jsp:include page="sidebar.jsp" />
-
+            <c:if test="${not empty popup}">
+                <script>
+                    window.onload = function () {
+                        alert("${message}");
+                    };
+                </script>
+            </c:if>
 
             <div id="page-wrapper">
                 <div class="container-fluid">
@@ -74,7 +86,7 @@
                                             </thead>
                                             <tbody>
                                                 <c:forEach var="c" items="${requestScope.list}" varStatus="status">
-                                                    <tr>
+                                                    <tr onclick ="viewDetail(event, ${c.novelID});" style="cursor: pointer">
                                                         <td>${status.index + 1}</td>
                                                         <td><a href="managenovel?action=viewdetail&novelID=${c.novelID}" title="${c.novelName}">${c.novelName}</a></td>
                                                         <td>${c.userName}</td>
@@ -151,13 +163,6 @@
             </div>
         </div>
 
-        <c:if test="${not empty message}">
-            <script>
-                window.onload = function () {
-                    alert("${message}");
-                };
-            </script>
-        </c:if>
 
 
         <script src="js/startmin/jquery.min.js"></script>
@@ -169,11 +174,19 @@
         <script src="js/startmin/dataTables/dataTables.bootstrap.min.js"></script>
 
         <script>
-                $(document).ready(function () {
-                    $('#dataTables-example').DataTable({
-                        responsive: true
-                    });
-                });
+                                                                $(document).ready(function () {
+                                                                    $('#dataTables-example').DataTable({
+                                                                        responsive: true,
+                                                                        "autoWidth": false,
+                                                                        language: {
+                                                                            info: 'Showing page _PAGE_ of _PAGES_',
+                                                                            infoEmpty: '${listnull}',
+                                                                            infoFiltered: '(filtered from _MAX_ total submissions)',
+                                                                            lengthMenu: 'Display _MENU_ submissions per page',
+                                                                            zeroRecords: 'Nothing found - sorry'
+                                                                        }
+                                                                    });
+                                                                });
         </script>
 
         <script src="js/startmin/raphael.min.js"></script>

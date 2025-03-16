@@ -422,7 +422,7 @@ em, i, small, strong {
     width: 100%;
 }
 
-.novel_nav_sub .list{
+.novel_nav_sub .list2{
     position: relative;
     display: flex;
     padding: 6px;
@@ -430,7 +430,7 @@ em, i, small, strong {
     width: 100%;
 }
 
-.list button{
+.list2 button{
     all: unset;
     cursor: pointer;
     color: red;
@@ -438,11 +438,11 @@ em, i, small, strong {
     padding-left: 8px;
 }
 
-.list button:hover{
+.list2 button:hover{
     text-decoration: underline;
 }
 
-.list:hover{
+.list2:hover{
     background-color: #f5f6fc;
 }
 

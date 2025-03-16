@@ -15,15 +15,14 @@
         <link rel="stylesheet" href="css/startmin/startmin.css">
         <link rel="stylesheet" href="css/startmin/font-awesome.min.css" type="text/css">
 
-        <link rel="stylesheet" href="css/home/header.css">
-        <link rel="stylesheet" href="css/mynovel/myNovel.css">
+        <link rel="stylesheet" href="css/mynovel/myNovell.css">
         <link rel="stylesheet" href="css/mynovel/postingHistory.css">
+        
 
         <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
     </head>
     <body>
-        <jsp:include page="/WEB-INF/views/user/components/header.jsp"></jsp:include>
 
             <div class="g_sub_hd">
                 <div class="g_wrap pr" data-report-l1="2"> 
@@ -48,7 +47,7 @@
                     <!-- /.panel-heading -->
                     <div class="panel-body" style="display: block; width: 100%; font-size: 15px">
 
-                    <c:if test="${list == null}">
+                    <c:if test="${empty list}">
                         <div class="ant-empty">
                             <div class="ant-empty-image" style="margin-top: 100px; height: 64px; margin-bottom: 12px">
                                 <img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGkAAACFCAMAAABv2ibxAAAAPFBMVEUAAADFxs3Hx8/Dw8vFxc3Fxc/FxczExc3Fxs3FxcrDxMzExszFxs3ExMzFxszGxs3Exs3Hx8/ExMzFxs10R7mIAAAAE3RSTlMA3yBAvxBv788wUICgkK+vkF9gQHXkXQAAAfxJREFUaN7t2smOwkAMBNDesvQCA+T//3U6E4aScCMuLjQauQ4ByYcnO87N7jfT/OU3YsLdCUmUONIsCiSpbfwEQGnOk+PE36W6O0txCEkKO+SDQ1hSo0KQjpauokiQbntLosaQzuSWIK39mUWNIW09T4V/IU2ixpKiqLGkKmosaWGODxK9KUjiTVGlJTuEJ4kBcqXNn+aIzSBJ9cGtXxUcQXK3/h9Z0qlkkuRCW7anrA3T1JN6pljPKxxMs2RlyR3cfEnoDtO8RkUJyaUmP2gP09SR0B6mKZZFT0J7mCaS8OnpSOBeLUtQlTDNlsbT1JTkNOWyaEnvl8WnWrKihLz89LQlLIt/6o0jYZpcSS4LWUKCSSaZZJJJJplkkkkmmWSSSSaZZJJJJplkkkkmmfSXpOkT0vEkS7g3Kh+RWn/OZAl3YekjUsDFDFc6fuaPSBXjI0vT1hMVpSiyHJJLe1lNGueQ8tZz4Us9J8yPLE1+3/SgJaVhjg8p4iRWd/dk6g+V2dLjVW2VLYHygSphgD0t0qXHxZZvZaJISGi4PMAhmqaExCSuU7QlWG0BBU5TQsoFnQlOSULyra0jTlVC4jzgGjglCdx5wF2zmvT+kimdwA0kfa7kscTgFnBaErh69mMOEptrkHQTShVHaJBoHF/CURhVkhxdAhdfFL4Bk3+cWERw0jEAAAAASUVORK5CYII=">
@@ -69,7 +68,7 @@
 
 
                     </c:if>
-                    <c:if test="${list != null}">
+                    <c:if test="${not empty list}">
                         <div class="table-responsive">
                             <table class="table table-bordered table-striped table-hover" id="dataTables-example">
                                 <thead>
@@ -133,7 +132,5 @@
             </ul>
         </div>
 
-        <jsp:include page="/WEB-INF/views/user/components/footer.jsp"></jsp:include>
-        <script src="js/home/header.js"></script>
     </body>
 </html>

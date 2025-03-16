@@ -26,7 +26,7 @@ public class LockNovelLogDAO {
     }
 
     //Admin-------------------------------------------------------------------------------------------------------------
-    public boolean addLockLog(LockNovelLog ln) throws SQLException{
+    public boolean addLockLog(LockNovelLog log) throws SQLException{
         String sql = "insert into LockNovelLog (managerID, novelID, action, lockReason)\n"
                    + "values (?, ?, ?, ?)";
         Connection connection = null;
@@ -36,10 +36,10 @@ public class LockNovelLogDAO {
         try {
             connection = db.getConnection();
             statement = connection.prepareStatement(sql);
-            statement.setInt(1, ln.getManagerID());
-            statement.setInt(2, ln.getNovelID());
-            statement.setString(3, ln.getAction());
-            statement.setString(4, ln.getLockReason());
+            statement.setInt(1, log.getManagerID());
+            statement.setInt(2, log.getNovelID());
+            statement.setString(3, log.getAction());
+            statement.setString(4, log.getLockReason());
             n = statement.executeUpdate();
             if (n != 0) {
                 return true;

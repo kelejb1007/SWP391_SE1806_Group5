@@ -14,7 +14,6 @@
         <link rel="stylesheet" href="css/startmin/bootstrap.min.css">
         <link rel="stylesheet" href="css/startmin/startmin.css">
         <link rel="stylesheet" href="css/startmin/font-awesome.min.css" type="text/css">
-
         <style>
             ul.nav.fix li{
                 width: 100%;
@@ -23,7 +22,7 @@
     </head>
     <body>
         <!-- Sidebar -->
-        <aside class="sidebar navbar-default" role="navigation">
+        <aside class="sidebar navbar-default" role="navigation" style="position: fixed">
             <div class="sidebar-nav navbar-collapse">
 
 
@@ -60,7 +59,7 @@
                     <!-- Manage novel -->
                     <li>
                         <a href="#">
-                            <i class="fa fa-sitemap fa-fw"></i>
+                            <i class="fa fa-book fa-fw"></i>
                             Manage novel
                             <span class="fa arrow"></span>
                         </a>
@@ -82,7 +81,7 @@
                     <!-- Manage chapter -->
                     <li>
                         <a href="#">
-                            <i class="fa fa-sitemap fa-fw"></i>
+                            <i class="fa fa-file-text fa-fw"></i>
                             Manage chapter
                             <span class="fa arrow"></span>
                         </a>
@@ -106,7 +105,7 @@
                     <!-- Manage comment -->
                     <li>
                         <a href="${pageContext.request.contextPath}/staff/comments">
-                            <i class="fa fa-sitemap fa-fw"></i>
+                            <i class="fa fa-comment fa-fw"></i>
                             Manage comment
                         </a>
                     </li>
@@ -114,7 +113,7 @@
 
                     <li>
                         <a href="#">
-                            <i class="fa fa-sitemap fa-fw"></i>
+                            <i class="fa fa-users fa-fw"></i>
                             Manage Account
                             <span class="fa arrow"></span>
                         </a>

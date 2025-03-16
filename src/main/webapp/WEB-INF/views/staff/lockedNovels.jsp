@@ -4,6 +4,7 @@
     Author     : Nguyen Thanh Trung
 --%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -33,7 +34,13 @@
         <div id="wrapper">
             <jsp:include page="header.jsp" />
             <jsp:include page="sidebar.jsp" />
-
+            <c:if test="${not empty popup}">
+                <script>
+                    window.onload = function () {
+                        alert("${popup}");
+                    };
+                </script>
+            </c:if>
 
             <div id="page-wrapper">
                 <div class="container-fluid">
@@ -111,11 +118,19 @@
 
 
         <script>
-                                                                        $(document).ready(function () {
-                                                                            $('#dataTables-lock').DataTable({
-                                                                                responsive: true
-                                                                            });
+                                                                    $(document).ready(function () {
+                                                                        $('#dataTables-lock').DataTable({
+                                                                            responsive: true,
+                                                                            "autoWidth": false,
+                                                                            language: {
+                                                                                info: 'Showing page _PAGE_ of _PAGES_',
+                                                                                infoEmpty: '${listnull}',
+                                                                                infoFiltered: '(filtered from _MAX_ total novels)',
+                                                                                lengthMenu: 'Display _MENU_ novels per page',
+                                                                                zeroRecords: 'Nothing found - sorry'
+                                                                            }
                                                                         });
+                                                                    });
         </script>
 
 

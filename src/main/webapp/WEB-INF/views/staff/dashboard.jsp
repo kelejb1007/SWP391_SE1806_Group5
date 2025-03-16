@@ -23,6 +23,8 @@
         
         <link rel="stylesheet" href="css/startmin/metisMenu.min.css">
         <link rel="stylesheet" href="css/startmin/morris.css">
+        
+        <link rel="icon" type="image/png" href="img/logo.jpg">
     </head>
     <body>
 

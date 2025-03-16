@@ -54,7 +54,12 @@
                 padding-bottom: 9px;
                 margin-bottom: 20px;
             }
-            .row{
+            .form-group{
+                margin: 20px 5px
+            }
+            .checkboxcolumn label{
+                padding: 5px 10px;
+                font-weight: normal
             }
         </style>
         <script>
@@ -65,6 +70,12 @@
 //                var modal = new bootstrap.Modal(document.getElementById('lockModal'));
 //                modal.show();
                 $("#lockModal").modal("show");
+            }
+
+            function viewDetail(event, novelID) {
+                if (event.target.tagName.toLowerCase() !== 'button') {
+                    window.location.href = 'managenovel?action=viewdetail&novelID=' + novelID;
+                }
             }
         </script>
 
@@ -85,7 +96,7 @@
                     <c:if test="${not empty popup}">
                         <script>
                             window.onload = function () {
-                                alert("${message}");
+                                alert("${popup}");
                             };
                         </script>
                     </c:if>
@@ -109,7 +120,7 @@
 
 
                                 <div id="filterForm" class="col-sm-12 hidden filterForm">
-                                    <form action="/?lib=all" id="mbsearchForm-Advance" method="get">
+<!--                                    <form action="/?lib=all" id="mbsearchForm-Advance" method="get">
                                         <input name="lib" type="text" value="all" hidden="true">
                                         <label>
                                             <select name="ct" id="ct">
@@ -124,29 +135,39 @@
                                             <span class="rv-sr-a">Truyện hot</span>
                                         </div>
                                         <button type="submit" value="Tìm Truyện">Tìm Truyện</button>
-                                    </form>
+                                    </form>-->
 
                                     <form action="managenovel" >
                                         <div class="form-group">
-                                            <label>Status</label>
-                                            <c:forEach var="c" items="${requestScope.statusList}" >
-                                                <div class="checkbox" style="display: inline-block; padding: 10px 5px; margin: 0px">
-                                                    <label>
-                                                        <input type="checkbox" name="statusList" value="${c}"
-                                                               <c:if test="${not empty statusChecked and statusChecked.contains(c)}">checked</c:if> 
-                                                                   >
-                                                        ${c.genreName}
-                                                    </label>
-                                                </div>
-                                            </c:forEach>  
-                                        </div>
+                                            <label>Display column</label>
+                                            <label style="margin-left: 25px"><input type="checkbox" id="checkAll" checked>Check all</label><br>
+                                            <div class="checkboxcolumn" style="display: inline-block; margin: 0px">
+                                                <label><input type="checkbox" class="toggle-vis" data-column="0" name="columnCheck" value="#" 
+                                                              <c:if test="${not empty columnCheck and columnCheck.contains('#')}">checked</c:if>>#</label>
+                                                    <label><input type="checkbox" class="toggle-vis" data-column="2" name="columnCheck" value="Author" 
+                                                        <c:if test="${not empty columnCheck and columnCheck.contains('Author')}">checked</c:if>>Author</label>
+                                                    <label><input type="checkbox" class="toggle-vis" data-column="3" name="columnCheck" value="Total of chapter" 
+                                                        <c:if test="${not empty columnCheck and columnCheck.contains('Total of chapter')}">checked</c:if>>Total of chapter</label>
+                                                    <label><input type="checkbox" class="toggle-vis" data-column="4" name="columnCheck" value="Genres" 
+                                                        <c:if test="${not empty columnCheck and columnCheck.contains('Genres')}">checked</c:if>>Genres</label>
+                                                    <label><input type="checkbox" class="toggle-vis" data-column="5" name="columnCheck" value="Published Date" 
+                                                        <c:if test="${not empty columnCheck and columnCheck.contains('Published Date')}">checked</c:if>>Published Date</label>
+                                                    <label><input type="checkbox" class="toggle-vis" data-column="6" name="columnCheck" value="Rating Average" 
+                                                        <c:if test="${not empty columnCheck and columnCheck.contains('Rating Average')}">checked</c:if>>Rating Average</label>
+                                                    <label><input type="checkbox" class="toggle-vis" data-column="7" name="columnCheck" value="View" 
+                                                        <c:if test="${not empty columnCheck and columnCheck.contains('View')}">checked</c:if>>View</label>
 
-                                        <div class="form-group">
-                                            <label>Genres</label><br>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form-group">
+                                                <label>Genres</label>
+                                                <label style="margin-left: 25px"><input type="checkbox" id="checkAllGenre" checked>Check all</label><br><br>
                                             <c:forEach var="c" items="${requestScope.listGenreName}" >
                                                 <div class="checkbox" style="display: inline-block; padding: 5px 10px; margin: 0px">
                                                     <label>
-                                                        <input type="checkbox" name="genChecked" value="${c}"
+                                                        <input type="checkbox" class="genCheck" name="genChecked" value="${c}"
                                                                <c:if test="${not empty genChecked and genChecked.contains(c)}">checked</c:if> 
                                                                    >
                                                         ${c}
@@ -162,6 +183,9 @@
 
 
 
+                            </div>
+                            <div style="margin: 5px; font-size: 18px; color: #d58512">
+                                <strong>Genre Filter: </strong>${genChecked}  
                             </div>
                             <!-- /.row -->
                             <div class="row">
@@ -189,7 +213,7 @@
                                                     </thead>
                                                     <tbody>
                                                         <c:forEach var="c" items="${requestScope.listNovel}" varStatus="status">
-                                                            <tr>
+                                                            <tr onclick ="viewDetail(event, ${c.novelID});" style="cursor: pointer">
                                                                 <td>${status.index + 1}</td>
                                                                 <td>
                                                                     <a href="managenovel?action=viewdetail&novelID=${c.novelID}" title="View detail">${c.novelName}</a>
@@ -230,7 +254,7 @@
 
                                                                 <div class="modal-body">
                                                                     <input type="hidden" name="novelID" id="novelID">
-                                                                    <textarea id="lockReason" name="lockReason" class="form-control" placeholder="Enter lock reason" rows="3"></textarea>
+                                                                    <textarea id="lockReason" name="lockReason" class="form-control" placeholder="Enter lock reason" rows="3" required></textarea>
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -267,8 +291,9 @@
         <script>
 
                                                                         $(document).ready(function () {
-                                                                            $('#dataTables-example').DataTable({
+                                                                            var table = $('#dataTables-example').DataTable({
                                                                                 responsive: true,
+                                                                                "autoWidth": false,
                                                                                 language: {
                                                                                     info: 'Showing page _PAGE_ of _PAGES_',
                                                                                     infoEmpty: '${listnull}',
@@ -280,11 +305,78 @@
                                                                                     {width: "160px", targets: 8}
                                                                                 ]
                                                                             });
+
+                                                                            // load man hinh 
+                                                                            $('.toggle-vis').each(function () {
+                                                                                var isChecked = $(this).prop('checked');
+                                                                                var column = table.column($(this).attr('data-column'));
+                                                                                column.visible(isChecked);
+
+                                                                                // Kiểm tra nếu tất cả checkbox con đều được chọn thì chọn luôn checkbox "Chọn tất cả"
+                                                                                if ($('.toggle-vis:checked').length === $('.toggle-vis').length) {
+                                                                                    $('#checkAll').prop('checked', true);
+                                                                                } else {
+                                                                                    $('#checkAll').prop('checked', false);
+                                                                                }
+                                                                            });
+                                                                            // khi nhan checkbox
+                                                                            $('.toggle-vis').on('change', function (e) {
+                                                                                e.preventDefault();
+                                                                                var isChecked = $(this).prop('checked');
+                                                                                var column = table.column($(this).attr('data-column'));
+                                                                                column.visible(isChecked);
+
+                                                                                // Kiểm tra nếu tất cả checkbox con đều được chọn thì chọn luôn checkbox "Chọn tất cả"
+                                                                                if ($('.toggle-vis:checked').length === $('.toggle-vis').length) {
+                                                                                    $('#checkAll').prop('checked', true);
+                                                                                } else {
+                                                                                    $('#checkAll').prop('checked', false);
+                                                                                }
+                                                                            });
+
+                                                                            // Xử lý khi nhấn "Chọn tất cả"
+                                                                            $('#checkAll').on('change', function () {
+                                                                                var isChecked = $(this).prop('checked');
+                                                                                $('.toggle-vis').each(function () {
+                                                                                    $(this).prop('checked', isChecked).trigger('change'); // Chọn/bỏ chọn tất cả checkbox con
+                                                                                });
+                                                                            });
+                                                                            
+                                                                            
+                                                                            
+                                                                            
+                                                                            
+                                                                                 // load man hinh 
+                                                                            $('.genCheck').each(function () {
+                                                                                // Kiểm tra nếu tất cả checkbox con đều được chọn thì chọn luôn checkbox "Chọn tất cả"
+                                                                                if ($('.genCheck:checked').length === $('.genCheck').length) {
+                                                                                    $('#checkAllGenre').prop('checked', true);
+                                                                                } else {
+                                                                                    $('#checkAllGenre').prop('checked', false);
+                                                                                }
+                                                                            });
+                                                                            // khi nhan checkbox
+                                                                            $('.genCheck').on('change', function (e) {
+                                                                                e.preventDefault();
+                                                                                // Kiểm tra nếu tất cả checkbox con đều được chọn thì chọn luôn checkbox "Chọn tất cả"
+                                                                                if ($('.genCheck:checked').length === $('.genCheck').length) {
+                                                                                    $('#checkAllGenre').prop('checked', true);
+                                                                                } else {
+                                                                                    $('#checkAllGenre').prop('checked', false);
+                                                                                }
+                                                                            });
+                                                                            
+                                                                            $('#checkAllGenre').on('change', function () {
+                                                                                var isChecked = $(this).prop('checked');
+                                                                                $('.genCheck').each(function () {
+                                                                                    $(this).prop('checked', isChecked).trigger('change'); // Chọn/bỏ chọn tất cả checkbox con
+                                                                                });
+                                                                            });
                                                                         });
+
 
                                                                         document.getElementById("toggleFilterBtn").addEventListener("click", function () {
                                                                             let filterForm = document.getElementById("filterForm");
-
                                                                             // Toggle class 'hidden' (Ẩn/Hiện)
                                                                             if (filterForm.classList.contains("hidden")) {
                                                                                 filterForm.classList.remove("hidden");
@@ -292,6 +384,9 @@
                                                                                 filterForm.classList.add("hidden");
                                                                             }
                                                                         });
+
+
+
 
         </script>
 

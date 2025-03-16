@@ -29,7 +29,7 @@ public class NovelSubmissionDAO {
     }
 ////////////user--------------------------------------------------------------
 
-    public boolean addPostingSubmission(int novelID, int userID, String type) {
+    public boolean addPostingSubmission(NovelSubmission ns) {
         String sql = "INSERT INTO NovelSubmission (novelID, userID, status, approvalDate, type)\n"
                 + "VALUES (?, ?, 'pending', NULL, ?)";
         Connection connection;
@@ -38,9 +38,9 @@ public class NovelSubmissionDAO {
         try {
             connection = db.getConnection();
             statement = connection.prepareStatement(sql);
-            statement.setInt(1, novelID);
-            statement.setInt(2, userID);
-            statement.setString(3, type);
+            statement.setInt(1, ns.getNovelID());
+            statement.setInt(2, ns.getUserID());
+            statement.setString(3, ns.getType());
             n = statement.executeUpdate();
             if (n != 0) {
                 return true;
@@ -51,7 +51,7 @@ public class NovelSubmissionDAO {
         return false;
     }
 
-    public boolean addUpdatingSubmission(int novelID, int userID, String type, int draftID) {
+    public boolean addUpdatingSubmission(NovelSubmission ns) {
         String sql = "INSERT INTO NovelSubmission (novelID, userID, status, approvalDate, type, draftID)\n"
                 + "VALUES (?, ?, 'pending', NULL, ?, ?)";
         Connection connection;
@@ -60,10 +60,10 @@ public class NovelSubmissionDAO {
         try {
             connection = db.getConnection();
             statement = connection.prepareStatement(sql);
-            statement.setInt(1, novelID);
-            statement.setInt(2, userID);
-            statement.setString(3, type);
-            statement.setInt(4, draftID);
+            statement.setInt(1, ns.getNovelID());
+            statement.setInt(2, ns.getUserID());
+            statement.setString(3, ns.getType());
+            statement.setInt(4, ns.getDraftID());
             n = statement.executeUpdate();
             if (n != 0) {
                 return true;
