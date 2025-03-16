@@ -250,5 +250,109 @@ public class ManagerAccountDAO {
         account.setStatus(rs.getInt("status"));
         return account;
     }
+ // VO CHI TAI THEM CODE
+    public List<ManagerAccount> getAllManagers() {
+        List<ManagerAccount> accounts = new ArrayList<>();
+        String sql = "SELECT managerID, username, email, role, canLock, canApprove FROM ManagerAccount";
+        try (Connection conn = dbContext.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                ManagerAccount acc = new ManagerAccount();
+                acc.setManagerID(rs.getInt("managerID"));
+                acc.setUsername(rs.getString("username"));
+                acc.setEmail(rs.getString("email"));
+                acc.setRole(rs.getString("role"));
+                acc.setCanLock(rs.getBoolean("canLock"));
+                acc.setCanApprove(rs.getBoolean("canApprove"));
+                accounts.add(acc);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return accounts;
+    }
+
+    public boolean updatePermissions(int managerID, boolean canLock, boolean canApprove, String role) throws SQLException {
+    String sql = "UPDATE ManagerAccount SET canLock = ?, canApprove = ?, role = ? WHERE managerID = ?";
+    try (Connection conn = dbContext.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+        stmt.setBoolean(1, canLock);
+        stmt.setBoolean(2, canApprove);
+        stmt.setString(3, role);
+        stmt.setInt(4, managerID);
+
+        int rowsUpdated = stmt.executeUpdate();
+        return rowsUpdated > 0; // Trả về true nếu cập nhật thành công
+    }
+    }
+     public static void main(String[] args) {
+        // Giả sử bạn đã có dbContext (Database Connection)
+        ManagerAccountDAO accountDAO = new ManagerAccountDAO();
+
+        // Test với dữ liệu mẫu
+        int managerID = 2;  // Giả sử admin có ID = 1
+        boolean canLock = true;
+        boolean canApprove = false;
+        String role = "Admin"; // Hoặc "Moderator", "Staff" nếu có các vai trò khác
+
+        try {
+            boolean result = accountDAO.updatePermissions(managerID, canLock, canApprove, role);
+            if (result) {
+                System.out.println("✅ Cập nhật quyền thành công!");
+            } else {
+                System.out.println("❌ Cập nhật quyền thất bại!");
+            }
+        } catch (SQLException e) {
+            System.out.println("⚠ Lỗi SQL: " + e.getMessage());
+        }
+    
+    }
+          public boolean changeAdminPassword(int managerID,String oldPassword,String newPassword) {
+    if (!isValidPassword(newPassword)) {
+        System.out.println("Invalid password! Please enter a strong password, no spaces.");
+        return false;
+    }
+    String checkPasswordSQL = "SELECT password FROM ManagerAccount WHERE managerID = ? AND role = 'Admin'";
+    String updatePasswordSQL = "UPDATE ManagerAccount SET password = ? WHERE managerID = ? AND role = 'Admin'";
+    try (Connection conn = dbContext.getConnection();
+         PreparedStatement checkStmt = conn.prepareStatement(checkPasswordSQL)) {
+
+        checkStmt.setInt(1, managerID);
+        ResultSet rs = checkStmt.executeQuery();
+
+         if (rs.next()) {
+            String storedHashedPassword = rs.getString("password");
+            if (!storedHashedPassword.equals(hashSHA256(oldPassword))) {
+                System.out.println("Old password is incorrect.");
+                return false;
+            }
+        } else {
+            System.out.println("Admin not found.");
+            return false;
+        }
+          // Nếu mật khẩu cũ đúng, thực hiện cập nhật mật khẩu mới
+        try (PreparedStatement updateStmt = conn.prepareStatement(updatePasswordSQL)) {
+            updateStmt.setString(1, hashSHA256(newPassword));
+            updateStmt.setInt(2, managerID);
+
+            int rowsUpdated = updateStmt.executeUpdate();
+            return rowsUpdated > 0;
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return false;
+}
+// Kiểm tra mật khẩu có hợp lệ không
+private boolean isValidPassword(String password) {
+    return password != null &&               // Không được null
+           !password.contains(" ") &&        // Không chứa khoảng trắng
+           password.length() >= 8 &&         // Ít nhất 8 ký tự
+           password.matches(".*[A-Z].*") &&  // Có ít nhất một chữ in hoa
+           password.matches(".*\\d.*");      // Có ít nhất một số
+}
 
 }
+
