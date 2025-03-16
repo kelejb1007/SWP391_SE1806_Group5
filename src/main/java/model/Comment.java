@@ -8,28 +8,28 @@ package model;
  *
  * @author Tai vo 
  */
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class Comment {
     private int commentID;
     private int userID;
     private int novelID;
     private String content;
-    private Date commentDate;
-    private String username; // Thêm thuộc tính username
+    private LocalDateTime commentDate;
+    private String fullName; // Thêm thuộc tính username
 
     // Constructor mặc định
     public Comment() {
     }
 
     // Constructor đầy đủ
-    public Comment(int commentID, int userID, int novelID, String content, Date commentDate, String username) {
+    public Comment(int commentID, int userID, int novelID, String content, LocalDateTime commentDate, String fullName) {
         this.commentID = commentID;
         this.userID = userID;
         this.novelID = novelID;
         this.content = content;
         this.commentDate = commentDate;
-        this.username = username;
+        this.fullName = fullName;
     }
 
     // Getter và Setter
@@ -65,21 +65,24 @@ public class Comment {
         this.content = content;
     }
 
-    public Date getCommentDate() {
+    public LocalDateTime getCommentDate() {
         return commentDate;
     }
 
-    public void setCommentDate(Date commentDate) {
+    public void setCommentDate(LocalDateTime commentDate) {
         this.commentDate = commentDate;
     }
 
-    public String getUsername() {
-        return username;
+
+
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
+
 
         @Override
     public String toString() {
@@ -89,6 +92,7 @@ public class Comment {
                 ", novelID=" + novelID +
                 ", content='" + content + '\'' +
                 ", commentDate=" + commentDate +
+                ", fullName='" + fullName + '\'' +
                 '}';
     }
 }

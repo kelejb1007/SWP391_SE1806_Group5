@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.time.LocalDateTime;
 import model.Comment;
 import model.UserAccount;
 
@@ -71,10 +72,15 @@ public class CommentController extends HttpServlet {
 
         if ("delete".equals(action)) {
             String commentIDStr = request.getParameter("commentID");
+            String novelIDStr = request.getParameter("novelID");
+            
             if (commentIDStr != null) {
                 try {
+                     int novelID = Integer.parseInt(novelIDStr);
+
                     int commentID = Integer.parseInt(commentIDStr);
                     commentDAO.deleteComment(commentID);
+                    response.sendRedirect("novel-detail?id=" + novelID);
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
                 }
@@ -101,7 +107,7 @@ public class CommentController extends HttpServlet {
                     newComment.setUserID(user.getUserID());
                     newComment.setNovelID(novelID);
                     newComment.setContent(content);
-                    newComment.setCommentDate(new java.util.Date());
+                    newComment.setCommentDate(LocalDateTime.now()); // Cập nhật kiểu dữ liệu
 
                     commentDAO.addComment(newComment);
                     response.sendRedirect("novel-detail?id=" + novelID);
@@ -110,7 +116,26 @@ public class CommentController extends HttpServlet {
                     e.printStackTrace();
                 }
             }
-        }
+        } else if ("update".equals(action)) { // command: cập nhật bình luận
+        String commentIDStr = request.getParameter("commentID");
+        String novelIDStr = request.getParameter("novelID");
+        String newContent = request.getParameter("commentContent");
 
+        if (commentIDStr != null && novelIDStr != null && newContent != null && !newContent.trim().isEmpty()) {
+            try {
+                int commentID = Integer.parseInt(commentIDStr);
+                int novelID = Integer.parseInt(novelIDStr);
+
+                boolean updated = commentDAO.updateComment(commentID, user.getUserID(), newContent);
+                if (updated) {
+                    response.sendRedirect("novel-detail?id=" + novelID);
+                } else {
+                    response.sendRedirect("errorPage.jsp"); // Trường hợp lỗi cập nhật
+                }
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+        }
     }
+}
 }

@@ -185,37 +185,116 @@
                     <div class="col-lg-8 col-md-7">
                         <section class="comment-section">
                             <jsp:include page="/WEB-INF/views/user/comment/addcomment.jsp"></jsp:include>
-                                <h3>Bình luận</h3>
+                                <h3>Comments</h3>
 
-                            <c:choose>
-                                <c:when test="${not empty comments}">
-                                    <div class="comment-list">
-                                        <c:forEach var="comment" items="${comments}">
-                                            <div class="comment-item">
-                                                <div class="comment-header">
-                                                    <span class="comment-user">Người dùng: ${comment.userID}</span>
-                                                    <span class="comment-date">(${comment.commentDate})</span>
-                                                </div>
-                                                <div class="comment-content">
-                                                    <p>${comment.content}</p>
-                                                </div>
-                                                <div class="dropdown">
-                                                    <button class="btn icon-button dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        <i class="bi bi-three-dots-vertical"></i>  <!-- Sử dụng icon ba chấm dọc có sẵn -->
-                                                    </button>
-                                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                        <li><button class="dropdown-item" type="submit" name="action" value="edit"><i class="bi bi-pencil"></i> Chỉnh sửa</button></li>
-                                                        <li><button class="dropdown-item" type="submit" name="action" value="delete" onclick="return confirm('Bạn có chắc chắn xóa bình luận không?');"><i class="bi bi-trash"></i> Xóa</button></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </c:forEach>
-                                    </div>
-                                </c:when>
-                                <c:otherwise>
-                                    <p class="no-comments">Không có bình luận nào.</p>
-                                </c:otherwise>
-                            </c:choose>
+<c:choose>
+    <c:when test="${not empty comments}">
+        <div class="comment-list">
+            <c:forEach var="comment" items="${comments}">
+                <div class="comment-item" id="comment-${comment.commentID}">
+                    <div class="comment-header">
+                        <span class="comment-user">${comment.fullName}</span>
+                        <span class="comment-date">(${comment.commentDate.toString().replace('T', ' ')})</span>
+                    </div>
+                    <div class="comment-content">
+                        <p id="content-${comment.commentID}">${comment.content}</p>
+                    </div>
+                    <div class="dropdown">
+                        <button class="btn icon-button dropdown-toggle" type="button" id="dropdownMenuButton"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-three-dots-vertical"></i>  
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <c:if test="${comment.userID == sessionScope.user.userID}">
+                                <li>
+                                    <button class="dropdown-item" type="button" onclick="editComment(${comment.commentID})">
+                                        <i class="bi bi-pencil"></i> Edit
+                                    </button>
+                                </li>
+                                <li>
+                                    <form action="comments" method="post" style="display: inline;">
+                                        <input type="hidden" name="action" value="delete">
+                                        <input type="hidden" name="novelID" value="${comment.novelID}">
+                                        <input type="hidden" name="commentID" value="${comment.commentID}">
+                                        <button type="submit" class="dropdown-item" style="border: none; background: none; padding: 0; display: flex; align-items: center;" 
+                                            onclick="return confirm('Are you sure you want to delete this comment?');">
+                                            <i class="bi bi-trash"></i> Delete
+                                        </button>
+                                    </form>
+                                </li>
+                            </c:if>
+                        </ul>
+                    </div>
+                    <!-- Khu vực chỉnh sửa -->
+                    <div class="edit-area" id="edit-area-${comment.commentID}" style="display: none;">
+                        <textarea id="edit-content-${comment.commentID}" class="form-control">${comment.content}</textarea>
+                        <button class="btn btn-primary mt-2" onclick="saveComment(${comment.commentID}, ${comment.novelID})">
+                            Save
+                        </button>
+                        <button class="btn btn-secondary mt-2" onclick="cancelEdit(${comment.commentID})">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </c:forEach>
+        </div>
+    </c:when>
+    <c:otherwise>
+        <p class="no-comments">No comments available.</p>
+    </c:otherwise>
+</c:choose>
+
+<script>
+    function editComment(commentID) {
+        document.getElementById("content-" + commentID).style.display = "none";
+        document.getElementById("edit-area-" + commentID).style.display = "block";
+    }
+
+    function cancelEdit(commentID) {
+        document.getElementById("edit-area-" + commentID).style.display = "none";
+        document.getElementById("content-" + commentID).style.display = "block";
+    }
+
+    function saveComment(commentID, novelID) {
+        var newContent = document.getElementById("edit-content-" + commentID).value;
+        if (newContent.trim() === "") {
+            alert("Comment content cannot be empty!");
+            return;
+        }
+
+        var form = document.createElement("form");
+        form.method = "POST";
+        form.action = "comments";
+
+        var actionInput = document.createElement("input");
+        actionInput.type = "hidden";
+        actionInput.name = "action";
+        actionInput.value = "update";
+
+        var commentIDInput = document.createElement("input");
+        commentIDInput.type = "hidden";
+        commentIDInput.name = "commentID";
+        commentIDInput.value = commentID;
+
+        var novelIDInput = document.createElement("input");
+        novelIDInput.type = "hidden";
+        novelIDInput.name = "novelID";
+        novelIDInput.value = novelID;
+
+        var contentInput = document.createElement("input");
+        contentInput.type = "hidden";
+        contentInput.name = "commentContent";
+        contentInput.value = newContent;
+
+        form.appendChild(actionInput);
+        form.appendChild(commentIDInput);
+        form.appendChild(novelIDInput);
+        form.appendChild(contentInput);
+        document.body.appendChild(form);
+        form.submit();
+    }
+</script>
+
 
                         </section>
                     </div>

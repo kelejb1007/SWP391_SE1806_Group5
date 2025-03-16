@@ -51,39 +51,8 @@
 
 
 
-                    <!-- Manage account -->
-                    <li>
-                        <a href="#">
-                            <i class="fa fa-sitemap fa-fw"></i>
-                            Manage account
-                            <span class="fa arrow"></span>
-                        </a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="${pageContext.request.contextPath}/managenovel">View all novels</a>
-                            </li>
-                            <li>
-                                <a href="${pageContext.request.contextPath}/managenovel?action=viewlockedlist">View locked novels</a>
-                            </li>
-                            <li>
-                                <a href="#">Approve novel</a>
-                            </li>
-
-                            <!--                                <li>
-                                                                <a href="#">Third Level <span class="fa arrow"></span></a>
-                            
-                                                                <ul class="nav nav-third-level">
-                                                                    <li>
-                                                                        <a href="#">Third Level Item</a>
-                                                                    </li>
-                                                                </ul>
-                                                            </li>-->
-                        </ul>
-                    </li>
-
-
-
-                    <!-- tui them phan nay Khoa Manage Staff -->      
+                    <!-- tui them phan nay Khoa Manage Staff -->    
+                    <!-- tui them phan nay Khoa -->    
 
                     <li>
                         <a href="">
@@ -95,6 +64,12 @@
                             <li>
                                 <a href="${pageContext.request.contextPath}/managestaff">View list of staff</a>
                             </li>
+                            <li>
+                                <a href="${pageContext.request.contextPath}/lockactivity">Locking Activity</a>
+                            </li>                     
+                            <li>
+                                <a href="${pageContext.request.contextPath}/approvingactivity">Approving Activity</a>
+                            </li>
                         </ul>
                     </li>
                     <li>
@@ -102,6 +77,18 @@
                     </li>
 
 
+
+                    </li> 
+                    <li>
+                        <a href="${pageContext.request.contextPath}/change-password">
+                            <i class="fa fa-key fa-fw"></i> Change Admin Password
+                        </a>
+                    </li>
+                    <li>
+                        <a href="${pageContext.request.contextPath}/AssignPermissionController">
+                            <i class="fa fa-key fa-fw"></i> Assign Permission 
+                        </a>
+                    </li>
 
 
 

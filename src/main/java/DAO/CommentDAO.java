@@ -42,7 +42,7 @@ public class CommentDAO {
                 comment.setUserID(rs.getInt("userID"));
                 comment.setNovelID(rs.getInt("novelID"));
                 comment.setContent(rs.getString("commentContent"));
-                comment.setCommentDate(rs.getDate("commentDate"));
+                comment.setCommentDate(rs.getTimestamp("commentDate") != null ? rs.getTimestamp("commentDate").toLocalDateTime() : null);
             }
         } catch (SQLException e) {
             Logger.getLogger(CommentDAO.class.getName()).log(Level.SEVERE, null, e);
@@ -57,7 +57,7 @@ public class CommentDAO {
             stmt.setInt(1, comment.getUserID());
             stmt.setInt(2, comment.getNovelID());
             stmt.setString(3, comment.getContent());
-            stmt.setDate(4, new java.sql.Date(comment.getCommentDate().getTime()));
+             stmt.setTimestamp(4, Timestamp.valueOf(comment.getCommentDate())); // Chuyển đổi LocalDateTime thành Timestamp
             int rowsAffected = stmt.executeUpdate();
             return rowsAffected > 0;
         } catch (SQLException e) {
@@ -65,31 +65,8 @@ public class CommentDAO {
             return false;
         }
     }
-    public static void main(String[] args) {
-    // Tạo một đối tượng CommentDAO để thao tác với DB
-    CommentDAO commentDAO = new CommentDAO();
-
-    // Tạo một bình luận mới
-    Comment newComment = new Comment();
-    newComment.setUserID(1);  // Thay bằng userID hợp lệ từ database
-    newComment.setNovelID(2); // Thay bằng novelID hợp lệ từ database
-    newComment.setContent("Đây là bình luận test");
-    newComment.setCommentDate(new Date()); // Thêm ngày hiện tại
-
-    // Gọi hàm addComment để thêm bình luận vào database
-    boolean isAdded = commentDAO.addComment(newComment);
-
-    // Kiểm tra kết quả
-    if (isAdded) {
-        System.out.println("Binh luan da duoc them thanh cong!");
-    } else {
-        System.out.println("Them binh luan that bai!");
-    }
-}
-
-
-    public boolean deleteComment(int commentId) {
-        String sql = "DELETE FROM Comment WHERE commentID = ?";
+        public boolean deleteComment(int commentId) {
+        String sql = "DELETE FROM Comment WHERE commentID = ? AND userID = ?";
         try (Connection connection = db.getConnection();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, commentId);
@@ -100,10 +77,27 @@ public class CommentDAO {
             return false;
         }
     }
+        public boolean updateComment(int commentId, int userId, String newContent) { // command: cập nhật bình luận
+    String sql = "UPDATE Comment SET commentContent = ? WHERE commentID = ? AND userID = ?";
+    try (Connection connection = db.getConnection();
+         PreparedStatement stmt = connection.prepareStatement(sql)) {
+        stmt.setString(1, newContent);
+        stmt.setInt(2, commentId);
+        stmt.setInt(3, userId);
+        int rowsAffected = stmt.executeUpdate();
+        return rowsAffected > 0;
+    } catch (SQLException e) {
+        Logger.getLogger(CommentDAO.class.getName()).log(Level.SEVERE, null, e);
+        return false;
+    }
+}
+
 
     public List<Comment> getCommentsByNovelId(int novelId) {
         List<Comment> comments = new ArrayList<>();
-        String sql = "SELECT * FROM Comment WHERE novelID = ? ORDER BY commentDate DESC";
+        String sql = "SELECT c.commentID, c.userID, u.fullName, c.novelID, c.commentContent, c.commentDate " +
+                 "FROM Comment c JOIN UserAccount u ON c.userID = u.userID " +
+                 "WHERE c.novelID = ? ORDER BY c.commentDate DESC";
         try (Connection connection = db.getConnection();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, novelId);
@@ -113,8 +107,9 @@ public class CommentDAO {
                 comment.setCommentID(rs.getInt("commentID"));
                 comment.setUserID(rs.getInt("userID"));
                 comment.setNovelID(rs.getInt("novelID"));
+                comment.setFullName(rs.getString("fullName"));
                 comment.setContent(rs.getString("commentContent"));
-                comment.setCommentDate(rs.getDate("commentDate"));
+                comment.setCommentDate(rs.getTimestamp("commentDate") != null ? rs.getTimestamp("commentDate").toLocalDateTime() : null);
                 comments.add(comment);
             }
         } catch (SQLException e) {
@@ -136,7 +131,7 @@ public class CommentDAO {
                 comment.setUserID(rs.getInt("userID"));
                 comment.setNovelID(rs.getInt("novelID"));
                 comment.setContent(rs.getString("commentContent"));
-                comment.setCommentDate(rs.getDate("commentDate"));
+                comment.setCommentDate(rs.getTimestamp("commentDate") != null ? rs.getTimestamp("commentDate").toLocalDateTime() : null);
                 comments.add(comment);
             }
         } catch (SQLException e) {
