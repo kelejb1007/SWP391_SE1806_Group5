@@ -130,16 +130,14 @@ public class ManageNovelController extends HttpServlet {
             } else {
                 listNovel = nd.getNovelByStatus("active");
             }
-            
+
             String genChecked = (genCheckedArr != null) ? String.join(", ", genCheckedArr) : "All";
             String columnCheckString;
             if (columnCheck != null) {
-                 columnCheckString = String.join(", ", columnCheck);
+                columnCheckString = String.join(", ", columnCheck);
             } else {
                 columnCheckString = "#, Author, Total of chapter, Genres, Published Date, Rating Average, View";
             }
-
-            
 
             if (listNovel.isEmpty()) {
                 request.setAttribute("message", "No novels available");
@@ -389,7 +387,7 @@ public class ManageNovelController extends HttpServlet {
         NovelSubmissionDAO nSubDAO = new NovelSubmissionDAO();
         NovelDAO nDAO = new NovelDAO();
         GenreDAO genDAO = new GenreDAO();
-        String message;
+        String popup;
         try {
             HttpSession session = request.getSession(false);
             ManagerAccount ma = (ManagerAccount) session.getAttribute("manager");
@@ -414,7 +412,7 @@ public class ManageNovelController extends HttpServlet {
 
             }
 
-//            request.setAttribute("message", message);
+            request.setAttribute("popup", "Approve successfully");
             viewSubmission(request, response);
 
         } catch (Exception ex) {
@@ -431,7 +429,7 @@ public class ManageNovelController extends HttpServlet {
         NovelSubmissionDAO nSubDAO = new NovelSubmissionDAO();
         NovelDAO nDAO = new NovelDAO();
         GenreDAO genDAO = new GenreDAO();
-        String message;
+        String popup;
         try {
             HttpSession session = request.getSession(false);
             ManagerAccount ma = (ManagerAccount) session.getAttribute("manager");
@@ -449,7 +447,7 @@ public class ManageNovelController extends HttpServlet {
                 nSubDAO.updateSubmission(ns);
             }
 
-//            request.setAttribute("message", message);
+            request.setAttribute("popup", "Reject successfully");
             viewSubmission(request, response);
 
         } catch (Exception ex) {

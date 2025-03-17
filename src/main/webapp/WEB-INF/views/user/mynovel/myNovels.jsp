@@ -18,6 +18,7 @@
         <link rel="stylesheet" href="css/mynovel/myNovell.css">
         <link rel="stylesheet" href="css/mynovel/postingHistory.css">
 
+        <link rel="stylesheet" href="css/home/header(d).css">
 
         <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
@@ -38,8 +39,8 @@
 
     </head>
 
-    <body>
-
+    <body style="background-color: #fff;">
+        <jsp:include page="/WEB-INF/views/user/components/header.jsp" /> 
         <c:if test="${not empty popup}">
             <script>
                 window.onload = function () {
@@ -68,7 +69,7 @@
         </div>
 
         <div>
-            <ul class="row list">
+            <ul class="row list" style="display: block;margin-left: auto; margin-right: auto; padding: 30px 0;">
                 <c:if test="${empty listNovel}">
                     <div class="ant-empty">
                         <div class="ant-empty-image" style="margin-top: 100px; height: 64px; margin-bottom: 12px">
@@ -154,5 +155,6 @@
 
 
         <jsp:include page="/WEB-INF/views/user/components/footer.jsp"></jsp:include>
+        <script src="js/home/header(d).js"></script>
     </body>
 </html>

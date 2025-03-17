@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
- <link rel="stylesheet" href="css/home/avatar.css">
+<link rel="stylesheet" href="css/home/avatar.css?v=1">
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -11,6 +11,12 @@
 
 <!-- Bootstrap JS -->
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<style>
+    .header {
+        margin-right: auto;
+        margin-left: auto;
+    }
+</style>
 
 <div class="header">
     <div class="logo">
@@ -78,7 +84,9 @@
 
                 <li class="avatar-dropdown1">
                     <div class="avatar-container" onclick="toggleAvatarDropdown()">
-                        <img src="#" alt="User Avatar" class="avatar">
+                        <img src="<c:if test="${not empty user.imageUML}">${user.imageUML}</c:if> 
+                                  <c:if test="${empty user.imageUML}">//yuxseocdn.yuewen.com/pro/readnovel_pc/_prelease/images/ico/account.1e031.png</c:if>" 
+                             alt="User Avatar" class="avatar">
                     </div>
 
                     <div class="dropdown-menu1" id="avatarDropdownMenu">
@@ -96,6 +104,6 @@
         </ul>
     </nav>
 </div>
-  <script>
+<script>
 
 </script>

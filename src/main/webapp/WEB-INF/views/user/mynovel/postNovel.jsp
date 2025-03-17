@@ -16,7 +16,7 @@
         <link rel="stylesheet" href="css/startmin/startmin.css">
         <link rel="stylesheet" href="css/startmin/font-awesome.min.css" type="text/css">
 
-        <link rel="stylesheet" href="css/home/header.css">
+        <link rel="stylesheet" href="css/home/header(d).css">
         <style>
             label{
                 font-size: 18px;
@@ -137,7 +137,7 @@
 
 
         <jsp:include page="/WEB-INF/views/user/components/footer.jsp"></jsp:include>
-        <script src="js/home/header.js"></script>
+        <script src="js/home/header(d).js"></script>
         <script src="js/mynovel/novelform.js"></script>
     </body>
 </html>

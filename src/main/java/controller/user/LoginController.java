@@ -73,7 +73,7 @@ public class LoginController extends HttpServlet {
                 }
             } else {
                 if (userInfo.getVerifiedEmail()) {
-                    uaDAO.createUserFromGoogle(email, userName);
+                    uaDAO.createUserFromGoogle(email, userName, userInfo.getPicture());
                     session.setAttribute("user", uaDAO.getUserByEmail(email));
                     if (redirectURL != null && !redirectURL.isEmpty()) {
                         response.sendRedirect(redirectURL);

@@ -33,7 +33,7 @@
             }
 
             function viewDetail(event, novelID) {
-                if (event.target.tagName.toLowerCase() !== 'button') {
+                if (event.target.tagName.toLowerCase() !== 'button' || event.target.tagName.toLowerCase() !== 'a') {
                     window.location.href = 'managenovel?action=viewdetail&novelID=' + novelID;
                 }
             }
@@ -48,7 +48,7 @@
             <c:if test="${not empty popup}">
                 <script>
                     window.onload = function () {
-                        alert("${message}");
+                        alert("${popup}");
                     };
                 </script>
             </c:if>

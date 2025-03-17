@@ -17,35 +17,58 @@
 
         <link rel="stylesheet" href="css/mynovel/myNovell.css">
         <link rel="stylesheet" href="css/mynovel/postingHistory.css">
-        
+
+        <link rel="stylesheet" href="css/home/header(d).css">
 
         <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+        <style>
+            .footer {
+                color: #333;
+                text-align: center;
+                padding: 15px 0;
+                margin-top: 30px;
+                /* background-color: rgba(70, 130, 180, 0.2); /* Darker Blue with 60% opacity */
+                background-color: rgba(255, 255, 255, 0.1);
+                box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Adjusted shadow */
+                font-family: 'Macondo Swash Caps', cursive;
+                background-size: cover
+            }
+        </style>
     </head>
-    <body>
+    <body style="background-color: #fff;">
 
-            <div class="g_sub_hd">
-                <div class="g_wrap pr" data-report-l1="2"> 
-                    <Strong><h2 class="">My Novels</h2> </Strong> 
+        <jsp:include page="/WEB-INF/views/user/components/header.jsp" /> 
+        <c:if test="${not empty popup}">
+            <script>
+                window.onload = function () {
+                    alert("${popup}");
+                };
+            </script>
+        </c:if>
+        <div class="g_sub_hd">
+            <div class="g_wrap pr" data-report-l1="2"> 
+                <Strong><h2 class="">My Novels</h2> </Strong> 
 
-                    <p class="_tab _slide" data-report-l1="1">
-                        <a href="mynovel" title="My Novels" >My Novels</a>
-                        <a href="mynovel?action=viewposthistory" title="Poting History" class="_on">Submission History</a>
-                    </p>
+                <p class="_tab _slide" data-report-l1="1">
+                    <a href="mynovel" title="My Novels" >My Novels</a>
+                    <a href="mynovel?action=viewposthistory" title="Poting History" class="_on">Submission History</a>
+                </p>
 
-                    <div class="add-filter"> 
-                        <button type="button" class="btn btn-info" onclick="window.location.href = 'mynovel?action=post';">
-                            <i class="bi bi-plus-circle faa"></i>  Create a novel
-                        </button>
-                    </div>
+                <div class="add-filter"> 
+                    <button type="button" class="btn btn-info" onclick="window.location.href = 'mynovel?action=post';">
+                        <i class="bi bi-plus-circle faa"></i>  Create a novel
+                    </button>
                 </div>
             </div>
-            <div>
-                <ul class="row list">
+        </div>
+        <div>
+            <ul class="row list" style="margin-left: auto; margin-right: auto; padding: 30px 0;">
 
 
-                    <!-- /.panel-heading -->
-                    <div class="panel-body" style="display: block; width: 100%; font-size: 15px">
+                <!-- /.panel-heading -->
+                <div class="panel-body" style="display: block; width: 100%; font-size: 15px">
 
                     <c:if test="${empty list}">
                         <div class="ant-empty">
@@ -131,6 +154,7 @@
                 </div>
             </ul>
         </div>
-
+        <jsp:include page="/WEB-INF/views/user/components/footer.jsp"></jsp:include>
+        <script src="js/home/header(d).js"></script>
     </body>
 </html>

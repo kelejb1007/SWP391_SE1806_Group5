@@ -3,6 +3,8 @@
     Created on : Feb 28, 2025, 5:52:24 AM
     Author     : Khoa
 --%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -131,7 +133,8 @@
                 <h2>User Profile</h2>
 
                 <div class="avatar-container">
-                    <img src="<%= request.getContextPath()%>/img/a1.jpg" alt="User Avatar" class="avatar">
+                    <img src="<c:if test="${not empty user.imageUML}">${user.imageUML}</c:if> 
+                              <c:if test="${empty user.imageUML}">//yuxseocdn.yuewen.com/pro/readnovel_pc/_prelease/images/ico/account.1e031.png</c:if>" alt="User Avatar" class="avatar">
                 </div>
                 <form method="POST">
                     <label for="username">User name</label>

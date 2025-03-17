@@ -56,12 +56,13 @@ public class UserAccountDAO {
     }
 
     // Tạo user mới từ Google
-    public void createUserFromGoogle(String email, String userName) {
-        String sql = "INSERT INTO UserAccount (email, userName, type) VALUES (?, ?, 'google')";
+    public void createUserFromGoogle(String email, String userName, String imageURL) {
+        String sql = "INSERT INTO UserAccount (email, userName, type, imageUML) VALUES (?, ?, 'google', ?)";
         try ( Connection conn = dbContext.getConnection();  PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, email);
             stmt.setString(2, userName);
+            stmt.setString(3, imageURL);
             stmt.executeUpdate();
 
         } catch (SQLException e) {
@@ -114,6 +115,7 @@ public class UserAccountDAO {
         user.setDateOfBirth(rs.getTimestamp("dateOfBirth"));
         user.setStatus(rs.getInt("status"));
         user.setGender(rs.getString("gender"));
+        user.setImageUML(rs.getString("imageUML"));
 //        user.setStatus(rs.getInt("status"));
         return user;
     }

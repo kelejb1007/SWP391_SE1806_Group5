@@ -78,6 +78,6 @@
                 </c:otherwise>
             </c:choose>
         </div>
-        <script src="js/home/header.js"></script>
+        <script src="js/home/header(d).js"></script>
     </body>
 </html>
