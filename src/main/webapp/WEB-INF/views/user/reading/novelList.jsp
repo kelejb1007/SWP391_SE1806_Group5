@@ -33,14 +33,12 @@
                                  <div class="novel-list-container">
                                     
                                         <jsp:include page="/WEB-INF/views/user/components/fitter.jsp"></jsp:include>
-                                      <c:if test="${not empty searchQuery}">
+                                      <c:if test="${not empty searchQuery && not empty novels}">
                                          <h2>Search Results for: <c:out value="${searchQuery}" /></h2>
                                        </c:if>
-                                     <c:if test="${empty novels && empty searchQuery}">
-                                         <p>No result found for query <c:out value="${searchQuery}" /></p>
-                                     </c:if>
+                                     
                                      <c:if test="${empty novels && not empty searchQuery}">
-                                          <p>No result found for query "${searchQuery}"</p>
+                                          <h2>No result found for query "${searchQuery}"</h2>
                                       </c:if>
                                      <div class="novel-grid">
                                           <c:forEach var="novel" items="${novels}">

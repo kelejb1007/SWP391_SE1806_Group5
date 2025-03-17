@@ -27,21 +27,14 @@ public class NovelController extends HttpServlet {
         String genre = request.getParameter("genre");
         String filter = request.getParameter("filter");
 
-        if ((genre == null || genre.trim().isEmpty()) && (filter == null || filter.trim().isEmpty())) {
-            viewAllNovel(request, response);
+        if ("search".equals(action)) {
+            searchNovelList(request, response);
             return;
         }
-        if (action == null) {
-            action = "default"; // Gán giá trị mặc định
-        }
-        switch (action) {
-            case "search":
-                searchNovelList(request, response);
-                break;
-
-            default:
-                viewNovelList(request, response); // Không có actions
-                break;
+        if ((genre == null || genre.trim().isEmpty()) && (filter == null || filter.trim().isEmpty())) {
+            viewAllNovel(request, response);
+        } else {
+            viewNovelList(request, response);
         }
     }
 
@@ -66,7 +59,7 @@ public class NovelController extends HttpServlet {
                 request.setAttribute("errorMessage", "Search keyword must contain only letters.");
                 viewAllNovel(request, response);
                 return;
-            } else if (searchQuery.length() < 3) {
+            } else if (searchQuery.length() < 1) {
                 request.setAttribute("errorMessage", "Search keyword is too short.");
                 viewAllNovel(request, response);
                 return;
@@ -75,7 +68,7 @@ public class NovelController extends HttpServlet {
             searchQuery = sanitizeSearchQuery(searchQuery);
             //Danh sách tìm kiếm
             List<Novel> novels = novelDAO.searchNovels(searchQuery);
-
+           
             request.setAttribute("novels", novels);
 
             request.setAttribute("searchQuery", searchQuery);

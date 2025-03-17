@@ -43,7 +43,7 @@
             return false;
         }
         // Bạn có thể thêm kiểm tra ký tự đặc biệt ở đây nếu muốn
-        if (searchInput.length < 3 && searchInput.length > 0) {
+        if (searchInput.length < 1 && searchInput.length > 0) {
             alert("Search keyword is too short.");
             return false;
         }

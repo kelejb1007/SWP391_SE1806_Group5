@@ -70,8 +70,8 @@ public class NovelDetailController extends HttpServlet {
             forwardToView(novel, chapters, request, response);
 
         } catch (Exception e) {
-            // Handle unexpected exceptions
-            e.printStackTrace(); // Log the error
+          
+            e.printStackTrace(); 
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An error occurred");
         }
     }
@@ -100,11 +100,11 @@ public class NovelDetailController extends HttpServlet {
         UserAccount user = (UserAccount) session.getAttribute("user");
 
         if (user != null) {
-            // Handle favorites
+          // Xử lý mục yêu thích
             Favorite favorite = favoriteDAO.getFavoriteByNovelIdAndUserId(novelId, user.getUserID());
             request.setAttribute("favorite", favorite);
 
-            // Handle reading history
+           // Xử lý lịch sử đọc
             updateReadingHistory(user, novelId);
         }
     }
@@ -118,26 +118,24 @@ public class NovelDetailController extends HttpServlet {
             history.setLastReadDate(LocalDateTime.now());
             boolean success = historyDAO.addReadingHistory(history);
              if (!success) {
-                // Xử lý lỗi nếu thêm thất bại (ví dụ: ghi log)
+                // Xử lý lỗi nếu thêm thất bại 
                 System.err.println("Failed to add reading history for user " + user.getFullName() + " and novel " + novelId);
-                // Bạn có thể muốn rethrow một exception để thông báo cho lớp gọi
-                // hoặc hiển thị một thông báo lỗi cho người dùng
+                
             }
         } else {
             history.setLastReadDate(LocalDateTime.now());
             boolean success = historyDAO.updateLastReadDate(history);
              if (!success) {
-                // Xử lý lỗi nếu cập nhật thất bại (ví dụ: ghi log)
+                // Xử lý lỗi nếu cập nhật thất bại 
                 System.err.println("Failed to update reading history for user " + user.getFullName() + " and novel " + novelId);
-                // Bạn có thể muốn rethrow một exception để thông báo cho lớp gọi
-                // hoặc hiển thị một thông báo lỗi cho người dùng
+               
             }
         }
     }
 
     private List<Chapter> getChapters(int novelId, HttpServletRequest request) {
         String sortParam = request.getParameter("sort");
-        List<Chapter> chapters = chapterDAO.getChaptersByNovelId(novelId, null); // Get original list
+        List<Chapter> chapters = chapterDAO.getChaptersByNovelId(novelId, null); 
 
         List<Chapter> sortedChapters = new ArrayList<>(chapters);
         if (sortParam != null && !sortParam.isEmpty() && chapters.size() > 1) {
@@ -150,7 +148,7 @@ public class NovelDetailController extends HttpServlet {
         request.setAttribute("chapters", chapters);
         request.setAttribute("sortedChapters", sortedChapters);
         request.setAttribute("sort", sortParam);
-        return chapters; // Or sortedChapters if you want to return the sorted list
+        return chapters; 
     }
 
     private void setTimeElapsedForChapters(List<Chapter> chapters) {
