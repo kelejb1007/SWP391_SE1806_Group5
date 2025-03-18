@@ -1,0 +1,864 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Mar 17, 2025, 5:15:44 PM
+    Author     : Nguyen Thanh Trung
+*/
+
+@charset 'UTF-8';
+.book-list-wrap .book-list li {
+    overflow: hidden
+}
+.home .header .logo em {
+    display: none
+}
+.g_site_hongxiu .index-wrap {
+    position: relative;
+    z-index: 1
+}
+.g_site_hongxiu .index-wrap .flower {
+    position: absolute;
+    z-index: 1;
+    top: -20px
+}
+.g_site_hongxiu .index-wrap .flower.left {
+    left: 0;
+    width: 236px;
+    height: 247px;
+    background-image: url(/pro/readnovel_pc/_prelease/images/index/index_flower_left_2x.e5beb.png);
+    background-size: 100%
+}
+.g_site_hongxiu .index-wrap .flower.right {
+    right: 0;
+    width: 430px;
+    height: 142px;
+    background-image: url(/pro/readnovel_pc/_prelease/images/index/index_flower_right_2x.94301.png);
+    background-size: 100%
+}
+.focus-wrap {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 292px;
+    border-radius: 6px;
+    background: var(--sheet-background-bw-white)
+}
+.focus-slider-wrap {
+    position: relative;
+    padding: 20px
+}
+.focus-slider-wrap .yx-rotaion {
+    position: relative;
+    z-index: 1;
+    width: 750px!important;
+    height: 252px!important
+}
+.focus-slider-wrap .yx-rotaion .rotaion_list {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 252px
+}
+.focus-slider-wrap .yx-rotaion .rotaion_list li {
+    position: absolute;
+    z-index: 1;
+    overflow: hidden;
+    width: 748px;
+    height: 250px;
+    border: 1px solid #e6e6e6
+}
+.focus-slider-wrap .yx-rotaion .rotaion_list li a {
+    width: 100%;
+    height: 100%
+}
+.focus-slider-wrap .yx-rotaion .rotaion_list li a,
+.focus-slider-wrap .yx-rotaion .rotaion_list li img {
+    z-index: 1;
+    display: block;
+    width: 750px;
+    height: 252px
+}
+.focus-slider-wrap .yx-rotaion .rotaion_list li img {
+    position: absolute;
+    bottom: 0;
+    left: 0
+}
+.focus-slider-wrap .yx-rotation-focus {
+    position: absolute;
+    z-index: 3;
+    bottom: 0;
+    left: 0;
+    width: 750px;
+    height: 40px;
+    background: #555;
+    background: rgba(0,0,0,.4)
+}
+.focus-slider-wrap .yx-rotation-focus a {
+    font: 14px/40px PingFangSC-Regular,HelveticaNeue-Light,'Helvetica Neue Light','Microsoft YaHei',sans-serif;
+    position: relative;
+    z-index: 3;
+    float: left;
+    overflow: hidden;
+    width: 149px;
+    height: 40px;
+    cursor: pointer;
+    transition: background .3s;
+    text-align: center;
+    color: var(--sheet-background-bw-white);
+    border-left: 1px solid #aaa;
+    border-left: 1px solid rgba(255,255,255,.4)
+}
+.focus-slider-wrap .yx-rotation-focus a:first-child {
+    border-left: none
+}
+.focus-slider-wrap .yx-rotation-focus a.hover {
+    background: var(--color-primary)
+}
+.focus-slider-wrap .yx-rotation-focus a.hover cite {
+    position: absolute;
+    z-index: 3;
+    top: 15px;
+    left: -5px;
+    width: 0;
+    height: 0;
+    opacity: 1;
+    border-top: 5px solid transparent;
+    border-right: 5px solid var(--color-primary);
+    border-bottom: 5px solid transparent;
+    border-left: 0 none
+}
+.focus-slider-wrap .yx-rotaion-btn,
+.focus-slider-wrap .yx-rotaion-title,
+.focus-slider-wrap .yx-rotation-focus,
+.focus-slider-wrap .yx-rotation-t {
+    position: absolute
+}
+.hover-icon:hover .icon {
+    -webkit-animation: floating 1.5s ease infinite;
+    animation: floating 1.5s ease infinite
+}
+.icon {
+    position: absolute;
+    z-index: 1;
+    right: 0;
+    transition: top .3s
+}
+.focus-notice-wrap {
+    width: 206px;
+    height: 252px
+}
+.focus-notice-wrap h3 {
+    font: 18px/24px PingFangSC-Regular,HelveticaNeue-Light,'Helvetica Neue Light','Microsoft YaHei',sans-serif;
+    position: relative;
+    z-index: 1;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #1a1a1a
+}
+.focus-notice-wrap h3 .iconfont {
+    font-size: 24px;
+    display: inline-block;
+    min-width: 24px;
+    margin: -2px 5px 0 0;
+    vertical-align: middle;
+    color: #ccc
+}
+.focus-notice-wrap h3 .icon-notice {
+    top: -4px
+}
+.focus-notice-wrap .notice-list li {
+    overflow: hidden;
+    height: 37px;
+    border-top: 1px solid #e6e6e6
+}
+.focus-notice-wrap .notice-list li.rec a {
+    font-weight: 700;
+    color: var(--color-primary)
+}
+.focus-notice-wrap .notice-list li:first-child {
+    border-top: none
+}
+.focus-notice-wrap .notice-list li a {
+    font: 14px/38px PingFangSC-Regular,'-apple-system',Simsun
+}
+.focus-notice-wrap .notice-list li a span {
+    margin-right: 3px
+}
+.index-book-wrap {
+    overflow: hidden;
+    border-radius: 6px
+}
+.index-book-wrap .wrap-title {
+    padding-bottom: 12px;
+    border-bottom: 1px solid #1a1a1a
+}
+.edit-rec-wrap {
+    overflow: hidden;
+    height: 488px
+}
+.edit-rec-wrap h3 {
+    font: 700 20px/1 PingFangSC-Regular,HelveticaNeue-Light,'Helvetica Neue Light','Microsoft YaHei',sans-serif;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #1a1a1a
+}
+.edit-rec-wrap h3 .icon {
+    top: -15px
+}
+.edit-rec-wrap .type-new-list {
+    position: relative;
+    z-index: 1
+}
+.edit-rec-wrap .type-new-list .line {
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    width: 100%;
+    border-top: 1px solid #d8d8d8
+}
+.edit-rec-wrap .type-new-list .line.l1 {
+    top: 146px
+}
+.edit-rec-wrap .type-new-list .line.l2 {
+    top: 293px
+}
+.edit-rec-wrap .type-new-list ul {
+    overflow: hidden;
+    width: 104%
+}
+.edit-rec-wrap .type-new-list li {
+    float: left;
+    width: 230px;
+    margin-right: 20px;
+    padding: 24px 0
+}
+.edit-rec-wrap .type-new-list li .book-img,
+.edit-rec-wrap .type-new-list li .book-info {
+    float: left
+}
+.edit-rec-wrap .type-new-list li .book-info {
+    width: 144px
+}
+.edit-rec-wrap .type-new-list li .book-info h4 {
+    font: 16px/21px PingFangSC-Regular,HelveticaNeue-Light,'Helvetica Neue Light','Microsoft YaHei',sans-serif;
+    overflow: hidden;
+    height: 21px;
+    margin-top: -3px;
+    margin-bottom: 8px
+}
+.edit-rec-wrap .type-new-list li .book-info h4 a {
+    color: #1a1a1a
+}
+.edit-rec-wrap .type-new-list li .book-info h4 a:hover {
+    color: var(--color-primary)
+}
+.edit-rec-wrap .type-new-list li .book-info p {
+    font: 12px/20px PingFangSC-Regular,'-apple-system',Simsun;
+    overflow: hidden;
+    height: 40px;
+    margin-bottom: 10px;
+    color: #666
+}
+.edit-rec-wrap .type-new-list li[data-rankId='7'],
+.edit-rec-wrap .type-new-list li[data-rankId='8'],
+.edit-rec-wrap .type-new-list li[data-rankId='9'] {
+    padding-bottom: 0
+}
+.edit-rec-wrap .type-new-list:first-child {
+    border-top: none
+}
+.edit-rec-wrap .right-wrap .icon-fsg {
+    top: -17px
+}
+.book-list-wrap {
+    width: 100%
+}
+.book-list-wrap .book-list li {
+    height: 31px;
+    border-top: 1px solid #e6e6e6
+}
+.book-list-wrap .book-list li:first-child {
+    border-top: none
+}
+.book-list-wrap .book-list li a {
+    font: 14px/32px PingFangSC-Regular,'-apple-system',Simsun;
+    float: left
+}
+.book-list-wrap .book-list li a.channel {
+    overflow: hidden;
+    max-width: 82px;
+    height: 32px;
+    margin-left: -7px;
+    color: grey
+}
+.book-list-wrap .book-list li a.channel em {
+    font-family: PingFangSC-Regular,HelveticaNeue-Light,'Helvetica Neue Light','Microsoft YaHei',sans-serif;
+    font-size: 13px
+}
+.book-list-wrap .book-list li a.name {
+    overflow: hidden;
+    max-width: 154px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: #1a1a1a
+}
+.book-list-wrap .book-list li a:hover {
+    color: var(--color-primary)
+}
+.book-list-wrap .book-list li.str3 .channel {
+    width: 68px
+}
+.book-list-wrap .book-list li.str3 .name {
+    width: 84px
+}
+.book-list-wrap .book-list li .author,
+.book-list-wrap .book-list li .rec {
+    font: 12px/32px PingFangSC-Regular,'-apple-system',Simsun;
+    float: right;
+    overflow: hidden;
+    width: 64px;
+    text-align: right;
+    white-space: nowrap;
+    text-overflow: clip;
+    color: #b3b3b3
+}
+.book-list-wrap .book-list li.color-type_1 a {
+    color: var(--color-primary)
+}
+.book-list-wrap .book-list li.color-type_1 a:hover {
+    color: var(--color-primary)
+}
+.book-list-wrap .book-list li.color-type_1 .author {
+    color: #a6a6a6
+}
+.book-list-wrap .book-list li.color-type_1 .author:hover {
+    color: var(--color-primary)
+}
+.book-list-wrap .book-list li.bd0 {
+    border-bottom: none
+}
+.book-list-wrap .book-list li.bd0 .name {
+    overflow: hidden;
+    width: 140px;
+    white-space: nowrap;
+    text-overflow: clip
+}
+.book-list-wrap .book-list li.bd0 span {
+    width: 26px
+}
+.rank-list-row h4 {
+    max-height: 24px!important
+}
+.red-shop {
+    height: 220px;
+    border-radius: 6px;
+    background: var(--sheet-background-bw-white)
+}
+.red-shop h3 {
+    float: left;
+    width: 170px;
+    height: 220px
+}
+.red-shop .book-slide-wrap {
+    position: relative;
+    z-index: 1;
+    float: left;
+    overflow: hidden;
+    width: 850px;
+    height: 220px
+}
+.red-shop .book-slide-wrap ul {
+    position: absolute;
+    width: 200%
+}
+.red-shop .book-slide-wrap li {
+    float: left;
+    width: 169px;
+    height: 220px;
+    text-align: center;
+    border-left: 1px solid #f5f5f5
+}
+.red-shop .book-slide-wrap li:first-child {
+    border-left: none
+}
+.red-shop .book-slide-wrap li .book-img {
+    width: 84px;
+    height: 112px;
+    margin: 30px auto 8px
+}
+.red-shop .book-slide-wrap li h4 {
+    font: 16px/22px PingFangSC-Regular,HelveticaNeue-Light,'Helvetica Neue Light','Microsoft YaHei',sans-serif;
+    overflow: hidden;
+    height: 22px;
+    margin-bottom: 3px
+}
+.red-shop .book-slide-wrap li p {
+    font: 12px/20px PingFangSC-Regular,'-apple-system',Simsun
+}
+.red-shop .book-slide-wrap .next,
+.red-shop .book-slide-wrap .prev {
+    line-height: 62px;
+    position: absolute;
+    z-index: 10;
+    top: 50%;
+    width: 62px;
+    height: 62px;
+    margin-top: -31px;
+    border-radius: 100%;
+    background: #000;
+    background: rgba(0,0,0,.1)
+}
+.red-shop .book-slide-wrap .next .iconfont,
+.red-shop .book-slide-wrap .prev .iconfont {
+    color: var(--sheet-background-bw-white)
+}
+.red-shop .book-slide-wrap .next:hover,
+.red-shop .book-slide-wrap .prev:hover {
+    background: rgba(0,0,0,.15)
+}
+.red-shop .book-slide-wrap .prev {
+    left: -31px;
+    text-align: right
+}
+.red-shop .book-slide-wrap .prev .iconfont {
+    margin-right: 6px
+}
+.red-shop .book-slide-wrap .next {
+    right: -31px;
+    text-align: left
+}
+.red-shop .book-slide-wrap .next .iconfont {
+    margin-left: 6px
+}
+.rank-wrap {
+    overflow: hidden;
+    border-radius: 6px;
+    background: var(--sheet-background-bw-white)
+}
+.left-wrap {
+    width: 730px
+}
+.left-wrap h3 {
+    position: relative;
+    z-index: 1
+}
+.left-wrap .wrap-title span {
+    color: #666
+}
+.left-wrap:hover .more {
+    display: inline
+}
+.left-wrap .left-info {
+    overflow: hidden;
+    width: 230px;
+    height: 395px;
+    background: var(--color-home-block-bg)
+}
+.left-wrap .left-info .read-btn {
+    margin: 0 auto
+}
+.left-wrap .left-info .slide-box {
+    position: relative;
+    z-index: 1;
+    height: 120px;
+    padding: 60px 0 0 56px
+}
+.left-wrap .left-info .slide-box .la-ball-pulse {
+    position: absolute;
+    z-index: 300;
+    top: 90px;
+    left: 94px
+}
+.left-slider-wrap {
+    width: 228px;
+    height: 298px;
+    margin-right: 20px;
+    border: 1px solid #e6e6e6
+}
+.info-text dd {
+    display: none
+}
+.info-text dd:first-child {
+    display: block
+}
+.info-text .red-btn {
+    font: 14px/30px PingFangSC-Regular,'-apple-system',Simsun;
+    display: block;
+    width: 100px;
+    height: 30px;
+    margin: 0 auto;
+    border-radius: 15px
+}
+.right-wrap {
+    position: relative;
+    z-index: 1;
+    width: 230px
+}
+.right-wrap .book-wrap .book-info p.digital {
+    height: 20px;
+    padding: 4px 0 0
+}
+.right-wrap .book-wrap .book-info p.digital em {
+    font-size: 14px
+}
+.right-wrap h3 {
+    position: relative;
+    z-index: 1
+}
+.right-wrap h3.wrap-title {
+    font: 700 20px/22px PingFangSC-Regular,HelveticaNeue-Light,'Helvetica Neue Light','Microsoft YaHei',sans-serif;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #1a1a1a
+}
+.right-wrap.mb6 h3 {
+    margin-bottom: 6px
+}
+.row-book-wrap {
+    overflow: hidden;
+    border-radius: 6px
+}
+.row-book-wrap .wrap-title {
+    height: 0;
+    margin-bottom: 14px
+}
+.hot-book-list-wrap li {
+    float: left;
+    width: 230px;
+    margin-left: 20px
+}
+.hot-book-list-wrap li:first-child {
+    margin-left: 0
+}
+.hot-book-list-wrap li dd {
+    height: 32px
+}
+.hot-book-list-wrap li dd.top {
+    height: auto;
+    margin-bottom: 10px
+}
+.hot-book-list-wrap li dd.top h6 {
+    font: 18px/1 PingFangSC-Regular,HelveticaNeue-Light,'Helvetica Neue Light','Microsoft YaHei',sans-serif;
+    position: relative;
+    z-index: 1;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #1a1a1a
+}
+.hot-book-list-wrap li dd.top .book-wrap {
+    overflow: hidden;
+    height: 84px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #e6e6e6
+}
+.hot-book-list-wrap li dd.top .book-info h4 {
+    max-height: 24px;
+    margin-bottom: 10px
+}
+.hot-book-list-wrap li dd.top .book-info p {
+    font: 12px/20px PingFangSC-Regular,'-apple-system',Simsun;
+    overflow: hidden;
+    height: 40px;
+    color: #666
+}
+.hot-book-list-wrap li dd.top .book-cover {
+    margin-top: 6px
+}
+.hot-book-list-wrap li dd i a {
+    font: 14px/32px PingFangSC-Regular,'-apple-system',Simsun;
+    display: inline-block;
+    max-width: 320px;
+    height: 32px
+}
+.update-list-wrap .rank-list {
+    margin-left: 0
+}
+.update-list-wrap .update-right-wrap {
+    width: 230px
+}
+.left-table {
+    position: relative;
+    z-index: 1;
+    width: 730px
+}
+.left-table .more {
+    font: 12px/39px PingFangSC-Regular,'-apple-system',Simsun;
+    position: absolute;
+    top: 0;
+    right: 0
+}
+.left-table .more em {
+    font-family: Arial;
+    margin-right: 10px;
+    color: #2972cc
+}
+.left-table .update-tab {
+    font: 12px/39px PingFangSC-Regular,'-apple-system',Simsun;
+    position: absolute;
+    top: 0;
+    right: 48px
+}
+.left-table .update-tab a {
+    color: #a6a6a6
+}
+.left-table .update-tab a.act {
+    color: var(--color-primary)
+}
+.left-table .update-tab span {
+    font-family: Arial;
+    margin: 0 5px;
+    color: #eee
+}
+.update-wrap table {
+    width: 100%
+}
+.update-wrap tr {
+    border-top: 1px solid #e6e6e6
+}
+.update-wrap td {
+    height: 32px
+}
+.update-wrap a,
+.update-wrap em {
+    display: inline-block;
+    overflow: hidden;
+    height: 32px;
+    vertical-align: middle;
+    white-space: nowrap;
+    text-overflow: ellipsis
+}
+.update-wrap .name,
+.update-wrap .type {
+    font: 14px/32px PingFangSC-Regular,'-apple-system',Simsun
+}
+.update-wrap .chapter,
+.update-wrap .time,
+.update-wrap .words,
+.update-wrap .writer {
+    font: 12px/32px PingFangSC-Regular,'-apple-system',Simsun
+}
+.update-wrap .chapter,
+.update-wrap .type {
+    color: grey
+}
+.update-wrap .time,
+.update-wrap .words {
+    color: grey
+}
+.update-wrap .type {
+    max-width: 84px;
+    margin-left: -6px;
+    cursor: default
+}
+.update-wrap .name {
+    max-width: 180px
+}
+.update-wrap .chapter {
+    max-width: 200px
+}
+.update-wrap .chapter:hover {
+    color: var(--color-primary)
+}
+.update-wrap .writer {
+    max-width: 80px;
+    cursor: default
+}
+.update-wrap .writer:hover {
+    color: #1a1a1a
+}
+.update-wrap .words {
+    max-width: 100px
+}
+.update-wrap .time {
+    width: 100%;
+    text-align: right
+}
+.update-wrap span.tag {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-left: 4px;
+    vertical-align: middle;
+    background-repeat: no-repeat
+}
+.update-wrap span.tag.vip {
+    background-image: url(/pro/readnovel_pc/_prelease/images/common/vip.e23aa.png)
+}
+.update-wrap span.tag.sign {
+    background-image: url(/pro/readnovel_pc/_prelease/images/common/sign.19308.png)
+}
+.free-book-wrap {
+    height: 220px;
+    border-radius: 6px;
+    background: var(--sheet-background-bw-white)
+}
+.free-book-wrap .time-box {
+    width: 170px;
+    text-align: center
+}
+.free-book-wrap .time-box .iconfont {
+    font-size: 60px;
+    display: block;
+    height: 60px;
+    margin: 10px 0
+}
+.free-book-wrap .time-box .limit-wrap {
+    padding-top: 25px
+}
+.free-book-wrap .time-box h3 {
+    font-size: 18px;
+    line-height: 22px;
+    overflow: hidden;
+    height: 22px;
+    margin-bottom: 5px;
+    color: var(--color-primary)
+}
+.free-book-wrap .time-box .type {
+    font-family: PingFangSC-Regular,'-apple-system',Simsun;
+    font-size: 12px;
+    overflow: hidden;
+    height: 16px;
+    padding: 2px 0;
+    color: #999
+}
+.free-book-wrap .time-box .icon-time {
+    display: block;
+    width: 60px;
+    height: 60px;
+    margin: 8px auto
+}
+.free-book-wrap .time-box .countdown {
+    overflow: hidden;
+    height: 22px;
+    margin-bottom: 10px;
+    color: var(--color-primary)
+}
+.free-book-wrap .time-box .countdown i {
+    font: 18px/21px Arial
+}
+.free-book-wrap .time-box .countdown em {
+    margin-right: 5px
+}
+.free-book-wrap .time-box .blue {
+    font-family: PingFangSC-Regular,'-apple-system',Simsun;
+    font-size: 14px;
+    display: block;
+    overflow: hidden;
+    height: 19px;
+    vertical-align: middle
+}
+.free-book-wrap .time-box .blue span {
+    font-family: simsun;
+    font-weight: 700;
+    display: inline-block;
+    margin-top: -2px;
+    margin-left: 5px;
+    vertical-align: middle
+}
+.free-book-wrap ul {
+    width: 850px;
+    height: 220px
+}
+.free-book-wrap li {
+    position: relative;
+    z-index: 1;
+    float: left;
+    width: 211px;
+    height: 220px;
+    transition: box-shadow .5s;
+    text-align: center;
+    border-left: 1px solid #f5f5f5
+}
+.free-book-wrap li .book-img {
+    width: 66px;
+    height: 88px;
+    margin: 20px auto 10px
+}
+.free-book-wrap li .book-img a {
+    width: 100%;
+    height: 100%
+}
+.free-book-wrap li .light-border-btn {
+    font: 14px/30px PingFangSC-Regular,'-apple-system',Simsun;
+    display: block;
+    width: 98px;
+    height: 30px;
+    margin: 0 auto;
+    border-radius: 2px
+}
+.free-book-wrap li .name {
+    font: 16px/21px PingFangSC-Regular,HelveticaNeue-Light,'Helvetica Neue Light','Microsoft YaHei',sans-serif;
+    display: block;
+    overflow: hidden;
+    height: 21px;
+    padding: 0 10px;
+    color: #1a1a1a
+}
+.free-book-wrap li .name:hover {
+    color: var(--color-primary)
+}
+.free-book-wrap li s {
+    font: 12px/14px PingFangSC-Regular,'-apple-system',Simsun;
+    display: block;
+    overflow: hidden;
+    height: 14px;
+    margin: 8px 0 12px;
+    color: #999
+}
+.free-book-wrap li:hover {
+    position: relative;
+    z-index: 3;
+    box-shadow: 0 5px 16px #d9d4c7
+}
+.g_site_readnovel .free-book-wrap .time-box .icon-time {
+    background-image: url(/pro/readnovel_pc/_prelease/images/site/readnovel/icon-time.e4f2b.png);
+    background-repeat: no-repeat;
+    background-size: 100%
+}
+.g_site_readnovel .red-shop h3 {
+    background-image: url(/pro/readnovel_pc/_prelease/images/site/readnovel/hwg.f3b4d.png);
+    background-size: 100%
+}
+.g_site_xs8 .free-book-wrap .time-box .icon-time {
+    background-image: url(/pro/readnovel_pc/_prelease/images/site/xs8/icon-time.650ea.png);
+    background-repeat: no-repeat;
+    background-size: 100%
+}
+.g_site_xs8 .red-shop h3 {
+    background-image: url(/pro/readnovel_pc/_prelease/images/site/xs8/hwg.132c2.png);
+    background-size: 100%
+}
+.g_site_hongxiu .free-book-wrap .time-box .icon-time {
+    background-image: url(/pro/readnovel_pc/_prelease/images/index/icon-time_2x_hongxiu.png);
+    background-repeat: no-repeat;
+    background-size: 100%
+}
+.g_site_hongxiu .red-shop h3 {
+    background-image: url(/pro/readnovel_pc/_prelease/images/index/hwg_2x_hongxiu.png);
+    background-size: 100%
+}
+.g_site_hongxiu .free-book-wrap .time-box .icon-time {
+    background-image: url(/pro/readnovel_pc/_prelease/images/site/hongxiu/icon-time.daa6d.png);
+    background-repeat: no-repeat;
+    background-size: 100%
+}
+.g_site_hongxiu .red-shop h3 {
+    background-image: url(/pro/readnovel_pc/_prelease/images/site/hongxiu/hwg.169b5.png);
+    background-size: 100%
+}
+.g_site_rongshuxia .free-book-wrap .time-box .icon-time {
+    background-image: url(/pro/readnovel_pc/_prelease/images/site/rongshuxia/icon-time.d156e.png);
+    background-repeat: no-repeat;
+    background-size: 100%
+}
+.g_site_rongshuxia .red-shop h3 {
+    background-image: url(/pro/readnovel_pc/_prelease/images/site/rongshuxia/hwg.cbb32.png);
+    background-size: 100%
+}
+.g_site_xs .free-book-wrap .time-box .icon-time {
+    background-image: url(/pro/readnovel_pc/_prelease/images/site/xs/icon-time.2cebc.png);
+    background-repeat: no-repeat;
+    background-size: 100%
+}
+.g_site_xs .red-shop h3 {
+    background-image: url(/pro/readnovel_pc/_prelease/images/site/xs/hwg.cbb32.png);
+    background-size: 100%
+}

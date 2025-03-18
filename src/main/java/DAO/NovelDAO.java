@@ -10,6 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -106,6 +108,8 @@ public class NovelDAO {
                 m.setDatetime(rs.getTimestamp("datetime") != null ? rs.getTimestamp("datetime").toLocalDateTime() : null);
                 m.setLockReason(rs.getString("lockReason"));
                 m.setGenres(rs.getString("genres"));
+                m.setPublishDate2(new Date(rs.getTimestamp("publishedDate") != null ? rs.getTimestamp("publishedDate").getTime(): null));
+                m.setLockDate2(new Date(rs.getTimestamp("datetime") != null ? rs.getTimestamp("datetime").getTime(): null));
                 list.add(m);
             }
         } catch (SQLException e) {
@@ -484,7 +488,7 @@ public class NovelDAO {
                 + "FROM Novel n "
                 + "JOIN UserAccount ua ON n.userID = ua.userID "
                 + "JOIN Chapter c ON n.novelID = c.novelID "
-                + "WHERE n.novelStatus = 'active' "
+                + "WHERE n.novelStatus = 'active' and c.chapterStatus = 'active'"
                 + "GROUP BY n.novelID, n.novelName, n.imageURL, ua.userName, n.totalChapter "
                 + "ORDER BY latestChapterDate DESC";
         Connection connection = null;
@@ -693,7 +697,7 @@ public class NovelDAO {
         }
         return list;
     }
-
+    
     //------------------------------------------------------------------------------------------------------------------
 // Helper method to close resources
     private void closeResources(Connection connection, PreparedStatement statement, ResultSet resultSet) {

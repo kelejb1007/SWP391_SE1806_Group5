@@ -130,7 +130,7 @@
             <button type="button" class="gg-login" onclick="window.location.href = '${pageContext.request.contextPath}/Login?action=google'">
                 <i class="fa fa-google-plus"></i> Log in with Google
             </button>
-            <button class="manager-login" onclick="window.location.href = '${pageContext.request.contextPath}/ManagerLogin'">Manager Login</button>
+<!--            <button class="manager-login" onclick="window.location.href = '${pageContext.request.contextPath}/ManagerLogin'">Manager Login</button>-->
             <p class="register-link">Don't have an account? <a href="${pageContext.request.contextPath}/Register">Register</a></p>
         </div>
 
