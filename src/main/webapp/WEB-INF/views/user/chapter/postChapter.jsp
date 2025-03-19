@@ -59,7 +59,7 @@
             h2 {
                 text-align: center;
             }
-            
+
             .areaInput {
                 font-family: 'Open Sans', sans-serif;
                 font-size: 1.1rem;
@@ -85,24 +85,28 @@
                 String messageType = (request.getAttribute("messageType") != null) ? request.getAttribute("messageType").toString() : "success";
             %>
 
-            <% if (novelId == null || nextChapterNumber == null) { %>
+            <% if (novelId == null || nextChapterNumber == null) {%>
             <p class="message error"><%=message%></p>
             <% } else {%>
 
             <form action="<%= request.getContextPath()%>/postChapter" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="novelId">Novel ID:</label>
-                    <input type="number" id="novelId" name="novelId" value="<%= novelId%>" readonly>
+                    <span>
+                        <input type="number" id="novelId" name="novelId" value="<%= novelId%>" readonly>
+                    </span>
                 </div>
 
                 <div class="form-group">
                     <label for="novelName">Novel Name:</label>
-                    <input type="text" id="novelName" name="novelName" value="<%= novelName != null ? novelName : "Unknown"%>" readonly>
+                    <span>
+                        <input type="text" id="novelName" name="novelName" value="<%= novelName != null ? novelName : "Unknown"%>" readonly>
+                    </span>
                 </div>
 
                 <div class="form-group">
                     <label for="chapterNumber">Chapter Number:</label>
-                    <input type="number" id="chapterNumber" name="chapterNumber" value="<%= nextChapterNumber%>" required>
+                    <input type="number" id="chapterNumber" name="chapterNumber" value="<%= nextChapterNumber%>" min="1" required>
                 </div>
 
                 <div class="form-group">

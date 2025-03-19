@@ -4,6 +4,7 @@
  */
 package controller.user.mynovel;
 
+import DAO.ChapterDAO;
 import DAO.GenreDAO;
 import DAO.NovelDAO;
 import DAO.NovelSubmissionDAO;
@@ -23,10 +24,16 @@ import jakarta.servlet.http.Part;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Chapter;
 import model.Genre;
 import model.Novel;
 import model.NovelSubmission;
@@ -41,41 +48,19 @@ import utils.CloudinaryUtils;
 @WebServlet(name = "MyNovelController", urlPatterns = {"/mynovel"})
 public class MyNovelController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet MyNovelController</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet MyNovelController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+    private NovelDAO novelDAO;
+    private GenreDAO genreDAO;
+    private ChapterDAO chapterDAO; // Thêm ChapterDAO
+    private NovelSubmissionDAO novelSubmissionDAO;
+
+    @Override
+    public void init() throws ServletException {
+        novelDAO = new NovelDAO();
+        genreDAO = new GenreDAO();
+        chapterDAO = new ChapterDAO(); // Khởi tạo ChapterDAO
+        novelSubmissionDAO = new NovelSubmissionDAO();
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -135,14 +120,75 @@ public class MyNovelController extends HttpServlet {
     private void viewNovelDetail(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         NovelDAO nd = new NovelDAO();
+        ChapterDAO cd = new ChapterDAO(); // Sử dụng ChapterDAO
         int novelID = Integer.parseInt(request.getParameter("novelID"));
-        Novel nl;
+        String sortParam = request.getParameter("sort"); // Lấy tham số sort
+
+        Novel novel;
         try {
-            nl = nd.getNovelByID(novelID);
-            request.setAttribute("novel", nl);
+            // Lấy thông tin novel
+            novel = nd.getNovelByID(novelID);
+            if (novel == null) {
+                request.setAttribute("message", "Novel not found.");
+                request.getRequestDispatcher("/WEB-INF/views/user/mynovel/myNovels.jsp").forward(request, response);
+                return;
+            }
+
+            // Lấy danh sách chapter
+            List<Chapter> chapters = cd.getChaptersByNovelId(novelID, null); // Danh sách gốc
+            List<Chapter> sortedChapters = new ArrayList<>(chapters); // Bản sao để sắp xếp
+
+            // Sắp xếp danh sách chapter nếu có tham số sort
+            if (sortParam != null && !sortParam.isEmpty() && chapters.size() > 1) {
+                sortedChapters = cd.getChaptersByNovelId(novelID, sortParam);
+            }
+
+            // Tính toán timeString cho mỗi chapter
+            for (Chapter chapter : sortedChapters) {
+                String timeString = getTimeElapsed(chapter.getChapterCreatedDate());
+                chapter.setTimeString(timeString);
+            }
+            for (Chapter chapter : chapters) {
+                String timeString = getTimeElapsed(chapter.getChapterCreatedDate());
+                chapter.setTimeString(timeString);
+            }
+
+            // Đặt các thuộc tính vào request
+            request.setAttribute("novel", novel);
+            request.setAttribute("chapters", chapters); // Danh sách gốc
+            request.setAttribute("sortedChapters", sortedChapters); // Danh sách đã sắp xếp
+            request.setAttribute("sort", sortParam != null ? sortParam : "asc");
+
+            // Chuyển đến JSP
             request.getRequestDispatcher("/WEB-INF/views/user/mynovel/myNovelDetail.jsp").forward(request, response);
+        } catch (NumberFormatException e) {
+            Logger.getLogger(MyNovelController.class.getName()).log(Level.SEVERE, "Invalid novel ID format: {0}", e.getMessage());
+            request.setAttribute("message", "Invalid novel ID format.");
+            request.getRequestDispatcher("/WEB-INF/views/user/mynovel/myNovels.jsp").forward(request, response);
         } catch (Exception ex) {
             Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private String getTimeElapsed(LocalDateTime chapterCreatedDate) {
+        if (chapterCreatedDate == null) {
+            return "N/A";
+        }
+        LocalDateTime now = LocalDateTime.now();
+        Duration duration = Duration.between(chapterCreatedDate, now);
+        long diffMillis = duration.toMillis();
+        if (diffMillis / (1000 * 60 * 60 * 24 * 365) >= 1) {
+            long yearsAgo = diffMillis / (1000 * 60 * 60 * 24 * 365);
+            return yearsAgo + " years ago";
+        } else if (diffMillis / (1000 * 60 * 60 * 24) >= 1) {
+            long daysAgo = diffMillis / (1000 * 60 * 60 * 24);
+            return daysAgo + " days ago";
+        } else if (diffMillis / (1000 * 60 * 60) >= 1) {
+            long hoursAgo = diffMillis / (1000 * 60 * 60);
+            return hoursAgo + " hours ago";
+        } else {
+            long minutesAgo = diffMillis / (1000 * 60);
+            return minutesAgo + " minutes ago";
         }
     }
 

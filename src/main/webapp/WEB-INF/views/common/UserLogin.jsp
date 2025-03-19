@@ -19,10 +19,32 @@
                 justify-content: center;
                 align-items: center;
                 height: 100vh;
+                position: relative; /* Để chứa phần tử ::before */
+                overflow: hidden;
+            }
+
+            body::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-image: url('img/login.png');
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                filter: blur(1px); /* Điều chỉnh độ mờ */
+                z-index: -1; /* Đưa lớp này ra sau nội dung */
+                
+                background-image: url('img/login.jpg');
+                background-size: cover; /* Ảnh phủ kín màn hình mà không bị méo */
+    background-position: center; /* Căn giữa ảnh */
+    background-repeat: no-repeat; /* Không lặp lại ảnh */
             }
             .login-container {
                 position: relative;
-                background: rgba(255, 255, 255, 0.9);
+                background: rgba(255, 255, 255, 0.57);
                 padding: 25px;
                 border-radius: 15px;
                 box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
@@ -31,9 +53,18 @@
             }
             .login-container h2 {
                 font-size: 24px;
-                color: #4A4A4A;
+                font-family: sans-serif;
+                color: #ff3955;
                 margin-bottom: 15px;
+                text-shadow:
+                    1px 1px 1.5px #ff3955,  /* Bóng mờ màu đỏ hồng */
+                    1px 1px 2px rgba(255, 57, 85, 1); /* Độ sâu */
+
+                background: linear-gradient(to top, #ff3955 30%, #ff9aa5 70%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
             }
+
             input[type="text"],
             input[type="password"] {
                 width: 100%;
@@ -43,9 +74,10 @@
                 border-radius: 8px;
                 font-size: 16px;
                 box-sizing: border-box;
+                border-color: #ff3955;
             }
             button {
-                background: #6A5ACD;
+                background: #ff3955;
                 color: white;
                 border: none;
                 padding: 12px;
@@ -57,7 +89,7 @@
                 margin-top: 10px;
             }
             button:hover {
-                background: #483D8B;
+                background: #cc2f44;
             }
             .gg-login {
                 background: #4B0082;
@@ -101,8 +133,8 @@
                     alert("Username must be at least 3 characters.");
                     return false;
                 }
-                if (password.length < 3) {
-                    alert("Password must be at least 3 characters.");
+                if (password.length < 8) {
+                    alert("Password must be at least 8 characters.");
                     return false;
                 }
                 return true;
@@ -111,7 +143,7 @@
     </head>
     <body>
         <div class="login-container">
-            <h2>User Login</h2>
+            <h2>LOGIN</h2>
 
 
             <c:if test="${not empty requestScope.error}">
