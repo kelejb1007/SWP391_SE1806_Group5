@@ -41,7 +41,7 @@ public class NovelController extends HttpServlet {
     private void searchNovelList(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String searchQuery = request.getParameter("search");
+        String searchQuery = request.getParameter("kw");
         //Kiểm tra dữ liệu vào trên URL
         if (searchQuery != null) {
             searchQuery = searchQuery.trim();

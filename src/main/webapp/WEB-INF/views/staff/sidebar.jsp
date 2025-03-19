@@ -15,9 +15,112 @@
         <link rel="stylesheet" href="css/startmin/startmin.css">
         <link rel="stylesheet" href="css/startmin/font-awesome.min.css" type="text/css">
         <style>
-            ul.nav.fix li{
-                width: 100%;
-            }
+    /* Tổng quan */
+.sidebar {
+    background: linear-gradient(to bottom, #ff3955, #1a1a1a); /* Chuyển màu đỏ - đen */
+    color: white;
+    width: 260px; /* Điều chỉnh độ rộng nếu cần */
+    height: 100%;
+    overflow-y: auto; /* Cho phép cuộn nếu nội dung quá dài */
+    box-shadow: 5px 0 20px rgba(0, 0, 0, 0.4); /* Đổ bóng */
+    font-family: 'Roboto', sans-serif; /* Font chữ dễ đọc */
+}
+
+.sidebar-nav {
+    padding: 0;
+}
+
+.nav.fix {
+    margin-bottom: 0;
+}
+
+.nav.fix li {
+    width: 100%;
+}
+
+/* Tìm kiếm */
+.sidebar-search {
+    padding: 15px;
+}
+
+.custom-search-form .form-control {
+    background-color: rgba(0, 0, 0, 0.3); /* Đen trong suốt */
+    border: none;
+    color: white;
+    border-radius: 4px; /* Góc bo tròn nhẹ */
+    padding: 8px 12px;
+    font-size: 14px;
+}
+
+.custom-search-form .form-control:focus {
+    border-color: #fff; /* Viền trắng khi focus */
+    box-shadow: none;
+    outline: none;
+    background-color: rgba(0, 0, 0, 0.5); /* Đen trong suốt hơn */
+}
+
+.custom-search-form .btn-primary {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    margin-left: 8px;
+    color: white; /* Màu trắng cho biểu tượng tìm kiếm */
+}
+
+.custom-search-form .btn-primary:hover {
+    color: #ddd; /* Trắng nhạt hơn khi hover */
+}
+
+/* Các mục menu */
+
+
+.nav.fix li a:hover {
+    background-color: rgba(0, 0, 0, 0.3); /* Đen trong suốt */
+    color: #ddd; /* Chữ màu xám nhạt khi hover */
+    text-decoration: none;
+    border-left-color: #fff;
+}
+
+.nav.fix li a {
+    color: black;
+    padding: 14px 20px;
+    display: block;
+    transition: background-color 0.3s ease; /* Thêm transition */
+    position: relative;
+    overflow: hidden;
+
+}
+
+/* Menu cấp hai */
+.nav-second-level {
+    background-color: rgba(0, 0, 0, 0.2); /* Đen trong suốt */
+    padding-left: 10px;
+    
+}
+
+.nav-second-level li a {
+    border-bottom-left-radius: 2px;
+    padding: 12px 20px;
+    font-size: 14px;
+}
+
+.nav-second-level li a:hover {
+    border-left-radius: 2px;
+    background-color: rgba(0, 0, 0, 0.3); /* Thêm màu nền đen nhạt khi hover */
+}
+
+.nav.fix li.active > a {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Đổ bóng nhẹ */
+    background-color: rgba(255, 0, 0, 0.3);
+    color: white;
+}
+
+/* Loại bỏ gạch chân ở liên kết */
+a {
+    text-decoration: none;
+}
+
+
         </style>
     </head>
     <body>

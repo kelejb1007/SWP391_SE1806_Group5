@@ -21,7 +21,7 @@ public class ManagerLoginController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("/WEB-INF/views/common/ManagerLogin.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/common/ManagerLogin2.jsp").forward(request, response);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class ManagerLoginController extends HttpServlet {
             }
         } else {
             request.setAttribute("error", "Invalid username or password.");
-            request.getRequestDispatcher("/WEB-INF/views/common/ManagerLogin.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/common/ManagerLogin2.jsp").forward(request, response);
         }
     }
 
