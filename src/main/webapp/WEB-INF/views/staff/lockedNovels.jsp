@@ -81,10 +81,10 @@
                                                         <td>${c.novelName}</td>
                                                         <td>${c.author}</td>
                                                         <td>${c.totalChapter}</td>
-                                                        <td>${c.publishedDate}</td>
+                                                        <td><fmt:formatDate value="${c.publishDate2}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
                                                         <td>${c.staffName}</td>
                                                         <td>${c.lockReason}</td>
-                                                        <td>${c.datetime}</td>
+                                                        <td><fmt:formatDate value="${c.lockDate2}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
                                                         <td>
                                                             <button type="button" class="btn btn-info"
                                                                     onclick="window.location.href = 'managenovel?action=viewdetail&novelID=${c.novelID}';">View detail

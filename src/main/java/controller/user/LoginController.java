@@ -57,7 +57,7 @@ public class LoginController extends HttpServlet {
 
             com.google.api.services.oauth2.model.Userinfo userInfo = GoogleUtils.getUserInfo(code);
             String email = userInfo.getEmail();
-            String userName = userInfo.getName();
+            String fullName = userInfo.getName();
 
             if (email == null) {
                 request.getRequestDispatcher("/WEB-INF/views/common/UserLogin.jsp").forward(request, response);
@@ -73,7 +73,7 @@ public class LoginController extends HttpServlet {
                 }
             } else {
                 if (userInfo.getVerifiedEmail()) {
-                    uaDAO.createUserFromGoogle(email, userName, userInfo.getPicture());
+                    uaDAO.createUserFromGoogle(email, fullName, userInfo.getPicture());
                     session.setAttribute("user", uaDAO.getUserByEmail(email));
                     if (redirectURL != null && !redirectURL.isEmpty()) {
                         response.sendRedirect(redirectURL);

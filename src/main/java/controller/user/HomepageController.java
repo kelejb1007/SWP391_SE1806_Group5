@@ -79,7 +79,7 @@ public class HomepageController extends HttpServlet {
             n.setTimeString(timeString);
         }
             request.setAttribute("listNovel", listNovel);
-           request.getRequestDispatcher("/getGenre?target=/WEB-INF/views/user/Home.jsp").include(request, response);
+           request.getRequestDispatcher("/getGenre?target=/WEB-INF/views/user/home2.jsp").include(request, response);
 
         } catch (Exception ex) {
             Logger.getLogger(HomepageController.class.getName()).log(Level.SEVERE, null, ex);

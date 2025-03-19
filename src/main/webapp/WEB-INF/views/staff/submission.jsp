@@ -22,6 +22,7 @@
 
         <script>
             function openLockModal(novelID, novelName, type, submissionNID) {
+                event.stopPropagation();
                 document.getElementById('type').value = type;
                 document.getElementById('submissionNID').value = submissionNID;
                 document.getElementById('novelID').value = novelID;
@@ -30,6 +31,11 @@
 //                var modal = new bootstrap.Modal(document.getElementById('lockModal'));
 //                modal.show();
                 $("#lockModal").modal("show");
+            }
+
+            function approve(event, message) {
+                event.stopPropagation();
+                return confirm(message);
             }
 
             function viewDetail(event, novelID) {
@@ -111,7 +117,7 @@
                                                                 <input type="hidden" name="submissionNID" value="${c.submissionNID}">
                                                                 <input type="hidden" name="novelID" value="${c.novelID}">
                                                                 <input type="hidden" name="draftID" value="${c.draftID}">
-                                                                <button type="submit" class="btn btn-info" onclick="return confirm('Confirm to APPROVE the novel: ${c.novelName} (ID=${c.novelID})')">Approve</button>
+                                                                <button type="submit" class="btn btn-info" onclick="return approve(event, 'Confirm to APPROVE the novel: ${c.novelName} (ID=${c.novelID})')">Approve</button>
                                                             </form>
                                                             <button type="button" id="open" class="btn btn-danger" onclick="openLockModal('${c.novelID}', '${c.novelName}', '${c.type}', '${c.submissionNID}')">Reject</button>
                                                         </td>

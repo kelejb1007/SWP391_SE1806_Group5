@@ -242,7 +242,7 @@ public class PostChapterController extends HttpServlet {
         }
     }
 
-    public String getFile(Part filePart) throws IOException {
+    private String getFile(Part filePart) throws IOException {
         String fileName = filePart.getSubmittedFileName();
 
         // Lưu file tạm thời
@@ -268,7 +268,7 @@ public class PostChapterController extends HttpServlet {
         return fileUrl;
     }
 
-    public String getFileByContent(String content) throws IOException {
+    private String getFileByContent(String content) throws IOException {
         String filePath = "temp.txt";
         Files.write(Paths.get(filePath), content.getBytes());
 

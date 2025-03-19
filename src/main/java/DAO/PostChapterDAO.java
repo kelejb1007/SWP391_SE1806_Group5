@@ -433,99 +433,133 @@ public class PostChapterDAO {
         return null;
     }
 
+//    /**
+//     * Xóa chapter dựa trên novelName và chapterNumber
+//     *
+//     * @param novelName Tên của novel
+//     * @param chapterNumber Số chapter
+//     * @return true nếu xóa thành công, false nếu thất bại
+//     */
+//    public boolean deleteChapter(String novelName, int chapterNumber) {
+//        // Lấy thông tin chapter để lấy fileURL và chapterID trước khi xóa
+//        Chapter chapter = getChapterByNovelNameAndChapterNumber(novelName, chapterNumber);
+//        if (chapter == null) {
+//            LOGGER.log(Level.WARNING, "Chapter not found for novelName: {0}, chapterNumber: {1}", new Object[]{novelName, chapterNumber});
+//            return false;
+//        }
+//
+//        String filePath = chapter.getFileURL();
+//        int chapterId = chapter.getChapterID();
+//
+//        Connection connection = null;
+//        try {
+//            connection = db.getConnection();
+//            connection.setAutoCommit(false);
+//
+//            // Xóa các bản ghi liên quan trong ChapterSubmission
+//            String deleteSubmissionSql = "DELETE FROM ChapterSubmission WHERE chapterID = ?";
+//            try (PreparedStatement stmt = connection.prepareStatement(deleteSubmissionSql)) {
+//                stmt.setInt(1, chapterId);
+//                stmt.executeUpdate();
+//                LOGGER.log(Level.INFO, "Deleted related ChapterSubmission records for chapter ID: {0}", chapterId);
+//            }
+//
+//            // Xóa các bản ghi liên quan trong LockChapterLog
+//            String deleteLockLogSql = "DELETE FROM LockChapterLog WHERE chapterID = ?";
+//            try (PreparedStatement stmt = connection.prepareStatement(deleteLockLogSql)) {
+//                stmt.setInt(1, chapterId);
+//                stmt.executeUpdate();
+//                LOGGER.log(Level.INFO, "Deleted related LockChapterLog records for chapter ID: {0}", chapterId);
+//            }
+//
+//            // Xóa các bản ghi liên quan trong ReadingHistory
+//            String deleteReadingHistorySql = "DELETE FROM ReadingHistory WHERE chapterID = ?";
+//            try (PreparedStatement stmt = connection.prepareStatement(deleteReadingHistorySql)) {
+//                stmt.setInt(1, chapterId);
+//                stmt.executeUpdate();
+//                LOGGER.log(Level.INFO, "Deleted related ReadingHistory records for chapter ID: {0}", chapterId);
+//            }
+//
+//            // Xóa bản ghi trong Chapter
+//            String deleteChapterSql = "DELETE FROM Chapter WHERE novelID = (SELECT novelID FROM Novel WHERE novelName = ?) AND chapterNumber = ?";
+//            try (PreparedStatement statement = connection.prepareStatement(deleteChapterSql)) {
+//                statement.setString(1, novelName);
+//                statement.setInt(2, chapterNumber);
+//                int rowsDeleted = statement.executeUpdate();
+//                LOGGER.log(Level.INFO, "Rows deleted: {0} for novelName: {1}, chapterNumber: {2}", new Object[]{rowsDeleted, novelName, chapterNumber});
+//
+//                if (rowsDeleted > 0) {
+//                    // Xóa file nội dung chapter nếu tồn tại
+//                    if (filePath != null && !filePath.isEmpty()) {
+//                        String realPath = getRealPath(filePath);
+//                        File file = new File(realPath);
+//                        if (file.exists()) {
+//                            boolean fileDeleted = file.delete();
+//                            LOGGER.log(Level.INFO, "Chapter file deleted: {0}, success: {1}", new Object[]{realPath, fileDeleted});
+//                        } else {
+//                            LOGGER.log(Level.WARNING, "Chapter file does not exist: {0}", realPath);
+//                        }
+//                    }
+//                    connection.commit();
+//                    return true;
+//                }
+//                connection.rollback();
+//                return false;
+//            }
+//        } catch (SQLException e) {
+//            LOGGER.log(Level.SEVERE, "Error deleting chapter for novelName: {0}, chapterNumber: {1}", new Object[]{novelName, chapterNumber});
+//            e.printStackTrace();
+//            if (connection != null) {
+//                try {
+//                    connection.rollback();
+//                } catch (SQLException ex) {
+//                    LOGGER.log(Level.SEVERE, "Error rolling back transaction", ex);
+//                }
+//            }
+//            return false;
+//        } finally {
+//            if (connection != null) {
+//                try {
+//                    connection.setAutoCommit(true);
+//                    connection.close();
+//                } catch (SQLException e) {
+//                    LOGGER.log(Level.SEVERE, "Error closing connection", e);
+//                }
+//            }
+//        }
+//    }
+    
     /**
-     * Xóa chapter dựa trên novelName và chapterNumber
-     *
-     * @param novelName Tên của novel
-     * @param chapterNumber Số chapter
-     * @return true nếu xóa thành công, false nếu thất bại
-     */
-    public boolean deleteChapter(String novelName, int chapterNumber) {
-        // Lấy thông tin chapter để lấy fileURL và chapterID trước khi xóa
-        Chapter chapter = getChapterByNovelNameAndChapterNumber(novelName, chapterNumber);
-        if (chapter == null) {
-            LOGGER.log(Level.WARNING, "Chapter not found for novelName: {0}, chapterNumber: {1}", new Object[]{novelName, chapterNumber});
-            return false;
-        }
-
-        String filePath = chapter.getFileURL();
-        int chapterId = chapter.getChapterID();
-
-        Connection connection = null;
-        try {
-            connection = db.getConnection();
-            connection.setAutoCommit(false);
-
-            // Xóa các bản ghi liên quan trong ChapterSubmission
-            String deleteSubmissionSql = "DELETE FROM ChapterSubmission WHERE chapterID = ?";
-            try (PreparedStatement stmt = connection.prepareStatement(deleteSubmissionSql)) {
-                stmt.setInt(1, chapterId);
-                stmt.executeUpdate();
-                LOGGER.log(Level.INFO, "Deleted related ChapterSubmission records for chapter ID: {0}", chapterId);
-            }
-
-            // Xóa các bản ghi liên quan trong LockChapterLog
-            String deleteLockLogSql = "DELETE FROM LockChapterLog WHERE chapterID = ?";
-            try (PreparedStatement stmt = connection.prepareStatement(deleteLockLogSql)) {
-                stmt.setInt(1, chapterId);
-                stmt.executeUpdate();
-                LOGGER.log(Level.INFO, "Deleted related LockChapterLog records for chapter ID: {0}", chapterId);
-            }
-
-            // Xóa các bản ghi liên quan trong ReadingHistory
-            String deleteReadingHistorySql = "DELETE FROM ReadingHistory WHERE chapterID = ?";
-            try (PreparedStatement stmt = connection.prepareStatement(deleteReadingHistorySql)) {
-                stmt.setInt(1, chapterId);
-                stmt.executeUpdate();
-                LOGGER.log(Level.INFO, "Deleted related ReadingHistory records for chapter ID: {0}", chapterId);
-            }
-
-            // Xóa bản ghi trong Chapter
-            String deleteChapterSql = "DELETE FROM Chapter WHERE novelID = (SELECT novelID FROM Novel WHERE novelName = ?) AND chapterNumber = ?";
-            try (PreparedStatement statement = connection.prepareStatement(deleteChapterSql)) {
-                statement.setString(1, novelName);
-                statement.setInt(2, chapterNumber);
-                int rowsDeleted = statement.executeUpdate();
-                LOGGER.log(Level.INFO, "Rows deleted: {0} for novelName: {1}, chapterNumber: {2}", new Object[]{rowsDeleted, novelName, chapterNumber});
-
-                if (rowsDeleted > 0) {
-                    // Xóa file nội dung chapter nếu tồn tại
-                    if (filePath != null && !filePath.isEmpty()) {
-                        String realPath = getRealPath(filePath);
-                        File file = new File(realPath);
-                        if (file.exists()) {
-                            boolean fileDeleted = file.delete();
-                            LOGGER.log(Level.INFO, "Chapter file deleted: {0}, success: {1}", new Object[]{realPath, fileDeleted});
-                        } else {
-                            LOGGER.log(Level.WARNING, "Chapter file does not exist: {0}", realPath);
-                        }
-                    }
-                    connection.commit();
-                    return true;
-                }
-                connection.rollback();
-                return false;
-            }
-        } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Error deleting chapter for novelName: {0}, chapterNumber: {1}", new Object[]{novelName, chapterNumber});
-            e.printStackTrace();
-            if (connection != null) {
-                try {
-                    connection.rollback();
-                } catch (SQLException ex) {
-                    LOGGER.log(Level.SEVERE, "Error rolling back transaction", ex);
-                }
-            }
-            return false;
-        } finally {
-            if (connection != null) {
-                try {
-                    connection.setAutoCommit(true);
-                    connection.close();
-                } catch (SQLException e) {
-                    LOGGER.log(Level.SEVERE, "Error closing connection", e);
-                }
-            }
-        }
+ * Đổi trạng thái chapter thành "deleted" thay vì xóa hoàn toàn
+ *
+ * @param novelName Tên của novel
+ * @param chapterNumber Số chapter
+ * @return true nếu cập nhật thành công, false nếu thất bại
+ */
+public boolean deleteChapter(String novelName, int chapterNumber) {
+    // Lấy thông tin chapter để kiểm tra trước khi cập nhật
+    Chapter chapter = getChapterByNovelNameAndChapterNumber(novelName, chapterNumber);
+    if (chapter == null) {
+        LOGGER.log(Level.WARNING, "Chapter not found for novelName: {0}, chapterNumber: {1}", new Object[]{novelName, chapterNumber});
+        return false;
     }
+
+    // Cập nhật trạng thái chapter thành "deleted"
+    String updateSql = "UPDATE Chapter SET chapterStatus = 'deleted' WHERE novelID = (SELECT novelID FROM Novel WHERE novelName = ?) AND chapterNumber = ?";
+
+    try (Connection connection = db.getConnection(); PreparedStatement statement = connection.prepareStatement(updateSql)) {
+        statement.setString(1, novelName);
+        statement.setInt(2, chapterNumber);
+        int rowsUpdated = statement.executeUpdate();
+        LOGGER.log(Level.INFO, "Rows updated to 'deleted': {0} for novelName: {1}, chapterNumber: {2}", 
+            new Object[]{rowsUpdated, novelName, chapterNumber});
+
+        return rowsUpdated > 0;
+    } catch (SQLException e) {
+        LOGGER.log(Level.SEVERE, "Error updating chapter status to 'deleted' for novelName: {0}, chapterNumber: {1}", 
+            new Object[]{novelName, chapterNumber});
+        e.printStackTrace();
+        return false;
+    }
+}
 }

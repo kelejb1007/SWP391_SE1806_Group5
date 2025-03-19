@@ -101,14 +101,14 @@
                                             </span>  
                                             <img src="${c.imageURL}" alt="${c.novelName}" width="100%" object-fit: cover
                                                  height="100%" >
-                                            
+
                                         </div>
-                                      
+
                                         <a href="chapter?id=${c.chapterID}"><h3>${c.novelName}</h3></a>
-                                          <strong style="margin: 0" class="sub"><i class="fa fa-file-text fa-fw"></i> ${c.totalChapter} Chapters</strong> 
-                                     
+                                        <strong style="margin: 0" class="sub"><i class="fa fa-file-text fa-fw"></i> ${c.totalChapter} Chapters</strong> 
+
                                     </div>
-                                        
+
                                 </c:forEach> 
                             </div>
 

@@ -44,6 +44,8 @@ public class Novel {
     private String staffName;
     private String genres;
     private Date publishDate2;
+    private Date LockDate2;
+    
 
     public Novel() {
     }
@@ -70,6 +72,15 @@ public class Novel {
     }
 
     //---------------------------------------------------------------------
+
+    public Date getLockDate2() {
+        return LockDate2;
+    }
+
+    public void setLockDate2(Date LockDate2) {
+        this.LockDate2 = LockDate2;
+    }
+    
     public Date getPublishDate2() {
         return publishDate2;
     }
