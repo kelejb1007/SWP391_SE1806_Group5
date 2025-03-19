@@ -72,12 +72,12 @@
                             </li>
                         </ul>
                     </li>
+                    <!-- tui sua nut phan nay -->
                     <li>
-                        <a href="${pageContext.request.contextPath}/RegisterStaff">Create Staff Account</a>
+                        <a href="${pageContext.request.contextPath}/RegisterStaff">
+                            <i class="fa fa-user-plus"></i> Create Staff Account
+                        </a>
                     </li>
-
-
-
                     </li> 
                     <li>
                         <a href="${pageContext.request.contextPath}/change-password">
