@@ -65,8 +65,23 @@ public class CommentDAO {
             return false;
         }
     }
-        public boolean deleteComment(int commentId) {
+    // Phương thức dành cho User (đảm bảo chỉ xóa comment của chính họ)
+        public boolean deleteComment(int commentId, int userId) {
         String sql = "DELETE FROM Comment WHERE commentID = ? AND userID = ?";
+        try (Connection connection = db.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, commentId);
+            stmt.setInt(2, userId);
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            Logger.getLogger(CommentDAO.class.getName()).log(Level.SEVERE, null, e);
+            return false;
+        }
+    }
+            // Phương thức dành cho Staff (xóa comment không cần userId)
+        public boolean deleteComment(int commentId) {
+        String sql = "DELETE FROM Comment WHERE commentID = ?";
         try (Connection connection = db.getConnection();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, commentId);
@@ -77,7 +92,7 @@ public class CommentDAO {
             return false;
         }
     }
-        public boolean updateComment(int commentId, int userId, String newContent) { // command: cập nhật bình luận
+        public boolean updateComment(int commentId, int userId, String newContent) { 
     String sql = "UPDATE Comment SET commentContent = ? WHERE commentID = ? AND userID = ?";
     try (Connection connection = db.getConnection();
          PreparedStatement stmt = connection.prepareStatement(sql)) {
