@@ -206,61 +206,7 @@
                                                 </div>
                                             </li>
 
-                                            <li data-rid="6">
-                                                <div class="book-img">
-                                                    <a href="/book/30153025807903607" data-eid="qd_F23" data-bid="30153025807903607" target="_blank"><img src="//bookcover.yuewen.com/qdbimg/349573/c_30153025807903607/90.webp" alt="预谋心动"></a>
-                                                </div>
-                                                <div class="book-info"><h4>
-                                                        <a href="/book/30153025807903607" data-eid="qd_F24" data-bid="30153025807903607" target="_blank" title="预谋心动">预谋心动</a>
-                                                    </h4>
-                                                    <p>钟书宁是钟家的养女，在她被赶出家门当晚，未婚夫就搂着新欢登上了娱乐头条。后来的钟书宁绯闻漫天，因为她跟了最有权势的人，众人笑她，不过是贺先生一时兴起的玩物。殊不知，在见到她第一眼时，他就萌生了一个念头：横刀夺爱！——所有人都在等着看钟书宁笑话，故意问起贺闻礼与她的关系。他只笑道：“大概是我还不够努力，结婚这么久，贺太太还不肯公开，给我一个名分。”是夜</p>
-                                                    <div class="state-box cf">
-                                                        <i>现代言情</i><a class="author default" data-eid="qd_F25" target="_blank"><img src="//yuxseocdn.yuewen.com/pro/readnovel_pc/_prelease/images/ico/user.f22d3.png">月初姣姣</a>
-                                                    </div>
-                                                </div>
-                                            </li>
-
-                                            <li data-rid="7">
-                                                <div class="book-img">
-                                                    <a href="/book/25829981209263804" data-eid="qd_F23" data-bid="25829981209263804" target="_blank"><img src="//bookcover.yuewen.com/qdbimg/349573/c_25829981209263804/90.webp" alt="我曝光前世惊炸全网"></a>
-                                                </div>
-                                                <div class="book-info"><h4>
-                                                        <a href="/book/25829981209263804" data-eid="qd_F24" data-bid="25829981209263804" target="_blank" title="我曝光前世惊炸全网">我曝光前世惊炸全网</a>
-                                                    </h4>
-                                                    <p>【甜燃爽+双疯批+非遗传承+家国大义】夜挽澜的身体被穿了，穿越者将她的生活变得乌烟瘴气后甩手走人，她终于重新获得了身体的掌控权，却又被困在同一天无限循环999年。无论她做什么事情，一切都会重来，被逼成了一个掌控无数技能的疯子。脱离循环那天，面对残局，所有人都笑她回天无力，直到她的前世今生无意被曝光——夜挽澜从十丈高处轻功跃下，毫发无损有人解释：她吊了威亚夜挽澜一曲《破阵乐》</p>
-                                                    <div class="state-box cf">
-                                                        <i>现代言情</i><a class="author default" data-eid="qd_F25" target="_blank"><img src="//yuxseocdn.yuewen.com/pro/readnovel_pc/_prelease/images/ico/user.f22d3.png">卿浅</a>
-                                                    </div>
-                                                </div>
-                                            </li>
-
-                                            <li data-rid="8">
-                                                <div class="book-img">
-                                                    <a href="/book/29850612603502408" data-eid="qd_F23" data-bid="29850612603502408" target="_blank"><img src="//bookcover.yuewen.com/qdbimg/349573/c_29850612603502408/90.webp" alt="重生另嫁小叔，夫妻联手虐渣"></a>
-                                                </div>
-                                                <div class="book-info"><h4>
-                                                        <a href="/book/29850612603502408" data-eid="qd_F24" data-bid="29850612603502408" target="_blank" title="重生另嫁小叔，夫妻联手虐渣">重生另嫁小叔，夫妻联手虐渣</a>
-                                                    </h4>
-                                                    <p>【有钱有颜、智商在线商户女VS阴狠腹黑、宠妻狂魔假纨绔】前世，夫君人淡如菊，辛安为他操持半生，却名声尽毁，死无葬身之地。而他逍遥快活，用辛安丰厚的嫁妆与妯娌暗度陈仓。重活一世，辛安将错就错嫁给了纨绔小叔子，让妯娌配上前夫哥。什么淡漠名利的狗世子，什么不染尘埃的小绿茶，统统退散！她要揭开前夫沽名钓誉的伪善，打垮心机深沉的小绿茶。让这对狗男女身败名裂，不得好死。只是，前世处处针锋相对的纨绔小叔子，怎么</p>
-                                                    <div class="state-box cf">
-                                                        <i>古代言情</i><a class="author default" data-eid="qd_F25" target="_blank"><img src="//yuxseocdn.yuewen.com/pro/readnovel_pc/_prelease/images/ico/user.f22d3.png">冬月暖</a>
-                                                    </div>
-                                                </div>
-                                            </li>
-
-                                            <li data-rid="9">
-                                                <div class="book-img">
-                                                    <a href="/book/30836109407222509" data-eid="qd_F23" data-bid="30836109407222509" target="_blank"><img src="//bookcover.yuewen.com/qdbimg/349573/c_30836109407222509/90.webp" alt="问九卿"></a>
-                                                </div>
-                                                <div class="book-info"><h4>
-                                                        <a href="/book/30836109407222509" data-eid="qd_F24" data-bid="30836109407222509" target="_blank" title="问九卿">问九卿</a>
-                                                    </h4>
-                                                    <p>八岁那年，她被人剥光衣服浑身是伤地丢到旧陵沼，一个传说中死了都要扒一层皮的诅咒之地。十年后——一辆马车将她接回尚书府，给端王做妾，为长姐固宠，当生育工具。回到薛家的前一天晚上，她冒着大雪敲开了当朝太子别院的大门……然后义无反顾地嫁入端王府。这次，她不再是任人屠宰的猪狗，而是手握“生死薄”，撬动无数人命运的阎王&amp;hellip</p>
-                                                    <div class="state-box cf">
-                                                        <i>古代言情</i><a class="author default" data-eid="qd_F25" target="_blank"><img src="//yuxseocdn.yuewen.com/pro/readnovel_pc/_prelease/images/ico/user.f22d3.png">姒锦</a>
-                                                    </div>
-                                                </div>
-                                            </li>
+                                            
 
                                         </ul>
                                     </div>

@@ -35,6 +35,13 @@
     </head>
     <body>
         <jsp:include page="/WEB-INF/views/user/components/header.jsp"></jsp:include>
+        <c:if test="${not empty popup}">
+            <script>
+                window.onload = function () {
+                    alert("${popup}");
+                };
+            </script>
+        </c:if>
             <div class="container-fluid">
 
                 <div class="row">

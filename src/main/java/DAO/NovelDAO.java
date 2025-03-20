@@ -206,7 +206,7 @@ public class NovelDAO {
 
     //---------------------------------------------------------------------------------------------------------------------
     //User - My Novel ---------------------------------------------------------------------------------------------------
-    public List<Novel> getMyNovels(int userID) {
+    public List<Novel> getMyNovels(int userID) throws SQLException{
         List<Novel> list = new ArrayList<>();
         String sql = "SELECT n.novelID, n.novelName, n.imageURL, n.totalChapter, n.novelStatus, n.publishedDate, u.fullName, COALESCE(ROUND(AVG(r.score), 2), 0) AS averageRating, COUNT(v.novelID) AS viewCount\n"
                 + "FROM Novel n \n"
@@ -311,6 +311,25 @@ public class NovelDAO {
             statement.setInt(1, novelID);
             n = statement.executeUpdate();
             if (n != 0) {
+                return true;
+            }
+        } catch (Exception e) {
+            Logger.getLogger(NovelDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return false;
+    }
+    
+    public boolean checkNovelName(String novelName) {
+        String sql = "SELECT novelID FROM Novel where novelName = ?";
+        Connection connection;
+        PreparedStatement statement;
+        ResultSet rs;
+        try {
+            connection = db.getConnection();
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, novelName);
+            rs = statement.executeQuery();
+            if (rs.next()) {
                 return true;
             }
         } catch (Exception e) {

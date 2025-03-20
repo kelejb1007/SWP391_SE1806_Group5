@@ -113,7 +113,7 @@ public class NovelSubmissionDAO {
     }
 
     //staff---------------------------------------------------------------------------------------
-    public List<NovelSubmission> getAllSubmisstion() throws SQLException{
+    public List<NovelSubmission> getAllSubmisstion() throws SQLException {
         List<NovelSubmission> list = new ArrayList<>();
         String sql = "SELECT ns.submissionNID, ns.novelID, ns.userID, ns.managerID, ns.draftID, ns.submissionDate, \n"
                 + "ns.approvalDate, ns.type, ns.status, ns.reasonRejected, n.novelName, us.userName\n"
@@ -168,6 +168,25 @@ public class NovelSubmissionDAO {
             statement.setInt(4, ns.getSubmissionNID());
             n = statement.executeUpdate();
             if (n != 0) {
+                return true;
+            }
+        } catch (Exception e) {
+            Logger.getLogger(NovelDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return false;
+    }
+
+    public boolean checkPending(int NovelID) {
+        String sql = "SELECT submissionNID FROM NovelSubmission where novelID = ? AND status = 'pending'";
+        Connection connection;
+        PreparedStatement statement;
+        ResultSet rs;
+        try {
+            connection = db.getConnection();
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, NovelID);
+            rs = statement.executeQuery();
+            if (rs.next()) {
                 return true;
             }
         } catch (Exception e) {
