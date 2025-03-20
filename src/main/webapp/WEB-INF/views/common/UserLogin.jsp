@@ -34,13 +34,10 @@
                 background-size: cover;
                 background-position: center;
                 background-repeat: no-repeat;
-                filter: blur(1px); /* Điều chỉnh độ mờ */
+              
                 z-index: -1; /* Đưa lớp này ra sau nội dung */
                 
-                background-image: url('img/login.jpg');
-                background-size: cover; /* Ảnh phủ kín màn hình mà không bị méo */
-    background-position: center; /* Căn giữa ảnh */
-    background-repeat: no-repeat; /* Không lặp lại ảnh */
+            
             }
             .login-container {
                 position: relative;

@@ -436,7 +436,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     background: var(--sheet-background-bw-white)
 }
 .left-wrap {
-    width: 730px
+    width: auto;
 }
 .left-wrap h3 {
     position: relative;

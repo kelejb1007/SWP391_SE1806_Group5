@@ -25,8 +25,7 @@ import model.Novel;
 public class HomepageController extends HttpServlet {
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      *
      * @param request servlet request
      * @param response servlet response
@@ -62,30 +61,37 @@ public class HomepageController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       
-        viewUpdateNovels(request, response);
-        
+
+        viewNovels(request, response);
+
     }
-    
-     private void viewUpdateNovels(HttpServletRequest request, HttpServletResponse response)
+
+    private void viewNovels(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         NovelDAO nd = new NovelDAO();
+        List<Novel> listNovel3;
         List<Novel> listNovel;
+        List<Novel> listrank;
         try {
-           
+
             listNovel = nd.getNovelsByTimeUpdate();
             for (Novel n : listNovel) {
-            String timeString = getTimeElapsed(n.getLatestChapterDate());
-            n.setTimeString(timeString);
-        }
+                String timeString = getTimeElapsed(n.getLatestChapterDate());
+                n.setTimeString(timeString);
+            }
+            listNovel3 = nd.getNovelsByPopularity();
+            listrank = nd.getTop10NovelsByMonthlyRating();
+            request.setAttribute("listrank", listrank);
+            request.setAttribute("listNovel3", listNovel3);
             request.setAttribute("listNovel", listNovel);
-           request.getRequestDispatcher("/getGenre?target=/WEB-INF/views/user/home2.jsp").include(request, response);
+            request.getRequestDispatcher("/getGenre?target=/WEB-INF/views/user/home2.jsp").include(request, response);
 
         } catch (Exception ex) {
             Logger.getLogger(HomepageController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-private String getTimeElapsed(LocalDateTime chapterCreatedDate) {
+
+    private String getTimeElapsed(LocalDateTime chapterCreatedDate) {
         if (chapterCreatedDate == null) {
             return "";
         }
@@ -106,6 +112,7 @@ private String getTimeElapsed(LocalDateTime chapterCreatedDate) {
             return minutesAgo + " minutes ago";
         }
     }
+
     /**
      * Handles the HTTP <code>POST</code> method.
      *

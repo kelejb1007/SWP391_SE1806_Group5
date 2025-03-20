@@ -23,6 +23,8 @@
         <link rel="shortcut icon" type="image/x-icon" href="//yuxseocdn.yuewen.com/favicon/readnovel.ico">
         <link rel="Bookmark" type="image/x-icon" href="//yuxseocdn.yuewen.com/favicon/readnovel.ico">
         <style>
+
+
         </style>
     </head>
     <body class="g_site_readnovel" style="zoom: 1.1;">
@@ -343,7 +345,7 @@
                         <div class="inner-wrap cf">
                             <!-- start 左侧 -->
                             <div class="left-wrap fl">
-                                <h3 class="wrap-title lang">人气完本</h3>
+                                <h3 class="wrap-title lang">Newly Updated Novels</h3>
 
                                 <div class="left-info fl" data-l2="1">
                                     <div class="slide-box">
@@ -351,70 +353,34 @@
 
                                         <!-- end 预加载 -->
                                         <ul id="left-slide-02" class="roundabout roundabout-holder" style="display: block; padding: 0px; position: relative;">
-
-                                            <li class="book1 roundabout-moveable-item" data-id="1" data-type="1" data-height="100%" data-rid="1" >
-                                                <a href="/book/29537848007841104" target="_blank"><img class="lazy" src="//bookcover.yuewen.com/qdbimg/349573/c_29537848007841104/90.webp" data-original="//bookcover.yuewen.com/qdbimg/349573/c_29537848007841104/90.webp" alt="辞职后我成了首富真千金" style="display: inline;"></a>
-                                            </li>
-
-                                            <li class="book2 roundabout-moveable-item" data-id="2" data-type="1" data-height="100%" data-rid="2" ">
-                                                <a href="/book/29574010704213304" target="_blank"><img class="lazy" src="//bookcover.yuewen.com/qdbimg/349573/c_29574010704213304/90.webp" data-original="//bookcover.yuewen.com/qdbimg/349573/c_29574010704213304/90.webp" alt="亿万神豪靠缺德惊爆全球" style="display: inline;"></a>
-                                            </li>
-
-                                            <li class="book3 roundabout-moveable-item" data-id="3" data-type="1" data-height="100%" data-rid="3" ">
-                                                <a href="/book/30837500303785007" target="_blank"><img class="lazy" src="//bookcover.yuewen.com/qdbimg/349573/c_30837500303785007/90.webp" data-original="//bookcover.yuewen.com/qdbimg/349573/c_30837500303785007/90.webp" alt="掌事宫女不宜摆烂" style="display: inline;"></a>
-                                            </li>
-
+                                            <c:forEach var="novel" items="${listNovel3}" varStatus="status">
+                                                <li class="book${status.index + 1} roundabout-moveable-item"
+                                                    data-id="${status.index + 1}" data-type="1" data-height="100%" data-rid="${status.index + 1}">
+                                                    <a href="novel-deatail?id=${novel.novelID}" target="_blank">
+                                                        <img class="lazy" src="${novel.imageURL}" data-original="${novel.imageURL}" alt="${novel.novelName}" style="display: inline;">
+                                                    </a>
+                                                </li>
+                                            </c:forEach>
                                         </ul>
                                     </div>
                                     <!-- start 轮播书介绍 -->
                                     <div class="info-text">
                                         <dl>
+                                            <c:forEach var="novel" items="${listNovel3}" varStatus="status">
+                                                <dd class="hidden" data-rid="${status.index + 1}">
+                                                    <h3>
+                                                        <a href="chapter?id=${novel.novelID}" target="_blank" title="${novel.novelName}">${novel.novelName}</a>
+                                                    </h3>
+                                                    <p class="author">
+                                                        <a class="default" href="#" target="_blank">${novel.author}</a>
+                                                    </p>
+                                                    <p class="tag">
 
-                                            <dd class="hidden" data-rid="1">
-                                                <h3>
-                                                    <a href="/book/29537848007841104" target="_blank" title="辞职后我成了首富真千金">辞职后我成了首富真千金</a>
-                                                </h3>
-                                                <p class="author">
-                                                    <a class="default" href="javascript:" target="_blank">五月柚</a>
-                                                </p>
-                                                <p class="tag"><span class="org">现代言情</span><span class="red">已完结</span><span class="blue">62.4万</span>
-                                                </p>
-                                                <p class="intro">
-                                                    袁曦给顾寒辰做了五年的秘书，任劳任怨，全年无休。当牛做马就算了，还被顾寒辰的未婚妻与其好友褚家大小姐污蔑：袁秘书妄想麻雀飞上枝头变凤凰，成为顾总夫人。袁曦忍无可忍，提交辞职信。辞职后，社畜牛马摇身一变，竟然成了江城首富家褚家真千金！袁曦回到褚家后，发现褚家已收养了一个来代替她的养女，褚颜。假千金明媚肆意，是江城人人心中当之无愧的大小姐。哪怕真千金回归，褚颜依旧是江城大小姐，袁曦就免不了处处被当做褚
-                                                </p>
-                                                <a class="red-btn" href="/book/29537848007841104" target="_blank" data-eid="qd_A124" data-bid="">书籍详情</a>
-                                            </dd>
-
-                                            <dd class="hidden" data-rid="2">
-                                                <h3>
-                                                    <a href="/book/29574010704213304" target="_blank" title="亿万神豪靠缺德惊爆全球">亿万神豪靠缺德惊爆全球</a>
-                                                </h3>
-                                                <p class="author">
-                                                    <a class="default" href="javascript:" target="_blank">浮生晓星尘</a>
-                                                </p>
-                                                <p class="tag"><span class="org">现代言情</span><span class="red">已完结</span><span class="blue">46.99万</span>
-                                                </p>
-                                                <p class="intro">
-                                                    【满级大佬+神豪流+苏爽甜炸+缺德文学】【睡前原谅一切，醒来干翻世界。】被迫绑定虐文系统后，沈梨苏爆改爽文，浪到飞起，最后系统只能以亿万资产为诱惑，将她扔回原世界。本想咸鱼躺平的沈梨苏，却发现系统竟然摆了她一道。亿万资产不仅需要投资成功才能解冻，甚至附赠社死的强制语音播报。而她，还是个挣着窝囊费，挨着全网骂的黑红小明星。沈梨苏两眼一闭：起猛了，我再睡会儿。退圈，必须退圈！国风盛行，火速退圈的沈梨苏
-                                                </p>
-                                                <a class="red-btn" href="/book/29574010704213304" target="_blank" data-eid="qd_A124" data-bid="">书籍详情</a>
-                                            </dd>
-
-                                            <dd class="hidden" data-rid="3">
-                                                <h3>
-                                                    <a href="/book/30837500303785007" target="_blank" title="掌事宫女不宜摆烂">掌事宫女不宜摆烂</a>
-                                                </h3>
-                                                <p class="author">
-                                                    <a class="default" href="javascript:" target="_blank">机智的煎果</a>
-                                                </p>
-                                                <p class="tag"><span class="org">古代言情</span><span class="red">已完结</span><span class="blue">24.02万</span>
-                                                </p>
-                                                <p class="intro">
-                                                    “冷静、沉着的大宫女一步步推着自家娘娘登凤位的故事。”***陈照夜是贵妃宫里的掌事，贵妃宠冠后宫，她亦风光无限。未曾想一朝成帝病故，皇后以扶持贵妃亲生皇子登基为由，逼迫贵妃殉葬。满殿宫人尽被打杀，陈照夜拼死逃出，瓢泼大雨中四处救助无门，绝望殉主。再醒来时，发现自己重生成了七年后的小宫女，服侍着失宠多年又懦弱无能的卫才人。若她真如这个年纪的少女般天真无邪也就算了，偏偏这副躯壳
-                                                </p>
-                                                <a class="red-btn" href="/book/30837500303785007" target="_blank" data-eid="qd_A124" data-bid="">书籍详情</a>
-                                            </dd>
-
+                                                    </p>
+                                                    <p class="intro">${novel.novelDescription}</p>
+                                                    <a class="red-btn" href="chapter?id=${novel.novelID}" target="_blank" data-eid="qd_A124" data-bid="">View details</a>
+                                                </dd>
+                                            </c:forEach>
                                         </dl>
                                     </div>
                                     <!-- end 轮播书介绍 -->
@@ -422,93 +388,43 @@
                                 <div class="center-book-list fl" data-l2="2">
                                     <div class="line line1"></div>
                                     <div class="line line2"></div>
+
                                     <ul>
-
-                                        <li data-rid="4">
-                                            <div class="book-img">
-                                                <a href="/book/27958981907052804" target="_blank" data-eid="qd_A142" data-bid="27958981907052804"><img class="lazy" src="//bookcover.yuewen.com/qdbimg/349573/c_27958981907052804/90.webp" data-original="//bookcover.yuewen.com/qdbimg/349573/c_27958981907052804/90.webp" alt="最强治愈师" style="display: inline;"></a>
-                                            </div>
-                                            <div class="book-info"><h3>
-                                                    <a href="/book/27958981907052804" target="_blank" data-eid="qd_A143" data-bid="27958981907052804" title="最强治愈师">最强治愈师</a>
-                                                </h3>
-                                                <p>宋时一朝穿越，解锁天生坏种基因。“11号人类基地”、“分化指南”、“异兽”、“治愈师”、“狂暴系”、“异能者”等等陌生的词汇纷至沓来……、、《人类分化指南》描述：“治愈师，柔弱不能自保。”不幸觉醒治愈系异</p>
-                                                <div class="state-box cf">
-                                                    <i>科幻空间</i><a class="author default" data-eid="qd_A144"><img src="//yuxseocdn.yuewen.com/pro/readnovel_pc/_prelease/images/ico/user.f22d3.png">南天湖</a>
+                                        <c:forEach var="c" items="${listNovel}" varStatus="status">
+                                            <li data-rid="${status.index + 1}">
+                                                <div class="book-img">
+                                                    <a href="chapter?id=${c.chapterID}" target="_blank" data-eid="qd_A142" data-bid="${c.chapterID}">
+                                                        <img class="lazy" src="${c.imageURL}" data-original="${c.imageURL}" alt="${c.novelName}" style="display: inline;">
+                                                    </a>
                                                 </div>
-                                            </div>
-                                        </li>
+                                                <div class="book-info">
+                                                    <h3 style="white-space: nowrap; text-overflow: ellipsis;">
+                                                        <a href="chapter?id=${c.chapterID}" target="_blank" data-eid="qd_A143" data-bid="${c.chapterID}" title="${c.novelName}">${c.novelName}</a>
+                                                    </h3>
+                                                    <p>
+                                                        <a href="chapter?id=${c.chapterID}" target="_blank" data-eid="qd_A143" data-bid="${c.chapterID}" title="${c.lastChapterName}">Chapter ${c.lastChapterNumber}: ${c.lastChapterName}</a>
 
-                                        <li data-rid="5">
-                                            <div class="book-img">
-                                                <a href="/book/29141792304640104" target="_blank" data-eid="qd_A142" data-bid="29141792304640104"><img class="lazy" src="//bookcover.yuewen.com/qdbimg/349573/c_29141792304640104/90.webp" data-original="//bookcover.yuewen.com/qdbimg/349573/c_29141792304640104/90.webp" alt="那个顶流是我竹马" style="display: inline;"></a>
-                                            </div>
-                                            <div class="book-info"><h3>
-                                                    <a href="/book/29141792304640104" target="_blank" data-eid="qd_A143" data-bid="29141792304640104" title="那个顶流是我竹马">那个顶流是我竹马</a>
-                                                </h3>
-                                                <p>豆瓣八卦小组有人爆料，新晋顶流CY和十八线糊咖ZYH在一起了。证据是11月30日晚，该顶流进了女星的家，一夜未归。吃瓜群众很快对号入座，能称得上顶流的男星没几个，再加上“新晋”的前缀，那一定是池予无疑了。再一看，名字首字母的缩写对上了！池予，浓颜系大帅哥，剑眉星目，脸部轮廓优越，在遍地美貌的娱乐圈杀出重围，圈了一大批颜粉。古装丑男那么多，内娱能出这么一个颜值逆天、演技精湛的</p>
-                                                <div class="state-box cf">
-                                                    <i>浪漫青春</i><a class="author default" data-eid="qd_A144"><img src="//yuxseocdn.yuewen.com/pro/readnovel_pc/_prelease/images/ico/user.f22d3.png">三月棠墨</a>
+                                                    </p>
+                                                    <div class="state-box cf">
+                                                        <i style="max-width: 100px">
+                                                            <strong class=""> ${c.timeString}</strong>
+                                                        </i>
+
+                                                        <a class="author default " data-eid="qd_A144" style="white-space: nowrap; text-overflow: ellipsis;">
+                                                            <c:forEach var="genre" items="${c.genreNames}" varStatus="genreLoop">
+                                                                <span class="genre">${genre}</span><c:if test="${!genreLoop.last}">, </c:if>
+                                                            </c:forEach>
+                                                        </a>
+
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </li>
-
-                                        <li data-rid="6">
-                                            <div class="book-img">
-                                                <a href="/book/29184691803952604" target="_blank" data-eid="qd_A142" data-bid="29184691803952604"><img class="lazy" src="//bookcover.yuewen.com/qdbimg/349573/c_29184691803952604/90.webp" data-original="//bookcover.yuewen.com/qdbimg/349573/c_29184691803952604/90.webp" alt="顶级溺宠" style="display: inline;"></a>
-                                            </div>
-                                            <div class="book-info"><h3>
-                                                    <a href="/book/29184691803952604" target="_blank" data-eid="qd_A143" data-bid="29184691803952604" title="顶级溺宠">顶级溺宠</a>
-                                                </h3>
-                                                <p>【明艳美人&amp;times;冷傲大佬】【女主视角一夜荒唐，男主视角蓄谋已久】那晚南园，沈知意误喝被下料的酒，孤立无援，她彷徨落泪，难以想象喜欢十年的人弃自己而去。寂静包厢，角落里忽然有人出声，显露出一张冷隽深挺的脸，他姿态慵懒地坐于椅上，朝她倾身望来，敛着双清黑锐利的眸子，语调悠悠，好似一时兴起。“不如跟我？”他是金字塔顶尖的人，是人人胆寒的掌权者，沈知意自知得罪不起，又被他刹</p>
-                                                <div class="state-box cf">
-                                                    <i>现代言情</i><a class="author default" data-eid="qd_A144"><img src="//yuxseocdn.yuewen.com/pro/readnovel_pc/_prelease/images/ico/user.f22d3.png">相茶</a>
-                                                </div>
-                                            </div>
-                                        </li>
-
-                                        <li data-rid="7">
-                                            <div class="book-img">
-                                                <a href="/book/31006709504135909" target="_blank" data-eid="qd_A142" data-bid="31006709504135909"><img class="lazy" src="//bookcover.yuewen.com/qdbimg/349573/c_31006709504135909/90.webp" data-original="//bookcover.yuewen.com/qdbimg/349573/c_31006709504135909/90.webp" alt="热搜爆炸！满级大佬她重回娱乐圈" style="display: inline;"></a>
-                                            </div>
-                                            <div class="book-info"><h3>
-                                                    <a href="/book/31006709504135909" target="_blank" data-eid="qd_A143" data-bid="31006709504135909" title="热搜爆炸！满级大佬她重回娱乐圈">热搜爆炸！满级大佬她重回娱乐圈</a>
-                                                </h3>
-                                                <p>黎初曦是谁？这个问题一出来，帝都的人马上就可以回答出来。因为这黎初曦实在是太有名了。那就是娱乐圈的毒瘤，几乎都已经到了人人喊打的地步了。几乎每天都有人在叫喊着，让黎初曦退圈，还娱乐圈一片清明。黎初曦真的有种很深的无力感，她的身体被一缕异世之魂霸占了五年。她做了五年的快穿任务以后，好不容易才夺回了自己的身体。却发现名声都已经被那异世之魂给毁的差不多了。耍大牌，欺压新人，演技差，资源咖。这样一个个标签</p>
-                                                <div class="state-box cf">
-                                                    <i>现代言情</i><a class="author default" data-eid="qd_A144"><img src="//yuxseocdn.yuewen.com/pro/readnovel_pc/_prelease/images/ico/user.f22d3.png">夏日粉末</a>
-                                                </div>
-                                            </div>
-                                        </li>
-
-                                        <li data-rid="8">
-                                            <div class="book-img">
-                                                <a href="/book/27577207007943804" target="_blank" data-eid="qd_A142" data-bid="27577207007943804"><img class="lazy" src="//bookcover.yuewen.com/qdbimg/349573/c_27577207007943804/90.webp" data-original="//bookcover.yuewen.com/qdbimg/349573/c_27577207007943804/90.webp" alt="论在古代逃难的艰辛" style="display: inline;"></a>
-                                            </div>
-                                            <div class="book-info"><h3>
-                                                    <a href="/book/27577207007943804" target="_blank" data-eid="qd_A143" data-bid="27577207007943804" title="论在古代逃难的艰辛">论在古代逃难的艰辛</a>
-                                                </h3>
-                                                <p>作为混混的女儿，肖筱原本担心自己会不会嫁不到好人家。没想到战乱起，她先发愁的是怎么才能和家人在乱世中生存</p>
-                                                <div class="state-box cf">
-                                                    <i>古代言情</i><a class="author default" data-eid="qd_A144"><img src="//yuxseocdn.yuewen.com/pro/readnovel_pc/_prelease/images/ico/user.f22d3.png">酷美人</a>
-                                                </div>
-                                            </div>
-                                        </li>
-
-                                        <li data-rid="9">
-                                            <div class="book-img">
-                                                <a href="/book/24055465809174104" target="_blank" data-eid="qd_A142" data-bid="24055465809174104"><img class="lazy" src="//bookcover.yuewen.com/qdbimg/349573/c_24055465809174104/90.webp" data-original="//bookcover.yuewen.com/qdbimg/349573/c_24055465809174104/90.webp" alt="花醉满堂" style="display: inline;"></a>
-                                            </div>
-                                            <div class="book-info"><h3>
-                                                    <a href="/book/24055465809174104" target="_blank" data-eid="qd_A143" data-bid="24055465809174104" title="花醉满堂">花醉满堂</a>
-                                                </h3>
-                                                <p>初时，他说：“江宁郡的小庶女啊，这什么破身份，我不娶！”见过后，他啧啧：“弱不禁风，不堪一折，太弱了，我不要！”当她孤身一人拿着婚书上门，他倚门而立，欠扁地笑，“来让我娶你啊？可是小爷不想英年早婚！”得知她是前来退婚，他脸色彻底黑了，阴沉沉要杀人，“谁给你的胆子敢退小爷的婚？”…&amp;hell</p>
-                                                <div class="state-box cf">
-                                                    <i>古代言情</i><a class="author default" data-eid="qd_A144"><img src="//yuxseocdn.yuewen.com/pro/readnovel_pc/_prelease/images/ico/user.f22d3.png">西子情</a>
-                                                </div>
-                                            </div>
-                                        </li>
-
+                                            </li>
+                                        </c:forEach>
                                     </ul>
+
+
+
+
                                 </div>
 
                             </div>
@@ -516,160 +432,59 @@
 
                             <!-- start 右侧 -->
                             <div class="right-wrap recent-finish-wrap fr">
-                                <div class="rank-list" data-l2="3"><h3 class="wrap-title lang">完本榜<a class="more" href="/rank/finish" target="_blank">更多<em class="iconfont"></em></a></h3>
-
+                                <div class="rank-list" data-l2="3"><h3 class="wrap-title lang">Top Rank This Month<a class="more"  target="_blank">更多<em class="iconfont"></em></a></h3>
                                     <div class="book-list" style="height: 396px; overflow: hidden">
                                         <ul>
-                                            <li class="unfold" data-rid="1">
-                                                <div class="book-wrap cf">
-                                                    <div class="book-info fl">
-                                                        <h3>NO.1</h3>
-                                                        <h4>
-                                                            <a href="/book/8263527304935303" target="_blank" data-eid="qd_A136" data-bid="8263527304935303" title="恰似寒光遇骄阳">恰似寒光遇骄阳</a>
-                                                        </h4>
-                                                        <p class="author">
-                                                            <a class="type" href="/category/30020_f1_f1_f1_f1_f1_0_1" target="_blank">豪门世家</a><i>·</i><a class="writer default">囧囧有妖</a>
-                                                        </p>
-                                                    </div>
-                                                    <div class="book-cover">
-                                                        <a class="link" href="/book/8263527304935303" target="_blank" data-eid="qd_A136" data-bid="3323048"><img src="//bookcover.yuewen.com/qdbimg/349573/c_8263527304935303/90.webp" alt="恰似寒光遇骄阳"></a><span></span>
-                                                    </div>
-                                                </div>
-                                            </li>
+                                            <c:forEach var="novel" items="${listrank}" varStatus="loop">
+                                                <c:choose>
+                                                    <c:when test="${loop.index == 0}">
+                                                        <li class="unfold" data-rid="${loop.index + 1}">
+                                                            <div class="book-wrap cf">
+                                                                <div class="book-info fl">
+                                                                    <h3>NO.1</h3>
+                                                                    <h4>
+                                                                        <a href="novel-detail?id=${novel.novelID}" target="_blank" data-eid="qd_A136" data-bid="${novel.novelID}" title="${novel.novelName}">${novel.novelName}</a>
+                                                                    </h4>
+                                                                    <p class="author">
 
-                                            <li data-rid="2">
-                                                <div class="num-box"><span class="num2">2</span></div>
-                                                <div class="name-box">
-                                                    <a class="name" href="/book/21855922801825904" target="_blank" data-eid="qd_A117" data-bid="21855922801825904" title="摄政王他又在掐我桃花">摄政王他又在掐我桃花</a><i class="author">花匪</i>
-                                                </div>
-                                            </li>
-
-                                            <li data-rid="3">
-                                                <div class="num-box"><span class="num3">3</span></div>
-                                                <div class="name-box">
-                                                    <a class="name" href="/book/15953225505698104" target="_blank" data-eid="qd_A117" data-bid="15953225505698104" title="十万个氪金的理由">十万个氪金的理由</a><i class="author">墨泠</i>
-                                                </div>
-                                            </li>
-
-                                            <li data-rid="4">
-                                                <div class="num-box"><span class="num4">4</span></div>
-                                                <div class="name-box">
-                                                    <a class="name" href="/book/7036260604114001" target="_blank" data-eid="qd_A117" data-bid="7036260604114001" title="惊世医妃">惊世医妃</a><i class="author">绿依</i>
-                                                </div>
-                                            </li>
-
-                                            <li data-rid="5">
-                                                <div class="num-box"><span class="num5">5</span></div>
-                                                <div class="name-box">
-                                                    <a class="name" href="/book/17755279506421504" target="_blank" data-eid="qd_A117" data-bid="17755279506421504" title="致命偏宠">致命偏宠</a><i class="author">漫西</i>
-                                                </div>
-                                            </li>
-
-                                            <li data-rid="6">
-                                                <div class="num-box"><span class="num6">6</span></div>
-                                                <div class="name-box">
-                                                    <a class="name" href="/book/22436946000359002" target="_blank" data-eid="qd_A117" data-bid="22436946000359002" title="南朝春色">南朝春色</a><i class="author">林家成</i>
-                                                </div>
-                                            </li>
-
-                                            <li data-rid="7">
-                                                <div class="num-box"><span class="num7">7</span></div>
-                                                <div class="name-box">
-                                                    <a class="name" href="/book/24533758901917904" target="_blank" data-eid="qd_A117" data-bid="24533758901917904" title="八零大院小可怜是玄学大佬">八零大院小可怜是玄学大佬</a><i class="author">沸腾的咖啡</i>
-                                                </div>
-                                            </li>
-
-                                            <li data-rid="8">
-                                                <div class="num-box"><span class="num8">8</span></div>
-                                                <div class="name-box">
-                                                    <a class="name" href="/book/22567716000017202" target="_blank" data-eid="qd_A117" data-bid="22567716000017202" title="全能修炼师：废柴二小姐">全能修炼师：废柴二小姐</a><i class="author">阿谁</i>
-                                                </div>
-                                            </li>
-
-                                            <li data-rid="9">
-                                                <div class="num-box"><span class="num9">9</span></div>
-                                                <div class="name-box">
-                                                    <a class="name" href="/book/7738325503169203" target="_blank" data-eid="qd_A117" data-bid="7738325503169203" title="穿成王爷的小仙女">穿成王爷的小仙女</a><i class="author">冰婶</i>
-                                                </div>
-                                            </li>
-
-                                            <li data-rid="10">
-                                                <div class="num-box"><span class="num10">10</span></div>
-                                                <div class="name-box">
-                                                    <a class="name" href="/book/13405417003238804" target="_blank" data-eid="qd_A117" data-bid="13405417003238804" title="重生异能俏娇妻">重生异能俏娇妻</a><i class="author">晏辽</i>
-                                                </div>
-                                            </li>
-
-                                            <li data-rid="11">
-                                                <div class="num-box"><span class="num11">11</span></div>
-                                                <div class="name-box">
-                                                    <a class="name" href="/book/18657815901379604" target="_blank" data-eid="qd_A117" data-bid="18657815901379604" title="表哥万福">表哥万福</a><i class="author">犹似</i>
-                                                </div>
-                                            </li>
-
-                                            <li data-rid="12">
-                                                <div class="num-box"><span class="num12">12</span></div>
-                                                <div class="name-box">
-                                                    <a class="name" href="/book/15488011805011204" target="_blank" data-eid="qd_A117" data-bid="15488011805011204" title="夫人每天都在线打脸">夫人每天都在线打脸</a><i class="author">南之情</i>
-                                                </div>
-                                            </li>
-
-                                            <li data-rid="13">
-                                                <div class="num-box"><span class="num13">13</span></div>
-                                                <div class="name-box">
-                                                    <a class="name" href="/book/6649032704756503" target="_blank" data-eid="qd_A117" data-bid="6649032704756503" title="华姝">华姝</a><i class="author">若相姒</i>
-                                                </div>
-                                            </li>
-
-                                            <li data-rid="14">
-                                                <div class="num-box"><span class="num14">14</span></div>
-                                                <div class="name-box">
-                                                    <a class="name" href="/book/13641088905154304" target="_blank" data-eid="qd_A117" data-bid="13641088905154304" title="女配表示很无辜">女配表示很无辜</a><i class="author">一颗小豌豆呀</i>
-                                                </div>
-                                            </li>
-
-                                            <li data-rid="15">
-                                                <div class="num-box"><span class="num15">15</span></div>
-                                                <div class="name-box">
-                                                    <a class="name" href="/book/3675832204934203" target="_blank" data-eid="qd_A117" data-bid="3675832204934203" title="天医凤九">天医凤九</a><i class="author">凤炅</i>
-                                                </div>
-                                            </li>
-
-                                            <li data-rid="16">
-                                                <div class="num-box"><span class="num16">16</span></div>
-                                                <div class="name-box">
-                                                    <a class="name" href="/book/22148996000646402" target="_blank" data-eid="qd_A117" data-bid="22148996000646402" title="傲娇帝君是神坑">傲娇帝君是神坑</a><i class="author">梵缺</i>
-                                                </div>
-                                            </li>
-
-                                            <li data-rid="17">
-                                                <div class="num-box"><span class="num17">17</span></div>
-                                                <div class="name-box">
-                                                    <a class="name" href="/book/14161390003600304" target="_blank" data-eid="qd_A117" data-bid="14161390003600304" title="反派国师想转正">反派国师想转正</a><i class="author">乌里丑丑</i>
-                                                </div>
-                                            </li>
-
-                                            <li data-rid="18">
-                                                <div class="num-box"><span class="num18">18</span></div>
-                                                <div class="name-box">
-                                                    <a class="name" href="/book/13191263205723504" target="_blank" data-eid="qd_A117" data-bid="13191263205723504" title="本王命不久矣">本王命不久矣</a><i class="author">白小圆</i>
-                                                </div>
-                                            </li>
-
-                                            <li data-rid="19">
-                                                <div class="num-box"><span class="num19">19</span></div>
-                                                <div class="name-box">
-                                                    <a class="name" href="/book/5587047903584103" target="_blank" data-eid="qd_A117" data-bid="5587047903584103" title="锦绣深宫">锦绣深宫</a><i class="author">半枝雪</i>
-                                                </div>
-                                            </li>
-
-                                            <li data-rid="20">
-                                                <div class="num-box"><span class="num20">20</span></div>
-                                                <div class="name-box">
-                                                    <a class="name" href="/book/4532471304373203" target="_blank" data-eid="qd_A117" data-bid="4532471304373203" title="荣医">荣医</a><i class="author">沉舟钓雪</i>
-                                                </div>
-                                            </li>
-
+                                                                        <c:forEach var="genre" items="${novel.genreNames}" varStatus="genreLoop">
+                                                                            <a class="genre default">${genre}</a><c:if test="${!genreLoop.last}"> - </c:if>
+                                                                        </c:forEach>
+                                                                    </p>
+                                                                </div>
+                                                                <div class="book-cover">
+                                                                    <a class="link" href="novel-detail?id=${novel.novelID}" target="_blank" data-eid="qd_A136" data-bid="${novel.novelID}"><img src="${novel.imageURL}" alt="${novel.novelName}"></a><span></span>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <li data-rid="${loop.index + 1}">
+                                                            <div class="num-box">
+                                                                <c:choose>
+                                                                    <c:when test="${loop.index == 1}"><span class="num2">${loop.index + 1}</span></c:when>
+                                                                    <c:when test="${loop.index == 2}"><span class="num3">${loop.index + 1}</span></c:when>
+                                                                    <c:when test="${loop.index == 3}"><span class="num4">${loop.index + 1}</span></c:when>
+                                                                    <c:when test="${loop.index == 4}"><span class="num5">${loop.index + 1}</span></c:when>
+                                                                    <c:when test="${loop.index == 5}"><span class="num6">${loop.index + 1}</span></c:when>
+                                                                    <c:when test="${loop.index == 6}"><span class="num7">${loop.index + 1}</span></c:when>
+                                                                    <c:when test="${loop.index == 7}"><span class="num8">${loop.index + 1}</span></c:when>
+                                                                    <c:when test="${loop.index == 8}"><span class="num9">${loop.index + 1}</span></c:when>
+                                                                    <c:otherwise><span class="num10">${loop.index + 1}</span></c:otherwise>
+                                                                </c:choose>
+                                                            </div>
+                                                            <div class="name-box">
+                                                                <a class="name" href="novel-detail?id=${novel.novelID}" target="_blank" data-eid="qd_A117" data-bid="${novel.novelID}" title="${novel.novelName}">${novel.novelName}</a>
+                                                                <i class="author">
+                                                                    <c:forEach var="genre" items="${novel.genreNames}" varStatus="genreLoop">
+                                                                        ${genre}<c:if test="${!genreLoop.last}">,</c:if>
+                                                                    </c:forEach>
+                                                                </i>
+                                                            </div>
+                                                        </li>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </c:forEach>
                                         </ul>
                                     </div>
 
@@ -708,15 +523,62 @@
                 });
 
 
-                $("#left-slide-02").roundabout({
+                // Autoplay Callback Function (Define it!)
+                function autoplayCallback() {
+                    // Add any code here that you want to run after each autoplay transition.
+                    console.log("Autoplay transitioned to the next item.");
+                }
+
+                // Initialize Roundabout
+                var $roundabout = $("#left-slide-02");
+                $roundabout.roundabout({
                     margin: 0.7,
                     autoplay: true,
                     autoplayDuration: 5000,
-                    responsive: true
+                    responsive: true,
+                    btnNext: ".next",
+                    btnPrev: ".prev",
+                    triggerFocusEvents: true,
+                    triggerBlurEvents: true,
+                    childSelector: "li",
+                    tilt: 0,
+                    minOpacity: 0.5,
+                    maxOpacity: 1,
+                    minScale: 0.6,
+                    maxScale: 1,
+                    duration: 600,
+                    easing: "swing",
+                    focus: function (newFocus) {
+                        updateContentDisplay(newFocus);
+                    },
+                    autoplayCallback: autoplayCallback // Pass the defined callback function.
                 });
+
+                // Update content based on focused item
+                function updateContentDisplay(elem) {
+                    var $inFocus = $(elem); // Use the element passed by the 'focus' event
+                    if ($inFocus.length > 0) {
+                        var rid = $inFocus.data('rid');
+                        if (rid) {
+                            $('.info-text dd').stop(true, true).addClass('hidden');
+                            $('.info-text dd[data-rid="' + rid + '"]').stop(true, true).removeClass('hidden');
+                            console.log("Hiển thị nội dung cho rid:", rid);
+                        } else {
+                            console.warn("Không tìm thấy rid cho phần tử đang focus");
+                        }
+                    } else {
+                        console.warn("Không tìm thấy phần tử roundabout-in-focus");
+                    }
+                }
+
+                // Initial content update
+                setTimeout(function () {
+                    updateContentDisplay($roundabout.find(".roundabout-in-focus"));
+                }, 500);
+
+                // Trigger focus on creation
+                $roundabout.trigger('focus');
             });
-
-
         </script>
     </body>
 </html>
