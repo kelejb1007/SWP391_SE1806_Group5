@@ -312,7 +312,6 @@ public class ManageNovelController extends HttpServlet {
 
                 LockNovelLog ll = new LockNovelLog(ma.getManagerID(), novelID, "lock", lockReason);
                 if (!lDAO.addLockLog(ll)) {
-                    nDAO.changeNovelStatus(novelID, "active");
                     request.setAttribute("popup", "Error in adding to Locking Log");
                     viewAllNovels(request, response);
                 } else {
@@ -354,7 +353,6 @@ public class ManageNovelController extends HttpServlet {
 
                 LockNovelLog ll = new LockNovelLog(ma.getManagerID(), novelID, "unlock", null);
                 if (!lDAO.addLockLog(ll)) {
-                    nDAO.changeNovelStatus(novelID, "locked");
                     request.setAttribute("popup", "Error in adding to Locking Log");
                     viewLockedNovels(request, response);
                 } else {
@@ -380,15 +378,18 @@ public class ManageNovelController extends HttpServlet {
 
     private void approveNovel(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int submissionNID = Integer.parseInt(request.getParameter("submissionNID"));
-        int novelID = Integer.parseInt(request.getParameter("novelID"));
-        int draftID = Integer.parseInt(request.getParameter("draftID"));
+        String submissionNID_raw = request.getParameter("submissionNID");
+        String novelID_raw = request.getParameter("novelID");
+        String draftID_raw = request.getParameter("draftID");
         String type = request.getParameter("type");
         NovelSubmissionDAO nSubDAO = new NovelSubmissionDAO();
         NovelDAO nDAO = new NovelDAO();
         GenreDAO genDAO = new GenreDAO();
-        String popup;
         try {
+            int submissionNID = Integer.parseInt(submissionNID_raw);
+            int novelID = Integer.parseInt(novelID_raw);
+            int draftID = Integer.parseInt(draftID_raw);
+
             HttpSession session = request.getSession(false);
             ManagerAccount ma = (ManagerAccount) session.getAttribute("manager");
 
@@ -411,19 +412,28 @@ public class ManageNovelController extends HttpServlet {
                 }
 
             }
-
             request.setAttribute("popup", "Approve successfully");
             viewSubmission(request, response);
 
-        } catch (Exception ex) {
+        } catch (ServletException | IOException ex) {
             Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("error", "There are some error in Servlet");
+            request.getRequestDispatcher("/WEB-INF/views/staff/submission.jsp").forward(request, response);
+        } catch (NumberFormatException ex) {
+            Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("error", "Invalid number format");
+            request.getRequestDispatcher("/WEB-INF/views/staff/submission.jsp").forward(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("error", "There are some error in SQL");
+            request.getRequestDispatcher("/WEB-INF/views/staff/submission.jsp").forward(request, response);
         }
     }
 
     private void rejectNovel(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int submissionNID = Integer.parseInt(request.getParameter("submissionNID"));
-        int novelID = Integer.parseInt(request.getParameter("novelID"));
+        String submissionNID_raw = request.getParameter("submissionNID");
+        String novelID_raw = request.getParameter("novelID");
         String type = request.getParameter("type");
         String rejectReason = request.getParameter("rejectReason");
         NovelSubmissionDAO nSubDAO = new NovelSubmissionDAO();
@@ -431,6 +441,9 @@ public class ManageNovelController extends HttpServlet {
         GenreDAO genDAO = new GenreDAO();
         String popup;
         try {
+            int submissionNID = Integer.parseInt(submissionNID_raw);
+            int novelID = Integer.parseInt(novelID_raw);
+
             HttpSession session = request.getSession(false);
             ManagerAccount ma = (ManagerAccount) session.getAttribute("manager");
 
@@ -450,8 +463,18 @@ public class ManageNovelController extends HttpServlet {
             request.setAttribute("popup", "Reject successfully");
             viewSubmission(request, response);
 
-        } catch (Exception ex) {
+        } catch (ServletException | IOException ex) {
             Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("error", "There are some error in Servlet");
+            request.getRequestDispatcher("/WEB-INF/views/staff/submission.jsp").forward(request, response);
+        } catch (NumberFormatException ex) {
+            Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("error", "Invalid number format");
+            request.getRequestDispatcher("/WEB-INF/views/staff/submission.jsp").forward(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("error", "There are some error in SQL");
+            request.getRequestDispatcher("/WEB-INF/views/staff/submission.jsp").forward(request, response);
         }
     }
 

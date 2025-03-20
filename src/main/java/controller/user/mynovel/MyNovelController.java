@@ -28,6 +28,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -79,6 +80,9 @@ public class MyNovelController extends HttpServlet {
         }
 
         switch (action) {
+            case "mynovel":
+                viewMyNovels(request, response);
+                break;
             case "viewdetail":
                 viewNovelDetail(request, response);
                 break;
@@ -92,7 +96,7 @@ public class MyNovelController extends HttpServlet {
                 viewPostingHistory(request, response);
                 break;
             default:
-                viewMyNovels(request, response);
+                request.getRequestDispatcher("/WEB-INF/views/user/mynovel/authorDashboard.jsp").forward(request, response);
         }
     }
 
@@ -105,68 +109,88 @@ public class MyNovelController extends HttpServlet {
             HttpSession session = request.getSession(false);
             UserAccount us = (UserAccount) session.getAttribute("user");
             listNovel = nd.getMyNovels(us.getUserID());
-            
+
             if (listNovel.isEmpty()) {
                 message = "No Novels!";
             }
             request.setAttribute("message", message);
             request.setAttribute("listNovel", listNovel);
             request.getRequestDispatcher("/WEB-INF/views/user/mynovel/myNovels.jsp").forward(request, response);
-        } catch (Exception ex) {
+        } catch (ServletException | IOException ex) {
             Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("error", "There are some error in Servlet");
+            request.getRequestDispatcher("/WEB-INF/views/user/mynovel/myNovels.jsp").forward(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("error", "There are some error in SQL");
+            request.getRequestDispatcher("/WEB-INF/views/user/mynovel/myNovels.jsp").forward(request, response);
         }
     }
 
     private void viewNovelDetail(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         NovelDAO nd = new NovelDAO();
+        //--------------------------------------------------------------------
+        //Phat-----------------------------------------------------------
         ChapterDAO cd = new ChapterDAO(); // Sử dụng ChapterDAO
-        int novelID = Integer.parseInt(request.getParameter("novelID"));
         String sortParam = request.getParameter("sort"); // Lấy tham số sort
-
-        Novel novel;
+        //---------------------------------------------------------------
+        String novelID_raw = request.getParameter("novelID");
+        Novel nl;
         try {
-            // Lấy thông tin novel
-            novel = nd.getNovelByID(novelID);
-            if (novel == null) {
-                request.setAttribute("message", "Novel not found.");
-                request.getRequestDispatcher("/WEB-INF/views/user/mynovel/myNovels.jsp").forward(request, response);
-                return;
+            if (novelID_raw == null) {
+                request.setAttribute("popup", "No Novel ID provided");
+                viewMyNovels(request, response);
+            } else {
+                int novelID = Integer.parseInt(novelID_raw);
+                nl = nd.getNovelByID(novelID);
+                if (nl == null) {
+                    request.setAttribute("popup", "Novel not found");
+                    viewMyNovels(request, response);
+                } else {
+
+                    //Phat-------------------------------------------
+                    // Lấy danh sách chapter
+                    List<Chapter> chapters = cd.getChaptersByNovelId(novelID, null); // Danh sách gốc
+                    List<Chapter> sortedChapters = new ArrayList<>(chapters); // Bản sao để sắp xếp
+
+                    // Sắp xếp danh sách chapter nếu có tham số sort
+                    if (sortParam != null && !sortParam.isEmpty() && chapters.size() > 1) {
+                        sortedChapters = cd.getChaptersByNovelId(novelID, sortParam);
+                    }
+
+                    // Tính toán timeString cho mỗi chapter
+                    for (Chapter chapter : sortedChapters) {
+                        String timeString = getTimeElapsed(chapter.getChapterCreatedDate());
+                        chapter.setTimeString(timeString);
+                    }
+                    for (Chapter chapter : chapters) {
+                        String timeString = getTimeElapsed(chapter.getChapterCreatedDate());
+                        chapter.setTimeString(timeString);
+                    }
+
+                    request.setAttribute("chapters", chapters); // Danh sách gốc
+                    request.setAttribute("sortedChapters", sortedChapters); // Danh sách đã sắp xếp
+                    request.setAttribute("sort", sortParam != null ? sortParam : "asc");
+                    //------------------------------------------------
+
+                    request.setAttribute("novel", nl);
+                    request.getRequestDispatcher("/WEB-INF/views/user/mynovel/myNovelDetail.jsp").forward(request, response);
+                }
+
             }
-
-            // Lấy danh sách chapter
-            List<Chapter> chapters = cd.getChaptersByNovelId(novelID, null); // Danh sách gốc
-            List<Chapter> sortedChapters = new ArrayList<>(chapters); // Bản sao để sắp xếp
-
-            // Sắp xếp danh sách chapter nếu có tham số sort
-            if (sortParam != null && !sortParam.isEmpty() && chapters.size() > 1) {
-                sortedChapters = cd.getChaptersByNovelId(novelID, sortParam);
-            }
-
-            // Tính toán timeString cho mỗi chapter
-            for (Chapter chapter : sortedChapters) {
-                String timeString = getTimeElapsed(chapter.getChapterCreatedDate());
-                chapter.setTimeString(timeString);
-            }
-            for (Chapter chapter : chapters) {
-                String timeString = getTimeElapsed(chapter.getChapterCreatedDate());
-                chapter.setTimeString(timeString);
-            }
-
-            // Đặt các thuộc tính vào request
-            request.setAttribute("novel", novel);
-            request.setAttribute("chapters", chapters); // Danh sách gốc
-            request.setAttribute("sortedChapters", sortedChapters); // Danh sách đã sắp xếp
-            request.setAttribute("sort", sortParam != null ? sortParam : "asc");
-
-            // Chuyển đến JSP
-            request.getRequestDispatcher("/WEB-INF/views/user/mynovel/myNovelDetail.jsp").forward(request, response);
-        } catch (NumberFormatException e) {
-            Logger.getLogger(MyNovelController.class.getName()).log(Level.SEVERE, "Invalid novel ID format: {0}", e.getMessage());
-            request.setAttribute("message", "Invalid novel ID format.");
-            request.getRequestDispatcher("/WEB-INF/views/user/mynovel/myNovels.jsp").forward(request, response);
-        } catch (Exception ex) {
+        } catch (ServletException | IOException ex) {
             Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("error", "There are some error in Servlet");
+            request.getRequestDispatcher("/WEB-INF/views/user/mynovel/myNovelDetail.jsp").forward(request, response);
+        } catch (NumberFormatException ex) {
+            Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("error", "Invalid number format for NovelID");
+            request.getRequestDispatcher("/WEB-INF/views/user/mynovel/myNovelDetail.jsp").forward(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("error", "There are some error in SQL");
+            request.getRequestDispatcher("/WEB-INF/views/user/mynovel/myNovelDetail.jsp").forward(request, response);
         }
     }
 
@@ -209,19 +233,26 @@ public class MyNovelController extends HttpServlet {
             throws ServletException, IOException {
         GenreDAO genDAO = new GenreDAO();
         NovelDAO nDAO = new NovelDAO();
+        NovelSubmissionDAO subDAO = new NovelSubmissionDAO();
+
         List<Genre> genreList;
         Novel nl;
         String genreOfNovel;
         int novelID = Integer.parseInt(request.getParameter("novelID"));
         try {
-            nl = nDAO.getNovelByID(novelID);
-            genreOfNovel = genDAO.getGenreByNovelID(novelID);
-            genreList = genDAO.getAllGenres();
+            if (subDAO.checkPending(novelID)) {
+                request.setAttribute("popup", "You have an update waiting for approving!");
+                viewMyNovels(request, response);
+            } else {
+                nl = nDAO.getNovelByID(novelID);
+                genreOfNovel = genDAO.getGenreByNovelID(novelID);
+                genreList = genDAO.getAllGenres();
 
-            request.setAttribute("novel", nl);
-            request.setAttribute("genreOfNovel", genreOfNovel);
-            request.setAttribute("genreList", genreList);
-            request.getRequestDispatcher("/WEB-INF/views/user/mynovel/updateNovel.jsp").forward(request, response);
+                request.setAttribute("novel", nl);
+                request.setAttribute("genreOfNovel", genreOfNovel);
+                request.setAttribute("genreList", genreList);
+                request.getRequestDispatcher("/WEB-INF/views/user/mynovel/updateNovel.jsp").forward(request, response);
+            }
         } catch (Exception ex) {
             Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -241,9 +272,9 @@ public class MyNovelController extends HttpServlet {
             if (list.isEmpty()) {
                 message = "No Submissions!";
             }
-                request.setAttribute("message", message);
-                request.setAttribute("list", list);
-                request.getRequestDispatcher("/WEB-INF/views/user/mynovel/postingHistory.jsp").forward(request, response);
+            request.setAttribute("message", message);
+            request.setAttribute("list", list);
+            request.getRequestDispatcher("/WEB-INF/views/user/mynovel/postingHistory.jsp").forward(request, response);
         } catch (Exception ex) {
             Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -293,7 +324,6 @@ public class MyNovelController extends HttpServlet {
         String novelDescription = request.getParameter("novelDescription");
         int totalChapter = Integer.parseInt(request.getParameter("totalChapter"));
         String[] genreChosen = request.getParameterValues("genreList");
-//        String genres = (genreNames != null) ? String.join(", ", genreNames) : "";
         String imageURL = request.getParameter("file_hidden");
         Part filePart = request.getPart("imageURL");
 
@@ -303,6 +333,7 @@ public class MyNovelController extends HttpServlet {
 
         int novelID;
         String message;
+        String genres;
         try {
             HttpSession session = request.getSession(false);
             UserAccount ua = (UserAccount) session.getAttribute("user");
@@ -313,30 +344,39 @@ public class MyNovelController extends HttpServlet {
 
             Novel nl = new Novel(novelName, ua.getUserID(), imageURL, novelDescription, totalChapter, "pending");
 
-            novelID = nDAO.addNovel(nl);
-            if (novelID != -1) {
-                if (genreChosen != null) {
-                    for (int i = 0; i < genreChosen.length; i++) {
-                        genDAO.addGenreNovel(Integer.parseInt(genreChosen[i]), novelID);
-                    }
-                }
-
-                NovelSubmission ns = new NovelSubmission();
-                ns.setNovelID(novelID);
-                ns.setUserID(ua.getUserID());
-                ns.setType("post");
-                if (subDAO.addPostingSubmission(ns)) {
-                    message = "Create novel and send posting requirement successfully!";
-                } else {
-                    message = "Error in sending posting requirement!!!!";
-                }
+            //check novelName
+            if (nDAO.checkNovelName(novelName)) {
+                genres = (genreChosen != null) ? String.join(", ", genreChosen) : "";
+                request.setAttribute("popup", "The novel's name has existed");
+                request.setAttribute("novel", nl);
+                request.setAttribute("genreOfNovel", genres);
+                showPostingForm(request, response);
             } else {
-                message = "Error in creating novel!!!!";
-            }
+                novelID = nDAO.addNovel(nl);
+                if (novelID != -1) {
+                    if (genreChosen != null) {
+                        for (int i = 0; i < genreChosen.length; i++) {
+                            genDAO.addGenreNovel(Integer.parseInt(genreChosen[i]), novelID);
+                        }
+                    }
 
-            request.setAttribute("message", message);
-            showPostingForm(request, response);
+                    NovelSubmission ns = new NovelSubmission();
+                    ns.setNovelID(novelID);
+                    ns.setUserID(ua.getUserID());
+                    ns.setType("post");
+                    if (subDAO.addPostingSubmission(ns)) {
+                        message = "Create novel and send posting requirement successfully!";
+                    } else {
+                        message = "Error in sending posting requirement!!!!";
+                    }
+                } else {
+                    message = "Error in creating novel!!!!";
+                }
+
+                request.setAttribute("popup", message);
+                showPostingForm(request, response);
 //            response.sendRedirect("mynovel?action=post");
+            }
         } catch (Exception ex) {
             Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -370,30 +410,37 @@ public class MyNovelController extends HttpServlet {
 
             Novel nl = new Novel(novelName, ua.getUserID(), imageURL, novelDescription, totalChapter, "draft");
 
-            novelDraftID = nDAO.addNovel(nl);
-            if (novelDraftID != -1) {
-                if (genreList != null) {
-                    for (int i = 0; i < genreList.length; i++) {
-                        genDAO.addGenreNovel(Integer.parseInt(genreList[i]), novelDraftID);
-                    }
-                }
-
-                NovelSubmission ns = new NovelSubmission();
-                ns.setNovelID(novelID);
-                ns.setUserID(ua.getUserID());
-                ns.setType("update");
-                ns.setDraftID(novelDraftID);
-                if (subDAO.addUpdatingSubmission(ns)) {
-                    message = "Send update requirement successfully!";
-                } else {
-                    message = "Error in sending update requirement!!!!";
-                }
+            //check novelName
+            if (nDAO.checkNovelName(novelName)) {
+                request.setAttribute("popup", "The novel's name has existed");
+                showUpdateForm(request, response);
             } else {
-                message = "Error in creating novel!!!!";
-            }
 
-            request.setAttribute("message", message);
-            viewMyNovels(request, response);
+                novelDraftID = nDAO.addNovel(nl);
+                if (novelDraftID != -1) {
+                    if (genreList != null) {
+                        for (int i = 0; i < genreList.length; i++) {
+                            genDAO.addGenreNovel(Integer.parseInt(genreList[i]), novelDraftID);
+                        }
+                    }
+
+                    NovelSubmission ns = new NovelSubmission();
+                    ns.setNovelID(novelID);
+                    ns.setUserID(ua.getUserID());
+                    ns.setType("update");
+                    ns.setDraftID(novelDraftID);
+                    if (subDAO.addUpdatingSubmission(ns)) {
+                        message = "Send update requirement successfully!";
+                    } else {
+                        message = "Error in sending update requirement!!!!";
+                    }
+                } else {
+                    message = "Error in creating novel!!!!";
+                }
+
+                request.setAttribute("popup", message);
+                viewMyNovels(request, response);
+            }
         } catch (Exception ex) {
             Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -438,7 +485,7 @@ public class MyNovelController extends HttpServlet {
                 message = "Error in delete novel!!!!";
             }
 
-            request.setAttribute("message", message);
+            request.setAttribute("popup", message);
             viewMyNovels(request, response);
         } catch (Exception ex) {
             Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);
