@@ -64,12 +64,6 @@
                             <li>
                                 <a href="${pageContext.request.contextPath}/managestaff">View list of staff</a>
                             </li>
-                            <li>
-                                <a href="${pageContext.request.contextPath}/lockactivity">Locking Activity</a>
-                            </li>                     
-                            <li>
-                                <a href="${pageContext.request.contextPath}/approvingactivity">Approving Activity</a>
-                            </li>
                         </ul>
                     </li>
                     <!-- tui sua nut phan nay -->

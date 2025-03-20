@@ -22,6 +22,15 @@ public class ChangePasswordController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        UserAccount user = (UserAccount) session.getAttribute("user");
+
+        if (user == null) {
+            response.sendRedirect(request.getContextPath() + "/Login");
+            return;
+        }
+
+        request.setAttribute("user", user);
         request.getRequestDispatcher("/WEB-INF/views/user/components/ChangePassword.jsp").forward(request, response);
     }
 
