@@ -611,9 +611,77 @@ public List<Novel> getNovelsByTimeUpdate() {
     }
     return list;
 }
+
+public List<Novel> getTop12NovelsByMonthlyViews() {
+    List<Novel> list = new ArrayList<>();
+    String sql = "WITH MonthlyViews AS (\n" +
+            "    SELECT \n" +
+            "        v.novelID, \n" +
+            "        COUNT(v.viewID) AS viewCount\n" +
+            "    FROM Viewing v\n" +
+            "    WHERE \n" +
+            "        v.viewDate >= DATEFROMPARTS(YEAR(GETDATE()), MONTH(GETDATE()), 1) -- Ngày đầu tháng\n" +
+            "        AND v.viewDate < DATEADD(MONTH, 1, DATEFROMPARTS(YEAR(GETDATE()), MONTH(GETDATE()), 1)) -- Ngày đầu tháng sau\n" +
+            "    GROUP BY v.novelID\n" +
+            ")\n" +
+            "SELECT TOP 12 \n" +
+            "    n.novelID,\n" +
+            "    n.novelName,\n" +
+            "    u.fullName AS author,\n" +
+            "    u.imageUML ,n.novelDescription,\n" +
+            "    n.imageURL,\n" +
+            "    COALESCE(STRING_AGG(g.genreName, ', '), '') AS genres, -- Gộp thể loại thành chuỗi\n" +
+            "    COALESCE(mv.viewCount, 0) AS totalViews\n" +
+            "FROM Novel n\n" +
+            "LEFT JOIN MonthlyViews mv ON n.novelID = mv.novelID\n" +
+            "LEFT JOIN UserAccount u ON n.userID = u.userID\n" +
+            "LEFT JOIN Genre_Novel gn ON n.novelID = gn.novelID\n" +
+            "LEFT JOIN Genre g ON gn.genreID = g.genreID\n" +
+            "WHERE n.novelStatus = 'active'\n" +
+            "GROUP BY n.novelID, n.novelName, u.fullName, n.novelDescription, n.imageURL, u.imageUML , mv.viewCount\n" +
+            "ORDER BY totalViews DESC;";
+
+    Connection connection = null;
+    PreparedStatement statement = null;
+    ResultSet resultSet = null;
+    try {
+        connection = db.getConnection();
+        statement = connection.prepareStatement(sql);
+        resultSet = statement.executeQuery();
+
+        while (resultSet.next()) {
+            Novel novel = new Novel();
+            novel.setNovelID(resultSet.getInt("novelID"));
+            novel.setNovelName(resultSet.getString("novelName"));
+            novel.setAuthor(resultSet.getString("author"));
+            novel.setNovelDescription(resultSet.getString("novelDescription"));
+            novel.setImageURL(resultSet.getString("imageURL"));
+
+            // Lấy danh sách genreName
+            String genreNamesStr = resultSet.getString("genres");
+            List<String> genreNames = new ArrayList<>();
+            if (genreNamesStr != null && !genreNamesStr.isEmpty()) {
+                String[] genres = genreNamesStr.split(", "); // Chia chuỗi thành mảng
+                for (String genre : genres) {
+                    genreNames.add(genre.trim()); // Thêm từng genre vào danh sách
+                }
+            }
+            novel.setGenreNames(genreNames); // Set danh sách genreName vào novel
+            novel.setImageUML(resultSet.getString("imageUML"));
+            novel.setViewCount(resultSet.getInt("totalViews"));
+
+            list.add(novel);
+        }
+    } catch (SQLException e) {
+        Logger.getLogger(NovelDAO.class.getName()).log(Level.SEVERE, null, e);
+    } finally {
+        closeResources(connection, statement, resultSet);
+    }
+    return list;
+}
     public static void main(String[] args) {
         NovelDAO n = new NovelDAO();
-        List<Novel> list = n.getNovelsByTimeUpdate();
+        List<Novel> list = n.getTop12NovelsByMonthlyViews();
         System.out.println(list);
     }
 

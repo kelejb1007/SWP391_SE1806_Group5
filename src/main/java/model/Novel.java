@@ -38,6 +38,7 @@ public class Novel {
     private int Process;
     private LocalDateTime lastReadDate;
     private LocalDateTime latestChapterDate;
+    private String imageUML;
 
     private String lockReason;
     private LocalDateTime datetime;
@@ -223,6 +224,14 @@ public class Novel {
 
     public void setTimeString(String timeString) {
         this.timeString = timeString;
+    }
+
+    public String getImageUML() {
+        return imageUML;
+    }
+
+    public void setImageUML(String imageUML) {
+        this.imageUML = imageUML;
     }
 
     
