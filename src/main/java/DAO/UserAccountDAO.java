@@ -253,21 +253,42 @@ public class UserAccountDAO {
         }
     }
     // Khoa thêm phần này cho EditProfile  
-    public void updateUserProfile(String oldUsername, String newUsername, String fullName, String email, String numberPhone, String gender, String imageUrl) {
-    String sql = "UPDATE UserAccount SET userName = ?, fullName = ?, email = ?, numberPhone = ?, gender = ?, imageUML = ? WHERE userName = ?";
-    try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-        ps.setString(1, newUsername);
-        ps.setString(2, fullName);
-        ps.setString(3, email);
-        ps.setString(4, numberPhone);
-        ps.setString(5, gender);
-        ps.setString(6, imageUrl);
-        ps.setString(7, oldUsername);
-        ps.executeUpdate();
-    } catch (SQLException e) {
-        e.printStackTrace();
+    // Kiểm tra username hoặc email đã tồn tại (bỏ qua user hiện tại)
+    public boolean doesUserExist(String newUsername, String email, int userID) {
+        String sql = "SELECT COUNT(*) FROM UserAccount WHERE (userName = ? OR email = ?) AND userID != ?";
+        try (Connection conn = dbContext.getConnection(); 
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, newUsername);
+            ps.setString(2, email);
+            ps.setInt(3, userID);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
-}
+
+    // Cập nhật thông tin user
+    public void updateUserProfile(String oldUsername, String newUsername, String fullName, String email, String numberPhone, String gender, String imageUrl) {
+        String sql = "UPDATE UserAccount SET userName = ?, fullName = ?, email = ?, numberPhone = ?, gender = ?, imageUML = ? WHERE userName = ?";
+        try (Connection conn = dbContext.getConnection(); 
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, newUsername);
+            ps.setString(2, fullName);
+            ps.setString(3, email);
+            ps.setString(4, numberPhone);
+            ps.setString(5, gender);
+            ps.setString(6, imageUrl);
+            ps.setString(7, oldUsername);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     //ChangePass
     public boolean updatePassword(int userID, String oldPassword, String newPassword) {
         String sqlCheck = "SELECT password FROM UserAccount WHERE userID = ?";

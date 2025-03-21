@@ -18,6 +18,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import model.UserAccount;
+
 /**
  * @author KHOA
  */
@@ -65,14 +66,14 @@ public class EditProfileController extends HttpServlet {
         String numberPhone = request.getParameter("numberPhone");
         String gender = request.getParameter("gender");
 
-        // Email phai dung format
+        // Kiểm tra định dạng email
         if (!EMAIL_PATTERN.matcher(email).matches()) {
             request.setAttribute("error", "Email must be in the format @gmail.com.");
             request.getRequestDispatcher("/WEB-INF/views/user/components/EditProfile.jsp").forward(request, response);
             return;
         }
 
-        // Phone number khong co ki tu chu
+        // Kiểm tra số điện thoại chỉ chứa số
         if (!PHONE_PATTERN.matcher(numberPhone).matches()) {
             request.setAttribute("error", "Phone number must contain only digits.");
             request.getRequestDispatcher("/WEB-INF/views/user/components/EditProfile.jsp").forward(request, response);
@@ -96,9 +97,18 @@ public class EditProfileController extends HttpServlet {
         }
 
         UserAccountDAO dao = new UserAccountDAO();
+
+        // Kiểm tra username hoặc email đã tồn tại, bỏ qua user hiện tại
+        if (dao.doesUserExist(newUsername, email, user.getUserID())) {
+            request.setAttribute("error", "Username or Email already exists.");
+            request.getRequestDispatcher("/WEB-INF/views/user/components/EditProfile.jsp").forward(request, response);
+            return;
+        }
+
+        // Nếu hợp lệ, cập nhật profile
         dao.updateUserProfile(user.getUserName(), newUsername, fullName, email, numberPhone, gender, imageUrl);
 
-        // Update session
+        // Cập nhật thông tin session
         user.setUserName(newUsername);
         user.setFullName(fullName);
         user.setEmail(email);
@@ -111,4 +121,5 @@ public class EditProfileController extends HttpServlet {
         request.getRequestDispatcher("/WEB-INF/views/user/components/EditProfile.jsp").forward(request, response);
     }
 }
+
 
