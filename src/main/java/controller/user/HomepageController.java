@@ -72,6 +72,7 @@ public class HomepageController extends HttpServlet {
         List<Novel> listNovel3;
         List<Novel> listNovel;
         List<Novel> listrank;
+         List<Novel> listHot;
         try {
 
             listNovel = nd.getNovelsByTimeUpdate();
@@ -81,9 +82,11 @@ public class HomepageController extends HttpServlet {
             }
             listNovel3 = nd.getNovelsByPopularity();
             listrank = nd.getTop10NovelsByMonthlyRating();
+            listHot = nd.getTop12NovelsByMonthlyViews();
             request.setAttribute("listrank", listrank);
             request.setAttribute("listNovel3", listNovel3);
             request.setAttribute("listNovel", listNovel);
+             request.setAttribute("listHot", listHot);
             request.getRequestDispatcher("/getGenre?target=/WEB-INF/views/user/home2.jsp").include(request, response);
 
         } catch (Exception ex) {
