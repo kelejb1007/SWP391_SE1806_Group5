@@ -33,11 +33,11 @@
 
                 <div class="search-wrap">
 
-                    <form class="cf" id="formUrl" action="" method="get" target="_blank">
+                    <form class="cf" id="formUrl" action="novels" method="get" target="_blank">
                         <input class="search-box" id="s-box" name="kw" type="text" placeholder="Search" autocomplete="off" value="">
-
+                        <input type="hidden" name="action" value="search">
                         <input class="submit-input" type="submit" id="searchSubmit" data-eid="">
-                        <a href="/search" id="search-a-btn">
+                        <a href="novels" id="search-a-btn">
                             <label id="search-btn" class="search-btn" for="searchSubmit"><em class="iconfont" data-eid=""><i class="fa-solid fa-magnifying-glass"></i></em></label></a>
 
                     </form>
@@ -69,21 +69,19 @@
                 <div class="box-center cf">
                     <div class="left-nav fl">
                         <ul class="cf">
-                            <li class="type " id="j-navType"><a href="/category"><em class="iconfont"><i class="fa fa-list-ul"></i></em>Genres</a>
+                            <li class="type " id="j-navType"><a href="novels?filter=&genre="><em class="iconfont"><i class="fa fa-list-ul"></i></em>Genres</a>
 
                                 <div class="type-list" id="j-typeList" style="display: none;">
                                     <cite></cite>
                                     <dl>
-                                        <dd><a href="/category/30020_f1_f1_f1_f1_f1_0_1"><em class="iconfont"></em><i>现代言情</i></a></dd>
-                                        <dd><a href="/category/30013_f1_f1_f1_f1_f1_0_1"><em class="iconfont"></em><i>古代言情</i></a></dd>
-                                        <dd><a href="/category/30031_f1_f1_f1_f1_f1_0_1"><em class="iconfont"></em><i>浪漫青春</i></a></dd>
-                                        <dd><a href="/category/30001_f1_f1_f1_f1_f1_0_1"><em class="iconfont"></em><i>玄幻言情</i></a></dd>
-                                        <dd><a href="/category/30008_f1_f1_f1_f1_f1_0_1"><em class="iconfont"></em><i>仙侠奇缘</i></a></dd>
-                                        <dd><a href="/category/30036_f1_f1_f1_f1_f1_0_1"><em class="iconfont"></em><i>悬疑</i></a></dd>
-                                        <dd><a href="/category/30042_f1_f1_f1_f1_f1_0_1"><em class="iconfont"></em><i>科幻空间</i></a></dd>
-                                        <dd><a href="/category/30050_f1_f1_f1_f1_f1_0_1"><em class="iconfont"></em><i>游戏竞技</i></a></dd>
-                                        <dd><a href="/category/30083_f1_f1_f1_f1_f1_0_1"><em class="iconfont"></em>短篇小说</a></dd>
-                                        <dd><a href="/category/30055_f1_f1_f1_f1_f1_0_1"><em class="iconfont"></em><i>轻小说</i></a></dd>
+                                        
+                                        <c:forEach var="genre" items="${genres}">
+                                           
+                                                <dd> <a class="dropdown-item" href="novels?genre=${genre.genreName}">${genre.genreName}</a></dd>
+                                           
+                                        </c:forEach>
+                                   
+                                       
                                     </dl>
                                 </div>
                             </li>
