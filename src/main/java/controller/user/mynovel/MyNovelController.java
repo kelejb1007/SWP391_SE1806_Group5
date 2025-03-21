@@ -337,7 +337,6 @@ public class MyNovelController extends HttpServlet {
         try {
             HttpSession session = request.getSession(false);
             UserAccount ua = (UserAccount) session.getAttribute("user");
-
             if (filePart != null && filePart.getSize() > 0) {
                 imageURL = getImg(filePart);
             }
