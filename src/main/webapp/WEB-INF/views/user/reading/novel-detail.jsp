@@ -437,7 +437,7 @@
                                                                 });
                                                             }
 
-
+// Make sure this function updates the icon correctly
                                                             function updateSortIcon(button, sortOrder) {
                                                                 const icon = button.querySelector('i');
                                                                 if (icon) {
@@ -547,3 +547,4 @@
 
     </body>
 </html>
+w
