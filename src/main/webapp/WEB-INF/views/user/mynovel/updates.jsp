@@ -11,7 +11,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Post Novel</title>
+        <title>Update Novel</title>
 
         <link rel="stylesheet" href="css/startmin/bootstrap.css">
         <link rel="stylesheet" href="css/startmin/startmin.css">
@@ -21,9 +21,8 @@
         <link rel="stylesheet" type="text/css" href="css/mynovel/mynovel2.css" crossorigin="anonymous">
         <script charset="utf-8" src="js/mynovel/mynovel2.js" crossorigin="anonymous"></script>
         <style>
-
             .book_cover_wrap--xZYzr:before {
-                background-color: #ff3955
+                background-color: #ff3955;
             }
         </style>
 
@@ -45,16 +44,12 @@
 
                 <div class="g_main_wrap f1 pr" style="zoom: 1.1">
                     <div style="">
-                        <div class="pf t0 l0 header--Unk0j df jcsb">\
-                            <div class="undefined g_header df fg1 oh">
-                                <div class="df aic g_header_title"><label for="foldSwitch" class="collapse_menu--QStMM mr8">
-                                        <div class="df g_sd_close collapse_menu_btn--f8c2W"><i></i></div>
-                                    </label>
-                                    <h2 class="header_title--gwRuS ell dib mw100p t_title_large mb0 vam"><span class="ttc">Create Novel</span></h2>
-
-                                </div>
+                        <div class="pf t0 l0 header--Unk0j df jcsb">
+                            <div class="df aic g_header_title">
+                                <h2 class="header_title--gwRuS ell dib mw100p t_title_large mb0 vam"><span class="ttc">Create Novel</span></h2>
                             </div>
-                        </div>]
+                        </div>
+
                         <div id="main_scroll_container" class="scroller--dBDRL pr">
                             <div class="header_ph--kHZzY"></div>
                             <div class="main_content--0x57a ">
@@ -114,7 +109,7 @@
                                                     <div class="checkbox" style="margin-left: 20px">
                                                         <label style="color: rgba(18, 18, 23, .9) !important; font-weight: 600">
                                                             <input type="checkbox" name="genreList" value="${c.genreID}"
-                                                                   <c:if test="${not empty genreOfNovel and genreOfNovel.contains(String.valueOf(c.genreID))}">checked</c:if> 
+                                                                   <c:if test="${not empty genreOfNovel and genreOfNovel.contains(c.genreName)}">checked</c:if> 
                                                                        >
                                                             ${c.genreName}
                                                         </label>
@@ -151,20 +146,23 @@
                                                         </button>
                                                     </div>
                                                     <p class="c_danger fs14 mt16"></p>
-                                                    <input type="hidden" name="action" value="post">
-                                                    <button type="submit" value="Submit" class="ant-btn ant-btn-primary ant-btn-lg  button--4vWlZ"><span>Create</span></button>
-                                                    <button type="reset" class="ant-btn ant-btn-primary ant-btn-lg  button--4vWlZ"><span>Reset</span></button>
-                                                    </form>
-
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <input type="hidden" name="action" value="update">
+                                        <button type="submit" value="Submit" class="ant-btn ant-btn-primary ant-btn-lg  button--4vWlZ"><span>Submit</span></button>
+                                        <button type="reset" class="ant-btn ant-btn-primary ant-btn-lg  button--4vWlZ"><span>Reset</span></button>
+                                    </form>
+
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
             </div>
-            <script src="js/mynovel/novelform.js"></script>
+        </div>
+        <script src="js/mynovel/novelform.js"></script>
     </body>
 </html>

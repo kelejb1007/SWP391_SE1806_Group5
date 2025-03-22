@@ -1526,8 +1526,9 @@ fieldset,
 img {
   border: 0 none
 }
+/*thay doi----------------------------------*/
 html {
-  min-width: 990px
+  min-width: 1200px;
 }
 body {
   font-family: PingFangSC-Regular,HelveticaNeue-Light,'Helvetica Neue Light','Microsoft YaHei',sans-serif;
