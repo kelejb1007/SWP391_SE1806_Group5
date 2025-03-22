@@ -134,26 +134,30 @@
                                         <div class="line l2"></div>
                                         <div class="line l3"></div>
                                         <ul>
-
-                                            <li data-rid="1">
-                                                <div class="book-img">
-                                                    <a href="/book/31078256204550509" data-eid="qd_F23" data-bid="31078256204550509"><img src="//bookcover.yuewen.com/qdbimg/349573/c_31078256204550509/90.webp" alt="钓系公主不追了，清冷首辅火葬场"></a>
-                                                </div>
-                                                <div class="book-info"><h4>
-                                                        <a href="/book/31078256204550509" data-eid="qd_F24" data-bid="31078256204550509" title="钓系公主不追了，清冷首辅火葬场">钓系公主不追了，清冷首辅火葬场</a>
-                                                    </h4>
-                                                    <p>【娇蛮肆意张扬公主&amp;times;克己复礼禁欲首辅】长安城人人皆知，人嫌狗憎的昭明公主看上了一位进京赶考的穷书生。为了追求他，昭明公主利用权势欲逼他就范，只可惜穷书生宁折不弯，视若无睹。后来，昭明公主触怒龙颜，被贬回封地，临走前，她对穷书生留下“差劲”二字后，跑了！三年后，昭明公主奉旨回京，当年的穷书生已然成为位极人臣的清贵首辅，想要嫁他的京中贵女不计其数。原本想要装作不认识</p>
-                                                    <div class="state-box cf">
-                                                        <i>古代言情</i><a class="author default" data-eid="qd_F25"><img src="//yuxseocdn.yuewen.com/pro/readnovel_pc/_prelease/images/ico/user.f22d3.png">汀州里鹤</a>
+                                            <c:forEach var="novel" items="${listHot}" varStatus="status">
+                                                <li data-rid="${status.index + 1}">
+                                                    <div class="book-img">
+                                                        <a href="novel-detail?id=${novel.novelID}" data-eid="qd_F23" data-bid="${novel.novelID}">
+                                                            <img src="${novel.imageURL}" alt="${novel.novelName}">
+                                                            <span class="tag"><i class="fa fa-fire"></i></span> 
+                                                        </a>
                                                     </div>
-                                                </div>
-                                            </li>
+                                                    <div class="book-info">
+                                                        <h4>
+                                                            <a href="novel-detail?id=${novel.novelID}" data-eid="qd_F24" data-bid="${novel.novelID}" title="${novel.novelName}">${novel.novelName}</a>
+                                                        </h4>
+                                                        <p>${novel.novelDescription}</p>
+                                                        <div class="state-box cf">
 
-
-
-
-
-                                        </ul>
+                                                            <a class="author default" data-eid="qd_F25" >
+                                                                <img src="${novel.imageUML}" style="border-radius: 50%;object-fit: cover;">
+                                                                ${novel.author}
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </c:forEach>
+                                        </ul> 
                                     </div>
                                 </div>
                             </div>
@@ -183,7 +187,6 @@
                                             </c:forEach>
                                         </ul>
                                     </div>
-                                    
                                     <!-- start 轮播书介绍 -->
                                     <div class="info-text">
                                         <dl>
@@ -204,9 +207,6 @@
                                             </c:forEach>
                                         </dl>
                                     </div>
-                                    <!-- end 轮播书介绍 -->
-                                    
-                                    
                                 </div>
                                 <div class="center-book-list fl" data-l2="2">
                                     <div class="line line1"></div>

@@ -33,9 +33,9 @@
 
 
                 <div class="search-wrap">
-
-                    <form class="cf" id="formUrl" action="" method="get">
+                    <form class="cf" id="formUrl" action="novels" method="get">
                         <input class="search-box" id="s-box" name="kw" type="text" placeholder="Romance, Horror" autocomplete="off" value="">
+                        <input type="hidden" name="action" value="search">
 
                         <input class="submit-input" type="submit" id="searchSubmit" data-eid="">
                         <a href="/search" id="search-a-btn">
@@ -59,8 +59,8 @@
 
                     <c:if test="${not empty sessionScope.user}">
                         <div class="avatar" id="j-userWrap">
-                            <a class="link" href="" id="j-avatar"><img src="<c:if test="${not empty user.imageUML}">${user.imageUML}</c:if> 
-                                                                       <c:if test="${empty user.imageUML}">//yuxseocdn.yuewen.com/pro/readnovel_pc/_prelease/images/ico/account.1e031.png</c:if>"></a>
+                            <a class="link" href="#" id="j-avatar"><img src="<c:if test="${not empty user.imageUML}">${user.imageUML}</c:if> 
+                                                                        <c:if test="${empty user.imageUML}">//yuxseocdn.yuewen.com/pro/readnovel_pc/_prelease/images/ico/account.1e031.png</c:if>"></a>
 
                                 <div class="down-drop" id="j-userDownDrop">
                                     <dl>
@@ -115,7 +115,7 @@
                         </ul>
                     </div>
                     <div class="right-nav fr mr12">
-                        <a href="mynovel"><em class="iconfont">
+                        <a href="mynovel" target="_blank"><em class="iconfont">
                                 <i class="fa-solid fa-pen-to-square"></i>
                             </em>My Novel</a>
                     </div>
@@ -129,17 +129,17 @@
         <script src="js/homepage2/header.js"></script>
         <script src="js/homepage2/round.js"></script>
         <script>
-                                                $(document).ready(function () {
-                                                    $("#j-navType").showTypeList({
-                                                    });
+                        $(document).ready(function () {
+                            $("#j-navType").showTypeList({
+                            });
 
-                                                    $("#j-userWrap").userDropDown({
-                                                    });
+                            $("#j-userWrap").userDropDown({
+                            });
 
-                                                    $("#formUrl").enterSearchBox({
-                                                    });
+                            $("#formUrl").enterSearchBox({
+                            });
 
-                                                });
+                        });
         </script>
     </body>
 </html>
