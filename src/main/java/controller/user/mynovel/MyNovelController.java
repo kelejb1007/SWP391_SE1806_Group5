@@ -251,7 +251,7 @@ public class MyNovelController extends HttpServlet {
                 request.setAttribute("novel", nl);
                 request.setAttribute("genreOfNovel", genreOfNovel);
                 request.setAttribute("genreList", genreList);
-                request.getRequestDispatcher("/WEB-INF/views/user/mynovel/updateNovel.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/views/user/mynovel/updates.jsp").forward(request, response);
             }
         } catch (Exception ex) {
             Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);

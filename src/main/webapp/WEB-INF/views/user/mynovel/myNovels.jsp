@@ -4,6 +4,7 @@
     Author     : Nguyen Thanh Trung
 --%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -64,96 +65,151 @@
                                 <div class="df aic g_header_title"><label for="foldSwitch" class="collapse_menu--QStMM mr8">
                                         <div class="df g_sd_close collapse_menu_btn--f8c2W"><i></i></div>
                                     </label>
-                                    <h2 class="header_title--gwRuS ell dib mw100p t_title_large mb0 vam"><span class="ttc">stories</span></h2>
+                                    <h2 class="header_title--gwRuS ell dib mw100p t_title_large mb0 vam"><span class="ttc">Novels</span></h2>
                                     <div class="df aic">
                                         <div class="g_top_tab">
-                                            <div class="g_top_tab_container"><span class="g_top_tab_item c_s _on fvsc">Novels</span><span class="g_top_tab_item  fvsc">FANFICS</span></div>
+                                            <div class="g_top_tab_container">
+                                                <button class="tab_button" onclick="showPage(this, 'page1')" style="all:unset">
+                                                    <span class="g_top_tab_item  _on fvsc">Avatar</span></button>
+                                                <button class="tab_button" onclick="showPage(this, 'page2')" style="all:unset">
+                                                    <span class="g_top_tab_item  fvsc">Table</span></button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="df aic oh"><button data-report-uiname="cab" type="button" class="ant-btn ant-btn-primary ant-btn-lg df ell g_header_btn button--4vWlZ"><span role="img" aria-label="plus-circle" class="anticon anticon-plus-circle"><svg viewBox="64 64 896 896" focusable="false" data-icon="plus-circle" width="1em" height="1em" fill="currentColor" aria-hidden="true">
+                            <div class="df aic oh">
+                                <button type="button" class="ant-btn ant-btn-primary ant-btn-lg df ell g_header_btn button--4vWlZ"
+                                        onclick="window.location.href = 'mynovel?action=post';">
+                                    <span role="img" aria-label="plus-circle" class="anticon anticon-plus-circle">
+                                        <svg viewBox="64 64 896 896" focusable="false" data-icon="plus-circle" width="1em" height="1em" fill="currentColor" aria-hidden="true">
                                         <path d="M696 480H544V328c0-4.4-3.6-8-8-8h-48c-4.4 0-8 3.6-8 8v152H328c-4.4 0-8 3.6-8 8v48c0 4.4 3.6 8 8 8h152v152c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V544h152c4.4 0 8-3.6 8-8v-48c0-4.4-3.6-8-8-8z"></path>
                                         <path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z"></path>
-                                        </svg></span><span class="g_header_btn_title">CREATE A STORY</span></button></div>
+                                        </svg></span>
+                                    <span class="g_header_btn_title">CREATE A STORY</span>
+                                </button>
+                            </div>
                         </div>
+
+
                         <div id="main_scroll_container" class="scroller--dBDRL pr">
                             <div class="header_ph_nav--0QeBW"></div>
                             <div class="main_content--0x57a with_navigator--ZJqIM">
-                                <div class="ant-spin-nested-loading">
-                                    <div class="ant-spin-container">
-                                        <div class="default--zRToH bc_fff ">
-
-
-
-                                            <div>
-                                                <ul class="row list" style="display: block;margin-left: auto; margin-right: auto; padding: 30px 0;">
-                                                    <c:if test="${empty listNovel}">
-                                                        <div class="ant-empty">
-                                                            <div class="ant-empty-image" style="margin-top: 100px; height: 64px;"><img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGkAAACFCAMAAABv2ibxAAAAPFBMVEUAAADFxs3Hx8/Dw8vFxc3Fxc/FxczExc3Fxs3FxcrDxMzExszFxs3ExMzFxszGxs3Exs3Hx8/ExMzFxs10R7mIAAAAE3RSTlMA3yBAvxBv788wUICgkK+vkF9gQHXkXQAAAfxJREFUaN7t2smOwkAMBNDesvQCA+T//3U6E4aScCMuLjQauQ4ByYcnO87N7jfT/OU3YsLdCUmUONIsCiSpbfwEQGnOk+PE36W6O0txCEkKO+SDQ1hSo0KQjpauokiQbntLosaQzuSWIK39mUWNIW09T4V/IU2ixpKiqLGkKmosaWGODxK9KUjiTVGlJTuEJ4kBcqXNn+aIzSBJ9cGtXxUcQXK3/h9Z0qlkkuRCW7anrA3T1JN6pljPKxxMs2RlyR3cfEnoDtO8RkUJyaUmP2gP09SR0B6mKZZFT0J7mCaS8OnpSOBeLUtQlTDNlsbT1JTkNOWyaEnvl8WnWrKihLz89LQlLIt/6o0jYZpcSS4LWUKCSSaZZJJJJplkkkkmmWSSSSaZZJJJJplkkkkmmfSXpOkT0vEkS7g3Kh+RWn/OZAl3YekjUsDFDFc6fuaPSBXjI0vT1hMVpSiyHJJLe1lNGueQ8tZz4Us9J8yPLE1+3/SgJaVhjg8p4iRWd/dk6g+V2dLjVW2VLYHygSphgD0t0qXHxZZvZaJISGi4PMAhmqaExCSuU7QlWG0BBU5TQsoFnQlOSULyra0jTlVC4jzgGjglCdx5wF2zmvT+kimdwA0kfa7kscTgFnBaErh69mMOEptrkHQTShVHaJBoHF/CURhVkhxdAhdfFL4Bk3+cWERw0jEAAAAASUVORK5CYII="></div>
-                                                            <div class="ant-empty-footer">
-                                                                <div class="clearfix">
-                                                                    <p class="fw600 fs18 lh18 mb16 tac">No Novels!</p>
-                                                                    <p class="fs14 lh20 tac c_xs mb16">Click the button below to create your first fiction now.</p>
-                                                                </div>
-                                                                <div class="mt16"><button data-report-uiname="create" type="button" class="ant-btn ant-btn-primary ant-btn-background-ghost  button--4vWlZ"><span>create now</span></button></div>
+                                <div class="ant-spin-container">
+                                    <div class="default--zRToH bc_fff ">
+                                        <div>
+                                            <ul class="row list" style="display: block;margin-left: auto; margin-right: auto; padding: 30px 0;">
+                                                <c:if test="${empty listNovel}">
+                                                    <div class="ant-empty">
+                                                        <div class="ant-empty-image" style="margin-top: 100px; height: 64px;"><img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGkAAACFCAMAAABv2ibxAAAAPFBMVEUAAADFxs3Hx8/Dw8vFxc3Fxc/FxczExc3Fxs3FxcrDxMzExszFxs3ExMzFxszGxs3Exs3Hx8/ExMzFxs10R7mIAAAAE3RSTlMA3yBAvxBv788wUICgkK+vkF9gQHXkXQAAAfxJREFUaN7t2smOwkAMBNDesvQCA+T//3U6E4aScCMuLjQauQ4ByYcnO87N7jfT/OU3YsLdCUmUONIsCiSpbfwEQGnOk+PE36W6O0txCEkKO+SDQ1hSo0KQjpauokiQbntLosaQzuSWIK39mUWNIW09T4V/IU2ixpKiqLGkKmosaWGODxK9KUjiTVGlJTuEJ4kBcqXNn+aIzSBJ9cGtXxUcQXK3/h9Z0qlkkuRCW7anrA3T1JN6pljPKxxMs2RlyR3cfEnoDtO8RkUJyaUmP2gP09SR0B6mKZZFT0J7mCaS8OnpSOBeLUtQlTDNlsbT1JTkNOWyaEnvl8WnWrKihLz89LQlLIt/6o0jYZpcSS4LWUKCSSaZZJJJJplkkkkmmWSSSSaZZJJJJplkkkkmmfSXpOkT0vEkS7g3Kh+RWn/OZAl3YekjUsDFDFc6fuaPSBXjI0vT1hMVpSiyHJJLe1lNGueQ8tZz4Us9J8yPLE1+3/SgJaVhjg8p4iRWd/dk6g+V2dLjVW2VLYHygSphgD0t0qXHxZZvZaJISGi4PMAhmqaExCSuU7QlWG0BBU5TQsoFnQlOSULyra0jTlVC4jzgGjglCdx5wF2zmvT+kimdwA0kfa7kscTgFnBaErh69mMOEptrkHQTShVHaJBoHF/CURhVkhxdAhdfFL4Bk3+cWERw0jEAAAAASUVORK5CYII="></div>
+                                                        <div class="ant-empty-footer">
+                                                            <div class="clearfix">
+                                                                <p class="fw600 fs18 lh18 mb16 tac">No Novels!</p>
+                                                                <p class="fs14 lh20 tac c_xs mb16">Click the button below to create your first fiction now.</p>
                                                             </div>
+                                                            <div class="mt16"><button data-report-uiname="create" type="button" 
+                                                                                      onclick="window.location.href = 'mynovel?action=post';"
+                                                                                      class="ant-btn ant-btn-primary ant-btn-background-ghost  button--4vWlZ"><span>create now</span></button></div>
                                                         </div>
-                                                    </c:if>
-                                                    <c:if test="${not empty listNovel}">
-                                                        <div class="ant-table-wrapper table--fDOzf">
-                                                            <div class="ant-spin-nested-loading">
-                                                                <div class="ant-spin-container">
-                                                                    <div class="ant-table ant-table-empty">
-                                                                        <div class="ant-table-container">
-                                                                            <div class="ant-table-content">
-                                                                                <table style="table-layout: auto;">
-                                                                                    <colgroup></colgroup>
-                                                                                    <thead class="ant-table-thead">
-                                                                                        <tr>
-                                                                                            <th class="ant-table-cell">
-                                                                                                <div class="ttu" style="min-width: 220px;">stories</div>
-                                                                                            </th>
-                                                                                            <th class="ant-table-cell"><span class="ttu">STATE</span></th>
-                                                                                            <th class="ant-table-cell"><span class="ttu">Chapters</span></th>
-                                                                                            <th class="ant-table-cell"><span class="ttu">words</span></th>
-                                                                                            <th class="ant-table-cell"><span class="ttu">views</span></th>
-                                                                                            <th class="ant-table-cell"><span class="ttu">collections</span></th>
-                                                                                            <th class="ant-table-cell">
-                                                                                                <div class="ttu" style="min-width: 110px;">OPERATION</div>
-                                                                                            </th>
-                                                                                        </tr>
-                                                                                    </thead>
-                                                                                    <tbody class="ant-table-tbody">
-                                                                                        <tr class="ant-table-placeholder">
-                                                                                            <td colspan="7" class="ant-table-cell">
-                                                                                                <div class="ant-empty ant-empty-normal">
-                                                                                                    <div class="ant-empty-image"><svg class="ant-empty-img-simple" width="64" height="41" viewBox="0 0 64 41" xmlns="http://www.w3.org/2000/svg">
-                                                                                                        <g transform="translate(0 1)" fill="none" fill-rule="evenodd">
-                                                                                                        <ellipse class="ant-empty-img-simple-ellipse" cx="32" cy="33" rx="32" ry="7"></ellipse>
-                                                                                                        <g class="ant-empty-img-simple-g" fill-rule="nonzero">
-                                                                                                        <path d="M55 12.76L44.854 1.258C44.367.474 43.656 0 42.907 0H21.093c-.749 0-1.46.474-1.947 1.257L9 12.761V22h46v-9.24z"></path>
-                                                                                                        <path d="M41.613 15.931c0-1.605.994-2.93 2.227-2.931H55v18.137C55 33.26 53.68 35 52.05 35h-40.1C10.32 35 9 33.259 9 31.137V13h11.16c1.233 0 2.227 1.323 2.227 2.928v.022c0 1.605 1.005 2.901 2.237 2.901h14.752c1.232 0 2.237-1.308 2.237-2.913v-.007z" class="ant-empty-img-simple-path"></path>
-                                                                                                        </g>
-                                                                                                        </g>
-                                                                                                        </svg></div>
-                                                                                                    <div class="ant-empty-description">No data</div>
-                                                                                                </div>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                    </tbody>
-                                                                                </table>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
+                                                    </div>
+                                                </c:if>
+
+
+                                                <c:if test="${not empty listNovel}">
+                                                    <div id="page1" class="page"style="display: block">
+                                                        <c:forEach var="c" items="${requestScope.listNovel}" >
+                                                            <li class="pr col-md-2 list-item ">
+                                                                <div class="book"> 
+                                                                    <a href="mynovel?action=viewdetail&novelID=${c.novelID}" title="${c.novelName}"> 
+                                                                        <i class="detail">
+                                                                            <!-- dung canvas API -->
+                                                                            <img cross-origin="anonymous"  
+                                                                                 data-original="${c.imageURL}" 
+                                                                                 width="140" 
+                                                                                 height="186" 
+                                                                                 alt="${c.novelName}" 
+                                                                                 src="${c.imageURL}" 
+                                                                                 style="display: block;"> 
+
+
+                                                                            <span class="_tag_sub" 
+                                                                                  <c:if test="${c.novelStatus == 'inactive'}">
+                                                                                      style="background-color: red"
+                                                                                  </c:if>>${c.novelStatus}
+                                                                            </span> 
+                                                                            <span class="_tag_sub">
+                                                                                ACTIVE
+                                                                            </span>  
+                                                                        </i> 
+                                                                        <h3>${c.novelName}</h3> 
+                                                                    </a> 
+                                                                    <strong style="margin: 0" class="sub"><i class="fa fa-file-text fa-fw"></i> ${c.totalChapter} Chapters</strong> 
+
+
+
+
+                                                                    <ul class="novel_nav_sub">
+                                                                        <span class="title">
+
+                                                                        </span>
+
+                                                                        <li class="list2">
+                                                                            <a class="g_sd_sub_option" href="mynovel?action=update&novelID=${c.novelID}">
+                                                                                <strong class="str">Update</strong>
+                                                                            </a>
+                                                                        </li>
+
+                                                                        <li class="list2">
+                                                                            <form action="mynovel" method="post" style="display: inline">
+                                                                                <input type="hidden" name="action" value="delete">
+                                                                                <input type="hidden" name="novelID" value="${c.novelID}">
+                                                                                <button type="submit" class="g_sd_sub_option" onclick="return confirm('Are you sure to delete the novel: ${c.novelName} (ID=${c.novelID})')">
+                                                                                    <strong class="str">Delete</strong>
+                                                                                </button>
+                                                                            </form>
+                                                                        </li>
+                                                                    </ul>
                                                                 </div>
-                                                            </div>
+                                                            </li>
+                                                        </c:forEach>
+                                                    </div>
+
+                                                    <div id="page2" class="page"style="display: none">
+                                                        <div class="table-responsive">
+                                                            <table class="table table-bordered table-striped table-hover" id="dataTables-example">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>#</th>
+                                                                        <th>Novel Name</th>
+                                                                        <th>Total of chapter</th>
+                                                                        <th>Genres</th>
+                                                                        <th>Published Date</th>
+                                                                        <th>Rating Average</th>
+                                                                        <th>View</th>
+                                                                        <th>Action</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <c:forEach var="c" items="${requestScope.listNovel}" varStatus="status">
+                                                                        <tr>
+                                                                            <td>${status.index + 1}</td>
+                                                                            <td><a href="mynovel?action=viewdetail&novelID=${c.novelID}" title="${c.novelName}">${c.novelName}</a></td>
+                                                                            <td>${c.totalChapter}</td>
+                                                                            <td>${c.genres}</td>
+                                                                            <td>
+                                                                                <fmt:formatDate value="${c.publishDate2}" pattern="yyyy-MM-dd HH:mm:ss" />
+                                                                            </td>
+                                                                            <td>${c.averageRating}</td>
+                                                                            <td>${c.viewCount}</td>
+                                                                            <td></td>
+                                                                        </tr>
+                                                                    </c:forEach>  
+                                                                </tbody>
+                                                            </table>
                                                         </div>
-                                                    </c:if>
-                                                </ul>
-                                            </div>
-
-
+                                                    </div>
+                                                </c:if>
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -163,6 +219,43 @@
                 </div>
             </div>
         </div>
+
+        <script>
+            function showPage(button, pageId) {
+                // Ẩn tất cả các div có class "page"
+                document.querySelectorAll('.page').forEach(div => {
+                    div.style.display = 'none';
+                });
+
+                // Hiện div có id tương ứng
+                document.getElementById(pageId).style.display = 'block';
+
+                document.querySelectorAll('.tab_button').forEach(btn => {
+                    btn.querySelector("span").classList.remove("_on");
+                });
+
+                // Thêm class "on" vào button được nhấn
+                button.querySelector("span").classList.add("_on");
+
+            }
+
+            $(document).ready(function () {
+                var table = $('#dataTables-example').DataTable({
+                    responsive: true,
+                    "autoWidth": false,
+                    language: {
+                        info: 'Showing page _PAGE_ of _PAGES_',
+                        infoEmpty: '${listnull}',
+                        infoFiltered: '(filtered from _MAX_ total novels)',
+                        lengthMenu: 'Display _MENU_ novels per page',
+                        zeroRecords: 'Nothing found - sorry'
+                    },
+                    columnDefs: [
+                        {width: "160px", targets: 8}
+                    ]
+                });
+            });
+        </script>
     </body>
 </html>
 
