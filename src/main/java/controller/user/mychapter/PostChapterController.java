@@ -26,6 +26,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Map;
+import model.ChapterSubmission;
 import model.UserAccount;
 import utils.CloudinaryUtils;
 
@@ -38,8 +39,11 @@ public class PostChapterController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("user") == null) {
+            response.sendRedirect("Login");
+            return;
+        }
         String novelIdParam = request.getParameter("novelId");
         Integer novelId = (Integer) session.getAttribute("novelId");
 
@@ -96,12 +100,16 @@ public class PostChapterController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("user") == null) {
+            response.sendRedirect("Login");
+            return;
+        }
         PostChapterDAO postChapterDAO = new PostChapterDAO(getServletContext());
         NovelDAO novelDAO = new NovelDAO();
         ChapterDAO chapterDAO = new ChapterDAO();
 
         String novelIdParam = request.getParameter("novelId");
-        String chapterIdParam = request.getParameter("chapterID");
         String chapterTitle = request.getParameter("chapterName");
         String chapterContent = request.getParameter("chapterContent");
         Part filePart = request.getPart("file");
@@ -125,7 +133,6 @@ public class PostChapterController extends HttpServlet {
 
         int chapterID;
         try {
-            HttpSession session = request.getSession(false);
             UserAccount ua = (UserAccount) session.getAttribute("user");
 
             int novelId = Integer.parseInt(novelIdParam);
@@ -155,16 +162,20 @@ public class PostChapterController extends HttpServlet {
                     LocalDateTime.now(),
                     "pending"
             );
-           
+
             LOGGER.log(Level.INFO, "Attempting to post chapter for novel: {0}", novel.getNovelName());
             chapterID = postChapterDAO.postChapter(newChapter);
 
+            ChapterSubmission ns = new ChapterSubmission();
+            ns.setUserID(ua.getUserID());
+            ns.setType("update");
+            ns.setDraftID(chapterID);
             if (subDAO.addPostingSubmission(chapterID, ua.getUserID(), "post")) {
                 message = "Create novel and send posting requirement successfully!";
             } else {
                 message = "Error in sending posting requirement!!!!";
             }
-            
+
             request.setAttribute("novelId", novelId);
             request.setAttribute("novelName", novel.getNovelName());
             request.setAttribute("nextChapterNumber", postChapterDAO.getNextChapterNumber(novelId));
@@ -172,59 +183,6 @@ public class PostChapterController extends HttpServlet {
             request.setAttribute("message", "Chapter posted successfully!");
             request.setAttribute("messageType", "success");
             request.getRequestDispatcher("/WEB-INF/views/user/chapter/postChapter.jsp").forward(request, response);
-            //            if (chapterID > 0) {
-            //                int chapterNumber = postChapterDAO.getNextChapterNumber(novelId) - 1;
-            //                String filePath = postChapterDAO.getChapterFilePath(novel.getNovelName(), chapterNumber);
-            //                
-            //                if (filePath == null) {
-            //                    LOGGER.log(Level.SEVERE, "Failed to create directory for novel: {0}", novel.getNovelName());
-            //                    request.setAttribute("message", "Failed to create chapter directory.");
-            //                    request.setAttribute("messageType", "error");
-            //                    request.setAttribute("novelId", novelId);
-            //                    request.setAttribute("nextChapterNumber", null);
-            //                    request.getRequestDispatcher("/WEB-INF/views/user/postChapter.jsp").forward(request, response);
-            //                    return;
-            //                }
-            //
-            //                boolean saveSuccess = false;
-            //                
-            //                if (filePart != null && filePart.getSize() > 0) {
-            //                    LOGGER.log(Level.INFO, "Saving content from uploaded file");
-            //                    saveSuccess = postChapterDAO.saveChapterFile(filePath, filePart.getInputStream());
-            //                } else if (chapterContent != null && !chapterContent.trim().isEmpty()) {
-            //                    LOGGER.log(Level.INFO, "Saving content from textarea");
-            //                    saveSuccess = postChapterDAO.saveChapterContent(filePath, chapterContent);
-            //                }
-            //
-            //                if (saveSuccess) {
-            //                    LOGGER.log(Level.INFO, "Content saved successfully, updating file path in database");
-            //                    postChapterDAO.updateChapterFilePath(chapterID, filePath);
-            //                    
-            //                    request.setAttribute("novelId", novelId);
-            //                    request.setAttribute("novelName", novel.getNovelName());
-            //                    request.setAttribute("nextChapterNumber", postChapterDAO.getNextChapterNumber(novelId));
-            //                    request.setAttribute("filePath", filePath);
-            //                    request.setAttribute("message", "Chapter posted successfully!");
-            //                    request.setAttribute("messageType", "success");
-            //                    
-            //                    request.getRequestDispatcher("/WEB-INF/views/user/postChapter.jsp").forward(request, response);
-            //                    return;
-            //                } else {
-            //                    LOGGER.log(Level.SEVERE, "Failed to save chapter content");
-            //                    request.setAttribute("message", "Failed to save chapter content.");
-            //                    request.setAttribute("messageType", "error");
-            //                    request.setAttribute("novelId", novelId);
-            //                    request.setAttribute("nextChapterNumber", null);
-            //                    request.getRequestDispatcher("/WEB-INF/views/user/postChapter.jsp").forward(request, response);
-            //                }
-            //            } else {
-            //                LOGGER.log(Level.SEVERE, "Failed to post chapter, returned ID: {0}", chapterID);
-            //                request.setAttribute("message", "Failed to post chapter.");
-            //                request.setAttribute("messageType", "error");
-            //                request.setAttribute("novelId", novelId);
-            //                request.setAttribute("nextChapterNumber", null);
-            //                request.getRequestDispatcher("/WEB-INF/views/user/postChapter.jsp").forward(request, response);
-            //            }
         } catch (NumberFormatException e) {
             LOGGER.log(Level.SEVERE, "Invalid number format for Novel ID.", e);
             request.setAttribute("message", "Invalid number format for Novel ID.");

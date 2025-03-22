@@ -416,7 +416,7 @@ public class ManageChapterController extends HttpServlet {
             Logger.getLogger(ManageChapterController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     private void approveChapter(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         int submissionCID = Integer.parseInt(request.getParameter("submissionCID"));
@@ -450,7 +450,7 @@ public class ManageChapterController extends HttpServlet {
             Logger.getLogger(ManageChapterController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     private void rejectChapter(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         int submissionCID = Integer.parseInt(request.getParameter("submissionCID"));
@@ -464,7 +464,7 @@ public class ManageChapterController extends HttpServlet {
             HttpSession session = request.getSession(false);
             ManagerAccount ma = (ManagerAccount) session.getAttribute("manager");
 
-            ChapterSubmission cs = new  ChapterSubmission();
+            ChapterSubmission cs = new ChapterSubmission();
             cs.setSubmissionCID(submissionCID);
             cs.setManagerID(ma.getManagerID());
             cs.setStatus("rejected");

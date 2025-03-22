@@ -186,8 +186,7 @@ public class PostChapterDAO {
                 insertStmt.setInt(1, chapter.getNovelID());
                 insertStmt.setInt(2, nextChapterNumber);
                 insertStmt.setString(3, chapter.getChapterName());
-                insertStmt.setString(4, chapter.getFileURL()); // Lưu đường dẫn tương đối: "chapters/The_Mystic_World/ch2.txt"
-
+                insertStmt.setString(4, chapter.getFileURL());
                 insertStmt.setTimestamp(5, chapter.getChapterCreatedDate() != null
                         ? Timestamp.valueOf(chapter.getChapterCreatedDate())
                         : Timestamp.valueOf(LocalDateTime.now()));
@@ -395,7 +394,7 @@ public class PostChapterDAO {
             return false;
         }
     }
-    
+
     /**
      * Lấy thông tin chapter dựa trên novelName và chapterNumber
      *
@@ -409,10 +408,10 @@ public class PostChapterDAO {
                 + "JOIN Novel n ON c.novelID = n.novelID "
                 + "WHERE n.novelName = ? AND c.chapterNumber = ?";
 
-        try (Connection connection = db.getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
+        try ( Connection connection = db.getConnection();  PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, novelName);
             statement.setInt(2, chapterNumber);
-            try (ResultSet rs = statement.executeQuery()) {
+            try ( ResultSet rs = statement.executeQuery()) {
                 if (rs.next()) {
                     Chapter chapter = new Chapter();
                     chapter.setChapterID(rs.getInt("chapterID"));
@@ -528,38 +527,37 @@ public class PostChapterDAO {
 //            }
 //        }
 //    }
-    
     /**
- * Đổi trạng thái chapter thành "deleted" thay vì xóa hoàn toàn
- *
- * @param novelName Tên của novel
- * @param chapterNumber Số chapter
- * @return true nếu cập nhật thành công, false nếu thất bại
- */
-public boolean deleteChapter(String novelName, int chapterNumber) {
-    // Lấy thông tin chapter để kiểm tra trước khi cập nhật
-    Chapter chapter = getChapterByNovelNameAndChapterNumber(novelName, chapterNumber);
-    if (chapter == null) {
-        LOGGER.log(Level.WARNING, "Chapter not found for novelName: {0}, chapterNumber: {1}", new Object[]{novelName, chapterNumber});
-        return false;
+     * Đổi trạng thái chapter thành "deleted" thay vì xóa hoàn toàn
+     *
+     * @param novelName Tên của novel
+     * @param chapterNumber Số chapter
+     * @return true nếu cập nhật thành công, false nếu thất bại
+     */
+    public boolean deleteChapter(String novelName, int chapterNumber) {
+        // Lấy thông tin chapter để kiểm tra trước khi cập nhật
+        Chapter chapter = getChapterByNovelNameAndChapterNumber(novelName, chapterNumber);
+        if (chapter == null) {
+            LOGGER.log(Level.WARNING, "Chapter not found for novelName: {0}, chapterNumber: {1}", new Object[]{novelName, chapterNumber});
+            return false;
+        }
+
+        // Cập nhật trạng thái chapter thành "deleted"
+        String updateSql = "UPDATE Chapter SET chapterStatus = 'deleted' WHERE novelID = (SELECT novelID FROM Novel WHERE novelName = ?) AND chapterNumber = ?";
+
+        try ( Connection connection = db.getConnection();  PreparedStatement statement = connection.prepareStatement(updateSql)) {
+            statement.setString(1, novelName);
+            statement.setInt(2, chapterNumber);
+            int rowsUpdated = statement.executeUpdate();
+            LOGGER.log(Level.INFO, "Rows updated to 'deleted': {0} for novelName: {1}, chapterNumber: {2}",
+                    new Object[]{rowsUpdated, novelName, chapterNumber});
+
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error updating chapter status to 'deleted' for novelName: {0}, chapterNumber: {1}",
+                    new Object[]{novelName, chapterNumber});
+            e.printStackTrace();
+            return false;
+        }
     }
-
-    // Cập nhật trạng thái chapter thành "deleted"
-    String updateSql = "UPDATE Chapter SET chapterStatus = 'deleted' WHERE novelID = (SELECT novelID FROM Novel WHERE novelName = ?) AND chapterNumber = ?";
-
-    try (Connection connection = db.getConnection(); PreparedStatement statement = connection.prepareStatement(updateSql)) {
-        statement.setString(1, novelName);
-        statement.setInt(2, chapterNumber);
-        int rowsUpdated = statement.executeUpdate();
-        LOGGER.log(Level.INFO, "Rows updated to 'deleted': {0} for novelName: {1}, chapterNumber: {2}", 
-            new Object[]{rowsUpdated, novelName, chapterNumber});
-
-        return rowsUpdated > 0;
-    } catch (SQLException e) {
-        LOGGER.log(Level.SEVERE, "Error updating chapter status to 'deleted' for novelName: {0}, chapterNumber: {1}", 
-            new Object[]{novelName, chapterNumber});
-        e.printStackTrace();
-        return false;
-    }
-}
 }

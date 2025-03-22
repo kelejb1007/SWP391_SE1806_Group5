@@ -83,7 +83,7 @@
                                                         <td>
                                                             <c:choose>
                                                                 <c:when test = "${c.type == 'update'}">
-                                                                    <a href="managenovel?action=viewdetail&novelID=${c.draftID}" title="View Draft">${c.type}</a>
+                                                                    <a href="managechapter?action=viewchapter&id=${c.draftID}" title="View Draft">${c.type}</a>
                                                                 </c:when>
 
                                                                 <c:when test = "${c.type == 'post'}">

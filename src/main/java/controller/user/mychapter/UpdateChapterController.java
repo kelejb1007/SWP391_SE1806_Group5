@@ -5,8 +5,11 @@
 package controller.user.mychapter;
 
 import DAO.ChapterDAO;
+import DAO.ChapterSubmissionDAO;
 import DAO.PostChapterDAO;
 import DAO.NovelDAO;
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import model.Chapter;
 import model.Novel;
 import java.io.IOException;
@@ -18,12 +21,23 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.util.Map;
+import model.ChapterSubmission;
+import model.UserAccount;
+import utils.CloudinaryUtils;
 
 /**
  *
@@ -99,6 +113,7 @@ public class UpdateChapterController extends HttpServlet {
             chapterContent = chapterContent.replaceAll("<p>", "    ").replaceAll("</p>", "\n");
             request.setAttribute("chapterContent", chapterContent);
 
+            request.setAttribute("chapterId", chapterId);
             request.setAttribute("chapter", chapter);
             request.setAttribute("novelId", chapter.getNovelID());
             request.setAttribute("novelName", novel.getNovelName());
@@ -146,114 +161,155 @@ public class UpdateChapterController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("user") == null) {
+            response.sendRedirect("Login");
+            return;
+        }
+
         PostChapterDAO postChapterDAO = new PostChapterDAO(getServletContext());
         NovelDAO novelDAO = new NovelDAO();
+        ChapterDAO chapterDAO = new ChapterDAO();
 
-        String chapterIdParam = request.getParameter("chapterId");
         String novelIdParam = request.getParameter("novelId");
-        String chapterNumberParam = request.getParameter("chapterNumber");
+        int chapterId = Integer.parseInt(request.getParameter("chapterId"));
         String chapterTitle = request.getParameter("chapterName");
         String chapterContent = request.getParameter("chapterContent");
         Part filePart = request.getPart("file");
 
-        LOGGER.log(Level.INFO, "Processing update request with chapterId: {0}, novelId: {1}, chapterNumber: {2}, chapterTitle: {3}, content length: {4}, has file: {5}",
-                new Object[]{chapterIdParam, novelIdParam, chapterNumberParam, chapterTitle,
+        ChapterSubmissionDAO subDAO = new ChapterSubmissionDAO();
+        String message;
+
+        LOGGER.log(Level.INFO, "Processing post request with novelId: {0}, chapterTitle: {1}, content length: {2}, has file: {3}",
+                new Object[]{novelIdParam, chapterTitle,
                     chapterContent != null ? chapterContent.length() : 0,
                     filePart != null && filePart.getSize() > 0});
 
         if ((filePart == null || filePart.getSize() == 0) && (chapterContent == null || chapterContent.trim().isEmpty())) {
             request.setAttribute("message", "Please enter content or upload a file.");
             request.setAttribute("messageType", "error");
+            request.setAttribute("novelId", novelIdParam != null ? Integer.parseInt(novelIdParam) : null);
+            request.setAttribute("nextChapterNumber", null);
             request.getRequestDispatcher("/WEB-INF/views/user/chapter/updateChapter.jsp").forward(request, response);
             return;
         }
 
+        int chapterDraftID;
         try {
-            int chapterId = Integer.parseInt(chapterIdParam);
-            int novelId = Integer.parseInt(novelIdParam);
-            int chapterNumber = Integer.parseInt(chapterNumberParam);
+            UserAccount ua = (UserAccount) session.getAttribute("user");
 
+            int novelId = Integer.parseInt(novelIdParam);
             Novel novel = novelDAO.getNovelById(novelId);
             if (novel == null) {
                 request.setAttribute("message", "Novel not found.");
                 request.setAttribute("messageType", "error");
+                request.setAttribute("novelId", null);
+                request.setAttribute("nextChapterNumber", null);
                 request.getRequestDispatcher("/WEB-INF/views/user/chapter/updateChapter.jsp").forward(request, response);
                 return;
             }
-
-            // Kiểm tra chapter tồn tại
-            Chapter existingChapter = postChapterDAO.getChapterById(chapterId);
-            if (existingChapter == null) {
-                request.setAttribute("message", "Chapter not found.");
-                request.setAttribute("messageType", "error");
-                request.getRequestDispatcher("/WEB-INF/views/user/chapter/updateChapter.jsp").forward(request, response);
-                return;
+            String fileURL = null;
+            if (filePart != null && filePart.getSize() > 0) {
+                fileURL = getFile(filePart);
+            } else if (chapterContent != null) {
+                fileURL = getFileByContent(chapterContent);
             }
 
-            // Kiểm tra trùng chapterNumber
-            if (chapterNumber != existingChapter.getChapterNumber() && postChapterDAO.isChapterNumberExists(novelId, chapterNumber)) {
-                request.setAttribute("message", "Chapter number already exists for this novel.");
-                request.setAttribute("messageType", "error");
-                request.getRequestDispatcher("/WEB-INF/views/user/chapter/updateChapter.jsp").forward(request, response);
-                return;
-            }
+            Chapter newChapter = new Chapter(
+                    0,
+                    novelId,
+                    novel.getNovelName(),
+                    0,
+                    chapterTitle,
+                    fileURL,
+                    LocalDateTime.now(),
+                    "draft"
+            );
 
-            Chapter updatedChapter = new Chapter();
-            updatedChapter.setChapterID(chapterId);
-            updatedChapter.setNovelID(novelId);
-            updatedChapter.setChapterNumber(chapterNumber);
-            updatedChapter.setChapterName(chapterTitle);
-            updatedChapter.setFileURL(existingChapter.getFileURL()); // Giữ nguyên fileURL cũ
-            updatedChapter.setChapterCreatedDate(existingChapter.getChapterCreatedDate()); // Giữ nguyên ngày tạo
-            updatedChapter.setChapterStatus(existingChapter.getChapterStatus()); // Giữ nguyên trạng thái
+            LOGGER.log(Level.INFO, "Attempting to post chapter for novel: {0}", novel.getNovelName());
+            chapterDraftID = postChapterDAO.postChapter(newChapter);
 
-            boolean updateSuccess = postChapterDAO.updateChapter(updatedChapter);
-
-            if (updateSuccess) {
-                String filePath = existingChapter.getFileURL(); // Sử dụng fileURL hiện tại
-                boolean saveSuccess = false;
-
-                if (filePart != null && filePart.getSize() > 0) {
-                    LOGGER.log(Level.INFO, "Updating content from uploaded file");
-                    saveSuccess = postChapterDAO.saveChapterFile(filePath, filePart.getInputStream());
-                } else if (chapterContent != null && !chapterContent.trim().isEmpty()) {
-                    LOGGER.log(Level.INFO, "Updating content from textarea");
-                    saveSuccess = postChapterDAO.saveChapterContent(filePath, chapterContent);
-                }
-
-                if (saveSuccess) {
-                    request.setAttribute("chapter", updatedChapter);
-                    request.setAttribute("novelId", novelId);
-                    request.setAttribute("novelName", novel.getNovelName());
-                    request.setAttribute("message", "Chapter updated successfully!");
-                    request.setAttribute("messageType", "success");
-                } else {
-                    LOGGER.log(Level.SEVERE, "Failed to save updated chapter content");
-                    request.setAttribute("message", "Failed to save updated chapter content.");
-                    request.setAttribute("messageType", "error");
-                }
+            ChapterSubmission ns = new ChapterSubmission();
+            ns.setChapterID(chapterId);
+            ns.setUserID(ua.getUserID());
+            ns.setType("update");
+            ns.setDraftID(chapterDraftID);
+            if (subDAO.addUpdatingSubmission(ns)) {
+                message = "Create novel and send posting requirement successfully!";
             } else {
-                LOGGER.log(Level.SEVERE, "Failed to update chapter");
-                request.setAttribute("message", "Failed to update chapter.");
-                request.setAttribute("messageType", "error");
+                message = "Error in sending posting requirement!!!!";
             }
 
-            request.getRequestDispatcher("/WEB-INF/views/user/chapter/updateChapter.jsp").forward(request, response);
+            request.setAttribute("novelId", novelId);
+            request.setAttribute("novelName", novel.getNovelName());
+            request.setAttribute("nextChapterNumber", postChapterDAO.getNextChapterNumber(novelId));
+            request.setAttribute("filePath", fileURL);
+            request.setAttribute("message", "Chapter posted successfully!");
+            request.setAttribute("messageType", "success");
+            response.sendRedirect(request.getContextPath() + "/updateChapter?chapterId=" + chapterId);
         } catch (NumberFormatException e) {
-            LOGGER.log(Level.SEVERE, "Invalid number format.", e);
-            request.setAttribute("message", "Invalid number format.");
+            LOGGER.log(Level.SEVERE, "Invalid number format for Novel ID.", e);
+            request.setAttribute("message", "Invalid number format for Novel ID.");
             request.setAttribute("messageType", "error");
+            request.setAttribute("novelId", null);
+            request.setAttribute("nextChapterNumber", null);
             request.getRequestDispatcher("/WEB-INF/views/user/chapter/updateChapter.jsp").forward(request, response);
         } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Error updating chapter file.", e);
-            request.setAttribute("message", "Error updating chapter file.");
+            LOGGER.log(Level.SEVERE, "Error writing chapter file.", e);
+            request.setAttribute("message", "Error writing chapter file.");
             request.setAttribute("messageType", "error");
+            request.setAttribute("novelId", novelIdParam != null ? Integer.parseInt(novelIdParam) : null);
+            request.setAttribute("nextChapterNumber", null);
             request.getRequestDispatcher("/WEB-INF/views/user/chapter/updateChapter.jsp").forward(request, response);
         }
     }
 
+    private String getFile(Part filePart) throws IOException {
+        String fileName = filePart.getSubmittedFileName();
+
+        // Lưu file tạm thời
+        File tempFile = new File(System.getProperty("java.io.tmpdir"), fileName);
+        try ( InputStream input = filePart.getInputStream();  FileOutputStream output = new FileOutputStream(tempFile)) {
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = input.read(buffer)) != -1) {
+                output.write(buffer, 0, bytesRead);
+            }
+        }
+
+        // Kết nối Cloudinary và upload ảnh
+        Cloudinary cloudinary = CloudinaryUtils.getInstance();
+        Map uploadResult = cloudinary.uploader().upload(tempFile, ObjectUtils.asMap(
+                "resource_type", "auto")); // Tự động xác định loại file (hình ảnh, PDF, v.v.)
+
+        // Xóa file tạm
+        tempFile.delete();
+
+        // Lấy URL file từ Cloudinary
+        String fileUrl = (String) uploadResult.get("secure_url");
+        return fileUrl;
+    }
+
+    private String getFileByContent(String content) throws IOException {
+        String filePath = "temp.txt";
+        Files.write(Paths.get(filePath), content.getBytes());
+
+        // Kết nối Cloudinary và upload ảnh
+        Cloudinary cloudinary = CloudinaryUtils.getInstance();
+        Map uploadResult = cloudinary.uploader().upload(new File(filePath), ObjectUtils.asMap(
+                "resource_type", "auto")); // Tự động xác định loại file (hình ảnh, PDF, v.v.)
+
+        // Xóa file tạm
+        Files.delete(Paths.get(filePath));
+
+        // Lấy URL file từ Cloudinary
+        String fileUrl = (String) uploadResult.get("secure_url");
+        return fileUrl;
+    }
+
     /**
      * Returns a short description of the servlet.
+     *
      * @return a String containing servlet description
      */
     @Override

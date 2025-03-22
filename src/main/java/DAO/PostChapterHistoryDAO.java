@@ -1,11 +1,13 @@
 package DAO;
 
 import java.sql.*;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Chapter;
+import model.ChapterSubmission;
 import utils.DBContext;
 
 /**
@@ -214,5 +216,47 @@ public class PostChapterHistoryDAO {
             e.printStackTrace();
         }
         return 0;
+    }
+
+    public List<ChapterSubmission> getSubmisstionHistory(int userID) {
+        List<ChapterSubmission> list = new ArrayList<>();
+        String sql = "SELECT cs.submissionCID, cs.chapterID, cs.userID, cs.managerID, cs.draftID, cs.submissionDate, \n"
+                + "cs.approvalDate, type, status, cs.reasonRejected, c.chapterName, c.chapterNumber, n.novelID, n.novelName\n"
+                + "FROM ChapterSubmission cs\n"
+                + "JOIN Chapter c ON c.chapterID = cs.chapterID\n"
+                + "JOIN Novel n ON c.novelID = n.novelID\n"
+                + "WHERE cs.userID = ?\n"
+                + "ORDER BY submissionDate DESC";
+        Connection connection;
+        PreparedStatement statement;
+        ResultSet rs;
+        try {
+            connection = db.getConnection();
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, userID);
+            rs = statement.executeQuery();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+            while (rs.next()) {
+                ChapterSubmission cs = new ChapterSubmission();
+                cs.setSubmissionCID(rs.getInt("submissionCID"));
+                cs.setChapterID(rs.getInt("chapterID"));
+                cs.setUserID(rs.getInt("userID"));
+                cs.setManagerID(rs.getInt("managerID"));
+                cs.setDraftID(rs.getInt("draftID"));
+                cs.setSubmissionDate(rs.getTimestamp("submissionDate") != null ? rs.getTimestamp("submissionDate").toLocalDateTime().format(formatter) : null);
+                cs.setApprovalDate(rs.getTimestamp("approvalDate") != null ? rs.getTimestamp("approvalDate").toLocalDateTime().format(formatter) : null);
+                cs.setType(rs.getString("type"));
+                cs.setStatus(rs.getString("status"));
+                cs.setReasonRejected(rs.getString("reasonRejected"));
+                cs.setChapterName(rs.getString("chapterName"));
+                cs.setChapterNumber(rs.getString("chapterNumber"));
+                cs.setNovelID(rs.getInt("novelID"));
+                cs.setNovelName(rs.getString("novelName"));
+                list.add(cs);
+            }
+        } catch (Exception e) {
+            Logger.getLogger(NovelDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return list;
     }
 }
