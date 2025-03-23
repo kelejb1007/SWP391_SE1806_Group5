@@ -26,10 +26,25 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">Create New Staff Account</div>
                     <div class="panel-body">
+                        <!-- Hiển thị thông báo lỗi -->
+                        <% if (request.getAttribute("error") != null) { %>
+                            <div class="alert alert-danger">
+                                <%= request.getAttribute("error") %>
+                            </div>
+                        <% } %>
+                        
+                        <!-- Hiển thị thông báo thành công -->
+                        <% if (request.getAttribute("Complete") != null) { %>
+                            <div class="alert alert-success">
+                                <%= request.getAttribute("Complete") %>
+                            </div>
+                        <% } %>
+
                         <form action="RegisterStaff" method="post" onsubmit="return validateForm()">
                             <div class="form-group">
                                 <label for="username">User Name</label>
-                                <input type="text" class="form-control" id="username" name="username" required>
+                                <input type="text" class="form-control" id="username" name="username" required 
+                                    value="<%= request.getParameter("username") != null ? request.getParameter("username") : "" %>">
                             </div>
                             
                             <div class="form-group">
@@ -44,25 +59,28 @@
 
                             <div class="form-group">
                                 <label for="fullName">Full Name</label>
-                                <input type="text" class="form-control" id="fullName" name="fullName" required>
+                                <input type="text" class="form-control" id="fullName" name="fullName" required 
+                                    value="<%= request.getParameter("fullName") != null ? request.getParameter("fullName") : "" %>">
                             </div>
 
                             <div class="form-group">
                                 <label for="email">Email</label>
-                                <input type="email" class="form-control" id="email" name="email" required>
+                                <input type="email" class="form-control" id="email" name="email" required 
+                                    value="<%= request.getParameter("email") != null ? request.getParameter("email") : "" %>">
                             </div>
 
                             <div class="form-group">
                                 <label for="numberPhone">Phone Number</label>
-                                <input type="text" class="form-control" id="numberPhone" name="numberPhone" required>
+                                <input type="text" class="form-control" id="numberPhone" name="numberPhone" required 
+                                    value="<%= request.getParameter("numberPhone") != null ? request.getParameter("numberPhone") : "" %>">
                             </div>
 
                             <div class="form-group">
                                 <label for="gender">Gender</label>
                                 <select class="form-control" name="gender" id="gender" required>
                                     <option value="" disabled selected>Select your gender</option>
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
+                                    <option value="Male" <%= "Male".equals(request.getParameter("gender")) ? "selected" : "" %>>Male</option>
+                                    <option value="Female" <%= "Female".equals(request.getParameter("gender")) ? "selected" : "" %>>Female</option>
                                 </select>
                             </div>
 
