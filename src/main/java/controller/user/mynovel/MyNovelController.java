@@ -410,7 +410,7 @@ public class MyNovelController extends HttpServlet {
             Novel nl = new Novel(novelName, ua.getUserID(), imageURL, novelDescription, totalChapter, "draft");
 
             //check novelName
-            if (nDAO.checkNovelName(novelName)) {
+            if (nDAO.checkNovelNameForUpdate(novelName, novelID)) {
                 request.setAttribute("popup", "The novel's name has existed");
                 showUpdateForm(request, response);
             } else {

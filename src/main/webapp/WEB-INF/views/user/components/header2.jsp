@@ -34,7 +34,7 @@
 
                 <div class="search-wrap">
                     <form class="cf" id="formUrl" action="novels" method="get">
-                        <input class="search-box" id="s-box" name="kw" type="text" placeholder="Romance, Horror" autocomplete="off" value="">
+                        <input class="search-box" id="s-box" name="kw" type="text" placeholder="Edge of Tomorrow" autocomplete="off" value="">
                         <input type="hidden" name="action" value="search">
 
                         <input class="submit-input" type="submit" id="searchSubmit" data-eid="">

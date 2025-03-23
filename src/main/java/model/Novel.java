@@ -46,6 +46,8 @@ public class Novel {
     private Date publishDate2;
     private Date LockDate2;
     
+    private String authorImage;
+    
 
     public Novel() {
     }
@@ -73,6 +75,14 @@ public class Novel {
 
     //---------------------------------------------------------------------
 
+    public String getAuthorImage() {
+        return authorImage;
+    }
+
+    public void setAuthorImage(String authorImage) {
+        this.authorImage = authorImage;
+    }
+    
     public Date getLockDate2() {
         return LockDate2;
     }

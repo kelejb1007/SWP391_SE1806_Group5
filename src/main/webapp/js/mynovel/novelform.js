@@ -16,7 +16,7 @@ fileInput.addEventListener('change', function (event) {
         // Khi file được đọc xong
         reader.onload = function (e) {
             imagePreview.src = e.target.result; // Gán URL hình ảnh vào src của img
-            
+
             imagePreview.style.display = 'block'; // Hiển thị ảnh
         };
         reader.readAsDataURL(file); // Đọc file dưới dạng URL

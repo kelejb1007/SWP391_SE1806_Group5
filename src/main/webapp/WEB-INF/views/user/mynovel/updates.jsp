@@ -11,7 +11,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Update Novel</title>
+        <title>Post Novel</title>
 
         <link rel="stylesheet" href="css/startmin/bootstrap.css">
         <link rel="stylesheet" href="css/startmin/startmin.css">
@@ -19,10 +19,13 @@
 
         <link rel="shortcut icon" type="image/x-icon" href="//yuxseocdn.yuewen.com/favicon/readnovel.ico">
         <link rel="stylesheet" type="text/css" href="css/mynovel/mynovel2.css" crossorigin="anonymous">
-        <script charset="utf-8" src="js/mynovel/mynovel2.js" crossorigin="anonymous"></script>
+        <script charset="utf-8" src="js/mynovel/mynovel2.js?v=1" crossorigin="anonymous"></script>
         <style>
+
             .book_cover_wrap--xZYzr:before {
                 background-color: #ff3955;
+                width: 180px;
+                height: 240px
             }
         </style>
 
@@ -44,12 +47,16 @@
 
                 <div class="g_main_wrap f1 pr" style="zoom: 1.1">
                     <div style="">
-                        <div class="pf t0 l0 header--Unk0j df jcsb">
-                            <div class="df aic g_header_title">
-                                <h2 class="header_title--gwRuS ell dib mw100p t_title_large mb0 vam"><span class="ttc">Create Novel</span></h2>
-                            </div>
-                        </div>
+                        <div class="pf t0 l0 header--Unk0j df jcsb">\
+                            <div class="undefined g_header df fg1 oh">
+                                <div class="df aic g_header_title"><label for="foldSwitch" class="collapse_menu--QStMM mr8">
+                                        <div class="df g_sd_close collapse_menu_btn--f8c2W"><i></i></div>
+                                    </label>
+                                    <h2 class="header_title--gwRuS ell dib mw100p t_title_large mb0 vam"><span class="ttc">Create Novel</span></h2>
 
+                                </div>
+                            </div>
+                        </div>]
                         <div id="main_scroll_container" class="scroller--dBDRL pr">
                             <div class="header_ph--kHZzY"></div>
                             <div class="main_content--0x57a ">
@@ -61,6 +68,19 @@
                                                 <use xlink:href="#i-files"></use>
                                                 </svg></span>novel information</h3>
 
+                                        <div class="ant-form-item  item--1wVCg">
+                                            <div class="ant-row ant-form-item-row">
+                                                <div class="ant-col ant-form-item-label"><label for="bookTitle" class="ant-form-item-required" title="Readonly">
+                                                        <div class="dib"><span>NovelID</span></div>
+                                                    </label></div>
+                                                <div class="ant-form-item-control-input-content"><span class="ant-input-affix-wrapper" style="border-radius: 8px; border-color: #ff3955">
+                                                        <input name="novelID" maxlength="70" placeholder="" id="bookTitle" aria-required="true" class="ant-input ant-input-lg" 
+                                                               type="text" value="${novel.novelID}" required readonly>
+                                                    </span></div>
+                                            </div>
+                                        </div>
+                                        
+                                        
                                         <div class="ant-form-item  item--1wVCg">
                                             <div class="ant-row ant-form-item-row">
                                                 <div class="ant-col ant-form-item-label"><label for="bookTitle" class="ant-form-item-required" title="">
@@ -103,20 +123,20 @@
                                         <div class="ant-form-item  item--1wVCg">
                                             <div class="ant-row ant-form-item-row">
                                                 <div class="ant-col ant-form-item-label"><label for="freeType" class="ant-form-item-required" title="">GENRE</label></div>
-
-
-                                                <c:forEach var="c" items="${requestScope.genreList}" >
-                                                    <div class="checkbox" style="margin-left: 20px">
-                                                        <label style="color: rgba(18, 18, 23, .9) !important; font-weight: 600">
+                                                <div class="checkbox" style="margin-left: 20px">
+                                                    <c:forEach var="c" items="${requestScope.genreList}" >
+                                                        <label style="color: rgba(18, 18, 23, .9) !important; font-weight: 600; margin: 0px 7px 3px">
                                                             <input type="checkbox" name="genreList" value="${c.genreID}"
                                                                    <c:if test="${not empty genreOfNovel and genreOfNovel.contains(c.genreName)}">checked</c:if> 
                                                                        >
                                                             ${c.genreName}
                                                         </label>
-                                                    </div>
-                                                </c:forEach>  
+                                                    </c:forEach>  
+                                                </div>
                                             </div>
                                         </div>
+
+
 
 
 
@@ -125,19 +145,29 @@
                                         <div class="ant-form-item  item--1wVCg">
                                             <div class="ant-row ant-form-item-row">
                                                 <div class="ant-col ant-form-item-label">
-                                                    <label for="freeType" class="ant-form-item-required" title="Avatar">Avatar</label>
+                                                    <label for="freeType" class="ant-form-item-required" title="">Novel Image (180x240)</label>
                                                 </div>
 
                                                 <div class="ant-form-item-control-input-content">
-                                                    <div class="book_cover_wrap--xZYzr pr dib" name="imageURL" style="width: 120px; height: 160px;">
+                                                    <div id="clickImage" class="book_cover_wrap--xZYzr pr dib" name="imageURL" style="width: 180px; height: 240px;">
                                                         <span role="img" class="anticon fs24 book_cover_plus--rs178 pa" style="color: rgb(246, 247, 252);">
                                                             <svg width="1em" height="1em" fill="currentColor" aria-hidden="true" focusable="false" class="">
                                                             <use xlink:href="#i-plus"></use>
                                                             </svg>
                                                         </span>
-                                                        <img class="br4" width="120" height="160" src="img/b3.png" alt="book cover">
 
-                                                        <button data-report-uiname="upload" type="button" class="ant-btn ant-btn-primary ant-btn-lg mt8 button--4vWlZ" style="display: block; min-width: 134px;">
+                                                        <img id="image-preview" class="br4" width="180" height="240" alt="Novel Image" style=""
+                                                             src="<c:if test="${not empty novel.imageURL}">${novel.imageURL}</c:if> 
+                                                             <c:if test="${empty novel.imageURL}">img/b3.png</c:if>" >
+
+
+
+                                                             <input id="file-input" type="file" name="imageURL" accept="image/*" style="display: block;"
+                                                             <c:if test="${novel.imageURL == null}"> required </c:if>>
+                                                        <input type="hidden" name="file_hidden" value="${novel.imageURL}">
+
+
+                                                        <button id="pushImageButton" type="button" class="ant-btn ant-btn-primary ant-btn-lg mt8 button--4vWlZ" style="display: block; min-width: 134px;" ant-click-animating-without-extra-node="false">
                                                             <span role="img" class="anticon">
                                                                 <svg width="1em" height="1em" fill="currentColor" aria-hidden="true" focusable="false" class="">
                                                                 <use xlink:href="#i-upload"></use>
@@ -146,23 +176,43 @@
                                                         </button>
                                                     </div>
                                                     <p class="c_danger fs14 mt16"></p>
+                                                    <br>
                                                 </div>
                                             </div>
                                         </div>
 
+
                                         <input type="hidden" name="action" value="update">
                                         <button type="submit" value="Submit" class="ant-btn ant-btn-primary ant-btn-lg  button--4vWlZ"><span>Submit</span></button>
-                                        <button type="reset" class="ant-btn ant-btn-primary ant-btn-lg  button--4vWlZ"><span>Reset</span></button>
+                                        <button id="reset" type="reset" class="ant-btn ant-btn-primary ant-btn-lg  button--4vWlZ"><span>Reset</span></button>
                                     </form>
-
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
-        </div>
-        <script src="js/mynovel/novelform.js"></script>
+            <script>
+//                document.getElementById("pushImageButton").addEventListener("click", function () {
+//                    document.getElementById("file-input").click(); // Kích hoạt input file
+//                });
+
+                document.getElementById("clickImage").addEventListener("click", function () {
+                    document.getElementById("file-input").click(); // Kích hoạt input file
+                });
+
+
+
+                var url = "${novel.imageURL}";
+                const resetBtn = document.getElementById('reset');
+                resetBtn.addEventListener("click", function () {
+                    // Reset input file
+                    document.getElementById('file-input').value = "";
+                    // Reset ảnh xem trước (đổi thành ảnh mặc định)
+                    document.getElementById('image-preview').src = (!url ? 'img/b3.png' : url);
+                    ;
+                });
+            </script>
+            <script src="js/mynovel/novelform.js"></script>
     </body>
 </html>

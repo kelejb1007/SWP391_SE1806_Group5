@@ -344,6 +344,27 @@ public class NovelDAO {
         }
         return false;
     }
+    
+    public boolean checkNovelNameForUpdate(String novelName, int novelID) {
+        String sql = "SELECT novelID FROM Novel where novelName = ?";
+        Connection connection;
+        PreparedStatement statement;
+        ResultSet rs;
+        try {
+            connection = db.getConnection();
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, novelName);
+            rs = statement.executeQuery();
+            if (rs.next()) {
+                if (rs.getInt(novelID) != novelID){
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            Logger.getLogger(NovelDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return false;
+    }
 
     //------------------------------------------------------------------------------------------------------------------
     //User, Guest-------------------------------------------------------------------------------------------------------------
@@ -664,7 +685,7 @@ public class NovelDAO {
                     }
                 }
                 novel.setGenreNames(genreNames); // Set danh sách genreName vào novel
-                novel.setImageURL(resultSet.getString("imageUML"));
+                novel.setAuthorImage(resultSet.getString("imageUML"));
                 novel.setViewCount(resultSet.getInt("totalViews"));
 
                 list.add(novel);

@@ -142,7 +142,7 @@
                                                         </div>
 
                                                         <div class="modal-body">
-                                                            <textarea id="lockReason" name="rejectReason" class="form-control" placeholder="Enter reject reason" rows="3"></textarea>
+                                                            <textarea id="lockReason" name="rejectReason" class="form-control" placeholder="Enter reject reason" rows="3" required></textarea>
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>

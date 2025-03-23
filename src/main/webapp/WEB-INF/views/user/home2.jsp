@@ -16,18 +16,70 @@
         <link rel="stylesheet" href="css/homepage2/header2.css?v=1">
         <link rel="stylesheet" href="css/homepage2/layout2.css?v=2">
         <link rel="stylesheet" href="css/homepage2/index.css">
+        <link rel="stylesheet" href="css/homepage2/footer.css">
 
         <script src="https://kit.fontawesome.com/73b63a545d.js" crossorigin="anonymous"></script>
         <link rel="shortcut icon" type="image/x-icon" href="//yuxseocdn.yuewen.com/favicon/readnovel.ico">
         <link rel="Bookmark" type="image/x-icon" href="//yuxseocdn.yuewen.com/favicon/readnovel.ico">
 
+        <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 
         <style>
-            .fa-solid, .fas {
-                font-family: "Font Awesome 6 Free";
-                font-weight: 900;
+            @keyframes zoom {
+                0%, 100% {
+                    transform: scale(1);
+                }
+                50% {
+                    transform: scale(1.2);
+                }
             }
+
+            .hot {
+                font-family: 'Bebas Neue', sans-serif;
+                font-size: 30px;
+                font-weight: bold;
+                color: red;
+                text-transform: uppercase;
+                letter-spacing: 2px;
+                text-shadow: 0 0 10px rgba(255, 0, 0, 0.8),
+                    0 0 20px rgba(255, 0, 0, 0.6);
+                display: inline-block;
+                animation: zoom 1s infinite;
+            }
+            .footerrr {
+                color: #333;
+                text-align: center;
+                padding: 15px 0;
+                margin-top: 30px;
+                /* background-color: rgba(70, 130, 180, 0.2); /* Darker Blue with 60% opacity */
+                background-color: rgba(255, 255, 255, 0.1);
+                box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Adjusted shadow */
+                font-family: 'Macondo Swash Caps', cursive;
+                background-size: cover
+            }
+
         </style>
+        <!--    <style>
+                .fa-solid, .fas {
+                    font-family: "Font Awesome 6 Free";
+                    font-weight: 900;
+                }
+                @keyframes zoom {
+                    0%, 100% {
+                        transform: scale(1);
+                    }
+                    50% {
+                        transform: scale(1.2);
+                    }
+                }
+                .hot {
+                    font-size: 20px;
+                    font-weight: bold;
+                    color: red;
+                    display: inline-block;
+                    animation: zoom 1s infinite;
+                }
+            </style>-->
 
     </head>
     <body class="g_site_readnovel">
@@ -121,12 +173,15 @@
                     </div>
 
 
+                    <!--                HOT NOVEL --------------------------------------------------------------------------------->
                     <div class="index-book-wrap edit-rec-wrap mb20">
                         <div class="inner-wrap cf">
-                            <!-- start 左侧 -->
+
+
                             <div class="left-wrap fl hover-icon">
-                                <h3 class="lang"><em class="icon icon-edit_rec"></em></h3>
-                                <!-- <h3 class="lang">编辑强推<em class="icon icon-edit_rec"></em></h3> -->
+
+                                <h3 class="lang" style="color: #ff3955"><em class="icon icon-edit_rec"></em> 
+                                    <span class="hot">HOT!!!</span></h3>
 
                                 <div id="new-book-list">
                                     <div class="type-new-list cf" data-l2="1">
@@ -150,7 +205,8 @@
                                                         <div class="state-box cf">
 
                                                             <a class="author default" data-eid="qd_F25" >
-                                                                <img src="${novel.imageUML}" style="border-radius: 50%;object-fit: cover;">
+                                                                <img src="<c:if test="${not empty novel.authorImage}">${novel.authorImage}</c:if> 
+                                                                     <c:if test="${empty novel.authorImage}">//yuxseocdn.yuewen.com/pro/readnovel_pc/_prelease/images/ico/account.1e031.png</c:if>" style="border-radius: 50%;object-fit: cover;">
                                                                 ${novel.author}
                                                             </a>
                                                         </div>
@@ -165,17 +221,20 @@
                     </div>
 
 
+                    <!-- NEW UPDATE----------------------------------------------------------------------------------------- -->
                     <div class="index-book-wrap finish-rank mb20">
                         <div class="inner-wrap cf">
-                            <!-- start 左侧 -->
+
+
+
                             <div class="left-wrap fl">
                                 <h3 class="wrap-title lang">Newly Updated Novels</h3>
 
+
+
+                                <!-- ROLL----------------------------------------------------- -->
                                 <div class="left-info fl" data-l2="1">
                                     <div class="slide-box">
-                                        <!-- start 预加载 -->
-
-                                        <!-- end 预加载 -->
                                         <ul id="left-slide-02" class="roundabout roundabout-holder" style="display: block; padding: 0px; position: relative;">
                                             <c:forEach var="novel" items="${listNovel3}" varStatus="status">
                                                 <li class="book${status.index + 1} roundabout-moveable-item"
@@ -187,7 +246,8 @@
                                             </c:forEach>
                                         </ul>
                                     </div>
-                                    <!-- start 轮播书介绍 -->
+
+                                    <!-- ROLL INFO---------------------------------------------------------------------- -->
                                     <div class="info-text">
                                         <dl>
                                             <c:forEach var="novel" items="${listNovel3}" varStatus="status">
@@ -208,6 +268,9 @@
                                         </dl>
                                     </div>
                                 </div>
+
+
+                                <!-- CENTER -------------------------------------------------------------- -->
                                 <div class="center-book-list fl" data-l2="2">
                                     <div class="line line1"></div>
                                     <div class="line line2"></div>
@@ -251,9 +314,9 @@
                                 </div>
 
                             </div>
-                            <!-- end 左侧 -->
 
-                            <!-- start 右侧 -->
+
+                            <!-- TOP RANK --------------------------------------------------------- -->
                             <div class="right-wrap recent-finish-wrap fr">
                                 <div class="rank-list" data-l2="3"><h3 class="wrap-title lang">Top Rank This Month<a class="more" >更多<em class="iconfont"></em></a></h3>
                                     <div class="book-list" style="height: 396px; overflow: hidden">
@@ -313,95 +376,156 @@
 
                                 </div>
                             </div>
-                            <!-- end 右侧 -->
+                            <!--  END TOP RANK                          //-->
 
                         </div>
                     </div>
                 </div>
+
+
+
+                <div class="footer">
+                    <div class="box-center cf">
+                        <jsp:include page="/WEB-INF/views/user//components/footer.jsp" /> 
+
+                        <div class="copy-right">
+                            <p>
+                                <span></span>
+                            </p>
+
+                            <p>
+                                <a rel="nofollow" href="https://imgservices-1252317822.image.myqcloud.com/coco/s05252022/78d82dab.9t68aq.png" target="_blank">
+                                    增值电信业务经营许可证：京ICP证100530号
+                                </a>
+                                <a rel="nofollow" href="http://beian.miit.gov.cn" target="_blank" style="margin: 0 5px">互联网ICP备案号：京ICP备11018996号</a>,
+                                <a rel="nofollow" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502040231" style="display: inline-block;" target="_blank">
+                                    <img src="//yuxseocdn.yuewen.com/pro/readnovel_pc/_prelease/images/beian.d0289.png" style="float: left;">京公网安备 11010502040231号
+                                </a>
+                                <span>出版物经营许可证编号：新出发京零字第朝180154号</span>
+                                <a rel="nofollow" target="_blank" href="https://imgservices-1252317822.image.myqcloud.com/coco/s04302024/a8090c6d.maedv9.png"><span>营业执照</span></a>
+                            </p>
+                            <p>请所有作者发布作品时务必遵守国家互联网信息管理办法规定，我们拒绝任何色情小说，一经发现，即作删除！举报电话：010-59357051
+                            </p>
+                            <p>联系方式 总机 010-83050798-6000 地址：北京市朝阳区东三环北路27号楼22层(19)2202内01单元</p>
+                            <p>本站所收录作品、社区话题、书库评论及本站所做之广告均属个人行为，与本站立场无关</p>
+                        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        <!--end 版权-->
+
+                        <!--start 安全中心-->
+
+                        <div class="safety-box">
+                            <div class="safety-img dib-wrap">
+                                <a class="site4" href="http://cyberpolice.mps.gov.cn/wfjb/" target="_blank" rel="nofollow"></a>
+
+                                <a class="site1" href="https://www.12377.cn" target="_blank" rel="nofollow"></a>
+                                <a class="site2" href="http://www.bjjubao.org.cn/index.html" target="_blank" rel="nofollow"></a>
+                            </div>
+                        </div>
+
+
+
+
+
+                        <!--end 安全中心-->
+                    </div>
+                </div>
             </div>
-        </div>
-        <script src="https://yuxseocdn.yuewen.com/sentry/sentry.7.12.1.bundle.min.js" integrity="sha384-ds3MEkwHMg1Vl0XMXl86pZU3gIntwqCNJtYn0etV2sTjuKLdqrtEKFzCwgj3uzcL" crossorigin="anonymous"></script>
-        <script src="js/startmin/jquery.min.js"></script>
-        <script src="js/startmin/bootstrap.min.js"></script>
-        <script src="js/homepage2/rotation.js"></script>
-        <script src="js/homepage2/header.js"></script>
-        <script src="js/homepage2/round.js"></script>
-        <script>
-            $(document).ready(function () {
-                $("#j-focus-slider").yx_rotaion({
-                    during: 3000, // Thời gian chuyển đổi giữa các ảnh (3 giây)
-                    auto: true, // Tự động chạy trình chiếu
-                    btn: false, // Ẩn nút điều hướng (nếu bạn muốn)
-                    focus: true, // Hiển thị nút tiêu điểm
-                    title: false  // Ẩn tiêu đề (nếu bạn không cần)
-                });
+            <script src="https://yuxseocdn.yuewen.com/sentry/sentry.7.12.1.bundle.min.js" integrity="sha384-ds3MEkwHMg1Vl0XMXl86pZU3gIntwqCNJtYn0etV2sTjuKLdqrtEKFzCwgj3uzcL" crossorigin="anonymous"></script>
+            <script src="js/startmin/jquery.min.js"></script>
+            <script src="js/startmin/bootstrap.min.js"></script>
+            <script src="js/homepage2/rotation.js"></script>
+            <script src="js/homepage2/header.js"></script>
+            <script src="js/homepage2/round.js"></script>
+            <script>
+                $(document).ready(function () {
+                    $("#j-focus-slider").yx_rotaion({
+                        during: 3000, // Thời gian chuyển đổi giữa các ảnh (3 giây)
+                        auto: true, // Tự động chạy trình chiếu
+                        btn: false, // Ẩn nút điều hướng (nếu bạn muốn)
+                        focus: true, // Hiển thị nút tiêu điểm
+                        title: false  // Ẩn tiêu đề (nếu bạn không cần)
+                    });
 
-                $("#j-navType").showTypeList({
-                });
+                    $("#j-navType").showTypeList({
+                    });
 
-                $("#j-userWrap").userDropDown({
-                });
+                    $("#j-userWrap").userDropDown({
+                    });
 
-                $("#formUrl").enterSearchBox({
-                });
+                    $("#formUrl").enterSearchBox({
+                    });
 
 
-                // Autoplay Callback Function (Define it!)
-                function autoplayCallback() {
-                    // Add any code here that you want to run after each autoplay transition.
-                    console.log("Autoplay transitioned to the next item.");
-                }
-
-                // Initialize Roundabout
-                var $roundabout = $("#left-slide-02");
-                $roundabout.roundabout({
-                    margin: 0.7,
-                    autoplay: true,
-                    autoplayDuration: 5000,
-                    responsive: true,
-                    btnNext: ".next",
-                    btnPrev: ".prev",
-                    triggerFocusEvents: true,
-                    triggerBlurEvents: true,
-                    childSelector: "li",
-                    tilt: 0,
-                    minOpacity: 0.5,
-                    maxOpacity: 1,
-                    minScale: 0.6,
-                    maxScale: 1,
-                    duration: 600,
-                    easing: "swing",
-                    focus: function (newFocus) {
-                        updateContentDisplay(newFocus);
-                    },
-                    autoplayCallback: autoplayCallback // Pass the defined callback function.
-                });
-
-                // Update content based on focused item
-                function updateContentDisplay(elem) {
-                    var $inFocus = $(elem); // Use the element passed by the 'focus' event
-                    if ($inFocus.length > 0) {
-                        var rid = $inFocus.data('rid');
-                        if (rid) {
-                            $('.info-text dd').stop(true, true).addClass('hidden');
-                            $('.info-text dd[data-rid="' + rid + '"]').stop(true, true).removeClass('hidden');
-                            console.log("Hiển thị nội dung cho rid:", rid);
-                        } else {
-                            console.warn("Không tìm thấy rid cho phần tử đang focus");
-                        }
-                    } else {
-                        console.warn("Không tìm thấy phần tử roundabout-in-focus");
+                    // Autoplay Callback Function (Define it!)
+                    function autoplayCallback() {
+                        // Add any code here that you want to run after each autoplay transition.
+                        console.log("Autoplay transitioned to the next item.");
                     }
-                }
 
-                // Initial content update
-                setTimeout(function () {
-                    updateContentDisplay($roundabout.find(".roundabout-in-focus"));
-                }, 500);
+                    // Initialize Roundabout
+                    var $roundabout = $("#left-slide-02");
+                    $roundabout.roundabout({
+                        margin: 0.7,
+                        autoplay: true,
+                        autoplayDuration: 5000,
+                        responsive: true,
+                        btnNext: ".next",
+                        btnPrev: ".prev",
+                        triggerFocusEvents: true,
+                        triggerBlurEvents: true,
+                        childSelector: "li",
+                        tilt: 0,
+                        minOpacity: 0.5,
+                        maxOpacity: 1,
+                        minScale: 0.6,
+                        maxScale: 1,
+                        duration: 600,
+                        easing: "swing",
+                        focus: function (newFocus) {
+                            updateContentDisplay(newFocus);
+                        },
+                        autoplayCallback: autoplayCallback // Pass the defined callback function.
+                    });
 
-                // Trigger focus on creation
-                $roundabout.trigger('focus');
-            });
-        </script>
+                    // Update content based on focused item
+                    function updateContentDisplay(elem) {
+                        var $inFocus = $(elem); // Use the element passed by the 'focus' event
+                        if ($inFocus.length > 0) {
+                            var rid = $inFocus.data('rid');
+                            if (rid) {
+                                $('.info-text dd').stop(true, true).addClass('hidden');
+                                $('.info-text dd[data-rid="' + rid + '"]').stop(true, true).removeClass('hidden');
+                                console.log("Hiển thị nội dung cho rid:", rid);
+                            } else {
+                                console.warn("Không tìm thấy rid cho phần tử đang focus");
+                            }
+                        } else {
+                            console.warn("Không tìm thấy phần tử roundabout-in-focus");
+                        }
+                    }
+
+                    // Initial content update
+                    setTimeout(function () {
+                        updateContentDisplay($roundabout.find(".roundabout-in-focus"));
+                    }, 500);
+
+                    // Trigger focus on creation
+                    $roundabout.trigger('focus');
+                });
+            </script>
+
     </body>
 </html>

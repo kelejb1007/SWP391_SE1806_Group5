@@ -64,7 +64,7 @@ public class GenreController extends HttpServlet {
                 request.getRequestDispatcher(target).include(request, response);
             } else {
                 // Xử lý trường hợp không có target (ví dụ, chuyển hướng đến trang chủ hoặc hiển thị lỗi)
-                response.sendRedirect(request.getContextPath() + "/Home.jsp");
+                response.sendRedirect(request.getContextPath() + "/homes.jsp");
             }
         } catch (Exception ex) {
             Logger.getLogger(GenreController.class.getName()).log(Level.SEVERE, null, ex);
