@@ -34,6 +34,9 @@
                                             <h2>No result found for query "${searchQuery}"</h2>
                                         </c:if>
                                         <div class="novel-grid">
+                                            <c:if test="${empty novels}">
+                                                <p>No novels found.</p>
+                                            </c:if>
                                             <c:forEach var="novel" items="${novels}">
                                                 <div class="novel-item">
 

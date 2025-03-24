@@ -9,6 +9,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 @WebServlet(name = "NovelListController", urlPatterns = {"/novels"})
 public class NovelController extends HttpServlet {
@@ -68,7 +70,7 @@ public class NovelController extends HttpServlet {
             searchQuery = sanitizeSearchQuery(searchQuery);
             //Danh sách tìm kiếm
             List<Novel> novels = novelDAO.searchNovels(searchQuery);
-           
+
             request.setAttribute("novels", novels);
 
             request.setAttribute("searchQuery", searchQuery);
@@ -94,38 +96,54 @@ public class NovelController extends HttpServlet {
                 .forward(request, response);
 
     }
-
-    private void viewNovelList(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-        String selectedGenre = request.getParameter("genre");
-        String selectedFilter = request.getParameter("filter");
-
-        List<Novel> novels;
-
-        //Danh sách novel theo bộ lọc+thể loại
-        novels = getNovelsByFilter(selectedFilter, selectedGenre);
-
-        // Gán danh sách vào request
-        request.setAttribute("novels", novels);
-
-        request.setAttribute("selectedFilter", selectedFilter);
-        request.setAttribute("selectedGenre", selectedGenre); // Lưu để hiển thị trên giao diện
-
-        // Forward đến trang hiển thị danh sách novels
-        String target = "/WEB-INF/views/user/reading/novelList.jsp";
-        request.getRequestDispatcher("/getGenre?target=" + target
-                + (selectedGenre != null ? "&genre=" + selectedGenre : "")
-                + (selectedFilter != null ? "&filter=" + selectedFilter : ""))
-                .forward(request, response);
-
+    
+   private void viewNovelList(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+    String[] selectedGenreArray = request.getParameterValues("genre");
+    String selectedFilter = request.getParameter("filter");
+    
+    if (selectedFilter == null || selectedFilter.trim().isEmpty()) {
+        selectedFilter = "all";
     }
 
-    private List<Novel> getNovelsByFilter(String selectedFilter, String selectedGenre) {
-        // Lọc theo filter trước
-        return novelDAO.getNovelsSortedByFilter(selectedFilter, selectedGenre);
+    List<String> selectedGenres = new ArrayList<>();
+    if (selectedGenreArray != null && selectedGenreArray.length > 0) {
+        for (String genre : selectedGenreArray) {
+            if (genre != null && !genre.trim().isEmpty()) {
+                // Tách chuỗi nếu chứa dấu phẩy
+                String[] splitGenres = genre.split(",");
+                for (String splitGenre : splitGenres) {
+                    String trimmedGenre = splitGenre.trim();
+                    if (!trimmedGenre.isEmpty()) {
+                        selectedGenres.add(trimmedGenre);
+                    }
+                }
+            }
+        }
     }
 
+    
+    List<Novel> novels = novelDAO.getNovelsSortedByFilter(selectedFilter, selectedGenres);
+    
+
+    request.setAttribute("novels", novels);
+    request.setAttribute("selectedFilter", selectedFilter);
+    request.setAttribute("selectedGenres", selectedGenres);
+
+    String target = "/WEB-INF/views/user/reading/novelList.jsp";
+    String genreParam = (selectedGenres != null && !selectedGenres.isEmpty()) 
+            ? String.join(",", selectedGenres) : "";
+    System.out.println("Forwarding to: /getGenre?target=" + target + "&genre=" + genreParam + "&filter=" + selectedFilter);
+    request.getRequestDispatcher("/getGenre?target=" + target 
+            + "&genre=" + genreParam
+            + "&filter=" + selectedFilter)
+            .forward(request, response);
+}
+    
+//    private List<Novel> getNovelsByFilter(String selectedFilter, String selectedGenre) {
+//        // Lọc theo filter trước
+//        return novelDAO.getNovelsSortedByFilter(selectedFilter, selectedGenre);
+//    }
     //SANIZATION METHOD
     private String sanitizeSearchQuery(String query) {
         // CHỈ GIỮ LẠI CHỮ CÁI, SỐ, KHOẢNG TRẮNG, DẤU CHẤM, DẤU PHẨY, GẠCH NGANG
