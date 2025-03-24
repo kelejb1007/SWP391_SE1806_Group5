@@ -28,9 +28,9 @@ public class ManageChapterDAO {
                 + "JOIN Novel n ON c.novelID = n.novelID "
                 + "WHERE c.novelID = ? AND c.chapterStatus = 'active'";
 
-        try (Connection connection = db.getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
+        try ( Connection connection = db.getConnection();  PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, novelID);
-            try (ResultSet rs = statement.executeQuery()) {
+            try ( ResultSet rs = statement.executeQuery()) {
                 while (rs.next()) {
                     ManageChapter chapter = new ManageChapter();
                     chapter.setChapterID(rs.getInt("chapterID"));
@@ -55,9 +55,9 @@ public class ManageChapterDAO {
         String sql = "UPDATE Chapter SET chapterStatus = 'locked' WHERE chapterID = ? AND chapterStatus = 'active'";
         String logSql = "INSERT INTO LockChapterLog (managerID, chapterID, datetime, action, lockReason) VALUES (?, ?, GETDATE(), 'lock', ?)";
 
-        try (Connection conn = db.getConnection()) {
+        try ( Connection conn = db.getConnection()) {
             conn.setAutoCommit(false);
-            try (PreparedStatement stmt = conn.prepareStatement(sql); PreparedStatement logStmt = conn.prepareStatement(logSql)) {
+            try ( PreparedStatement stmt = conn.prepareStatement(sql);  PreparedStatement logStmt = conn.prepareStatement(logSql)) {
                 stmt.setInt(1, chapterID);
                 int rowsUpdated = stmt.executeUpdate();
                 if (rowsUpdated > 0) {
@@ -92,7 +92,7 @@ public class ManageChapterDAO {
                 + "JOIN Novel n ON c.novelID = n.novelID "
                 + "WHERE c.chapterStatus = 'locked'";
 
-        try (Connection connection = db.getConnection(); PreparedStatement statement = connection.prepareStatement(sql); ResultSet rs = statement.executeQuery()) {
+        try ( Connection connection = db.getConnection();  PreparedStatement statement = connection.prepareStatement(sql);  ResultSet rs = statement.executeQuery()) {
             while (rs.next()) {
                 ManageChapter chapter = new ManageChapter();
                 chapter.setChapterID(rs.getInt("chapterID"));
@@ -120,9 +120,9 @@ public class ManageChapterDAO {
                 + "FROM Chapter c "
                 + "WHERE c.novelID = ? AND c.chapterStatus = 'locked'";
 
-        try (Connection connection = db.getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
+        try ( Connection connection = db.getConnection();  PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, novelID);
-            try (ResultSet rs = statement.executeQuery()) {
+            try ( ResultSet rs = statement.executeQuery()) {
                 while (rs.next()) {
                     ManageChapter chapter = new ManageChapter();
                     chapter.setChapterID(rs.getInt("chapterID"));
@@ -146,9 +146,9 @@ public class ManageChapterDAO {
 
     public String getCurrentChapterStatus(int chapterID) {
         String sql = "SELECT chapterStatus FROM Chapter WHERE chapterID = ?";
-        try (Connection conn = db.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try ( Connection conn = db.getConnection();  PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, chapterID);
-            try (ResultSet rs = stmt.executeQuery()) {
+            try ( ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     return rs.getString("chapterStatus");
                 }
@@ -176,9 +176,9 @@ public class ManageChapterDAO {
         String sql = "UPDATE Chapter SET chapterStatus = 'active' WHERE chapterID = ? AND chapterStatus = 'locked'";
         String logSql = "INSERT INTO LockChapterLog (managerID, chapterID, datetime, action, lockReason) VALUES (?, ?, GETDATE(), 'unlock', ?)";
 
-        try (Connection conn = db.getConnection()) {
+        try ( Connection conn = db.getConnection()) {
             conn.setAutoCommit(false);
-            try (PreparedStatement stmt = conn.prepareStatement(sql); PreparedStatement logStmt = conn.prepareStatement(logSql)) {
+            try ( PreparedStatement stmt = conn.prepareStatement(sql);  PreparedStatement logStmt = conn.prepareStatement(logSql)) {
                 stmt.setInt(1, chapterID);
                 int rows = stmt.executeUpdate();
                 if (rows > 0) {
@@ -204,7 +204,7 @@ public class ManageChapterDAO {
             return false;
         }
     }
-    
+
     public boolean changeChapterStatus(int chapterID, String status) {
         String sql = "UPDATE Chapter\n"
                 + "SET chapterStatus = ?\n"
@@ -233,9 +233,9 @@ public class ManageChapterDAO {
         String sql = "UPDATE Chapter SET chapterStatus = ? WHERE chapterID = ?";
         String logSql = "INSERT INTO LockChapterLog (managerID, chapterID, datetime, action, lockReason) VALUES (?, ?, GETDATE(), ?, ?)";
 
-        try (Connection conn = db.getConnection()) {
+        try ( Connection conn = db.getConnection()) {
             conn.setAutoCommit(false);
-            try (PreparedStatement stmt = conn.prepareStatement(sql); PreparedStatement logStmt = conn.prepareStatement(logSql)) {
+            try ( PreparedStatement stmt = conn.prepareStatement(sql);  PreparedStatement logStmt = conn.prepareStatement(logSql)) {
                 stmt.setString(1, newStatus);
                 stmt.setInt(2, chapterID);
                 int rows = stmt.executeUpdate();
@@ -266,7 +266,7 @@ public class ManageChapterDAO {
                 + "JOIN Novel n ON c.novelID = n.novelID "
                 + "WHERE c.chapterStatus = 'pending'";
 
-        try (Connection connection = db.getConnection(); PreparedStatement statement = connection.prepareStatement(sql); ResultSet rs = statement.executeQuery()) {
+        try ( Connection connection = db.getConnection();  PreparedStatement statement = connection.prepareStatement(sql);  ResultSet rs = statement.executeQuery()) {
             while (rs.next()) {
                 ManageChapter chapter = new ManageChapter();
                 chapter.setChapterID(rs.getInt("chapterID"));
@@ -290,9 +290,9 @@ public class ManageChapterDAO {
 
     public boolean approveChapter(int chapterID, int managerID) {
         String sql = "UPDATE Chapter SET chapterStatus = 'active' WHERE chapterID = ? AND chapterStatus = 'pending'";
-        try (Connection connection = db.getConnection()) {
+        try ( Connection connection = db.getConnection()) {
             connection.setAutoCommit(false);
-            try (PreparedStatement stmt = connection.prepareStatement(sql); PreparedStatement logStmt = connection.prepareStatement(
+            try ( PreparedStatement stmt = connection.prepareStatement(sql);  PreparedStatement logStmt = connection.prepareStatement(
                     "INSERT INTO LockChapterLog (managerID, chapterID, datetime, action, lockReason) VALUES (?, ?, GETDATE(), 'approve', ?)")) {
                 stmt.setInt(1, chapterID);
                 int rowsAffected = stmt.executeUpdate();
@@ -320,9 +320,9 @@ public class ManageChapterDAO {
 
     public boolean rejectChapter(int chapterID, int managerID, String rejectReason) {
         String sql = "UPDATE Chapter SET chapterStatus = 'rejected' WHERE chapterID = ? AND chapterStatus = 'pending'";
-        try (Connection connection = db.getConnection()) {
+        try ( Connection connection = db.getConnection()) {
             connection.setAutoCommit(false);
-            try (PreparedStatement stmt = connection.prepareStatement(sql); PreparedStatement logStmt = connection.prepareStatement(
+            try ( PreparedStatement stmt = connection.prepareStatement(sql);  PreparedStatement logStmt = connection.prepareStatement(
                     "INSERT INTO LockChapterLog (managerID, chapterID, datetime, action, lockReason) VALUES (?, ?, GETDATE(), 'reject', ?)")) {
                 stmt.setInt(1, chapterID);
                 int rowsAffected = stmt.executeUpdate();
@@ -347,7 +347,7 @@ public class ManageChapterDAO {
         }
         return false;
     }
-    
+
     public boolean updatePublicDate(int chapterID) {
         String sql = "UPDATE Chapter\n"
                 + "SET publishedDate = SYSDATETIME()\n"
@@ -368,10 +368,10 @@ public class ManageChapterDAO {
         }
         return false;
     }
-    
+
     public boolean updateChapter(ManageChapter draft, int chapterID) {
-        String sql = "UPDATE Novel SET "
-                + "chapterName = ?, fileURL = ?,"
+            String sql = "UPDATE Chapter SET "
+                + "chapterName = ?, fileURL = ?, chapterNumber = ? "
                 + "where chapterID = ?";
         Connection connection;
         PreparedStatement statement;
@@ -379,9 +379,10 @@ public class ManageChapterDAO {
         try {
             connection = db.getConnection();
             statement = connection.prepareStatement(sql);
-            statement.setString(1, draft.getNovelName());
+            statement.setString(1, draft.getChapterName());
             statement.setString(2, draft.getFileURL());
-            statement.setInt(3, chapterID);
+            statement.setInt(3, draft.getChapterNumber());
+            statement.setInt(4, chapterID);
             n = statement.executeUpdate();
             if (n != 0) {
                 return true;
@@ -391,7 +392,7 @@ public class ManageChapterDAO {
         }
         return false;
     }
-    
+
     public ManageChapter getChapterById(int chapterID) {
         ManageChapter chapter = null;
         String sql = "SELECT chapterID, novelID, chapterNumber, chapterName, fileURL, publishedDate, chapterStatus FROM Chapter WHERE chapterID = ?";
@@ -403,7 +404,7 @@ public class ManageChapterDAO {
             statement = connection.prepareStatement(sql);
             statement.setInt(1, chapterID);
             rs = statement.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 chapter = new ManageChapter();
                 chapter.setChapterID(rs.getInt("chapterID"));
                 chapter.setNovelID(rs.getInt("novelID"));
@@ -416,7 +417,7 @@ public class ManageChapterDAO {
             }
         } catch (SQLException e) {
             Logger.getLogger(ManageChapterDAO.class.getName()).log(Level.SEVERE, null, e);
-        } 
+        }
         return chapter;
     }
 

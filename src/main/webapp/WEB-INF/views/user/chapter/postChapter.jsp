@@ -3,7 +3,12 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" href="css/home/header.css">
+<link rel="stylesheet" href="css/homepage2/home2.css">
+        <link rel="stylesheet" href="css/homepage2/root.css?v=2">
+        <link rel="stylesheet" href="css/homepage2/header2.css?v=1">
+        <link rel="stylesheet" href="css/homepage2/layout2.css?v=2">
+        <link rel="stylesheet" href="css/homepage2/iconfont.css?v=1">
+        <link rel="stylesheet" href="css/homepage2/index.css?v=1">        
         <title>Post Chapter</title>
         <style>
             body {
@@ -72,7 +77,7 @@
     </head>
     <body>
         <header>
-            <jsp:include page="/WEB-INF/views/user/components/header.jsp" /> 
+            <jsp:include page="/WEB-INF/views/user/components/header2.jsp" /> 
         </header>
 
         <h2>Post Chapter</h2>
@@ -91,9 +96,8 @@
 
             <form action="<%= request.getContextPath()%>/postChapter" method="post" enctype="multipart/form-data">
                 <div class="form-group">
-                    <label for="novelId">Novel ID:</label>
                     <span>
-                        <input type="number" id="novelId" name="novelId" value="<%= novelId%>" readonly>
+                        <input type="hidden" id="novelId" name="novelId" value="<%= novelId%>" readonly>
                     </span>
                 </div>
 

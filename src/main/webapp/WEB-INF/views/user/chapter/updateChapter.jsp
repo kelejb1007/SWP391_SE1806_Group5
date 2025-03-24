@@ -66,7 +66,7 @@
             h2 {
                 text-align: center;
             }
-            
+
             .areaInput {
                 font-family: 'Open Sans', sans-serif;
                 font-size: 1.1rem;
@@ -87,6 +87,7 @@
             <%
                 Chapter chapter = (Chapter) request.getAttribute("chapter");
                 Integer novelId = (Integer) request.getAttribute("novelId");
+                Integer chapterId = (Integer) request.getAttribute("chapterId");
                 String novelName = (String) request.getAttribute("novelName");
                 String message = (String) request.getAttribute("message");
                 String messageType = (request.getAttribute("messageType") != null) ? request.getAttribute("messageType").toString() : "success";
@@ -97,6 +98,11 @@
             <% } else {%>
 
             <form action="<%= request.getContextPath()%>/updateChapter" method="post" enctype="multipart/form-data">
+
+                <div class="form-group">
+                    <input type="hidden" id="chapterId" name="chapterId" value="<%= chapterId %>" readonly>
+                    <input type="hidden" id="novelId" name="novelId" value="<%= novelId%>" readonly>
+                </div>
 
                 <div class="form-group">
                     <label for="novelName">Novel Name:</label>
@@ -123,7 +129,7 @@
 
                 <div class="form-group" id="textInput">
                     <label for="chapterContent">Chapter Content:</label>
-                    <textarea class="areaInput" id="chapterContent" name="chapterContent" >${chapterContent}</textarea>
+                    <textarea class="areaInput" id="chapterContent" name="chapterContent" required>${chapterContent}</textarea>
                 </div>
 
                 <div class="form-group" id="fileInput" style="display: none;">
@@ -154,7 +160,7 @@
                     textArea.required = true;
                     fileField.required = false;
                     fileField.value = "";
-                    
+
                 } else {
                     manualInput.style.display = "none";
                     fileInput.style.display = "block";

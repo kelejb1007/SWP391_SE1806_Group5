@@ -9,6 +9,7 @@ package model;
  * @author Nguyen Thanh Trung
  */
 public class ChapterSubmission {
+
     private int submissionCID;
     private int novelID;
     private int chapterID;
@@ -22,6 +23,7 @@ public class ChapterSubmission {
     private int draftID;
 
     private String chapterName;
+    private String chapterNumber;
     private String novelName;
     private String userName;
     private int draftName;
@@ -56,7 +58,7 @@ public class ChapterSubmission {
     public void setNovelName(String novelName) {
         this.novelName = novelName;
     }
-    
+
     public int getNovelID() {
         return novelID;
     }
@@ -152,7 +154,13 @@ public class ChapterSubmission {
     public void setChapterName(String chapterName) {
         this.chapterName = chapterName;
     }
-    
-    
+
+    public String getChapterNumber() {
+        return chapterNumber;
+    }
+
+    public void setChapterNumber(String chapterNumber) {
+        this.chapterNumber = chapterNumber;
+    }
 
 }

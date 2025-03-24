@@ -49,7 +49,7 @@ public class ChapterSubmissionDAO {
         return false;
     }
     
-    public boolean addUpdatingSubmission(int chapterID, int userID, String type, int draftID) {
+    public boolean addUpdatingSubmission(ChapterSubmission ns) {
         String sql = "INSERT INTO ChapterSubmission (chapterID, userID, status, approvalDate, type, draftID)\n"
                 + "VALUES (?, ?, 'pending', NULL, ?, ?)";
         Connection connection;
@@ -58,16 +58,16 @@ public class ChapterSubmissionDAO {
         try {
             connection = db.getConnection();
             statement = connection.prepareStatement(sql);
-            statement.setInt(1, chapterID);
-            statement.setInt(2, userID);
-            statement.setString(3, type);
-            statement.setInt(4, draftID);
+            statement.setInt(1, ns.getChapterID());
+            statement.setInt(2, ns.getUserID());
+            statement.setString(3, ns.getType());
+            statement.setInt(4, ns.getDraftID());
             n = statement.executeUpdate();
             if (n != 0) {
                 return true;
             }
         } catch (Exception e) {
-            Logger.getLogger(NovelDAO.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(ChapterDAO.class.getName()).log(Level.SEVERE, null, e);
         }
         return false;
     }

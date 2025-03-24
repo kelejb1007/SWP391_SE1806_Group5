@@ -8,6 +8,7 @@ import DAO.ChapterDAO;
 import DAO.GenreDAO;
 import DAO.NovelDAO;
 import DAO.NovelSubmissionDAO;
+import DAO.PostChapterHistoryDAO;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import controller.staff.managenovel.ManageNovelController;
@@ -35,6 +36,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Chapter;
+import model.ChapterSubmission;
 import model.Genre;
 import model.Novel;
 import model.NovelSubmission;
@@ -94,6 +96,9 @@ public class MyNovelController extends HttpServlet {
                 break;
             case "viewposthistory":
                 viewPostingHistory(request, response);
+                break;
+            case "viewchapterposthistory":
+                viewChapterPostingHistory(request, response);
                 break;
             default:
                 request.getRequestDispatcher("/WEB-INF/views/user/mynovel/authorDashboard.jsp").forward(request, response);
@@ -277,6 +282,33 @@ public class MyNovelController extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/views/user/mynovel/postingHistory.jsp").forward(request, response);
         } catch (Exception ex) {
             Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void viewChapterPostingHistory(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        PostChapterHistoryDAO chd = new PostChapterHistoryDAO();
+        List<ChapterSubmission> list;
+        String message = null;
+
+        try {
+            HttpSession session = request.getSession(false);
+            UserAccount us = (UserAccount) session.getAttribute("user");
+
+            list = chd.getSubmisstionHistory(us.getUserID());
+            if (list.isEmpty()) {
+                message = "No Submissions!";
+            }
+            request.setAttribute("message", message);
+            request.setAttribute("list", list);
+
+            // Chuyển tiếp đến JSP để hiển thị
+            request.getRequestDispatcher("/WEB-INF/views/user/chapter/PostChapterHistory.jsp").forward(request, response);
+        } catch (NumberFormatException e) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid ID format");
+        } catch (Exception e) {
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error processing request");
+            e.printStackTrace();
         }
     }
 
