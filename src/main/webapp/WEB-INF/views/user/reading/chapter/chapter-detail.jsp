@@ -7,7 +7,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Novel Chapter</title>
-        <link rel="stylesheet" href="css/chapter-content/chapter-content.css">
+        <link rel="stylesheet" href="css/chapter-content/chapter-content.css?v=2">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link href="https://fonts.googleapis.com/css2?family=Satisfy&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">

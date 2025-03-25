@@ -6,14 +6,14 @@
 <html>
     <head>
 
-        <link rel="stylesheet" href="css/favorite/history.css">
+        <link rel="stylesheet" href="css/favorite/history.css?v=2">
 
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <meta charset="UTF-8">
         <title>Reading History</title>
-
+        <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut") %>">
     </head>
     <body class="g_site_readnovel">
         <div class="wrap home">
