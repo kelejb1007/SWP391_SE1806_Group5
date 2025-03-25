@@ -169,7 +169,7 @@ public class UserAccountDAO {
     // Lấy danh sách tất cả tài khoản
     public List<UserAccount> getAllAccounts() throws SQLException {
         List<UserAccount> listAccounts = new ArrayList<>();
-        String sql = "SELECT * FROM UserAccount";
+        String sql = "SELECT * FROM UserAccount WHERE status = 0 ";
         try ( Connection conn = dbContext.getConnection();  PreparedStatement stmt = conn.prepareStatement(sql);  ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
@@ -216,16 +216,22 @@ public class UserAccountDAO {
     }
 
     // Cập nhật trạng thái khóa/mở khóa tài khoản
-    public void updateLockStatus(int userID, boolean newStatus) throws SQLException {
+    public boolean updateLockStatus(int userID, boolean newStatus) throws SQLException {
         String sql = "UPDATE UserAccount SET status = ? WHERE userID = ?";
         try ( Connection conn = dbContext.getConnection();  PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, newStatus ? 1 : 0); // 1 = mở khóa, 0 = khóa
+
+            stmt.setInt(1, newStatus ? 1 : 0); // 1 = bị khóa, 0 = mở khóa
             stmt.setInt(2, userID);
-            stmt.executeUpdate();
+
+            // Execute update and get the number of affected rows
+            int rowsAffected = stmt.executeUpdate();
+
+            // Return true if at least one row is updated, false otherwise
+            return rowsAffected > 0;
         }
     }
-    // Khoa thêm phần này cho ViewProfile
 
+    // Khoa thêm phần này cho ViewProfile
     public UserAccount getUserByUsername(String username) {
         // Câu truy vấn SQL lấy thông tin người dùng từ bảng UserAccount
         String sql = "SELECT * FROM UserAccount WHERE userName = ?";
@@ -252,13 +258,13 @@ public class UserAccountDAO {
             e.printStackTrace();
         }
     }
+
     // Khoa thêm phần này cho EditProfile  
     public boolean updateUser(UserAccount user) {
         String sql = "UPDATE UserAccount SET fullName = ?, email = ?, numberPhone = ?, dateOfBirth = ?, gender = ?, imageUML = ? WHERE userID = ?";
-        
-        try (Connection conn = dbContext .getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-             
+
+        try ( Connection conn = dbContext.getConnection();  PreparedStatement stmt = conn.prepareStatement(sql)) {
+
             stmt.setString(1, user.getFullName());
             stmt.setString(2, user.getEmail());
             stmt.setString(3, user.getNumberPhone());
@@ -268,30 +274,27 @@ public class UserAccountDAO {
             stmt.setInt(7, user.getUserID());
 
             return stmt.executeUpdate() > 0;
-            
+
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
     }
+
     //ChangePass
     public boolean changePassword(String username, String currentPassword, String newPassword, String confirmPassword) {
-    if (!newPassword.equals(confirmPassword)) {
+        if (!newPassword.equals(confirmPassword)) {
+            return false;
+        }
+        String sql = "UPDATE UserAccount SET password = ? WHERE userName = ? AND password = ?";
+        try ( Connection conn = dbContext.getConnection();  PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, hashSHA256(newPassword));
+            stmt.setString(2, username);
+            stmt.setString(3, hashSHA256(currentPassword));
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return false;
     }
-    String sql = "UPDATE UserAccount SET password = ? WHERE userName = ? AND password = ?";
-    try (Connection conn = dbContext.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
-        stmt.setString(1, hashSHA256(newPassword));
-        stmt.setString(2, username);
-        stmt.setString(3, hashSHA256(currentPassword));
-        return stmt.executeUpdate() > 0;
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
-    return false;
 }
-}
-
-
-
-
