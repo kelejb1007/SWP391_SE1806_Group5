@@ -6,7 +6,11 @@ body {
     background-color: #f8f0e3 !important;
     position: relative;
     overflow-x: hidden;
-    min-height: 100vh; /* Ensure minimum height */
+    min-height: 100vh;
+}
+/* Đảm bảo các phần tử cha không ghi đè background */
+.wrap, .home {
+    background-color: transparent !important; /* Hoặc #f8f0e3 nếu muốn */
 }
 
 /* Modify the favorites container */
@@ -26,8 +30,14 @@ body {
 h1 {
     text-align: center;
     color: #e4798e;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     font-family: 'Macondo Swash Caps', cursive;
+    font-size: 2.5em;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    display: flex; /* Sử dụng flex để căn giữa biểu tượng và chữ */
+    justify-content: center; /* Căn giữa theo chiều ngang */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    gap: 10px; /* Khoảng cách giữa biểu tượng và chữ */
 }
 
 .favorite-item {
@@ -151,14 +161,22 @@ h1 {
     color: #000000;
 }
 
-/* CSS cho falling hearts */
+/* Đảm bảo header có z-index cao hơn */
+.header {
+    position: relative; /* Hoặc fixed, tùy vào thiết kế của bạn */
+    z-index: 10; /* Đặt z-index cao để header luôn ở trên */
+    background-color: #fff; /* Đảm bảo header có nền để không bị trong suốt */
+}
+
+/* Falling hearts */
 .heart {
-    position: absolute;
+    position: fixed;
     font-size: 1em;
     color: #e4798e;
     animation: heartFall linear;
     opacity: 0.5;
-    top: -100px;
+    pointer-events: none;
+    z-index: 0; /* Đặt z-index thấp để tim ở dưới header */
 }
 
 @keyframes heartFall {
@@ -235,42 +253,69 @@ html {
 }
 
 
-/* Style for the form */
+/* Form tìm kiếm */
 .search-form-container {
-    margin-left: 50px;
-    text-align: center; 
-    margin-bottom: 20px; 
+    text-align: center;
+    margin-bottom: 30px;
 }
 
-
-#searchQuery {
-    border: 2px solid pink; 
-    border-radius: 20px;       
-    padding: 5px;           
-    color: pink;           
+/* Chỉ áp dụng cho form tìm kiếm trong trang Favorite */
+.favorite-search-form #searchQuery {
+    border: 2px solid #e4798e;
+    border-radius: 25px;
+    padding: 8px 15px;
+    color: #d15c74;
+    width: 300px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-
-#searchQuery:focus {
-    outline: none;            
-    border-color: #e8c4c4;   
-    box-shadow: 0 0 5px rgba(228, 121, 142, 0.5); 
+.favorite-search-form #searchQuery:focus {
+    outline: none;
+    border-color: #d15c74;
+    box-shadow: 0 0 8px rgba(228, 121, 142, 0.3);
 }
-#searchQuery::placeholder {
-    color: #c7254e;         
-    opacity: 0.7;         }
 
-.search-button {
+.favorite-search-form #searchQuery::placeholder {
+    color: #e4798e;
+    opacity: 0.7;
+}
+
+.favorite-search-form .search-button {
     background-color: transparent;
-    border: none !important;
+    border: none;
     color: #d15c74;
     cursor: pointer;
-    font-size: inherit; 
-    padding: 0; 
+    font-size: 1.2em;
+    padding: 0 10px;
+    transition: color 0.3s ease;
 }
 
-/* Style the submit button on hover */
-.search-button:hover {
-    color: #e4798e; 
-    border: none !important;
+.favorite-search-form .search-button:hover {
+    color: #e4798e;
+}
+
+/* Căn giữa thông báo "No favorites yet" */
+.no-favorites {
+    display: flex;
+    justify-content: center; /* Căn giữa theo chiều ngang */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    min-height: 200px; /* Đảm bảo có không gian để căn giữa */
+    text-align: center;
+}
+
+.no-favorites p {
+    font-size: 1.2em;
+    color: #666;
+    margin: 0;
+}
+
+.no-favorites a {
+    color: #e4798e;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.no-favorites a:hover {
+    text-decoration: underline;
+    color: #d15c74;
 }

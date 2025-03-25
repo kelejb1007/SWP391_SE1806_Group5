@@ -6,8 +6,8 @@
     <head>
         <meta charset="UTF-8">
         <title>Favorite</title>
-         <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut") %>">
-        <link rel="stylesheet" href="css/favorite/favorite(d).css?v=2">
+        <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut")%>">
+        <link rel="stylesheet" href="css/favorite/favorite(d).css?v=4">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 
@@ -28,18 +28,20 @@
 
                 <div id="favorites" class="tab-content active">
                     <div class="favorites-container">
-                        <h1><i class="fa-solid fa-heart" style="color: #e4798e;"></i> Favorite List</h1>
+                        <h1><i class="fa-solid fa-heart" style="color: #e4798e; font-size: 30px;"></i> Favorite List</h1>
                         <div id="favorites-list">
                             <c:choose>
                                 <c:when test="${empty favoriteNovels}">
-                                    <p>No favorites yet. Go to the <a href="<c:url value='/novels' />">List</a> to find something you love!</p>
+                                    <div class="no-favorites">
+                                        <p>No favorites yet. Go to the <a href="<c:url value='/novels' />">List</a> to find something you love!</p>
+                                    </div>
                                 </c:when>
                                 <c:otherwise>
                                     <div class="search-form-container">
-                                        <form action="favorite" method="get" id="searchForm" >
-                                            <input type="text" name="searchQuery" id="searchQuery" placeholder="Enter a novel name" >
+                                        <form action="favorite" method="get" id="searchForm" class="favorite-search-form">
+                                            <input type="text" name="searchQuery" id="searchQuery" placeholder="Enter a novel name">
                                             <input type="hidden" name="action" value="search">
-                                            <button type="submit" class="search-button"> <i class="fas fa-search"></i></button>
+                                            <button type="submit" class="search-button"><i class="fas fa-search"></i></button>
 
                                             <c:if test="${not empty errorMessage}">
                                                 <p style="color: red;">${errorMessage}</p>
@@ -110,6 +112,6 @@
 
         </script>
 
-        <script src="js/favorite/favorite(d).js"></script>
+        <script src="js/favorite/favorite(d).js?v=2"></script>
     </body>
 </html>

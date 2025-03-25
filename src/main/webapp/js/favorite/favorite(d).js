@@ -1,10 +1,13 @@
 
-// JavaScript từ favorite.jsp (Sửa đổi để quản lý tab)
 const maxHearts = 10;
 const hearts = [];
 
 function createHeart() {
     let heart;
+
+    // Lấy chiều cao của header
+    const header = document.querySelector('.header'); // Thay '.header' bằng class của header của bạn
+    const headerHeight = header ? header.offsetHeight : 60; // Mặc định là 60px nếu không tìm thấy header
 
     if (hearts.length < maxHearts) {
         heart = document.createElement('i');
@@ -24,9 +27,10 @@ function createHeart() {
 
     heart.style.left = Math.random() * 100 + "vw";
 
-    heart.style.animationDuration = Math.random() * 5 + 5 + "s";
+    // Đặt vị trí bắt đầu của tim ngay dưới header
+    heart.style.top = headerHeight + 'px'; // Bắt đầu từ dưới header
 
-    heart.style.top = '-100px';
+    heart.style.animationDuration = Math.random() * 5 + 5 + "s";
 
     heart.addEventListener('animationend', heartEnd);
 }
