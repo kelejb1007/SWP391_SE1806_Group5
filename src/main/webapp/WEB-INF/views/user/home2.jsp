@@ -17,10 +17,8 @@
         <link rel="stylesheet" href="css/homepage2/layout2.css?v=2">
         <link rel="stylesheet" href="css/homepage2/index.css">
         <link rel="stylesheet" href="css/homepage2/footer.css">
-
+        <link rel="shortcut icon" type="image/x-icon" href="img/b3.png">
         <script src="https://kit.fontawesome.com/73b63a545d.js" crossorigin="anonymous"></script>
-        <link rel="shortcut icon" type="image/x-icon" href="//yuxseocdn.yuewen.com/favicon/readnovel.ico">
-        <link rel="Bookmark" type="image/x-icon" href="//yuxseocdn.yuewen.com/favicon/readnovel.ico">
 
         <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 
@@ -153,21 +151,21 @@
                             </div>
 
 
-                            <div class="focus-notice-wrap fr">
-                                <h3><em class="iconfont"></em><span>公告</span></h3>
-
-                                <div class="notice-list">
-                                    <ul>
-
-                                        <li class="rec"><a href="/noah/320228561" rel="nofollow"><span>[资讯]</span>书启韶华，金龙贺岁</a></li>
-
-                                        <li class=""><a href="/noah/289201618" rel="nofollow"><span>[资讯]</span>护苗·绿书签行动</a></li>
-
-
-                                    </ul>
-                                </div>
-
-                            </div>
+                            <!--                            <div class="focus-notice-wrap fr">
+                                                            <h3><em class="iconfont"></em><span>公告</span></h3>
+                            
+                                                            <div class="notice-list">
+                                                                <ul>
+                            
+                                                                    <li class="rec"><a href="/noah/320228561" rel="nofollow"><span>[资讯]</span>书启韶华，金龙贺岁</a></li>
+                            
+                                                                    <li class=""><a href="/noah/289201618" rel="nofollow"><span>[资讯]</span>护苗·绿书签行动</a></li>
+                            
+                            
+                                                                </ul>
+                                                            </div>
+                            
+                                                        </div>-->
                         </div>
 
                     </div>
@@ -318,7 +316,7 @@
 
                             <!-- TOP RANK --------------------------------------------------------- -->
                             <div class="right-wrap recent-finish-wrap fr">
-                                <div class="rank-list" data-l2="3"><h3 class="wrap-title lang">Top Rank This Month<a class="more" >更多<em class="iconfont"></em></a></h3>
+                                <div class="rank-list" data-l2="3"><h3 class="wrap-title lang">Top Rank This Month</h3>
                                     <div class="book-list" style="height: 396px; overflow: hidden">
                                         <ul>
                                             <c:forEach var="novel" items="${listrank}" varStatus="loop">
@@ -387,145 +385,93 @@
                 <div class="footer">
                     <div class="box-center cf">
                         <jsp:include page="/WEB-INF/views/user//components/footer.jsp" /> 
-
-                        <div class="copy-right">
-                            <p>
-                                <span></span>
-                            </p>
-
-                            <p>
-                                <a rel="nofollow" href="https://imgservices-1252317822.image.myqcloud.com/coco/s05252022/78d82dab.9t68aq.png" target="_blank">
-                                    增值电信业务经营许可证：京ICP证100530号
-                                </a>
-                                <a rel="nofollow" href="http://beian.miit.gov.cn" target="_blank" style="margin: 0 5px">互联网ICP备案号：京ICP备11018996号</a>,
-                                <a rel="nofollow" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502040231" style="display: inline-block;" target="_blank">
-                                    <img src="//yuxseocdn.yuewen.com/pro/readnovel_pc/_prelease/images/beian.d0289.png" style="float: left;">京公网安备 11010502040231号
-                                </a>
-                                <span>出版物经营许可证编号：新出发京零字第朝180154号</span>
-                                <a rel="nofollow" target="_blank" href="https://imgservices-1252317822.image.myqcloud.com/coco/s04302024/a8090c6d.maedv9.png"><span>营业执照</span></a>
-                            </p>
-                            <p>请所有作者发布作品时务必遵守国家互联网信息管理办法规定，我们拒绝任何色情小说，一经发现，即作删除！举报电话：010-59357051
-                            </p>
-                            <p>联系方式 总机 010-83050798-6000 地址：北京市朝阳区东三环北路27号楼22层(19)2202内01单元</p>
-                            <p>本站所收录作品、社区话题、书库评论及本站所做之广告均属个人行为，与本站立场无关</p>
-                        </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-                        <!--end 版权-->
-
-                        <!--start 安全中心-->
-
-                        <div class="safety-box">
-                            <div class="safety-img dib-wrap">
-                                <a class="site4" href="http://cyberpolice.mps.gov.cn/wfjb/" target="_blank" rel="nofollow"></a>
-
-                                <a class="site1" href="https://www.12377.cn" target="_blank" rel="nofollow"></a>
-                                <a class="site2" href="http://www.bjjubao.org.cn/index.html" target="_blank" rel="nofollow"></a>
-                            </div>
-                        </div>
-
-
-
-
-
-                        <!--end 安全中心-->
                     </div>
                 </div>
             </div>
-            <script src="https://yuxseocdn.yuewen.com/sentry/sentry.7.12.1.bundle.min.js" integrity="sha384-ds3MEkwHMg1Vl0XMXl86pZU3gIntwqCNJtYn0etV2sTjuKLdqrtEKFzCwgj3uzcL" crossorigin="anonymous"></script>
-            <script src="js/startmin/jquery.min.js"></script>
-            <script src="js/startmin/bootstrap.min.js"></script>
-            <script src="js/homepage2/rotation.js"></script>
-            <script src="js/homepage2/header.js"></script>
-            <script src="js/homepage2/round.js"></script>
-            <script>
-                $(document).ready(function () {
-                    $("#j-focus-slider").yx_rotaion({
-                        during: 3000, // Thời gian chuyển đổi giữa các ảnh (3 giây)
-                        auto: true, // Tự động chạy trình chiếu
-                        btn: false, // Ẩn nút điều hướng (nếu bạn muốn)
-                        focus: true, // Hiển thị nút tiêu điểm
-                        title: false  // Ẩn tiêu đề (nếu bạn không cần)
-                    });
-
-                    $("#j-navType").showTypeList({
-                    });
-
-                    $("#j-userWrap").userDropDown({
-                    });
-
-                    $("#formUrl").enterSearchBox({
-                    });
-
-
-                    // Autoplay Callback Function (Define it!)
-                    function autoplayCallback() {
-                        // Add any code here that you want to run after each autoplay transition.
-                        console.log("Autoplay transitioned to the next item.");
-                    }
-
-                    // Initialize Roundabout
-                    var $roundabout = $("#left-slide-02");
-                    $roundabout.roundabout({
-                        margin: 0.7,
-                        autoplay: true,
-                        autoplayDuration: 5000,
-                        responsive: true,
-                        btnNext: ".next",
-                        btnPrev: ".prev",
-                        triggerFocusEvents: true,
-                        triggerBlurEvents: true,
-                        childSelector: "li",
-                        tilt: 0,
-                        minOpacity: 0.5,
-                        maxOpacity: 1,
-                        minScale: 0.6,
-                        maxScale: 1,
-                        duration: 600,
-                        easing: "swing",
-                        focus: function (newFocus) {
-                            updateContentDisplay(newFocus);
-                        },
-                        autoplayCallback: autoplayCallback // Pass the defined callback function.
-                    });
-
-                    // Update content based on focused item
-                    function updateContentDisplay(elem) {
-                        var $inFocus = $(elem); // Use the element passed by the 'focus' event
-                        if ($inFocus.length > 0) {
-                            var rid = $inFocus.data('rid');
-                            if (rid) {
-                                $('.info-text dd').stop(true, true).addClass('hidden');
-                                $('.info-text dd[data-rid="' + rid + '"]').stop(true, true).removeClass('hidden');
-                                console.log("Hiển thị nội dung cho rid:", rid);
-                            } else {
-                                console.warn("Không tìm thấy rid cho phần tử đang focus");
-                            }
-                        } else {
-                            console.warn("Không tìm thấy phần tử roundabout-in-focus");
-                        }
-                    }
-
-                    // Initial content update
-                    setTimeout(function () {
-                        updateContentDisplay($roundabout.find(".roundabout-in-focus"));
-                    }, 500);
-
-                    // Trigger focus on creation
-                    $roundabout.trigger('focus');
+        </div>
+        <script src="https://yuxseocdn.yuewen.com/sentry/sentry.7.12.1.bundle.min.js" integrity="sha384-ds3MEkwHMg1Vl0XMXl86pZU3gIntwqCNJtYn0etV2sTjuKLdqrtEKFzCwgj3uzcL" crossorigin="anonymous"></script>
+        <script src="js/startmin/jquery.min.js"></script>
+        <script src="js/startmin/bootstrap.min.js"></script>
+        <script src="js/homepage2/rotation.js"></script>
+        <script src="js/homepage2/header.js"></script>
+        <script src="js/homepage2/round.js"></script>
+        <script>
+            $(document).ready(function () {
+                $("#j-focus-slider").yx_rotaion({
+                    during: 3000, // Thời gian chuyển đổi giữa các ảnh (3 giây)
+                    auto: true, // Tự động chạy trình chiếu
+                    btn: false, // Ẩn nút điều hướng (nếu bạn muốn)
+                    focus: true, // Hiển thị nút tiêu điểm
+                    title: false  // Ẩn tiêu đề (nếu bạn không cần)
                 });
-            </script>
+
+                $("#j-navType").showTypeList({
+                });
+
+                $("#j-userWrap").userDropDown({
+                });
+
+                $("#formUrl").enterSearchBox({
+                });
+
+
+                // Autoplay Callback Function (Define it!)
+                function autoplayCallback() {
+                    // Add any code here that you want to run after each autoplay transition.
+                    console.log("Autoplay transitioned to the next item.");
+                }
+
+                // Initialize Roundabout
+                var $roundabout = $("#left-slide-02");
+                $roundabout.roundabout({
+                    margin: 0.7,
+                    autoplay: true,
+                    autoplayDuration: 5000,
+                    responsive: true,
+                    btnNext: ".next",
+                    btnPrev: ".prev",
+                    triggerFocusEvents: true,
+                    triggerBlurEvents: true,
+                    childSelector: "li",
+                    tilt: 0,
+                    minOpacity: 0.5,
+                    maxOpacity: 1,
+                    minScale: 0.6,
+                    maxScale: 1,
+                    duration: 600,
+                    easing: "swing",
+                    focus: function (newFocus) {
+                        updateContentDisplay(newFocus);
+                    },
+                    autoplayCallback: autoplayCallback // Pass the defined callback function.
+                });
+
+                // Update content based on focused item
+                function updateContentDisplay(elem) {
+                    var $inFocus = $(elem); // Use the element passed by the 'focus' event
+                    if ($inFocus.length > 0) {
+                        var rid = $inFocus.data('rid');
+                        if (rid) {
+                            $('.info-text dd').stop(true, true).addClass('hidden');
+                            $('.info-text dd[data-rid="' + rid + '"]').stop(true, true).removeClass('hidden');
+                            console.log("Hiển thị nội dung cho rid:", rid);
+                        } else {
+                            console.warn("Không tìm thấy rid cho phần tử đang focus");
+                        }
+                    } else {
+                        console.warn("Không tìm thấy phần tử roundabout-in-focus");
+                    }
+                }
+
+                // Initial content update
+                setTimeout(function () {
+                    updateContentDisplay($roundabout.find(".roundabout-in-focus"));
+                }, 500);
+
+                // Trigger focus on creation
+                $roundabout.trigger('focus');
+            });
+        </script>
 
     </body>
 </html>

@@ -60,7 +60,9 @@
             </div>
         </div>
 
-        <jsp:include page="/WEB-INF/views/user/components/footer.jsp"></jsp:include>
+
+        <jsp:include page="/WEB-INF/views/user//components/footer.jsp" /> 
+
         <script src="js/home/sidebar.js"></script>
 
     </body>

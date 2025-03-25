@@ -13,7 +13,7 @@
 
 
         <script src="https://kit.fontawesome.com/73b63a545d.js" crossorigin="anonymous"></script>
-        <link rel="shortcut icon" type="image/x-icon" href="//yuxseocdn.yuewen.com/favicon/readnovel.ico">
+        <link rel="shortcut icon" type="image/x-icon" href="img/b3.bng">
         <link rel="Bookmark" type="image/x-icon" href="//yuxseocdn.yuewen.com/favicon/readnovel.ico">
         <style>
             .head-shelf.fw800, .right-nav.fr.mr12 a{
@@ -101,7 +101,7 @@
                                     </dl>
                                 </div>
                             </li>
-                            <li class=""><a href="/rank">aa</a></li>
+<!--                            <li class=""><a href="/rank">aa</a></li>
                             <li class=""><a href="/free">i</a></li>
                             <li class=""><a href="/finish">完本</a></li>
                             <li><a href="/gdyq">古言</a></li>
@@ -109,7 +109,7 @@
                             <li><a href="/xhxx">玄幻仙侠</a></li>
                             <li><a href="/lykh">悬疑科幻</a></li>
                             <li><a href="/qcyx">青春游戏</a></li>
-                            <li><a href="/fsg">风尚阁</a></li>
+                            <li><a href="/fsg">风尚阁</a></li>-->
 
 
                         </ul>

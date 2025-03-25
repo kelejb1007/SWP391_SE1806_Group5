@@ -52,7 +52,7 @@
                                 <div class="df aic g_header_title"><label for="foldSwitch" class="collapse_menu--QStMM mr8">
                                         <div class="df g_sd_close collapse_menu_btn--f8c2W"><i></i></div>
                                     </label>
-                                    <h2 class="header_title--gwRuS ell dib mw100p t_title_large mb0 vam"><span class="ttc">Create Novel</span></h2>
+                                    <h2 class="header_title--gwRuS ell dib mw100p t_title_large mb0 vam"><span class="ttc">Update Novel</span></h2>
 
                                 </div>
                             </div>
@@ -100,8 +100,8 @@
                                                         <div class="dib"><span>Total Of Chapter</span></div>
                                                     </label></div>
                                                 <div class="ant-form-item-control-input-content"><span class="ant-input-affix-wrapper" style="border-radius: 8px;">
-                                                        <input name="totalChapter" maxlength="5" placeholder="Predict total of chapter" id="bookTitle" aria-required="true" class="ant-input ant-input-lg" 
-                                                               type="number" value="${novel.totalChapter}" required >
+                                                        <input name="totalChapter" placeholder="Predict total of chapter (1 - 100000)" id="bookTitle" aria-required="true" class="ant-input ant-input-lg" 
+                                                               type="number" value="${novel.totalChapter}"  min="1" max="100000" required >
                                                     </span></div>
                                             </div>
                                         </div>
@@ -162,7 +162,7 @@
 
 
 
-                                                             <input id="file-input" type="file" name="imageURL" accept="image/*" style="display: block;"
+                                                             <input id="file-input" type="file" name="imageURL" accept="image/*" style="display: none;"
                                                              <c:if test="${novel.imageURL == null}"> required </c:if>>
                                                         <input type="hidden" name="file_hidden" value="${novel.imageURL}">
 

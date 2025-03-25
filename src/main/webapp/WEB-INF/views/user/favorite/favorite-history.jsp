@@ -8,13 +8,12 @@
         <title>Favorite</title>
         <link rel="stylesheet" href="css/favorite/favorite(d).css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <link rel="stylesheet" href="css/home/header(d).css">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Macondo+Swash+Caps&display=swap">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
 
     </head>
-    <body>
-        <jsp:include page="/WEB-INF/views/user/components/header.jsp"></jsp:include>
+    <body class="g_site_readnovel">
+        <div class="wrap home">
+            <jsp:include page="/WEB-INF/views/user/components/header2.jsp" /> 
             <div>
                 <div class="tab-list">
                     <a class="tab-link active" href="#favorites" data-tab="#favorites">
@@ -30,37 +29,38 @@
                     <div class="favorites-container">
                         <h1><i class="fa-solid fa-heart" style="color: #e4798e;"></i> Favorite List</h1>
                         <div id="favorites-list">
-                        <c:choose>
-                            <c:when test="${empty favoriteNovels}">
-                                 <p>No favorites yet. Go to the <a href="<c:url value='/novels' />">List</a> to find something you love!</p>
-                            </c:when>
-                            <c:otherwise>
-                                <div class="search-form-container">
-                                    <form action="favorite" method="get" id="searchForm" >
-                                        <input type="text" name="searchQuery" id="searchQuery" placeholder="Enter a novel name" >
-                                        <input type="hidden" name="action" value="search">
-                                        <button type="submit" class="search-button"> <i class="fas fa-search"></i></button>
+                            <c:choose>
+                                <c:when test="${empty favoriteNovels}">
+                                    <p>No favorites yet. Go to the <a href="<c:url value='/novels' />">List</a> to find something you love!</p>
+                                </c:when>
+                                <c:otherwise>
+                                    <div class="search-form-container">
+                                        <form action="favorite" method="get" id="searchForm" >
+                                            <input type="text" name="searchQuery" id="searchQuery" placeholder="Enter a novel name" >
+                                            <input type="hidden" name="action" value="search">
+                                            <button type="submit" class="search-button"> <i class="fas fa-search"></i></button>
 
-                                        <c:if test="${not empty errorMessage}">
-                                            <p style="color: red;">${errorMessage}</p>
-                                        </c:if>
-                                    </form>
-                                </div>
-                                <c:forEach var="novel" items="${favoriteNovels}">
-                                    <div class="favorite-item">
-                                        <img src="${novel.imageURL}" alt="${novel.novelName}">
-                                        <div class="item-info">
-                                            <a href="novel-detail?id=${novel.novelID}" class="item-name">${novel.novelName}</a>
-                                            <p class="item-description">${novel.novelDescription}</p>
-                                        </div>
-                                        <button class="remove-button favoriteButton" data-novel-id="${novel.novelID}">
-                                            <i class="fa-solid fa-heart" style="color: #e4798e;"></i>
-                                        </button>
+                                            <c:if test="${not empty errorMessage}">
+                                                <p style="color: red;">${errorMessage}</p>
+                                            </c:if>
+                                        </form>
                                     </div>
-                                </c:forEach>
-                               
-                            </c:otherwise>
-                        </c:choose>
+                                    <c:forEach var="novel" items="${favoriteNovels}">
+                                        <div class="favorite-item">
+                                            <img src="${novel.imageURL}" alt="${novel.novelName}">
+                                            <div class="item-info">
+                                                <a href="novel-detail?id=${novel.novelID}" class="item-name">${novel.novelName}</a>
+                                                <p class="item-description">${novel.novelDescription}</p>
+                                            </div>
+                                            <button class="remove-button favoriteButton" data-novel-id="${novel.novelID}">
+                                                <i class="fa-solid fa-heart" style="color: #e4798e;"></i>
+                                            </button>
+                                        </div>
+                                    </c:forEach>
+
+                                </c:otherwise>
+                            </c:choose>
+                        </div>
                     </div>
                 </div>
 
@@ -109,7 +109,6 @@
 
         </script>
 
-        <script src="js/home/header(d).js"></script>
         <script src="js/favorite/favorite(d).js"></script>
     </body>
 </html>
