@@ -24,6 +24,11 @@
     .hidden {
         display: none;
     }
+    #overlay:not(.hidden) {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 </style>
 
 <div class="novel-rating">
@@ -43,15 +48,14 @@
 </div>
 
 <!-- Login Popup -->
-<div id="overlay" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 1000; justify-content: center; align-items: center;">
-    <div id="loginPopup" style="background-color: white; padding: 20px; border-radius: 5px;">
-        <h2>Login Required</h2>
-        <p>You need to be logged in to rate this novel.</p>
-        <a href="Login" id="closeBtn">Login</a>
-
+<div id="overlay" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.6); z-index: 1000;">
+    <div id="loginPopup" style="background-color: white; padding: 30px; border-radius: 10px; width: 100%; max-width: 400px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); position: relative; font-family: Arial, sans-serif;">
+        <button id="closeBtn" style="position: absolute; top: 10px; right: 10px; border: none; background: none; font-size: 24px; cursor: pointer; color: #666;">×</button>
+        <h2 style="margin-top: 0; color: #333; font-size: 24px;">Login Required</h2>
+        <p style="color: #666; margin-bottom: 20px; font-size: 16px;">You need to be logged in to rate this novel.</p>
+        <a href="${pageContext.request.contextPath}/Login" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px; transition: background-color 0.3s;">Login Now</a>
     </div>
 </div>
-
 <script>
     // Context Path
     const contextPath = "${pageContext.request.contextPath}";

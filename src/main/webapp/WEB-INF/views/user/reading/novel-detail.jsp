@@ -11,11 +11,11 @@
         <title>${novel.novelName} - Novel Detail</title>
         <!--        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">-->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+      
 
-
-        <link rel="stylesheet" href="css/novel-detail/novel-detail(d).css">
-        <link rel="stylesheet" href="css/novel-detail/rating(d).css">
-        <link rel="stylesheet" href="css/novel-detail/chapter-list(d).css">
+        <link rel="stylesheet" href="css/novel-detail/novel-detail(d).css?v=2">
+        <link rel="stylesheet" href="css/novel-detail/rating(d).css?v=1">
+        <link rel="stylesheet" href="css/novel-detail/chapter-list(d).css?v=2">
         <link rel="stylesheet" href="css/novel-detail/top-of-novel(d).css">
         <link rel="stylesheet" href="css/novel-detail/comment(d).css">
                 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -294,7 +294,65 @@
                         </div>
                         <div class="col-lg-4 col-md-5">
                             <section class="top-novels">
-                                <jsp:include page="/WEB-INF/views/user/reading/top-of-novel.jsp"></jsp:include>
+                                  <div class="right-wrap recent-finish-wrap fr">
+                                <div class="rank-list" data-l2="3"><h3 class="wrap-title lang">Top Rank This Month</h3>
+                                    <div class="book-list" style="height: 396px; overflow: hidden">
+                                        <ul>
+                                            <c:forEach var="novel" items="${listrank}" varStatus="loop">
+                                                <c:choose>
+                                                    <c:when test="${loop.index == 0}">
+                                                        <li class="unfold" data-rid="${loop.index + 1}">
+                                                            <div class="book-wrap cf">
+                                                                <div class="book-info fl">
+                                                                    <h3>NO.1</h3>
+                                                                    <h4>
+                                                                        <a href="novel-detail?id=${novel.novelID}" data-eid="qd_A136" data-bid="${novel.novelID}" title="${novel.novelName}">${novel.novelName}</a>
+                                                                    </h4>
+                                                                    <p class="author">
+
+                                                                        <c:forEach var="genre" items="${novel.genreNames}" varStatus="genreLoop">
+                                                                            <a class="genre default">${genre}</a><c:if test="${!genreLoop.last}"> - </c:if>
+                                                                        </c:forEach>
+                                                                    </p>
+                                                                </div>
+                                                                <div class="book-cover">
+                                                                    <a class="link" href="novel-detail?id=${novel.novelID}" data-eid="qd_A136" data-bid="${novel.novelID}"><img src="${novel.imageURL}" alt="${novel.novelName}"></a><span></span>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <li data-rid="${loop.index + 1}">
+                                                            <div class="num-box">
+                                                                <c:choose>
+                                                                    <c:when test="${loop.index == 1}"><span class="num2">${loop.index + 1}</span></c:when>
+                                                                    <c:when test="${loop.index == 2}"><span class="num3">${loop.index + 1}</span></c:when>
+                                                                    <c:when test="${loop.index == 3}"><span class="num4">${loop.index + 1}</span></c:when>
+                                                                    <c:when test="${loop.index == 4}"><span class="num5">${loop.index + 1}</span></c:when>
+                                                                    <c:when test="${loop.index == 5}"><span class="num6">${loop.index + 1}</span></c:when>
+                                                                    <c:when test="${loop.index == 6}"><span class="num7">${loop.index + 1}</span></c:when>
+                                                                    <c:when test="${loop.index == 7}"><span class="num8">${loop.index + 1}</span></c:when>
+                                                                    <c:when test="${loop.index == 8}"><span class="num9">${loop.index + 1}</span></c:when>
+                                                                    <c:otherwise><span class="num10">${loop.index + 1}</span></c:otherwise>
+                                                                </c:choose>
+                                                            </div>
+                                                            <div class="name-box">
+                                                                <a class="name" href="novel-detail?id=${novel.novelID}" data-eid="qd_A117" data-bid="${novel.novelID}" title="${novel.novelName}">${novel.novelName}</a>
+                                                                <i class="author">
+                                                                    <c:forEach var="genre" items="${novel.genreNames}" varStatus="genreLoop">
+                                                                        ${genre}<c:if test="${!genreLoop.last}">,</c:if>
+                                                                    </c:forEach>
+                                                                </i>
+                                                            </div>
+                                                        </li>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </c:forEach>
+                                        </ul>
+                                    </div>
+
+                                </div>
+                            </div>
                                 </section>
                             </div>
                         </div>

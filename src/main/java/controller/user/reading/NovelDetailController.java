@@ -15,6 +15,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @WebServlet(name = "NovelDetailController", urlPatterns = {"/novel-detail"})
 public class NovelDetailController extends HttpServlet {
@@ -65,7 +67,8 @@ public class NovelDetailController extends HttpServlet {
            // 6. Lấy bình luận
             List<Comment> comments = commentDAO.getCommentsByNovelId(novelId);
             request.setAttribute("comments", comments);
-
+            
+            viewNovels(request, response);
             // 7. Forward
             forwardToView(novel, chapters, request, response);
 
@@ -185,6 +188,23 @@ public class NovelDetailController extends HttpServlet {
         }
     }
 
+     private void viewNovels(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        NovelDAO nd = new NovelDAO();
+       
+        List<Novel> listrank;
+        
+        try {
+
+           
+            listrank = nd.getTop10NovelsByMonthlyRating();
+           
+            request.setAttribute("listrank", listrank);
+           
+        } catch (Exception ex) {
+            Logger.getLogger(NovelDetailController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // KHÔNG LÀM GÌ CẢ. RatingController SẼ XỬ LÝ
