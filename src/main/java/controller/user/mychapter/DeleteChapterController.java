@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package controller.user.mychapter;
 
 import DAO.PostChapterDAO;
@@ -22,20 +18,12 @@ import java.io.PrintWriter;
 @WebServlet(name = "DeleteChapterController", urlPatterns = {"/deleteChapter"})
 public class DeleteChapterController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    private static final Logger LOGGER = Logger.getLogger(DeleteChapterController.class.getName());
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
+        try (PrintWriter out = response.getWriter()) {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
@@ -48,103 +36,55 @@ public class DeleteChapterController extends HttpServlet {
         }
     }
 
-    private static final Logger LOGGER = Logger.getLogger(DeleteChapterController.class.getName());
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        LOGGER.log(Level.INFO, "Processing GET request for deleteChapter with novelName: {0}, chapterNumber: {1}",
-                new Object[]{request.getParameter("novelName"), request.getParameter("chapterNumber")});
+        LOGGER.log(Level.INFO, "Processing GET request for deleteChapter with novelId: {0}, chapterId: {1}",
+                new Object[]{request.getParameter("novelId"), request.getParameter("chapterId")});
 
-        String novelName = request.getParameter("novelName");
-        String chapterNumberParam = request.getParameter("chapterNumber");
+        response.sendRedirect("error.jsp"); // Không cho phép truy cập trực tiếp qua GET
+    }
 
-        // Kiểm tra tham số đầu vào
-        if (novelName == null || novelName.isEmpty() || chapterNumberParam == null || chapterNumberParam.isEmpty()) {
-            request.setAttribute("message", "Novel name and chapter number are required.");
-            request.setAttribute("messageType", "error");
-            request.getRequestDispatcher("/WEB-INF/views/user/chapter/deleteChapter.jsp").forward(request, response);
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        LOGGER.log(Level.INFO, "Processing POST request for deleteChapter with novelId: {0}, chapterId: {1}",
+                new Object[]{request.getParameter("novelId"), request.getParameter("chapterId")});
+
+        PostChapterDAO postChapterDAO = new PostChapterDAO(getServletContext());
+        String novelIdParam = request.getParameter("novelId");
+        String chapterIdParam = request.getParameter("chapterId");
+
+        if (novelIdParam == null || novelIdParam.isEmpty() || chapterIdParam == null || chapterIdParam.isEmpty()) {
+            LOGGER.log(Level.SEVERE, "Missing novelId or chapterId in request");
+            response.sendRedirect("error.jsp");
             return;
         }
 
         try {
-            int chapterNumber = Integer.parseInt(chapterNumberParam);
-            PostChapterDAO postChapterDAO = new PostChapterDAO(getServletContext());
-            model.Chapter chapter = postChapterDAO.getChapterByNovelNameAndChapterNumber(novelName, chapterNumber);
+            int novelId = Integer.parseInt(novelIdParam);
+            int chapterId = Integer.parseInt(chapterIdParam);
 
-            if (chapter == null) {
-                request.setAttribute("message", "Chapter not found for novel: " + novelName + ", chapter number: " + chapterNumber);
-                request.setAttribute("messageType", "error");
-                request.getRequestDispatcher("/WEB-INF/views/user/chapter/deleteChapter.jsp").forward(request, response);
-                return;
+            boolean updated = postChapterDAO.deleteChapter(novelId, chapterId);
+
+            if (updated) {
+                LOGGER.log(Level.INFO, "Successfully deleted chapter for novelId: {0}, chapterId: {1}",
+                        new Object[]{novelId, chapterId});
+                // Chuyển hướng về trang chi tiết tiểu thuyết
+                response.sendRedirect(request.getContextPath() + "/mynovel?action=viewdetail&novelID=" + novelId);
+            } else {
+                LOGGER.log(Level.SEVERE, "Failed to delete chapter for novelId: {0}, chapterId: {1}",
+                        new Object[]{novelId, chapterId});
+                response.sendRedirect("error.jsp");
             }
-
-            request.setAttribute("chapter", chapter);
-            request.getRequestDispatcher("/WEB-INF/views/user/chapter/deleteChapter.jsp").forward(request, response);
         } catch (NumberFormatException e) {
-            LOGGER.log(Level.SEVERE, "Invalid chapter number format: {0}", e.getMessage());
-            request.setAttribute("message", "Invalid chapter number format.");
-            request.setAttribute("messageType", "error");
-            request.getRequestDispatcher("/WEB-INF/views/user/chapter/deleteChapter.jsp").forward(request, response);
+            LOGGER.log(Level.SEVERE, "Invalid novelId or chapterId format: {0}", e.getMessage());
+            response.sendRedirect("error.jsp");
         }
     }
 
-    @Override
-protected void doPost(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
-    LOGGER.log(Level.INFO, "Processing POST request for deleteChapter with novelName: {0}, chapterNumber: {1}",
-            new Object[]{request.getParameter("novelName"), request.getParameter("chapterNumber")});
-
-    PostChapterDAO postChapterDAO = new PostChapterDAO(getServletContext());
-    String novelName = request.getParameter("novelName");
-    String chapterNumberParam = request.getParameter("chapterNumber");
-
-    if (novelName == null || novelName.isEmpty() || chapterNumberParam == null || chapterNumberParam.isEmpty()) {
-        request.setAttribute("message", "Novel name and chapter number are required.");
-        request.setAttribute("messageType", "error");
-        request.getRequestDispatcher("/WEB-INF/views/user/chapter/deleteChapter.jsp").forward(request, response);
-        return;
-    }
-
-    try {
-        int chapterNumber = Integer.parseInt(chapterNumberParam);
-        model.Chapter chapter = postChapterDAO.getChapterByNovelNameAndChapterNumber(novelName, chapterNumber);
-
-        if (chapter == null) {
-            request.setAttribute("message", "Chapter not found for novel: " + novelName + ", chapter number: " + chapterNumber);
-            request.setAttribute("messageType", "error");
-            request.getRequestDispatcher("/WEB-INF/views/user/chapter/deleteChapter.jsp").forward(request, response);
-            return;
-        }
-
-        boolean updated = postChapterDAO.deleteChapter(novelName, chapterNumber);
-
-        if (updated) {
-            request.setAttribute("message", "Chapter deleted successfully!");
-            request.setAttribute("messageType", "success");
-        } else {
-            LOGGER.log(Level.SEVERE, "Failed to deleted chapter for novelName: {0}, chapterNumber: {1}",
-                    new Object[]{novelName, chapterNumber});
-            request.setAttribute("message", "Failed to update chapter status to 'deleted'. Please check server logs for details.");
-            request.setAttribute("messageType", "error");
-        }
-    } catch (NumberFormatException e) {
-        LOGGER.log(Level.SEVERE, "Invalid chapter number format: {0}", e.getMessage());
-        request.setAttribute("message", "Invalid chapter number format.");
-        request.setAttribute("messageType", "error");
-    }
-
-    request.getRequestDispatcher("/WEB-INF/views/user/chapter/deleteChapter.jsp").forward(request, response);
-}
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
     @Override
     public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
+        return "Servlet for deleting chapters";
+    }
 }

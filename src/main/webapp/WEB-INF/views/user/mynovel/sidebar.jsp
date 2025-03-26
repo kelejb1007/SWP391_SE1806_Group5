@@ -44,7 +44,7 @@
                                         </svg></span><strong class="t_label_medium lh24">Novel</strong></a></li>
 
                             <!-- Chapter Submission ở đây nè -->        
-                            <li class=" "><a class="g_sd_sub_option   " title="Chapter Submission" href=""><span role="img" class="anticon g_sd_i"><svg width="1em" height="1em" fill="currentColor" aria-hidden="true" focusable="false" class="">
+                            <li class=" "><a class="g_sd_sub_option   " title="Chapter Submission" href="mynovel?action=viewchapterposthistory"><span role="img" class="anticon g_sd_i"><svg width="1em" height="1em" fill="currentColor" aria-hidden="true" focusable="false" class="">
                                         <use xlink:href="#i-book-3d"></use>
                                         </svg></span><strong class="t_label_medium lh24">Chapter</strong></a></li>
                         </ul>
