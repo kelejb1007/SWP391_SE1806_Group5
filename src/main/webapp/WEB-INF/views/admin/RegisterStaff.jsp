@@ -3,7 +3,6 @@
     Created on : Mar 3, 2025, 3:03:43 PM
     Author     : Khoa
 --%>
-
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,158 +10,99 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register Staff</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f2f8ff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
+    <link rel="stylesheet" href="css/startmin/bootstrap.css">
+    <link rel="stylesheet" href="css/startmin/startmin.css">
+    <link rel="stylesheet" href="css/startmin/font-awesome.min.css">
+</head>
+<body>
+    <div id="wrapper">
+        <jsp:include page="../admin/header.jsp" />
+        <jsp:include page="../admin/sidebar.jsp" />
 
-        .signup-form {
-            background-color: #fff;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 360px;
-            text-align: center;
-        }
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <h1 class="page-header">Register Staff</h1>
 
-        h2 {
-            font-size: 2em;
-            color: #333;
-            margin-bottom: 20px;
-        }
+                <div class="panel panel-default">
+                    <div class="panel-heading">Create New Staff Account</div>
+                    <div class="panel-body">
+                        <!-- Hiển thị thông báo lỗi -->
+                        <% if (request.getAttribute("error") != null) { %>
+                            <div class="alert alert-danger">
+                                <%= request.getAttribute("error") %>
+                            </div>
+                        <% } %>
+                        
+                        <!-- Hiển thị thông báo thành công -->
+                        <% if (request.getAttribute("Complete") != null) { %>
+                            <div class="alert alert-success">
+                                <%= request.getAttribute("Complete") %>
+                            </div>
+                        <% } %>
 
-        label {
-            font-size: 14px;
-            color: #4d94ff;
-            display: block;
-            margin-bottom: 8px;
-            text-align: left;
-        }
+                        <form action="RegisterStaff" method="post" onsubmit="return validateForm()">
+                            <div class="form-group">
+                                <label for="username">User Name</label>
+                                <input type="text" class="form-control" id="username" name="username" required 
+                                    value="<%= request.getParameter("username") != null ? request.getParameter("username") : "" %>">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" class="form-control" id="password" name="password" required>
+                            </div>
 
-        input, select {
-            width: 100%;
-            padding: 10px;
-            margin: 8px 0;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 14px;
-            box-sizing: border-box;
-            background-color: white;
-        }
+                            <div class="form-group">
+                                <label for="confirmPassword">Confirm Password</label>
+                                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+                            </div>
 
-        input:focus, select:focus {
-            border-color: #66b3ff;
-            outline: none;
-        }
+                            <div class="form-group">
+                                <label for="fullName">Full Name</label>
+                                <input type="text" class="form-control" id="fullName" name="fullName" required 
+                                    value="<%= request.getParameter("fullName") != null ? request.getParameter("fullName") : "" %>">
+                            </div>
 
-        button {
-            width: 100%;
-            padding: 12px;
-            background-color: #66b3ff;
-            color: white;
-            font-size: 16px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" required 
+                                    value="<%= request.getParameter("email") != null ? request.getParameter("email") : "" %>">
+                            </div>
 
-        button:hover {
-            background-color: #3385ff;
-        }
+                            <div class="form-group">
+                                <label for="numberPhone">Phone Number</label>
+                                <input type="text" class="form-control" id="numberPhone" name="numberPhone" required 
+                                    value="<%= request.getParameter("numberPhone") != null ? request.getParameter("numberPhone") : "" %>">
+                            </div>
 
-        .error {
-            color: red;
-            margin-bottom: 15px;
-        }
+                            <div class="form-group">
+                                <label for="gender">Gender</label>
+                                <select class="form-control" name="gender" id="gender" required>
+                                    <option value="" disabled selected>Select your gender</option>
+                                    <option value="Male" <%= "Male".equals(request.getParameter("gender")) ? "selected" : "" %>>Male</option>
+                                    <option value="Female" <%= "Female".equals(request.getParameter("gender")) ? "selected" : "" %>>Female</option>
+                                </select>
+                            </div>
 
-        footer {
-            background-color: #4d94ff;
-            color: white;
-            padding: 10px;
-            position: fixed;
-            width: 100%;
-            bottom: 0;
-            text-align: center;
-        }
+                            <button type="submit" class="btn btn-primary">Register</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        footer p {
-            margin: 0;
-        }
-
-        @media (max-width: 768px) {
-            .signup-form {
-                max-width: 90%;
-                padding: 15px;
-            }
-
-            h2 {
-                font-size: 1.8em;
-            }
-        }
-    </style>
     <script>
         function validateForm() {
             var password = document.getElementById("password").value;
             var confirmPassword = document.getElementById("confirmPassword").value;
-
             if (password !== confirmPassword) {
-                alert("Password must be the same");
+                alert("Passwords do not match");
                 return false;
             }
             return true;
         }
     </script>
-</head>
-<body>
-
-    <div class="signup-form">
-        <h2>Create Staff Account</h2>
-        <form action="RegisterStaff" method="post" onsubmit="return validateForm()">
-            <div class="error">
-                <%= request.getAttribute("error") != null ? request.getAttribute("error") : "" %>
-            </div>
-
-            <label for="username">User Name</label>
-            <input type="text" id="username" name="username" required>
-
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" required>
-
-            <label for="confirmPassword">Confirm Password</label>
-            <input type="password" id="confirmPassword" name="confirmPassword" required>
-
-            <label for="fullName">Full Name</label>
-            <input type="text" id="fullName" name="fullName" required>
-
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" required>
-
-            <label for="numberPhone">Phone Number</label>
-            <input type="text" id="numberPhone" name="numberPhone" required>
-
-            <label for="gender">Gender</label>
-            <select name="gender" id="gender" required>
-                <option value="" disabled selected>Select your gender</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-            </select>
-
-            <button type="submit">Register</button>
-        </form>
-    </div>
-
-    <footer>
-        <p>© 2025 NovelWeb. All rights reserved.</p>
-    </footer>
-
 </body>
 </html>
 

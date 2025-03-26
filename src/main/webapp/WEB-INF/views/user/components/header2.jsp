@@ -65,7 +65,7 @@
                                 <div class="down-drop" id="j-userDownDrop">
                                     <dl>
                                         <dd><a href="viewprofile" >View Profile</a></dd>
-                                        <dd><a href="" >Change Password</a></dd>
+                                        <dd><a href="changePassword" >Change Password</a></dd>
                                         <dd><form id="logoutForm" action="<c:url value='/Logout' />" method="post">
                                             <a href="#" onclick="document.getElementById('logoutForm').submit(); return false;">Logout</a>
                                         </form></dd>

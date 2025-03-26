@@ -438,20 +438,20 @@ public class ManagerAccountDAO {
         }
     }
 
-    public boolean isEmailExists(String email, int managerID) throws SQLException {
-        String query = "SELECT COUNT(*) FROM ManagerAccount WHERE email = ? AND ManagerID != ?";
+    public boolean isUserExist(String username, String email, int excludeManagerID) throws SQLException {
+        String query = "SELECT COUNT(*) FROM ManagerAccount WHERE (userName = ? OR email = ?) AND managerID != ?";
         try ( Connection conn = dbContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
 
-            ps.setString(1, email);
-            ps.setInt(2, managerID);
+            ps.setString(1, username);
+            ps.setString(2, email);
+            ps.setInt(3, excludeManagerID);
 
             try ( ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    return rs.getInt(1) > 0; // Nếu có ít nhất 1 kết quả, email đã tồn tại
+                    return rs.getInt(1) > 0; // Nếu có kết quả, nghĩa là username hoặc email đã tồn tại
                 }
             }
         }
         return false;
     }
 }
-

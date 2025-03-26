@@ -64,20 +64,14 @@
                             <li>
                                 <a href="${pageContext.request.contextPath}/managestaff">View list of staff</a>
                             </li>
-                            <li>
-                                <a href="${pageContext.request.contextPath}/lockactivity">Locking Activity</a>
-                            </li>                     
-                            <li>
-                                <a href="${pageContext.request.contextPath}/approvingactivity">Approving Activity</a>
-                            </li>
                         </ul>
                     </li>
+                    <!-- tui sua nut phan nay -->
                     <li>
-                        <a href="${pageContext.request.contextPath}/RegisterStaff">Create Staff Account</a>
+                        <a href="${pageContext.request.contextPath}/RegisterStaff">
+                            <i class="fa fa-user-plus"></i> Create Staff Account
+                        </a>
                     </li>
-
-
-
                     </li> 
                     <li>
                         <a href="${pageContext.request.contextPath}/change-password">

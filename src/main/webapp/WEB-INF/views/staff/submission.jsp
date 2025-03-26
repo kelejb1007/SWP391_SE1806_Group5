@@ -86,7 +86,7 @@
                                                     <th>Submission Date</th>
                                                     <th>Type</th>
                                                     <th>Status</th>
-                                                    <th>Draft</th>
+                                                    <th>Action</th>
                                                     <th></th>
                                                 </tr>
                                             </thead>

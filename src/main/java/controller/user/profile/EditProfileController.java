@@ -5,19 +5,34 @@
 package controller.user.profile;
 
 import DAO.UserAccountDAO;
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.regex.Pattern;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.Part;
 import model.UserAccount;
+
 /**
  * @author KHOA
  */
 @WebServlet(name = "EditProfileController", urlPatterns = {"/editProfile"})
+@MultipartConfig(
+    fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+    maxFileSize = 1024 * 1024 * 10, // 10MB
+    maxRequestSize = 1024 * 1024 * 50 // 50MB
+)
 public class EditProfileController extends HttpServlet {
+
+    private static final String UPLOAD_DIR = "uploads";
+    private static final Pattern EMAIL_PATTERN = Pattern.compile("^[a-zA-Z0-9._%+-]+@gmail\\.com$");
+    private static final Pattern PHONE_PATTERN = Pattern.compile("^\\d+$");
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -45,56 +60,66 @@ public class EditProfileController extends HttpServlet {
             return;
         }
 
-        // Lấy dữ liệu từ form
+        String newUsername = request.getParameter("userName");
         String fullName = request.getParameter("fullName");
         String email = request.getParameter("email");
         String numberPhone = request.getParameter("numberPhone");
-        String dateOfBirth = request.getParameter("dateOfBirth");
         String gender = request.getParameter("gender");
-        String imageUML = request.getParameter("imageUML"); // URL avatar
-        // Kiểm tra input rỗng
-        if (fullName == null || email == null || numberPhone == null || dateOfBirth == null || gender == null
-                || fullName.trim().isEmpty() || email.trim().isEmpty() || numberPhone.trim().isEmpty() || dateOfBirth.trim().isEmpty() || gender.trim().isEmpty()) {
 
-            request.setAttribute("error", "All fields must be filled.");
+        // Kiểm tra định dạng email
+        if (!EMAIL_PATTERN.matcher(email).matches()) {
+            request.setAttribute("error", "Email must be in the format @gmail.com.");
             request.getRequestDispatcher("/WEB-INF/views/user/components/EditProfile.jsp").forward(request, response);
             return;
         }
 
-        // Chuyển đổi dateOfBirth từ String sang java.sql.Date và kiểm tra năm
-        java.sql.Date sqlDateOfBirth = null;
-        try {
-            sqlDateOfBirth = java.sql.Date.valueOf(dateOfBirth);
+        // Kiểm tra số điện thoại chỉ chứa số
+        if (!PHONE_PATTERN.matcher(numberPhone).matches()) {
+            request.setAttribute("error", "Phone number must contain only digits.");
+            request.getRequestDispatcher("/WEB-INF/views/user/components/EditProfile.jsp").forward(request, response);
+            return;
+        }
 
-            // Kiểm tra năm sinh phải nhỏ hơn 2025
-            int birthYear = sqlDateOfBirth.toLocalDate().getYear();
-            if (birthYear >= 2025) {
-                request.setAttribute("error", "Year of birth must be before 2025.");
-                request.getRequestDispatcher("/WEB-INF/views/user/components/EditProfile.jsp").forward(request, response);
-                return;
+        Part filePart = request.getPart("avatar");
+        String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+
+        String imageUrl = user.getImageUML();
+        if (!fileName.isEmpty()) {
+            String uploadPath = getServletContext().getRealPath("") + File.separator + UPLOAD_DIR;
+            File uploadDir = new File(uploadPath);
+            if (!uploadDir.exists()) {
+                uploadDir.mkdir();
             }
-        } catch (IllegalArgumentException e) {
-            request.setAttribute("error", "Invalid date format. Please use yyyy-MM-dd.");
+
+            String filePath = uploadPath + File.separator + fileName;
+            filePart.write(filePath);
+            imageUrl = request.getContextPath() + "/" + UPLOAD_DIR + "/" + fileName;
+        }
+
+        UserAccountDAO dao = new UserAccountDAO();
+
+        // Kiểm tra username hoặc email đã tồn tại, bỏ qua user hiện tại
+        if (dao.doesUserExist(newUsername, email, user.getUserID())) {
+            request.setAttribute("error", "Username or Email already exists.");
             request.getRequestDispatcher("/WEB-INF/views/user/components/EditProfile.jsp").forward(request, response);
             return;
         }
 
-        // Cập nhật thông tin
+        // Nếu hợp lệ, cập nhật profile
+        dao.updateUserProfile(user.getUserName(), newUsername, fullName, email, numberPhone, gender, imageUrl);
+
+        // Cập nhật thông tin session
+        user.setUserName(newUsername);
         user.setFullName(fullName);
         user.setEmail(email);
         user.setNumberPhone(numberPhone);
-        user.setDateOfBirth(java.sql.Date.valueOf(dateOfBirth));
         user.setGender(gender);
-        user.setImageUML(imageUML);
+        user.setImageUML(imageUrl);
 
-        // Lưu thay đổi vào database
-        UserAccountDAO dao = new UserAccountDAO();
-        dao.updateUser(user);
-
-        // Cập nhật session
         session.setAttribute("user", user);
-
-        // Quay lại trang profile
-        response.sendRedirect(request.getContextPath() + "/viewprofile");
+        request.setAttribute("message", "Profile updated successfully!");
+        request.getRequestDispatcher("/WEB-INF/views/user/components/EditProfile.jsp").forward(request, response);
     }
 }
+
+

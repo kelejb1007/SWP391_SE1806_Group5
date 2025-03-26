@@ -4,6 +4,7 @@
     Author     : default
 --%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,6 +21,20 @@
         <div id="page-wrapper">
             <div class="container-fluid">
                 <h1 class="page-header">Edit Staff Profile</h1>
+
+                <!-- Hiển thị thông báo thành công nếu có -->
+                <c:if test="${not empty successMessage}">
+                    <div class="alert alert-success">
+                        ${successMessage}
+                    </div>
+                </c:if>
+
+                <!-- Hiển thị thông báo lỗi nếu có -->
+                <c:if test="${not empty error}">
+                    <div class="alert alert-danger">
+                        ${error}
+                    </div>
+                </c:if>
 
                 <form action="${pageContext.request.contextPath}/EditStaff" method="post">
                     <input type="hidden" name="managerID" value="${staff.managerID}" />
@@ -60,4 +75,6 @@
     </div>
 </body>
 </html>
+
+
 

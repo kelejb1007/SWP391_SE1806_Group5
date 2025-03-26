@@ -253,44 +253,75 @@ public class UserAccountDAO {
         }
     }
     // Khoa thêm phần này cho EditProfile  
-    public boolean updateUser(UserAccount user) {
-        String sql = "UPDATE UserAccount SET fullName = ?, email = ?, numberPhone = ?, dateOfBirth = ?, gender = ?, imageUML = ? WHERE userID = ?";
-        
-        try (Connection conn = dbContext .getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-             
-            stmt.setString(1, user.getFullName());
-            stmt.setString(2, user.getEmail());
-            stmt.setString(3, user.getNumberPhone());
-            stmt.setDate(4, new java.sql.Date(user.getDateOfBirth().getTime())); // ✅ Đúng kiểu
-            stmt.setString(5, user.getGender());
-            stmt.setString(6, user.getImageUML());
-            stmt.setInt(7, user.getUserID());
-
-            return stmt.executeUpdate() > 0;
-            
+    // Kiểm tra username hoặc email đã tồn tại (bỏ qua user hiện tại)
+    public boolean doesUserExist(String newUsername, String email, int userID) {
+        String sql = "SELECT COUNT(*) FROM UserAccount WHERE (userName = ? OR email = ?) AND userID != ?";
+        try (Connection conn = dbContext.getConnection(); 
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, newUsername);
+            ps.setString(2, email);
+            ps.setInt(3, userID);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+        }
+        return false;
+    }
+
+    // Cập nhật thông tin user
+    public void updateUserProfile(String oldUsername, String newUsername, String fullName, String email, String numberPhone, String gender, String imageUrl) {
+        String sql = "UPDATE UserAccount SET userName = ?, fullName = ?, email = ?, numberPhone = ?, gender = ?, imageUML = ? WHERE userName = ?";
+        try (Connection conn = dbContext.getConnection(); 
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, newUsername);
+            ps.setString(2, fullName);
+            ps.setString(3, email);
+            ps.setString(4, numberPhone);
+            ps.setString(5, gender);
+            ps.setString(6, imageUrl);
+            ps.setString(7, oldUsername);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
     //ChangePass
-    public boolean changePassword(String username, String currentPassword, String newPassword, String confirmPassword) {
-    if (!newPassword.equals(confirmPassword)) {
+    public boolean updatePassword(int userID, String oldPassword, String newPassword) {
+        String sqlCheck = "SELECT password FROM UserAccount WHERE userID = ?";
+        String sqlUpdate = "UPDATE UserAccount SET password = ? WHERE userID = ?";
+
+        try (Connection conn = dbContext.getConnection();
+             PreparedStatement psCheck = conn.prepareStatement(sqlCheck)) {
+             
+            psCheck.setInt(1, userID);
+            ResultSet rs = psCheck.executeQuery();
+            
+            if (rs.next()) {
+                String currentPasswordHash = rs.getString("password");
+                String oldPasswordHash = hashSHA256(oldPassword);
+
+                if (!currentPasswordHash.equals(oldPasswordHash)) {
+                    return false; // Mật khẩu cũ không khớp
+                }
+            }
+
+            try (PreparedStatement psUpdate = conn.prepareStatement(sqlUpdate)) {
+                psUpdate.setString(1, hashSHA256(newPassword));
+                psUpdate.setInt(2, userID);
+                return psUpdate.executeUpdate() > 0;
+            }
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return false;
     }
-    String sql = "UPDATE UserAccount SET password = ? WHERE userName = ? AND password = ?";
-    try (Connection conn = dbContext.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
-        stmt.setString(1, hashSHA256(newPassword));
-        stmt.setString(2, username);
-        stmt.setString(3, hashSHA256(currentPassword));
-        return stmt.executeUpdate() > 0;
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
-    return false;
 }
-}
+
 
 
 

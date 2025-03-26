@@ -65,6 +65,7 @@
                                                         onclick="window.location.href = '${pageContext.request.contextPath}/viewStaff?managerID=${staff.managerID}';">
                                                     View Detail
                                                 </button>
+                                                    <!-- tui sua nut phan nay -->
                                                 <button type="button" class="btn btn-warning" 
                                                         onclick="window.location.href = '${pageContext.request.contextPath}/EditStaff?managerID=${staff.managerID}';">
                                                     <a href="../../../../java/DAO/ManagerAccountDAO.java"></a>
