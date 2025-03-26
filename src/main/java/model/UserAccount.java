@@ -25,6 +25,52 @@ public class UserAccount {
     private Date dateOfBirth;
     private int status;
     private String type;
+    
+    private int lockedCount;
+    private int commentCount;
+    private int ratingCount;
+    private int favoriteCount;
+    private int readingHistoryCount;
+
+    public int getLockedCount() {
+        return lockedCount;
+    }
+
+    public void setLockedCount(int lockedCount) {
+        this.lockedCount = lockedCount;
+    }
+
+    public int getCommentCount() {
+        return commentCount;
+    }
+
+    public void setCommentCount(int commentCount) {
+        this.commentCount = commentCount;
+    }
+
+    public int getRatingCount() {
+        return ratingCount;
+    }
+
+    public void setRatingCount(int ratingCount) {
+        this.ratingCount = ratingCount;
+    }
+
+    public int getFavoriteCount() {
+        return favoriteCount;
+    }
+
+    public void setFavoriteCount(int favoriteCount) {
+        this.favoriteCount = favoriteCount;
+    }
+
+    public int getReadingHistoryCount() {
+        return readingHistoryCount;
+    }
+
+    public void setReadingHistoryCount(int readingHistoryCount) {
+        this.readingHistoryCount = readingHistoryCount;
+    }
 
     public String getType() {
         return type;

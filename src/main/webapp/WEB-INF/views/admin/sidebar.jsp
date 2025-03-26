@@ -75,8 +75,13 @@
                     <li>
                         <a href="${pageContext.request.contextPath}/RegisterStaff">Create Staff Account</a>
                     </li>
+                    <li>
+                        <a href="${pageContext.request.contextPath}/viewnovelstatisticscontroller?action=viewNovelStatistics">View Statistics On Novel</a>
+                    </li>
 
-
+                    <li>
+                        <a href="${pageContext.request.contextPath}/viewnovelstatisticscontroller?action=viewUserStatistics">View Statistics On Account</a>
+                    </li>
 
                     </li> 
                     <li>

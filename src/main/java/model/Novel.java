@@ -23,7 +23,7 @@ public class Novel {
     private int totalChapter;
     private String novelStatus;
     private LocalDateTime publishedDate;
-    
+
     private String timeString;
     //Lấy từ bảng khác
     private String author;
@@ -45,9 +45,63 @@ public class Novel {
     private String genres;
     private Date publishDate2;
     private Date LockDate2;
+    private int totalViews;
+    private int totalReads;
+    private int totalFavorites;
+    private int totalChapters;
+    private int totalComments;
+    private Double avgRating;
+
+    public Double getAvgRating() {
+        return avgRating;
+    }
+
+    public void setAvgRating(Double avgRating) {
+        this.avgRating = avgRating;
+    }
+
+    public int getTotalViews() {
+        return totalViews;
+    }
+
+    public void setTotalViews(int totalViews) {
+        this.totalViews = totalViews;
+    }
+
+    public int getTotalReads() {
+        return totalReads;
+    }
+
+    public void setTotalReads(int totalReads) {
+        this.totalReads = totalReads;
+    }
+
+    public int getTotalFavorites() {
+        return totalFavorites;
+    }
+
+    public void setTotalFavorites(int totalFavorites) {
+        this.totalFavorites = totalFavorites;
+    }
+
+    public int getTotalChapters() {
+        return totalChapters;
+    }
+
+    public void setTotalChapters(int totalChapters) {
+        this.totalChapters = totalChapters;
+    }
+
+    public int getTotalComments() {
+        return totalComments;
+    }
+
+    public void setTotalComments(int totalComments) {
+        this.totalComments = totalComments;
+    }
     
+
     private String authorImage;
-    
 
     public Novel() {
     }
@@ -74,7 +128,6 @@ public class Novel {
     }
 
     //---------------------------------------------------------------------
-
     public String getAuthorImage() {
         return authorImage;
     }
@@ -82,7 +135,7 @@ public class Novel {
     public void setAuthorImage(String authorImage) {
         this.authorImage = authorImage;
     }
-    
+
     public Date getLockDate2() {
         return LockDate2;
     }
@@ -90,7 +143,7 @@ public class Novel {
     public void setLockDate2(Date LockDate2) {
         this.LockDate2 = LockDate2;
     }
-    
+
     public Date getPublishDate2() {
         return publishDate2;
     }
@@ -235,7 +288,6 @@ public class Novel {
         this.timeString = timeString;
     }
 
-    
     // của Novel
     public int getNovelID() {
         return novelID;

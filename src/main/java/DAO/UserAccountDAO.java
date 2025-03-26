@@ -297,4 +297,36 @@ public class UserAccountDAO {
         }
         return false;
     }
+
+    //--------------------------------------------------------------//
+    public List<UserAccount> getUserStatistics() throws SQLException {
+        List<UserAccount> userStatisticsList = new ArrayList<>();
+        String query = "SELECT UA.userID, UA.userName, UA.fullName, "
+                + "(SELECT COUNT(*) FROM LockAccountLog WHERE userID = UA.userID AND action = 'lock') AS lockedCount, "
+                + "(SELECT COUNT(*) FROM Comment WHERE userID = UA.userID) AS commentCount, "
+                + "(SELECT COUNT(*) FROM Rating WHERE userID = UA.userID) AS ratingCount, "
+                + "(SELECT COUNT(*) FROM Favorite WHERE userID = UA.userID AND isFavorite = 1) AS favoriteCount, "
+                + "(SELECT COUNT(*) FROM ReadingHistory WHERE userID = UA.userID) AS readingHistoryCount "
+                + "FROM UserAccount UA";
+
+        try ( Connection con = dbContext.getConnection();  Statement stmt = con.createStatement();  ResultSet rs = stmt.executeQuery(query)) {
+
+            while (rs.next()) {
+                UserAccount userStatistics = new UserAccount();
+                userStatistics.setUserID(rs.getInt("userID"));
+                userStatistics.setUserName(rs.getString("userName"));
+                userStatistics.setFullName(rs.getString("fullName"));
+                userStatistics.setLockedCount(rs.getInt("lockedCount"));
+                userStatistics.setCommentCount(rs.getInt("commentCount"));
+                userStatistics.setRatingCount(rs.getInt("ratingCount"));
+                userStatistics.setFavoriteCount(rs.getInt("favoriteCount"));
+                userStatistics.setReadingHistoryCount(rs.getInt("readingHistoryCount"));
+
+                userStatisticsList.add(userStatistics);
+            }
+        }
+
+        return userStatisticsList;
+    }
+
 }
