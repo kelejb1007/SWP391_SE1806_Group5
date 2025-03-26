@@ -3,11 +3,6 @@
     Created on : Feb 28, 2025, 5:52:24 AM
     Author     : Khoa
 --%>
-<%-- 
-    Document   : ViewProfile
-    Created on : Feb 28, 2025, 5:52:24 AM
-    Author     : Khoa
---%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
@@ -19,209 +14,147 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f2f8ff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-        }
-
-        .container {
-            flex-grow: 1;
+            background-color: #f5f5f5;
             display: flex;
             justify-content: center;
             align-items: center;
-            width: 100%;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
         }
 
-        .profile-form {
-            background-color: #fff;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            max-width: 360px;
+            height: 100%;
+            background-image: url('img/profile-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: -1;
+        }
+
+        .profile-container {
+            position: relative;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
             text-align: center;
+            width: 350px;
+        }
+        
+        .profile-container h2 {
+            font-size: 24px;
+            color: #ff3955;
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 2px rgba(255, 57, 85, 0.8);
+            background: linear-gradient(to top, #ff3955 30%, #ff9aa5 70%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .avatar-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 10px 0;
-        }
-
-        .avatar {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            border: 3px solid #4d94ff;
-        }
-
-        h2 {
-            font-size: 1.8em;
-            color: #333;
             margin-bottom: 10px;
         }
 
-        label {
-            font-size: 14px;
-            color: #4d94ff;
-            display: block;
-            margin-bottom: 4px;
+        .avatar {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            border: 3px solid #ff3955;
+        }
+
+        .profile-info {
             text-align: left;
-        }
-
-        input {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 8px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 14px;
-            box-sizing: border-box;
-            background-color: white;
-        }
-
-        input:focus {
-            border-color: #66b3ff;
-            outline: none;
-        }
-
-        .button-container {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
             margin-top: 10px;
         }
 
-        .button-container a {
-            text-decoration: none;
+        .profile-info label {
+            font-weight: bold;
+            color: #ff3955;
+            display: block;
+            margin-top: 8px;
+        }
+
+        .profile-info p {
+            background: #fff;
+            padding: 10px;
+            border-radius: 6px;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        .button-group {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
         .button {
-            width: 100%;
-            padding: 10px;
-            font-size: 14px;
+            background: #ff3955;
+            color: white;
             border: none;
+            padding: 12px;
             border-radius: 8px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
-            display: block;
-            text-align: center;
-        }
-
-        .edit-btn {
-            background-color: #4d94ff;
-            color: white;
-        }
-
-        .edit-btn:hover {
-            background-color: #3385ff;
-        }
-
-        .password-btn {
-            background-color: #dc3545;
-            color: white;
-        }
-
-        .password-btn:hover {
-            background-color: #c82333;
-        }
-
-        .home-btn {
-            background-color: #ccc;
-            color: black;
-        }
-
-        .home-btn:hover {
-            background-color: #b0b0b0;
-        }
-
-        footer {
-            background-color: #4d94ff;
-            color: white;
-            padding: 8px;
+            transition: 0.3s;
+            font-size: 16px;
             width: 100%;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-decoration: none;
+            display: inline-block;
             text-align: center;
-            font-size: 14px;
-            margin-top: auto;
         }
 
-        footer p {
-            margin: 0;
-        }
-
-        @media (max-width: 768px) {
-            .profile-form {
-                max-width: 90%;
-                padding: 15px;
-            }
-
-            h2 {
-                font-size: 1.6em;
-            }
+        .button:hover {
+            background: #cc2f44;
         }
     </style>
 </head>
 <body>
+    <div class="profile-container">
+        <h2>User Profile</h2>
 
-    <div class="container">
-        <div class="profile-form">
-            <h2>User Profile</h2>
+        <!-- Hiển thị Avatar -->
+        <div class="avatar-container">
+            <img src="${not empty user.imageUML ? user.imageUML : 'https://yuxseocdn.yuewen.com/pro/readnovel_pc/_prelease/images/ico/account.1e031.png'}" 
+                 alt="User Avatar" class="avatar">
+        </div>
 
-            <div class="avatar-container">
-                <img src="<c:if test="${not empty user.imageUML}">${user.imageUML}</c:if> 
-                     <c:if test="${empty user.imageUML}">//yuxseocdn.yuewen.com/pro/readnovel_pc/_prelease/images/ico/account.1e031.png</c:if>" 
-                     alt="User Avatar" class="avatar">
-            </div>
-            
-            <form method="POST">
-                <label for="username">User name</label>
-                <input type="text" id="username" value="${user.userName}" readonly>
+        <!-- Hiển thị thông tin người dùng -->
+        <div class="profile-info">
+            <label>Username</label>
+            <p>${user.userName}</p>
 
-                <label for="fullname">Full name</label>
-                <input type="text" id="fullname" value="${user.fullName}" readonly>
+            <label>Full Name</label>
+            <p>${user.fullName}</p>
 
-                <label for="creationDate">Creation Date</label>
-                <input type="text" id="creationDate" value="${user.creationDate}" readonly>
+            <label>Creation Date</label>
+            <p>${user.creationDate}</p>
 
-                <label for="email">Email</label>
-                <input type="text" id="email" value="${user.email}" readonly>
+            <label>Email</label>
+            <p>${user.email}</p>
 
-                <label for="numberPhone">Number phone</label>
-                <input type="text" id="numberPhone" value="${user.numberPhone}" readonly>
+            <label>Phone Number</label>
+            <p>${user.numberPhone}</p>
 
-                <label for="dateOfBirth">Date of Birth</label>
-                <input type="text" id="dateOfBirth" value="${user.dateOfBirth}" readonly>
+            <label>Gender</label>
+            <p>${user.gender}</p>
+        </div>
 
-                <label for="gender">Gender</label>
-                <input type="text" id="gender" value="${user.gender}" readonly>
-            </form>
-
-            <div class="button-container">
-                <a href="<%= request.getContextPath()%>/editProfile">
-                    <button class="button edit-btn" type="button">Edit Profile</button>
-                </a>
-
-                <a href="<%= request.getContextPath()%>/changePassword">
-                    <button class="button password-btn" type="button">Change Password</button>
-                </a>
-
-                <button class="button home-btn" type="button" 
-                        onclick="window.location.href = 'http://localhost:8080/NovelWeb/homepage'">
-                    Back to Home
-                </button>
-            </div>
+        <!-- Các nút điều hướng -->
+        <div class="button-group">
+            <a href="editProfile" class="button">Edit Profile</a>
+            <a href="changePassword" class="button">Change Password</a>
+            <a href="homepage" class="button">Back to Home</a>
         </div>
     </div>
-
-    <footer>
-        <p>© 2025 NovelWeb. All rights reserved.</p>
-    </footer>
-
 </body>
 </html>
-
-
