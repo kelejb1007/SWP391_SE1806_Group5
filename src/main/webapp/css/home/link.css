@@ -1,33 +1,39 @@
-    .link-container {
-            margin-bottom: 20px;
-        }
+.link-container {
+    margin-bottom: 20px;
+}
 
-        .breadcrumb {
-            display: flex;
-            align-items: center; /* Căn chỉnh các item theo chiều dọc */
-            padding: 8px 15px;
-            background-color: transparent; 
-            border-radius: 5px;
-            font-size: 14px;
-        }
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    padding: 8px 15px;
+    background-color: transparent !important; /* Ghi đè màu nền, nếu cần */
+    border-radius: 5px;
+    font-size: 14px;
+}
 
-        .breadcrumb-item {
-            text-decoration: none;
-            color: #6c757d /* Màu mặc định cho link */
-        }
+.breadcrumb-item {
+    text-decoration: none;
+    color: #6c757d;
+    background-color: transparent; /* Đảm bảo liên kết không có nền */
+    padding: 0 4px; /* Thêm padding nhẹ để dễ nhìn */
+    transition: color 0.3s; /* Hiệu ứng đổi màu chữ khi hover */
+}
 
-        
+.breadcrumb-item:hover {
+    color: #495057; /* Đổi màu chữ khi hover */
+}
 
-        .home-link {
-            margin-right: 5px; /* Tạo khoảng cách giữa icon và separator */
-        }
+.home-link {
+    margin-right: 5px;
+}
 
-        .separator {
-            margin: 0 5px;
-            color: #6c757d; /* Màu của dấu gạch chéo */
-        }
+.separator {
+    margin: 0 5px;
+    color: #6c757d;
+}
 
-        .current-novel {
-            color: #6c757d; /* Màu cho item hiện tại */
-            font-family: 'Arial', sans-serif;
-        }
+.current-novel {
+    color: #6c757d;
+    font-family: 'Arial', sans-serif;
+    padding: 0 4px; /* Đồng bộ padding với breadcrumb-item */
+}

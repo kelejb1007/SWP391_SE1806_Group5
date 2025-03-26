@@ -13,7 +13,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Add Comment</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/comment/usercomment.css">
+    
     <style>
         .error-message {
             color: red;

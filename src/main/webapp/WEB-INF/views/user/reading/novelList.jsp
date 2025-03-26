@@ -5,7 +5,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Novel List</title>
-
+        <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut") %>">
         <link rel="stylesheet" href="css/home/novel-list.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/awe-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 

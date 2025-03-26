@@ -9,16 +9,17 @@
     <head>
         <meta charset="UTF-8">
         <title>${novel.novelName} - Novel Detail</title>
+        <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut") %>">
         <!--        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">-->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
-
-        <link rel="stylesheet" href="css/novel-detail/novel-detail(d).css">
-        <link rel="stylesheet" href="css/novel-detail/rating(d).css">
-        <link rel="stylesheet" href="css/novel-detail/chapter-list(d).css">
+        <link rel="stylesheet" href="css/home/link.css?v=2">
+        <link rel="stylesheet" href="css/novel-detail/novel-detail(d).css?v=2">
+        <link rel="stylesheet" href="css/novel-detail/rating(d).css?v=1">
+        <link rel="stylesheet" href="css/novel-detail/chapter-list(d).css?v=2">
         <link rel="stylesheet" href="css/novel-detail/top-of-novel(d).css">
         <link rel="stylesheet" href="css/novel-detail/comment(d).css">
-                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -32,12 +33,32 @@
             <jsp:include page="/WEB-INF/views/user/components/header2.jsp" />
 
             <main class="novel-detail-page">
-                <jsp:include page="/WEB-INF/views/user/components/link.jsp"></jsp:include>
-                    <div class="novel-header">
-                        <div class="novel-detail-container">
-                            <div class="novel-cover">
-                                <div class="original-tag">ORIGINAL</div>
-                                <img src="${novel.imageURL}" alt="${novel.novelName}">
+                <div class="link-container">
+                    <div class="breadcrumb">
+                        <a href="dashboard" class="breadcrumb-item home-link">
+                            <i class="fas fa-home"></i>
+                        </a>
+                        <span class="separator">/</span>
+                        <a href="<c:url value='/novels' />" class="breadcrumb-item genre-link">Novel List</a>
+                        <span class="separator">/</span>
+                        <c:if test="${not empty novel.genreNames}">
+                            <c:forEach var="genre" items="${novel.genreNames}" varStatus="status">
+                                <a href="${pageContext.request.contextPath}/novels?genre=${genre}" class="current-novel">
+                                    ${genre}
+                                </a>
+                                    <c:if test="${!status.last}"><i class="bi bi-hearts" style=" color:#B0C4DE "></i> </c:if>
+                            </c:forEach>
+                            
+                        </c:if>
+                                <span class="separator">/</span>
+                        <p class="current-novel">${novel.novelName}</p>
+                    </div>
+                </div>
+                <div class="novel-header">
+                    <div class="novel-detail-container">
+                        <div class="novel-cover">
+                            <div class="original-tag">ORIGINAL</div>
+                            <img src="${novel.imageURL}" alt="${novel.novelName}">
                         </div>
                         <div class="novel-info">
                             <h1 class = "novel-title">${novel.novelName}</h1>
@@ -67,10 +88,22 @@
 
                             <jsp:include page="/WEB-INF/views/user/reading/rating.jsp" /> 
 
-                            <div class="ranking-award">
-                                <div class="ranking">#3 Originals' Power Ranking</div>
-                                <div class="award"><i class = "fas fa-trophy"></i> WebNovel Spirity Awards 2024 Gold Winner</div>
-                            </div>
+                            <!-- Kiểm tra xem novel có trong top 10 không -->
+                            <c:set var="isInTop10" value="false" />
+                            <c:set var="rankingPosition" value="0" />
+                            <c:forEach var="topNovel" items="${top10Novels}" varStatus="loop">
+                                <c:if test="${topNovel.novelID == novel.novelID}">
+                                    <c:set var="isInTop10" value="true" />
+                                    <c:set var="rankingPosition" value="${loop.count}" />
+                                </c:if>
+                            </c:forEach>
+
+                            <c:if test="${isInTop10}">
+                                <div class="ranking-award">
+                                    <div class="ranking">#${rankingPosition} Originals' Power Ranking</div>
+                                    <div class="award"><i class="fas fa-trophy"></i> WebNovel Spirity Awards 2025 Gold Winner</div>
+                                </div>
+                            </c:if>
                             <div class="novel-description">
                                 <p>${novel.novelDescription}</p>
                             </div>
@@ -294,12 +327,70 @@
                         </div>
                         <div class="col-lg-4 col-md-5">
                             <section class="top-novels">
-                                <jsp:include page="/WEB-INF/views/user/reading/top-of-novel.jsp"></jsp:include>
-                                </section>
-                            </div>
+                                <div class="right-wrap recent-finish-wrap fr">
+                                    <div class="rank-list" data-l2="3"><h3 class="wrap-title lang">Top Rank This Month</h3>
+                                        <div class="book-list" style="height: 396px; overflow: hidden">
+                                            <ul>
+                                                <c:forEach var="novel" items="${listrank}" varStatus="loop">
+                                                    <c:choose>
+                                                        <c:when test="${loop.index == 0}">
+                                                            <li class="unfold" data-rid="${loop.index + 1}">
+                                                                <div class="book-wrap cf">
+                                                                    <div class="book-info fl">
+                                                                        <h3>NO.1</h3>
+                                                                        <h4>
+                                                                            <a href="novel-detail?id=${novel.novelID}" data-eid="qd_A136" data-bid="${novel.novelID}" title="${novel.novelName}">${novel.novelName}</a>
+                                                                        </h4>
+                                                                        <p class="author">
+
+                                                                            <c:forEach var="genre" items="${novel.genreNames}" varStatus="genreLoop">
+                                                                                <a class="genre default">${genre}</a><c:if test="${!genreLoop.last}"> - </c:if>
+                                                                            </c:forEach>
+                                                                        </p>
+                                                                    </div>
+                                                                    <div class="book-cover">
+                                                                        <a class="link" href="novel-detail?id=${novel.novelID}" data-eid="qd_A136" data-bid="${novel.novelID}"><img src="${novel.imageURL}" alt="${novel.novelName}"></a><span></span>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <li data-rid="${loop.index + 1}">
+                                                                <div class="num-box">
+                                                                    <c:choose>
+                                                                        <c:when test="${loop.index == 1}"><span class="num2">${loop.index + 1}</span></c:when>
+                                                                        <c:when test="${loop.index == 2}"><span class="num3">${loop.index + 1}</span></c:when>
+                                                                        <c:when test="${loop.index == 3}"><span class="num4">${loop.index + 1}</span></c:when>
+                                                                        <c:when test="${loop.index == 4}"><span class="num5">${loop.index + 1}</span></c:when>
+                                                                        <c:when test="${loop.index == 5}"><span class="num6">${loop.index + 1}</span></c:when>
+                                                                        <c:when test="${loop.index == 6}"><span class="num7">${loop.index + 1}</span></c:when>
+                                                                        <c:when test="${loop.index == 7}"><span class="num8">${loop.index + 1}</span></c:when>
+                                                                        <c:when test="${loop.index == 8}"><span class="num9">${loop.index + 1}</span></c:when>
+                                                                        <c:otherwise><span class="num10">${loop.index + 1}</span></c:otherwise>
+                                                                    </c:choose>
+                                                                </div>
+                                                                <div class="name-box">
+                                                                    <a class="name" href="novel-detail?id=${novel.novelID}" data-eid="qd_A117" data-bid="${novel.novelID}" title="${novel.novelName}">${novel.novelName}</a>
+                                                                    <i class="author">
+                                                                        <c:forEach var="genre" items="${novel.genreNames}" varStatus="genreLoop">
+                                                                            ${genre}<c:if test="${!genreLoop.last}">,</c:if>
+                                                                        </c:forEach>
+                                                                    </i>
+                                                                </div>
+                                                            </li>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </c:forEach>
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </section>
                         </div>
                     </div>
-            </div>
+                </div>
+        </div>
 
 
         <jsp:include page="/WEB-INF/views/user/components/footer.jsp"></jsp:include>
@@ -314,244 +405,244 @@
             <script src="js/lock7.js"></script>
             <script>
 // chapter-list(d).js
-                                document.addEventListener('DOMContentLoaded', function () {
-                                    setupTabs();
-                                    initializeSortButton();
-                                    initializeChapterList();
-                                });
+                                    document.addEventListener('DOMContentLoaded', function () {
+                                        setupTabs();
+                                        initializeSortButton();
+                                        initializeChapterList();
+                                    });
 
-                                function setupTabs() {
-                                    const tabLinks = document.querySelectorAll('.tab-link');
-                                    const tabContents = document.querySelectorAll('.tab-content');
-                                    const commentTopNovelSection = document.getElementById('comment-top-novel-section');
-                                    const line = document.querySelector('._line');
-                                    const novelContainer = document.querySelector('.novel-detail-container');
-                                    const novelId = novelContainer ? novelContainer.dataset.novelId : null;
+                                    function setupTabs() {
+                                        const tabLinks = document.querySelectorAll('.tab-link');
+                                        const tabContents = document.querySelectorAll('.tab-content');
+                                        const commentTopNovelSection = document.getElementById('comment-top-novel-section');
+                                        const line = document.querySelector('._line');
+                                        const novelContainer = document.querySelector('.novel-detail-container');
+                                        const novelId = novelContainer ? novelContainer.dataset.novelId : null;
 
-                                    function moveLine(tab) {
-                                        // Remove active class from all tabs and hide content
-                                        tabLinks.forEach(link => link.classList.remove('_on'));
-                                        tabContents.forEach(content => content.style.display = 'none');
+                                        function moveLine(tab) {
+                                            // Remove active class from all tabs and hide content
+                                            tabLinks.forEach(link => link.classList.remove('_on'));
+                                            tabContents.forEach(content => content.style.display = 'none');
 
-                                        // Toggle comment section based on active tab
-                                        if (commentTopNovelSection) {
-                                            commentTopNovelSection.style.display = (tab.dataset.tab === '#about') ? 'block' : 'none';
+                                            // Toggle comment section based on active tab
+                                            if (commentTopNovelSection) {
+                                                commentTopNovelSection.style.display = (tab.dataset.tab === '#about') ? 'block' : 'none';
+                                            }
+
+                                            // Activate selected tab and show content
+                                            tab.classList.add('_on');
+                                            const targetContent = document.querySelector(tab.dataset.tab);
+                                            if (targetContent) {
+                                                targetContent.style.display = 'block';
+                                            }
+
+                                            // Move underline
+                                            if (line) {
+                                                line.style.left = tab.offsetLeft + 'px';
+                                                line.style.width = tab.offsetWidth + 'px';
+                                            }
+
+                                            // Save active tab state
+                                            if (novelId) {
+                                                localStorage.setItem(`activeTab_${novelId}`, tab.dataset.tab);
+                                            }
                                         }
 
-                                        // Activate selected tab and show content
-                                        tab.classList.add('_on');
-                                        const targetContent = document.querySelector(tab.dataset.tab);
-                                        if (targetContent) {
-                                            targetContent.style.display = 'block';
-                                        }
-
-                                        // Move underline
-                                        if (line) {
-                                            line.style.left = tab.offsetLeft + 'px';
-                                            line.style.width = tab.offsetWidth + 'px';
-                                        }
-
-                                        // Save active tab state
+                                        // Load saved tab state or default to About
                                         if (novelId) {
-                                            localStorage.setItem(`activeTab_${novelId}`, tab.dataset.tab);
+                                            const activeTab = localStorage.getItem(`activeTab_${novelId}`);
+                                            if (activeTab) {
+                                                const savedTab = document.querySelector(`a[data-tab="${activeTab}"]`);
+                                                if (savedTab) {
+                                                    moveLine(savedTab);
+                                                }
+                                            }
+                                        }
+
+                                        // Set default tab if no saved state
+                                        if (!document.querySelector('.tab-link._on')) {
+                                            const defaultTab = document.querySelector('a[data-tab="#about"]');
+                                            if (defaultTab) {
+                                                moveLine(defaultTab);
+                                            }
+                                        }
+
+                                        // Add click handlers
+                                        tabLinks.forEach(tab => {
+                                            tab.addEventListener('click', function (e) {
+                                                e.preventDefault();
+                                                moveLine(this);
+                                            });
+                                        });
+                                    }
+
+                                    function initializeSortButton() {
+                                        const sortButton = document.querySelector('.chapter-sort-option');
+                                        if (!sortButton)
+                                            return;
+
+                                        const novelId = sortButton.getAttribute("data-novel-id");
+
+                                        // Get initial sort order from the button's data attribute (set by server)
+                                        // This ensures we always respect the server-side default (asc)
+                                        let currentSort = sortButton.getAttribute("data-sort");
+
+                                        // Sort chapters immediately on page load using the initial sort
+                                        sortChapters(currentSort);
+
+                                        // Update initial icon based on current sort
+                                        updateSortIcon(sortButton, currentSort);
+
+                                        sortButton.addEventListener('click', function (e) {
+                                            e.preventDefault();
+
+                                            // Toggle sort order
+                                            const newSortOrder = currentSort === "asc" ? "desc" : "asc";
+
+                                            try {
+                                                // Update URL without page reload
+                                                const url = new URL(window.location.href);
+                                                url.searchParams.set("sort", newSortOrder);
+                                                history.pushState({}, '', url.toString());
+
+                                                // Sort chapters
+                                                sortChapters(newSortOrder);
+
+                                                // Update sort button icon and state
+                                                updateSortIcon(sortButton, newSortOrder);
+
+                                                // Update the data-sort attribute on the button
+                                                sortButton.setAttribute('data-sort', newSortOrder);
+
+                                                // Update current sort state
+                                                currentSort = newSortOrder;
+
+                                            } catch (error) {
+                                                console.error('Error during sorting:', error);
+                                            }
+                                        });
+                                    }
+
+// Make sure this function updates the icon correctly
+                                    function updateSortIcon(button, sortOrder) {
+                                        const icon = button.querySelector('i');
+                                        if (icon) {
+                                            if (sortOrder === 'asc') {
+                                                icon.className = 'fas fa-sort-numeric-up';
+                                            } else {
+                                                icon.className = 'fas fa-sort-numeric-down-alt';
+                                            }
                                         }
                                     }
 
-                                    // Load saved tab state or default to About
-                                    if (novelId) {
+                                    function sortChapters(sortOrder) {
+                                        const chapterList = document.querySelector('.chapter-list-ul');
+                                        if (!chapterList)
+                                            return;
+
+                                        const chapters = Array.from(chapterList.getElementsByClassName('chapter-item'));
+
+                                        chapters.sort((a, b) => {
+                                            const aNum = parseInt(a.querySelector('.chapter-number').textContent);
+                                            const bNum = parseInt(b.querySelector('.chapter-number').textContent);
+                                            return sortOrder === 'asc' ? aNum - bNum : bNum - aNum;
+                                        });
+
+                                        // Clear and repopulate chapter list
+                                        chapterList.innerHTML = '';
+                                        chapters.forEach(chapter => chapterList.appendChild(chapter));
+                                    }
+
+                                    function updateSortIcon(button, sortOrder) {
+                                        button.innerHTML = sortOrder === "desc"
+                                                ? '<i class="fas fa-sort-numeric-down-alt"></i>'
+                                                : '<i class="fas fa-sort-numeric-up"></i>';
+                                    }
+
+                                    function initializeChapterList() {
+                                        const chapterList = document.querySelector('.chapter-list');
+                                        if (!chapterList)
+                                            return;
+
+                                        // Add smooth hover effects
+                                        const chapters = chapterList.getElementsByClassName('chapter-item');
+                                        Array.from(chapters).forEach(chapter => {
+                                            chapter.addEventListener('mouseenter', function () {
+                                                this.style.backgroundColor = '#f5f5f5';
+                                            });
+
+                                            chapter.addEventListener('mouseleave', function () {
+                                                this.style.backgroundColor = '';
+                                            });
+                                        });
+
+                                        // Handle locked chapters
+                                        const lockedChapters = chapterList.getElementsByClassName('locked');
+                                        Array.from(lockedChapters).forEach(chapter => {
+                                            chapter.addEventListener('click', function (e) {
+                                                e.preventDefault();
+                                                alert('Please login to read this chapter');
+                                            });
+                                        });
+                                    }
+
+// Handle browser back/forward buttons
+                                    window.addEventListener('popstate', function (event) {
+                                        const url = new URL(window.location.href);
+                                        const novelId = url.searchParams.get("id");
+                                        const newSort = url.searchParams.get("sort") || 'asc';
+
+                                        // Update sort if needed
+                                        const savedSort = localStorage.getItem(`sortOrder_${novelId}`);
+                                        if (savedSort !== newSort) {
+                                            localStorage.setItem(`sortOrder_${novelId}`, newSort);
+
+                                            const sortButton = document.querySelector('.chapter-sort-option');
+                                            if (sortButton) {
+                                                updateSortIcon(sortButton, newSort);
+
+                                                // Re-sort the chapter list
+                                                const chapterList = document.querySelector('.chapter-list-ul');
+                                                if (chapterList) {
+                                                    const chapters = Array.from(chapterList.getElementsByClassName('chapter-item'));
+                                                    chapters.sort((a, b) => {
+                                                        const aNum = parseInt(a.querySelector('.chapter-number').textContent);
+                                                        const bNum = parseInt(b.querySelector('.chapter-number').textContent);
+                                                        return newSort === 'asc' ? aNum - bNum : bNum - aNum;
+                                                    });
+
+                                                    chapterList.innerHTML = '';
+                                                    chapters.forEach(chapter => chapterList.appendChild(chapter));
+                                                }
+                                            }
+                                        }
+
+                                        // Restore active tab if needed
                                         const activeTab = localStorage.getItem(`activeTab_${novelId}`);
                                         if (activeTab) {
                                             const savedTab = document.querySelector(`a[data-tab="${activeTab}"]`);
                                             if (savedTab) {
-                                                moveLine(savedTab);
+                                                const event = new Event('click');
+                                                savedTab.dispatchEvent(event);
                                             }
                                         }
-                                    }
-
-                                    // Set default tab if no saved state
-                                    if (!document.querySelector('.tab-link._on')) {
-                                        const defaultTab = document.querySelector('a[data-tab="#about"]');
-                                        if (defaultTab) {
-                                            moveLine(defaultTab);
-                                        }
-                                    }
-
-                                    // Add click handlers
-                                    tabLinks.forEach(tab => {
-                                        tab.addEventListener('click', function (e) {
-                                            e.preventDefault();
-                                            moveLine(this);
-                                        });
                                     });
-                                }
-
-                                function initializeSortButton() {
-                                    const sortButton = document.querySelector('.chapter-sort-option');
-                                    if (!sortButton)
-                                        return;
-
-                                    const novelId = sortButton.getAttribute("data-novel-id");
-
-                                    // Get initial sort order from the button's data attribute (set by server)
-                                    // This ensures we always respect the server-side default (asc)
-                                    let currentSort = sortButton.getAttribute("data-sort");
-
-                                    // Sort chapters immediately on page load using the initial sort
-                                    sortChapters(currentSort);
-
-                                    // Update initial icon based on current sort
-                                    updateSortIcon(sortButton, currentSort);
-
-                                    sortButton.addEventListener('click', function (e) {
-                                        e.preventDefault();
-
-                                        // Toggle sort order
-                                        const newSortOrder = currentSort === "asc" ? "desc" : "asc";
-
-                                        try {
-                                            // Update URL without page reload
-                                            const url = new URL(window.location.href);
-                                            url.searchParams.set("sort", newSortOrder);
-                                            history.pushState({}, '', url.toString());
-
-                                            // Sort chapters
-                                            sortChapters(newSortOrder);
-
-                                            // Update sort button icon and state
-                                            updateSortIcon(sortButton, newSortOrder);
-
-                                            // Update the data-sort attribute on the button
-                                            sortButton.setAttribute('data-sort', newSortOrder);
-
-                                            // Update current sort state
-                                            currentSort = newSortOrder;
-
-                                        } catch (error) {
-                                            console.error('Error during sorting:', error);
-                                        }
-                                    });
-                                }
-
-// Make sure this function updates the icon correctly
-                                function updateSortIcon(button, sortOrder) {
-                                    const icon = button.querySelector('i');
-                                    if (icon) {
-                                        if (sortOrder === 'asc') {
-                                            icon.className = 'fas fa-sort-numeric-up';
-                                        } else {
-                                            icon.className = 'fas fa-sort-numeric-down-alt';
-                                        }
-                                    }
-                                }
-
-                                function sortChapters(sortOrder) {
-                                    const chapterList = document.querySelector('.chapter-list-ul');
-                                    if (!chapterList)
-                                        return;
-
-                                    const chapters = Array.from(chapterList.getElementsByClassName('chapter-item'));
-
-                                    chapters.sort((a, b) => {
-                                        const aNum = parseInt(a.querySelector('.chapter-number').textContent);
-                                        const bNum = parseInt(b.querySelector('.chapter-number').textContent);
-                                        return sortOrder === 'asc' ? aNum - bNum : bNum - aNum;
-                                    });
-
-                                    // Clear and repopulate chapter list
-                                    chapterList.innerHTML = '';
-                                    chapters.forEach(chapter => chapterList.appendChild(chapter));
-                                }
-
-                                function updateSortIcon(button, sortOrder) {
-                                    button.innerHTML = sortOrder === "desc"
-                                            ? '<i class="fas fa-sort-numeric-down-alt"></i>'
-                                            : '<i class="fas fa-sort-numeric-up"></i>';
-                                }
-
-                                function initializeChapterList() {
-                                    const chapterList = document.querySelector('.chapter-list');
-                                    if (!chapterList)
-                                        return;
-
-                                    // Add smooth hover effects
-                                    const chapters = chapterList.getElementsByClassName('chapter-item');
-                                    Array.from(chapters).forEach(chapter => {
-                                        chapter.addEventListener('mouseenter', function () {
-                                            this.style.backgroundColor = '#f5f5f5';
-                                        });
-
-                                        chapter.addEventListener('mouseleave', function () {
-                                            this.style.backgroundColor = '';
-                                        });
-                                    });
-
-                                    // Handle locked chapters
-                                    const lockedChapters = chapterList.getElementsByClassName('locked');
-                                    Array.from(lockedChapters).forEach(chapter => {
-                                        chapter.addEventListener('click', function (e) {
-                                            e.preventDefault();
-                                            alert('Please login to read this chapter');
-                                        });
-                                    });
-                                }
-
-// Handle browser back/forward buttons
-                                window.addEventListener('popstate', function (event) {
-                                    const url = new URL(window.location.href);
-                                    const novelId = url.searchParams.get("id");
-                                    const newSort = url.searchParams.get("sort") || 'asc';
-
-                                    // Update sort if needed
-                                    const savedSort = localStorage.getItem(`sortOrder_${novelId}`);
-                                    if (savedSort !== newSort) {
-                                        localStorage.setItem(`sortOrder_${novelId}`, newSort);
-
-                                        const sortButton = document.querySelector('.chapter-sort-option');
-                                        if (sortButton) {
-                                            updateSortIcon(sortButton, newSort);
-
-                                            // Re-sort the chapter list
-                                            const chapterList = document.querySelector('.chapter-list-ul');
-                                            if (chapterList) {
-                                                const chapters = Array.from(chapterList.getElementsByClassName('chapter-item'));
-                                                chapters.sort((a, b) => {
-                                                    const aNum = parseInt(a.querySelector('.chapter-number').textContent);
-                                                    const bNum = parseInt(b.querySelector('.chapter-number').textContent);
-                                                    return newSort === 'asc' ? aNum - bNum : bNum - aNum;
-                                                });
-
-                                                chapterList.innerHTML = '';
-                                                chapters.forEach(chapter => chapterList.appendChild(chapter));
-                                            }
-                                        }
-                                    }
-
-                                    // Restore active tab if needed
-                                    const activeTab = localStorage.getItem(`activeTab_${novelId}`);
-                                    if (activeTab) {
-                                        const savedTab = document.querySelector(`a[data-tab="${activeTab}"]`);
-                                        if (savedTab) {
-                                            const event = new Event('click');
-                                            savedTab.dispatchEvent(event);
-                                        }
-                                    }
-                                });
         </script>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         <script src="js/homepage2/header.js"></script>
         <script>
-                                $(document).ready(function () {
-                                    $("#j-navType").showTypeList({
-                                    });
+                                    $(document).ready(function () {
+                                        $("#j-navType").showTypeList({
+                                        });
 
-                                    $("#j-userWrap").userDropDown({
-                                    });
+                                        $("#j-userWrap").userDropDown({
+                                        });
 
-                                    $("#formUrl").enterSearchBox({
-                                    });
+                                        $("#formUrl").enterSearchBox({
+                                        });
 
-                                });
+                                    });
         </script>
 
     </body>
