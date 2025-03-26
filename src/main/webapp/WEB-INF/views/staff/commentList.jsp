@@ -42,6 +42,7 @@
                                             <tr>
                                                 <th>ID</th>
                                                 <th>User ID</th>
+                                                <th>User Name</th>
                                                 <th>Novel ID</th>
                                                 <th>Content</th>
                                                 <th>Comment Date</th>
@@ -55,6 +56,7 @@
                                                         <tr>
                                                             <td>${comment.commentID}</td>
                                                             <td>${comment.userID}</td>
+                                                            <td>${comment.fullName}</td>
                                                             <td>${comment.novelID}</td>
                                                             <td>${comment.content}</td>
                                                             <td>${comment.commentDate.toString().replace('T', ' ')}</td>

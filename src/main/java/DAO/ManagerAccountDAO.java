@@ -369,6 +369,7 @@ public class ManagerAccountDAO {
         }
 
     }
+     
 
     public boolean changeAdminPassword(int managerID, String oldPassword, String newPassword) {
         if (!isValidPassword(newPassword)) {
