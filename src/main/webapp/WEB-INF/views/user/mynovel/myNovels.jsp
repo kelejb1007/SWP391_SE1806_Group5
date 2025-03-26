@@ -16,7 +16,7 @@
         <link rel="stylesheet" href="css/startmin/startmin.css">
         <link rel="stylesheet" href="css/startmin/font-awesome.min.css" type="text/css">
 
-        <link rel="stylesheet" href="css/mynovel/myNovell.css">
+        <link rel="stylesheet" href="css/mynovel/myNovell.css?v=1">
         <link rel="stylesheet" href="css/mynovel/postingHistory.css">
 
         <link rel="shortcut icon" type="image/x-icon" href="//yuxseocdn.yuewen.com/favicon/readnovel.ico">
@@ -39,6 +39,18 @@
                 font-family: 'Macondo Swash Caps', cursive;
                 background-size: cover
             }
+            .tablebtn{
+                all: unset;
+                cursor: pointer;
+                color: #ff3955;
+            }
+            .tablebtn:hover{
+                text-decoration: underline;
+            }
+            a:hover{
+                color: #ff3955;
+            }
+
         </style>
 
     </head>
@@ -62,7 +74,8 @@
                     <div style="">
                         <div class="pf t0 l0 header--Unk0j df jcsb">
                             <div class="undefined g_header df fg1 oh">
-                                <div class="df aic g_header_title"><label for="foldSwitch" class="collapse_menu--QStMM mr8">
+                                <div class="df aic g_header_title" style="zoom: 1.1">
+                                    <label for="foldSwitch" class="collapse_menu--QStMM mr8">
                                         <div class="df g_sd_close collapse_menu_btn--f8c2W"><i></i></div>
                                     </label>
                                     <h2 class="header_title--gwRuS ell dib mw100p t_title_large mb0 vam"><span class="ttc">Novels</span></h2>
@@ -201,7 +214,16 @@
                                                                             </td>
                                                                             <td>${c.averageRating}</td>
                                                                             <td>${c.viewCount}</td>
-                                                                            <td></td>
+                                                                            <td>
+                                                                                <a href="mynovel?action=update&novelID=${c.novelID}">Update</a>
+                                                                                <form action="mynovel" method="post" style="display: inline;">
+                                                                                    <input type="hidden" name="action" value="delete">
+                                                                                    <input type="hidden" name="novelID" value="${c.novelID}">
+                                                                                    <button style="" type="submit" class="tablebtn" onclick="return confirm('Are you sure to delete the novel: ${c.novelName} (ID=${c.novelID})')">
+                                                                                        <strong class="str">Delete</strong>
+                                                                                    </button>
+                                                                                </form>
+                                                                            </td>
                                                                         </tr>
                                                                     </c:forEach>  
                                                                 </tbody>

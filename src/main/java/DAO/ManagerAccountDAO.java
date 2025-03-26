@@ -109,6 +109,8 @@ public class ManagerAccountDAO {
         user.setFullName(rs.getString("fullName"));
         user.setEmail(rs.getString("email"));
         user.setRole(rs.getString("role"));
+        user.setCanLock(rs.getBoolean("canLock"));
+        user.setCanApprove(rs.getBoolean("canApprove"));
         return user;
     }
 

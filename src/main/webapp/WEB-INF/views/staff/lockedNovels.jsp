@@ -92,10 +92,12 @@
                                                             <form action="managenovel" method="post" style="display: inline">
                                                                 <input type="hidden" name="action" value="unlock">
                                                                 <input type="hidden" name="novelID" value="${c.novelID}">
-                                                                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure to unclock the novel: ${c.novelName} (ID=${c.novelID})')">Unlock</button>
-                                                            </form>
-                                                        </td>
-                                                    </tr>
+                                                                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure to unclock the novel: ${c.novelName} (ID=${c.novelID})')"
+                                                                        <c:if test="${sessionScope.manager.canLock == false}">disabled style="cursor: not-allowed !important;"</c:if>
+                                                                            >Unlock</button>
+                                                                </form>
+                                                            </td>
+                                                        </tr>
                                                 </c:forEach>  
                                             </tbody>
                                         </table>

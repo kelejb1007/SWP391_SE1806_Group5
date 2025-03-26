@@ -435,7 +435,7 @@ em, i, small, strong {
     cursor: pointer;
     color: red;
 
-    padding-left: 8px;
+    padding-left: 12px;
 }
 
 .list2 button:hover{

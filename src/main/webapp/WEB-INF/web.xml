@@ -38,6 +38,12 @@
         <url-pattern>/postChapter</url-pattern>
     </filter-mapping>
         
+        
+        <context-param>
+            <param-name>shortcut</param-name>
+            <param-value>img/logo6.jpg</param-value>
+        </context-param>
+        
     <session-config>
         <session-timeout>
             30

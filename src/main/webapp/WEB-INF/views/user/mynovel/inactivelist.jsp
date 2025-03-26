@@ -1,15 +1,17 @@
 <%-- 
-    Document   : PostChapterHistory.jsp
-    Created on : Mar 1, 2025, 5:18:10 PM
-    Author     : Nguyen Ngoc Phat - CE180321
+    Document   : inactivelist.jsp
+    Created on : Mar 25, 2025, 10:12:52 PM
+    Author     : Nguyen Thanh Trung
 --%>
+
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Chapter Submission</title>
+        <title>Deleted Novel</title>
 
         <link rel="stylesheet" href="css/startmin/bootstrap.css">
         <link rel="stylesheet" href="css/startmin/startmin.css">
@@ -62,8 +64,8 @@
                                 <div class="df aic g_header_title"><label for="foldSwitch" class="collapse_menu--QStMM mr8">
                                         <div class="df g_sd_close collapse_menu_btn--f8c2W"><i></i></div>
                                     </label>
-                                    <h2 class="header_title--gwRuS ell dib mw100p t_title_large mb0 vam"><span class="ttc" style="zoom: 1.1">Submission</span></h2>
-
+                                    <h2 class="header_title--gwRuS ell dib mw100p t_title_large mb0 vam"><span class="ttc" style="zoom: 1.1">Deleted and Locked Novels</span></h2>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -73,12 +75,14 @@
                             <div class="main_content--0x57a with_navigator--ZJqIM">
                                 <div class="ant-spin-container">
                                     <div class="default--zRToH bc_fff ">
+
+
                                         <div>
-                                            <ul class="row list" style="margin-left: auto; margin-right: auto; padding: 0px 0;">
+                                            <ul class="row list" style="margin-left: auto; margin-right: auto; padding: 0;">
 
 
                                                 <!-- /.panel-heading -->
-                                                <div class="panel-body" style="display: block; width: 100%; font-size: 15px">
+                                                <div class="panel-body" style="display: block; width: 100%; font-size: 15px; padding: 20px 0">
 
                                                     <c:if test="${empty list}">
                                                         <div class="ant-empty">
@@ -87,14 +91,7 @@
                                                             </div>
                                                             <div class="ant-empty-footer">
                                                                 <div class="clearfix">
-                                                                    <p class="message">${requestScope.message}</p>
-                                                                    <p class="message_sub">Click the button below to create your first chapter now.</p>
-                                                                </div>
-                                                                <div style="margin-top: 16px;">
-                                                                    <button data-report-uiname="create" data-report-pn="work_novel" type="button" class="ant-btn ant-btn-primary ant-btn-background-ghost  button--4vWlZ"
-                                                                            onclick="window.location.href = 'mynovel?action=post';">
-                                                                        <span>create now</span>
-                                                                    </button>
+                                                                    <p class="message">${message}</p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -108,13 +105,12 @@
                                                                     <tr>
                                                                         <th>#</th>
                                                                         <th>Novel Name</th>
-                                                                        <th>Chapter Number</th>
-                                                                        <th>Chapter Name</th>
-                                                                        <th>Submission Date</th>
-                                                                        <th>Approval Date</th>
-                                                                        <th>Type</th>
-                                                                        <th>Status</th>
-                                                                        <th>Rejected Reason</th>
+                                                                        <th>Total of chapter</th>
+                                                                        <th>Novel Status</th>
+                                                                        <th>Published Date</th>
+                                                                        <th>Locked Date</th>
+                                                                        <th>Locked Reason</th>
+                                                                        <th>Action</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -122,42 +118,18 @@
                                                                         <tr>
                                                                             <td>${status.index + 1}</td>
                                                                             <td><a href="mynovel?action=viewdetail&novelID=${c.novelID}" title="${c.novelName}">${c.novelName}</a></td>
-                                                                            <td>${c.chapterNumber}</td>
-                                                                            <td><a href="${pageContext.request.contextPath}/chapter?id=${chapterID}" title="${c.novelName}">${c.chapterName}</a></td>
-                                                                            <td>${c.submissionDate}</td>
-                                                                            <td>${c.approvalDate}</td>
+                                                                            <td>${c.totalChapter}</td>
+                                                                            <td>${c.novelStatus}</td>
+                                                                            <td><fmt:formatDate value="${c.publishDate2}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+                                                                            <td><c:if test="${not empty c.lockDate2}">
+                                                                                    <fmt:formatDate value="${c.lockDate2}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+                                                                                </c:if>
+                                                                            <td>${c.lockReason}</td>
                                                                             <td>
-                                                                                <c:choose>
-                                                                                    <c:when test = "${c.type == 'update'}">
-                                                                                        <a href="${pageContext.request.contextPath}/chapter?id=${c.draftID}" title="View Draft">${c.type}</a>
-                                                                                    </c:when>
-
-                                                                                    <c:when test = "${c.type == 'post'}">
-                                                                                        ${c.type}
-                                                                                    </c:when>
-                                                                                </c:choose>
+                                                                                <c:if test="${c.novelStatus == 'deleted'}">
+                                                                                    <a href="mynovel?action=undelete&novelID=${c.novelID}">Restore</a>
+                                                                                </c:if>
                                                                             </td>
-                                                                            <td <c:choose>
-                                                                                    <c:when test = "${c.status == 'rejected'}">
-                                                                                        style="color: red"
-                                                                                    </c:when>
-
-                                                                                    <c:when test = "${c.status == 'approved'}">
-                                                                                        style="color: black"
-                                                                                    </c:when>
-
-                                                                                    <c:when test = "${c.status == 'pending'}">
-                                                                                        style="color: green"
-                                                                                    </c:when>
-                                                                                </c:choose>
-                                                                                >${c.status}</td>
-                                                                            <td>${c.reasonRejected}</td>
-                                                                            <!--                                                                    <td>
-                                                                                                                                                    <button type="button" class="btn btn-info"
-                                                                                                                                                            onclick="window.location.href = 'managenovel?action=viewdetail&novelID=${c.novelID}';">View detail
-                                                                                                                                                    </button>
-                                                                                                                                                    <button type="button" id="open" class="btn btn-danger" onclick="openLockModal('${c.novelID}', '${c.novelName}')">Lock</button>
-                                                                                                                                                </td>-->
                                                                         </tr>
                                                                     </c:forEach>  
                                                                 </tbody>

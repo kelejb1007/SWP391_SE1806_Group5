@@ -44,14 +44,14 @@
                                         </svg></span><strong class="t_label_medium lh24">Novel</strong></a></li>
 
                             <!-- Chapter Submission ở đây nè -->        
-                            <li class=" "><a class="g_sd_sub_option   " title="Chapter Submission" href=""><span role="img" class="anticon g_sd_i"><svg width="1em" height="1em" fill="currentColor" aria-hidden="true" focusable="false" class="">
+                            <li class=" "><a class="g_sd_sub_option   " title="Chapter Submission" href="mynovel?action=viewchapterposthistory"><span role="img" class="anticon g_sd_i"><svg width="1em" height="1em" fill="currentColor" aria-hidden="true" focusable="false" class="">
                                         <use xlink:href="#i-book-3d"></use>
                                         </svg></span><strong class="t_label_medium lh24">Chapter</strong></a></li>
                         </ul>
                     </li>
 
 
-                    <li class=" "><a class="g_sd_option   " title="Deleted" href="mynovel?action=post"><span role="img" class="anticon g_sd_i"><svg width="1em" height="1em" fill="currentColor" aria-hidden="true" focusable="false" class="">
+                    <li class=" "><a class="g_sd_option   " title="Deleted" href="mynovel?action=deleted"><span role="img" class="anticon g_sd_i"><svg width="1em" height="1em" fill="currentColor" aria-hidden="true" focusable="false" class="">
                                 <use xlink:href="#i-history"></use>
                                 </svg></span><strong class="t_body_large ml16">Deleted</strong></a><span class="g_side_tooltips t_label_medium">Deleted</span></li>
 
@@ -85,7 +85,7 @@
                         </ul>
                     </li>
                     <li class=" "><a class="g_sd_option   " title="Homepage" href="homepage"><span role="img" class="anticon g_sd_i"><svg width="1em" height="1em" fill="currentColor" aria-hidden="true" focusable="false" class="">
-                                <div class="_img_container"><img class="g_sd_i" src="//yuxseocdn.yuewen.com/favicon/readnovel.ico" alt="img"></div>
+                                <div class="_img_container"><img class="g_sd_i" src="<%= application.getInitParameter("shortcut") %>" alt="img"></div>
                                 </svg></span><strong class="t_body_large ml16">Homepage</strong></a><span class="g_side_tooltips t_label_medium">Homepage</span></li>
 
                 </ul>

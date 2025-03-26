@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Submision</title>
+        <title>Novel Submission</title>
 
         <link rel="stylesheet" href="css/startmin/bootstrap.css">
         <link rel="stylesheet" href="css/startmin/startmin.css">
@@ -37,6 +37,10 @@
                 font-family: 'Macondo Swash Caps', cursive;
                 background-size: cover
             }
+            a:hover{
+                color: #ff3955;
+                text-decoration: underline
+            }
         </style>
     </head>
     <body>
@@ -54,21 +58,12 @@
                 <div class="g_main_wrap f1 pr">
                     <div style="">
                         <div class="pf t0 l0 header--Unk0j df jcsb">
-                            <div class="undefined g_header df fg1 oh">
+                            <div class="undefined g_header df fg1 oh" >
                                 <div class="df aic g_header_title"><label for="foldSwitch" class="collapse_menu--QStMM mr8">
                                         <div class="df g_sd_close collapse_menu_btn--f8c2W"><i></i></div>
                                     </label>
-                                    <h2 class="header_title--gwRuS ell dib mw100p t_title_large mb0 vam"><span class="ttc">Submission</span></h2>
-                                    <div class="df aic">
-                                        <div class="g_top_tab">
-                                            <div class="g_top_tab_container">
-                                                <button class="tab_button" onclick="showPage(this, 'page1')" style="all:unset">
-                                                    <span class="g_top_tab_item  _on fvsc">Novel</span></button>
-                                                <button class="tab_button" onclick="showPage(this, 'page2')" style="all:unset">
-                                                    <span class="g_top_tab_item  fvsc">Chapter</span></button>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <h2 class="header_title--gwRuS ell dib mw100p t_title_large mb0 vam"><span class="ttc" style="zoom: 1.1">Submission</span></h2>
+                                    
                                 </div>
                             </div>
                         </div>

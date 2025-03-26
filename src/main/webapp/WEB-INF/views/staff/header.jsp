@@ -3,6 +3,7 @@
     Created on : Dec 26, 2024, 3:37:24 PM
     Author     : Nguyen Thanh Trung
 --%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -26,7 +27,9 @@
             .dropdown-toggle::after{
                 content: none;
             }
-
+            button:disabled{
+                cursor: not-allowed;          
+            }
 
         </style>
     </head>
@@ -48,31 +51,17 @@
                 <span class="icon-bar"></span>
             </button>
 
+            
             <!-- Right Menu -->
             <ul class="nav navbar-right navbar-top-links">
-                <li class="dropdown navbar-inverse">
-
-
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-bell fa-fw"></i> <b class="caret"></b>
-                    </a>
-                    <ul class="dropdown-menu dropdown-alerts">
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-comment fa-fw"></i> New Comment
-                                    <span class="pull-right text-muted small">4 minutes ago</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a class="text-center" href="#">
-                                <strong>See All Alerts</strong>
-                                <i class="fa fa-angle-right"></i>
-                            </a>
-                        </li>
-                    </ul>
+                <li class="dropdown navbar-inverse" style="color: white">
+                    <input type="checkbox" name="lockCheckbox"
+                           <c:if test="${sessionScope.manager.canLock}">checked</c:if>  disabled>
+                    <label for="lockCheckbox">Can lock</label>
+                    
+                    <input type="checkbox" name="lockCheckbox"
+                           <c:if test="${sessionScope.manager.canApprove}">checked</c:if>  disabled>
+                    <label for="lockCheckbox">Can approve</label>
                 </li>
 
 
@@ -84,12 +73,6 @@
                     </a>
 
                     <ul class="dropdown-menu dropdown-user">
-                        <li>
-                            <a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
-                        </li>
                         <li class="divider"></li>
                         <li>
                             <a href="${pageContext.request.contextPath}/ManagerLogout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>

@@ -57,32 +57,11 @@
 
                         <div class="pf t0 l0 header--Unk0j df jcsb">
                             <div class="undefined g_header df fg1 oh">
-                                <div class="df aic g_header_title"><label for="foldSwitch" class="collapse_menu--QStMM mr8">
-                                        <div class="df g_sd_close collapse_menu_btn--f8c2W"><i></i></div>
-                                    </label>
-                                    <h2 class="header_title--gwRuS ell dib mw100p t_title_large mb0 vam"><span class="ttc" style="font-family: Archivo !important">Novels</span></h2>
-                                    <div class="df aic">
-                                        <div class="g_top_tab">
-                                            <div class="g_top_tab_container">
-                                                <button class="tab_button" onclick="showPage(this, 'page1')" style="all:unset">
-                                                    <span class="g_top_tab_item  _on fvsc" style="font-family: Archivo !important">Avatar</span></button>
-                                                <button class="tab_button" onclick="showPage(this, 'page2')" style="all:unset">
-                                                    <span class="g_top_tab_item  fvsc" style="font-family: Archivo !important">Table</span></button>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="df aic g_header_title">
+                                    <h2 class="header_title--gwRuS ell dib mw100p t_title_large mb0 vam">
+                                        <span class="ttc" style="font-family: Archivo !important; zoom: 1.1">Novels Information</span>
+                                    </h2>
                                 </div>
-                            </div>
-                            <div class="df aic oh">
-                                <button type="button" class="ant-btn ant-btn-primary ant-btn-lg df ell g_header_btn button--4vWlZ"
-                                        onclick="window.location.href = 'mynovel?action=post';">
-                                    <span role="img" aria-label="plus-circle" class="anticon anticon-plus-circle">
-                                        <svg viewBox="64 64 896 896" focusable="false" data-icon="plus-circle" width="1em" height="1em" fill="currentColor" aria-hidden="true">
-                                        <path d="M696 480H544V328c0-4.4-3.6-8-8-8h-48c-4.4 0-8 3.6-8 8v152H328c-4.4 0-8 3.6-8 8v48c0 4.4 3.6 8 8 8h152v152c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V544h152c4.4 0 8-3.6 8-8v-48c0-4.4-3.6-8-8-8z"></path>
-                                        <path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z"></path>
-                                        </svg></span>
-                                    <span class="g_header_btn_title" style="font-family: Archivo !important">CREATE A STORY</span>
-                                </button>
                             </div>
                         </div>
 

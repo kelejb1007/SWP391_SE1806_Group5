@@ -249,6 +249,39 @@ public class NovelDAO {
         return list;
     }
 
+    public List<Novel> getDeletedNovels(int userID) throws SQLException {
+        List<Novel> list = new ArrayList<>();
+        String sql = "SELECT n.novelID, n.novelName, n.totalChapter, n.novelStatus, n.publishedDate, ll.datetime, ll.lockReason\n"
+                + "FROM Novel n \n"
+                + "LEFT JOIN LockNovelLog ll ON ll.novelID = n.novelID\n"
+                + "JOIN UserAccount u ON n.UserID = u.UserID \n"
+                + "WHERE n.UserID = ? AND n.novelStatus IN ('locked', 'deleted')";
+        Connection connection;
+        PreparedStatement statement;
+        ResultSet rs;
+        try {
+            connection = db.getConnection();
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, userID);
+            rs = statement.executeQuery();
+            while (rs.next()) {
+                Novel m = new Novel();
+                m.setNovelID(rs.getInt("novelID"));
+                m.setNovelName(rs.getString("novelName"));
+                m.setTotalChapter(rs.getInt("totalChapter"));
+                m.setNovelStatus(rs.getString("novelStatus"));
+                m.setPublishedDate(rs.getTimestamp("publishedDate") != null ? rs.getTimestamp("publishedDate").toLocalDateTime() : null);             
+                m.setPublishDate2(new Date(rs.getTimestamp("publishedDate") != null ? rs.getTimestamp("publishedDate").getTime() : null));
+                m.setLockDate2(rs.getTimestamp("datetime") != null ? new Date(rs.getTimestamp("datetime").getTime()) : null);
+                m.setLockReason(rs.getString("lockReason"));
+                list.add(m);
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(NovelDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return list;
+    }
+
     public int addNovel(Novel novel) {
         String sql = "INSERT INTO Novel (novelName, userID, imageURL, novelDescription, totalChapter, publishedDate, novelStatus)\n"
                 + "VALUES (?, ?, ?, ?, ?, NULL, ?)";
@@ -344,7 +377,7 @@ public class NovelDAO {
         }
         return false;
     }
-    
+
     public boolean checkNovelNameForUpdate(String novelName, int novelID) {
         String sql = "SELECT novelID FROM Novel where novelName = ?";
         Connection connection;
@@ -356,7 +389,7 @@ public class NovelDAO {
             statement.setString(1, novelName);
             rs = statement.executeQuery();
             if (rs.next()) {
-                if (rs.getInt(novelID) != novelID){
+                if (rs.getInt("novelID") != novelID) {
                     return true;
                 }
             }
@@ -700,7 +733,6 @@ public class NovelDAO {
         return list;
     }
 
-
     public static void main(String[] args) {
         NovelDAO n = new NovelDAO();
         List<Novel> list = n.getNovelsByTimeUpdate();
@@ -819,81 +851,88 @@ public class NovelDAO {
         return novel;
     }
 
-public List<Novel> getNovelsSortedByFilter(String filterType, List<String> genreNames) {
-    List<Novel> list = new ArrayList<>();
-    StringBuilder sql = new StringBuilder(
-        "SELECT n.novelID, n.novelName, n.userID, n.imageURL, n.novelDescription, " +
-        "n.totalChapter, n.publishedDate, n.novelStatus, ua.fullName AS author, " +
-        "COALESCE(AVG(r.score), 0) AS averageRating, " +
-        "((SELECT COUNT(*) FROM Viewing v WHERE v.novelID = n.novelID) + " +
-        "(SELECT COUNT(*) FROM Rating r2 WHERE r2.novelID = n.novelID)) AS popularityScore, " +
-        "MAX(c.publishedDate) AS latestChapterDate " +
-        "FROM Novel n " +
-        "JOIN UserAccount ua ON n.userID = ua.userID " +
-        "LEFT JOIN Chapter c ON n.novelID = c.novelID " +
-        "LEFT JOIN Rating r ON n.novelID = r.novelID "
-    );
+    public List<Novel> getNovelsSortedByFilter(String filterType, List<String> genreNames) {
+        List<Novel> list = new ArrayList<>();
+        StringBuilder sql = new StringBuilder(
+                "SELECT n.novelID, n.novelName, n.userID, n.imageURL, n.novelDescription, "
+                + "n.totalChapter, n.publishedDate, n.novelStatus, ua.fullName AS author, "
+                + "COALESCE(AVG(r.score), 0) AS averageRating, "
+                + "((SELECT COUNT(*) FROM Viewing v WHERE v.novelID = n.novelID) + "
+                + "(SELECT COUNT(*) FROM Rating r2 WHERE r2.novelID = n.novelID)) AS popularityScore, "
+                + "MAX(c.publishedDate) AS latestChapterDate "
+                + "FROM Novel n "
+                + "JOIN UserAccount ua ON n.userID = ua.userID "
+                + "LEFT JOIN Chapter c ON n.novelID = c.novelID "
+                + "LEFT JOIN Rating r ON n.novelID = r.novelID "
+        );
 
-    sql.append("WHERE n.novelStatus = 'active' ");
+        sql.append("WHERE n.novelStatus = 'active' ");
 
-    if (genreNames != null && !genreNames.isEmpty() && !genreNames.contains("all")) {
-        sql.append("AND n.novelID IN (")
-           .append("SELECT gn.novelID FROM Genre_Novel gn JOIN Genre g ON gn.genreID = g.genreID ")
-           .append("WHERE g.genreName IN (")
-           .append(String.join(",", Collections.nCopies(genreNames.size(), "?")))
-           .append(")) "); // Bỏ HAVING để lấy novel có ít nhất 1 genre
-    }
-
-    sql.append("GROUP BY n.novelID, n.novelName, n.userID, n.imageURL, n.novelDescription, ")
-       .append("n.totalChapter, n.publishedDate, n.novelStatus, ua.fullName ");
-
-    switch (filterType) {
-        case "rating": sql.append("ORDER BY averageRating DESC"); break;
-        case "time": sql.append("ORDER BY COALESCE(MAX(c.publishedDate), n.publishedDate) DESC"); break;
-        case "popular": sql.append("ORDER BY popularityScore DESC"); break;
-        default: break;
-    }
-
-    System.out.println("SQL Query: " + sql.toString());
-
-    try (Connection connection = db.getConnection();
-         PreparedStatement statement = connection.prepareStatement(sql.toString())) {
-
-        int parameterIndex = 1;
         if (genreNames != null && !genreNames.isEmpty() && !genreNames.contains("all")) {
-            for (String genre : genreNames) {
-                statement.setString(parameterIndex++, genre);
-                System.out.println("Genre Param " + (parameterIndex - 1) + ": " + genre);
-            }
-            // Không cần set Genre Count Param nữa vì đã bỏ HAVING
+            sql.append("AND n.novelID IN (")
+                    .append("SELECT gn.novelID FROM Genre_Novel gn JOIN Genre g ON gn.genreID = g.genreID ")
+                    .append("WHERE g.genreName IN (")
+                    .append(String.join(",", Collections.nCopies(genreNames.size(), "?")))
+                    .append(")) "); // Bỏ HAVING để lấy novel có ít nhất 1 genre
         }
 
-        ResultSet resultSet = statement.executeQuery();
-        while (resultSet.next()) {
-            Novel novel = new Novel();
-            novel.setNovelID(resultSet.getInt("novelID"));
-            novel.setNovelName(resultSet.getString("novelName"));
-            novel.setUserID(resultSet.getInt("userID"));
-            novel.setImageURL(resultSet.getString("imageURL"));
-            novel.setNovelDescription(resultSet.getString("novelDescription"));
-            novel.setTotalChapter(resultSet.getInt("totalChapter"));
-            novel.setPublishedDate(resultSet.getTimestamp("publishedDate") != null
-                    ? resultSet.getTimestamp("publishedDate").toLocalDateTime() : null);
-            novel.setNovelStatus(resultSet.getString("novelStatus"));
-            novel.setAuthor(resultSet.getString("author"));
-            novel.setAverageRating(resultSet.getDouble("averageRating"));
-            novel.setPopularityScore(resultSet.getInt("popularityScore"));
-            novel.setLatestChapterDate(resultSet.getTimestamp("latestChapterDate") != null
-                    ? resultSet.getTimestamp("latestChapterDate").toLocalDateTime() : null);
-            list.add(novel);
-            System.out.println("Found Novel: " + novel.getNovelID() + " - " + novel.getNovelName());
+        sql.append("GROUP BY n.novelID, n.novelName, n.userID, n.imageURL, n.novelDescription, ")
+                .append("n.totalChapter, n.publishedDate, n.novelStatus, ua.fullName ");
+
+        switch (filterType) {
+            case "rating":
+                sql.append("ORDER BY averageRating DESC");
+                break;
+            case "time":
+                sql.append("ORDER BY COALESCE(MAX(c.publishedDate), n.publishedDate) DESC");
+                break;
+            case "popular":
+                sql.append("ORDER BY popularityScore DESC");
+                break;
+            default:
+                break;
         }
-        System.out.println("Novels retrieved: " + list.size());
-    } catch (SQLException e) {
-        Logger.getLogger(NovelDAO.class.getName()).log(Level.SEVERE, null, e);
+
+        System.out.println("SQL Query: " + sql.toString());
+
+        try ( Connection connection = db.getConnection();  PreparedStatement statement = connection.prepareStatement(sql.toString())) {
+
+            int parameterIndex = 1;
+            if (genreNames != null && !genreNames.isEmpty() && !genreNames.contains("all")) {
+                for (String genre : genreNames) {
+                    statement.setString(parameterIndex++, genre);
+                    System.out.println("Genre Param " + (parameterIndex - 1) + ": " + genre);
+                }
+                // Không cần set Genre Count Param nữa vì đã bỏ HAVING
+            }
+
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Novel novel = new Novel();
+                novel.setNovelID(resultSet.getInt("novelID"));
+                novel.setNovelName(resultSet.getString("novelName"));
+                novel.setUserID(resultSet.getInt("userID"));
+                novel.setImageURL(resultSet.getString("imageURL"));
+                novel.setNovelDescription(resultSet.getString("novelDescription"));
+                novel.setTotalChapter(resultSet.getInt("totalChapter"));
+                novel.setPublishedDate(resultSet.getTimestamp("publishedDate") != null
+                        ? resultSet.getTimestamp("publishedDate").toLocalDateTime() : null);
+                novel.setNovelStatus(resultSet.getString("novelStatus"));
+                novel.setAuthor(resultSet.getString("author"));
+                novel.setAverageRating(resultSet.getDouble("averageRating"));
+                novel.setPopularityScore(resultSet.getInt("popularityScore"));
+                novel.setLatestChapterDate(resultSet.getTimestamp("latestChapterDate") != null
+                        ? resultSet.getTimestamp("latestChapterDate").toLocalDateTime() : null);
+                list.add(novel);
+                System.out.println("Found Novel: " + novel.getNovelID() + " - " + novel.getNovelName());
+            }
+            System.out.println("Novels retrieved: " + list.size());
+        } catch (SQLException e) {
+            Logger.getLogger(NovelDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return list;
     }
-    return list;
-}
+
     //------------------------------------------------------------------------------------------------------------------
 // Helper method to close resources
     private void closeResources(Connection connection, PreparedStatement statement, ResultSet resultSet) {

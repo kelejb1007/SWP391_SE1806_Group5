@@ -61,6 +61,10 @@
                 padding: 5px 10px;
                 font-weight: normal
             }
+            button:disabled{
+                cursor: not-allowed !important;
+                opacity: 0.8
+            }
         </style>
         <script>
             function openLockModal(novelID, novelName) {
@@ -230,7 +234,9 @@
                                                                     <button type="button" class="btn btn-info"
                                                                             onclick="window.location.href = 'managechapter?action=viewallchapters&novelId=${c.novelID}';">View Chapter
                                                                     </button>
-                                                                    <button type="button" id="open" class="btn btn-danger" onclick="openLockModal('${c.novelID}', '${c.novelName}')">Lock</button>
+                                                                    <button type="button" id="open" class="btn btn-danger" onclick="openLockModal('${c.novelID}', '${c.novelName}')"
+                                                                            
+                                                                            <c:if test="${sessionScope.manager.canLock == false}">disabled</c:if>>Lock</button>
                                                                 </td>
                                                             </tr>
                                                         </c:forEach>  

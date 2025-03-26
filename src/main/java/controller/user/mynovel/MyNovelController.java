@@ -97,6 +97,9 @@ public class MyNovelController extends HttpServlet {
             case "viewposthistory":
                 viewPostingHistory(request, response);
                 break;
+            case "deleted":
+                viewDeletedList(request, response);
+                break;
             case "viewchapterposthistory":
                 viewChapterPostingHistory(request, response);
                 break;
@@ -280,6 +283,28 @@ public class MyNovelController extends HttpServlet {
             request.setAttribute("message", message);
             request.setAttribute("list", list);
             request.getRequestDispatcher("/WEB-INF/views/user/mynovel/postingHistory.jsp").forward(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void viewDeletedList(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        NovelDAO nd = new NovelDAO();
+        List<Novel> list;
+        String message = null;
+
+        try {
+            HttpSession session = request.getSession(false);
+            UserAccount us = (UserAccount) session.getAttribute("user");
+
+            list = nd.getDeletedNovels(us.getUserID());
+            if (list.isEmpty()) {
+                message = "No Deleted or Locked Novel!";
+            }
+            request.setAttribute("message", message);
+            request.setAttribute("list", list);
+            request.getRequestDispatcher("/WEB-INF/views/user/mynovel/inactivelist.jsp").forward(request, response);
         } catch (Exception ex) {
             Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);
         }

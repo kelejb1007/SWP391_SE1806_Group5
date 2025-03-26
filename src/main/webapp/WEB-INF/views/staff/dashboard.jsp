@@ -52,9 +52,6 @@
             </div>
         </div>
 
-        <div class="input-group-addon">
-            hihihihihi
-        </div>
 
         <script src="js/startmin/jquery.min.js"></script>
         <script src="js/startmin/bootstrap.min.js"></script>

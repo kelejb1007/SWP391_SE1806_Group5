@@ -14,7 +14,7 @@
         <link rel="stylesheet" href="css/startmin/bootstrap.min.css">
         <link rel="stylesheet" href="css/startmin/startmin.css">
         <link rel="stylesheet" href="css/startmin/font-awesome.min.css" type="text/css">
-        <style>
+<!--        <style>
     /* Tổng quan */
 .sidebar {
     background: linear-gradient(to bottom, #ff3955, #1a1a1a); /* Chuyển màu đỏ - đen */
@@ -121,7 +121,7 @@ a {
 }
 
 
-        </style>
+        </style>-->
     </head>
     <body>
         <!-- Sidebar -->

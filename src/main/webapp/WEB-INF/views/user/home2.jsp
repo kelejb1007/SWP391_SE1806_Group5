@@ -11,13 +11,14 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Novel Reader</title>
+        <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut") %>">
         <link rel="stylesheet" href="css/homepage2/home2.css">
         <link rel="stylesheet" href="css/homepage2/root.css?v=1">
         <link rel="stylesheet" href="css/homepage2/header2.css?v=1">
         <link rel="stylesheet" href="css/homepage2/layout2.css?v=2">
         <link rel="stylesheet" href="css/homepage2/index.css">
         <link rel="stylesheet" href="css/homepage2/footer.css">
-        <link rel="shortcut icon" type="image/x-icon" href="img/b3.png">
+        
         <script src="https://kit.fontawesome.com/73b63a545d.js" crossorigin="anonymous"></script>
 
         <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
