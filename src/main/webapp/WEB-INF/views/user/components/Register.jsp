@@ -13,111 +13,80 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f2f8ff;
+            background-color: #f5f5f5;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
+            position: relative;
+            overflow: hidden;
         }
-
-        .signup-form {
-            background-color: #fff;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            max-width: 350px;
+            height: 100%;
+            background-image: url('img/login.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: -1;
+        }
+        .register-container {
+            position: relative;
+            background: rgba(255, 255, 255, 0.57);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
             text-align: center;
+            width: 350px;
         }
-
-        h2 {
-            font-size: 2em;
-            color: #333;
-            margin-bottom: 20px;
+        .register-container h2 {
+            font-size: 24px;
+            color: #ff3955;
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 1.5px #ff3955, 1px 1px 2px rgba(255, 57, 85, 1);
+            background: linear-gradient(to top, #ff3955 30%, #ff9aa5 70%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-
-        label {
-            font-size: 14px;
-            color: #4d94ff;
-            display: block;
-            margin-bottom: 6px;
-            text-align: left;
-        }
-
         input, select {
             width: 100%;
-            padding: 10px;
-            margin: 8px 0;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 14px;
-            box-sizing: border-box;
-            background-color: white;
-        }
-
-        input:focus, select:focus {
-            border-color: #66b3ff;
-            outline: none;
-        }
-
-        button {
-            width: 100%;
             padding: 12px;
-            background-color: #66b3ff;
-            color: white;
+            margin: 10px 0;
+            border: 1px solid #ff3955;
+            border-radius: 8px;
             font-size: 16px;
+            box-sizing: border-box;
+        }
+        button {
+            background: #ff3955;
+            color: white;
             border: none;
+            padding: 12px;
+            width: 100%;
             border-radius: 8px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: 0.3s;
+            font-size: 16px;
+            margin-top: 10px;
         }
-
         button:hover {
-            background-color: #3385ff;
+            background: #cc2f44;
         }
-
-        .error {
+        .error-message {
             color: red;
-            margin-bottom: 15px;
-        }
-
-        footer {
-            background-color: #4d94ff;
-            color: white;
-            padding: 10px;
-            position: fixed;
-            width: 100%;
-            bottom: 0;
-            text-align: center;
-        }
-
-        footer p {
-            margin: 0;
-        }
-
-        @media (max-width: 768px) {
-            .signup-form {
-                max-width: 90%;
-                padding: 15px;
-            }
-
-            h2 {
-                font-size: 1.8em;
-            }
-
-            input, select {
-                font-size: 14px;
-            }
+            margin-bottom: 10px;
         }
     </style>
     <script>
         function validateForm() {
             var password = document.getElementById("password").value;
             var confirmPassword = document.getElementById("confirmPassword").value;
-
             if (password !== confirmPassword) {
-                alert("Password must be the same");
+                alert("Passwords do not match!");
                 return false;
             }
             return true;
@@ -125,49 +94,29 @@
     </script>
 </head>
 <body>
-
-    <div class="signup-form">
+    <div class="register-container">
         <h2>Sign Up</h2>
+        <c:if test="${not empty requestScope.error}">
+            <p class="error-message">${requestScope.error}</p>
+        </c:if>
         <form action="Register" method="post" onsubmit="return validateForm()">
-            <div class="error">
-                <%= request.getAttribute("error") != null ? request.getAttribute("error") : "" %>
-            </div>
-
-            <label for="username">User Name</label>
-            <input type="text" id="username" name="username" required>
-
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" required>
-
-            <label for="confirmPassword">Confirm Password</label>
-            <input type="password" id="confirmPassword" name="confirmPassword" required>
-
-            <label for="fullName">Full Name</label>
-            <input type="text" id="fullName" name="fullName" required>
-
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" required>
-
-            <label for="numberPhone">Phone Number</label>
-            <input type="text" id="numberPhone" name="numberPhone" required>
-
-            <label for="gender">Gender</label>
+            <input type="text" id="username" name="username" placeholder="Username" required>
+            <input type="password" id="password" name="password" placeholder="Password" required>
+            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required>
+            <input type="text" id="fullName" name="fullName" placeholder="Full Name" required>
+            <input type="email" id="email" name="email" placeholder="Email" required>
+            <input type="text" id="numberPhone" name="numberPhone" placeholder="Phone Number" required>
             <select name="gender" id="gender" required>
                 <option value="" disabled selected>Select your gender</option>
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
             </select>
-
             <button type="submit">Register</button>
         </form>
     </div>
-
-    <footer>
-        <p>© 2025 NovelWeb. All rights reserved.</p>
-    </footer>
-
 </body>
 </html>
+
 
 
 

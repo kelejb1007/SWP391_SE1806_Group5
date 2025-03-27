@@ -118,9 +118,5 @@
             <button class="btn btn-back">Back to Profile</button>
         </a>
     </div>
-
-    <div class="footer">
-        © 2025 NovelWeb. All rights reserved.
-    </div>
 </body>
 </html>
