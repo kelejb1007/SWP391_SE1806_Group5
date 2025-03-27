@@ -13,7 +13,11 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Locking History</title>
+<<<<<<< Updated upstream
 
+=======
+        <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut")%>">
+>>>>>>> Stashed changes
         <!-- Bootstrap Core CSS -->
         <link rel="stylesheet" href="css/startmin/bootstrap.css">
         <link rel="stylesheet" href="css/startmin/startmin.css">
@@ -96,8 +100,13 @@
                 </div>
             </div>
         </div>
+<<<<<<< Updated upstream
             
              <!-- jQuery -->
+=======
+
+        <!-- jQuery -->
+>>>>>>> Stashed changes
         <script src="js/startmin/jquery.min.js"></script>
         <!-- Bootstrap Core JavaScript -->
         <script src="js/startmin/bootstrap.min.js"></script>
@@ -109,6 +118,7 @@
         <script src="js/startmin/dataTables/jquery.dataTables.min.js"></script>
         <script src="js/startmin/dataTables/dataTables.bootstrap.min.js"></script>
         <script>
+<<<<<<< Updated upstream
                                                                                    $(document).ready(function () {
                                                                                        $('#dataTables-example').DataTable({
                                                                                            responsive: true
@@ -118,4 +128,15 @@
     </body>
 </html>
     </body>
+=======
+            $(document).ready(function () {
+                $('#dataTables-example').DataTable({
+                    responsive: true
+                });
+            });
+        </script>
+    </body>
+</html>
+</body>
+>>>>>>> Stashed changes
 </html>
