@@ -141,6 +141,7 @@ public class CommentDAO {
                 Comment comment = new Comment();
                 comment.setCommentID(rs.getInt("commentID"));
                 comment.setUserID(rs.getInt("userID"));
+                comment.setFullName(rs.getString("fullName"));
                 comment.setNovelID(rs.getInt("novelID"));
                 comment.setContent(rs.getString("commentContent"));
                 comment.setCommentDate(rs.getTimestamp("commentDate") != null ? rs.getTimestamp("commentDate").toLocalDateTime() : null);

@@ -105,6 +105,7 @@
             .login-message a:hover {
                 color: #2980b9;
                 text-decoration: underline;
+                text-shadow: 0 0 10px rgba(52, 152, 219, 0.8);
             }
 
             /* Responsive Design */
@@ -134,22 +135,36 @@
                 font-weight: bold;
             }
         </style>
-        <script>
-            function validateComment(event) {
-                var commentContent = document.getElementById("commentContent").value.trim();
-                var errorMessage = document.getElementById("error-message");
+<script>
+    function validateComment(event) {
+        var commentContent = document.getElementById("commentContent").value.trim();
+        var errorMessage = document.getElementById("error-message");
 
-                if (commentContent === "") {
-                    errorMessage.innerText = "Comment cannot be empty!";
-                    event.preventDefault();
-                    return false;
-                    errorMessage.innerText = "";
-                    return true;
-                }
-                errorMessage.innerText = "";
-                return true;
-            }
-        </script>
+        if (commentContent === "") {
+            errorMessage.innerText = "Comment cannot be empty!";
+            event.preventDefault();
+            return false;
+        }
+
+        errorMessage.innerText = "";
+        return true;
+    }
+</script>
+
+<%
+    String errorMessage = (String) session.getAttribute("errorMessage");
+    if (errorMessage != null) {
+        session.removeAttribute("errorMessage"); // Xóa ngay sau khi lấy
+%>
+<script>
+    window.onload = function () {
+        alert("<%= errorMessage %>"); // Hiển thị thông báo lỗi
+    };
+</script>
+<%
+    }
+%>
+    
     </head>
     <body>
         <div class="comments-section">
@@ -165,7 +180,7 @@
                 </form>
             </c:if>
             <c:if test="${empty sessionScope.user}">
-                <p>You need <a href="${pageContext.request.contextPath}/Login">to log in</a> to comment.</p>
+    <p class="login-message">You need <a href="${pageContext.request.contextPath}/Login">to log in</a> to comment.</p>
             </c:if>
         </div>
     </body>

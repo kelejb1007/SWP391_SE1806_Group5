@@ -40,8 +40,8 @@
                                 <div class="table-responsive">
                                     <table class="table table-bordered table-striped table-hover" id="dataTables-comments">
                                         <thead>
-                                            <tr>
-                                                <th>ID</th>
+                                            <tr>                                               
+                                                <th>User Name</th>
                                                 <th>User ID</th>
                                                 <th>Novel ID</th>
                                                 <th>Content</th>
@@ -54,7 +54,7 @@
                                                 <c:when test="${not empty comments}">
                                                     <c:forEach var="comment" items="${comments}">
                                                         <tr>
-                                                            <td>${comment.commentID}</td>
+                                                            <td>${comment.fullName}</td>
                                                             <td>${comment.userID}</td>
                                                             <td>${comment.novelID}</td>
                                                             <td>${comment.content}</td>
