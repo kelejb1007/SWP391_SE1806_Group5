@@ -347,65 +347,57 @@ public class ManagerAccountDAO {
         }
     }
 
-    public static void main(String[] args) {
-        // Giả sử bạn đã có dbContext (Database Connection)
-        ManagerAccountDAO accountDAO = new ManagerAccountDAO();
-
-        // Test với dữ liệu mẫu
-        int managerID = 2;  // Giả sử admin có ID = 1
-        boolean canLock = true;
-        boolean canApprove = false;
-        String role = "Admin"; // Hoặc "Moderator", "Staff" nếu có các vai trò khác
-
-        try {
-            boolean result = accountDAO.updatePermissions(managerID, canLock, canApprove, role);
-            if (result) {
-                System.out.println("✅ Cập nhật quyền thành công!");
-            } else {
-                System.out.println("❌ Cập nhật quyền thất bại!");
-            }
-        } catch (SQLException e) {
-            System.out.println("⚠ Lỗi SQL: " + e.getMessage());
-        }
-
-    }
-     
-
-    public boolean changeAdminPassword(int managerID, String oldPassword, String newPassword) {
-        if (!isValidPassword(newPassword)) {
-            System.out.println("Invalid password! Please enter a strong password, no spaces.");
-            return false;
-        }
-        String checkPasswordSQL = "SELECT password FROM ManagerAccount WHERE managerID = ? AND role = 'Admin'";
-        String updatePasswordSQL = "UPDATE ManagerAccount SET password = ? WHERE managerID = ? AND role = 'Admin'";
-        try ( Connection conn = dbContext.getConnection();  PreparedStatement checkStmt = conn.prepareStatement(checkPasswordSQL)) {
-
-            checkStmt.setInt(1, managerID);
-            ResultSet rs = checkStmt.executeQuery();
-
-            if (rs.next()) {
-                String storedHashedPassword = rs.getString("password");
-                if (!storedHashedPassword.equals(hashSHA256(oldPassword))) {
-                    System.out.println("Old password is incorrect.");
-                    return false;
-                }
-            } else {
-                System.out.println("Admin not found.");
-                return false;
-            }
-            // Nếu mật khẩu cũ đúng, thực hiện cập nhật mật khẩu mới
-            try ( PreparedStatement updateStmt = conn.prepareStatement(updatePasswordSQL)) {
-                updateStmt.setString(1, hashSHA256(newPassword));
-                updateStmt.setInt(2, managerID);
-
-                int rowsUpdated = updateStmt.executeUpdate();
-                return rowsUpdated > 0;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+  
+   public boolean changeAdminPassword(int managerID, String oldPassword, String newPassword) {
+    if (!isValidPassword(newPassword)) {
+        System.out.println("Invalid password! Please enter a strong password, no spaces.");
         return false;
     }
+
+    String checkPasswordSQL = "SELECT password FROM ManagerAccount WHERE managerID = ? AND role = 'Admin'";
+    String updatePasswordSQL = "UPDATE ManagerAccount SET password = ? WHERE managerID = ? AND role = 'Admin'";
+
+    try (Connection conn = dbContext.getConnection();
+         PreparedStatement checkStmt = conn.prepareStatement(checkPasswordSQL)) {
+
+        checkStmt.setInt(1, managerID);
+        ResultSet rs = checkStmt.executeQuery();
+
+        if (rs.next()) {
+            String storedHashedPassword = rs.getString("password");
+            String hashedOldPassword = hashSHA256(oldPassword);
+            String hashedNewPassword = hashSHA256(newPassword);
+
+            if (!storedHashedPassword.equals(hashedOldPassword)) {
+                System.out.println("Old password is incorrect.");
+                return false;
+            }
+
+            // Kiểm tra nếu mật khẩu mới giống với mật khẩu hiện tại
+            if (storedHashedPassword.equals(hashedNewPassword)) {
+                System.out.println("New password cannot be the same as the old password.");
+                return false;
+            }
+
+        } else {
+            System.out.println("Admin not found.");
+            return false;
+        }
+
+        // Nếu mật khẩu cũ đúng và mật khẩu mới hợp lệ, thực hiện cập nhật mật khẩu
+        try (PreparedStatement updateStmt = conn.prepareStatement(updatePasswordSQL)) {
+            updateStmt.setString(1, hashSHA256(newPassword));
+            updateStmt.setInt(2, managerID);
+
+            int rowsUpdated = updateStmt.executeUpdate();
+            return rowsUpdated > 0;
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return false;
+}
+
 // Kiểm tra mật khẩu có hợp lệ không
 
     private boolean isValidPassword(String password) {
@@ -419,6 +411,32 @@ public class ManagerAccountDAO {
                 && // Có ít nhất một chữ in hoa
                 password.matches(".*\\d.*");      // Có ít nhất một số
     }
+    
+    public static void main(String[] args) {
+        // Tạo đối tượng DAO để gọi phương thức đổi mật khẩu
+        ManagerAccountDAO dao = new ManagerAccountDAO();
+
+        // ID của admin (giả sử là 1, bạn có thể thay đổi)
+        int managerID = 1;
+
+        // Mật khẩu cũ hợp lệ
+        String oldPassword = "Admin1234";
+
+        // Mật khẩu mới hợp lệ
+        String newPassword = "NewPass567";
+
+        // Gọi phương thức đổi mật khẩu
+        boolean result = dao.changeAdminPassword(managerID, oldPassword, newPassword);
+
+        // In kết quả kiểm tra
+        if (result) {
+            System.out.println("Đổi mật khẩu thành công!");
+        } else {
+            System.out.println("Đổi mật khẩu thất bại!");
+        }
+    }
+
+
 
     //EditlStaff
     public void updateAccount(int managerID, String username, String fullName, String email, String numberPhone, String gender) throws SQLException {

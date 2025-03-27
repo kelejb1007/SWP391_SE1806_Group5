@@ -76,33 +76,38 @@
 
         <script>
             function validateForm() {
-                var oldPassword = document.getElementById("oldPassword").value;
-                var newPassword = document.getElementById("newPassword").value;
-                var confirmPassword = document.getElementById("confirmPassword").value;
-                var errorMessage = document.getElementById("error-message");
-                
-                if (oldPassword.trim() === "") {
-                    errorMessage.innerHTML = "Old password is required.";
-                    return false;
-                }
-                if (newPassword.length < 8) {
-                    errorMessage.innerHTML = "Password must be at least 8 characters long.";
-                    return false;
-                }
-                if (!/[A-Z]/.test(newPassword) || !/[0-9]/.test(newPassword)) {
-                    errorMessage.innerHTML = "Password must contain at least one uppercase letter and one number.";
-                    return false;
-                }
-                if (/\s/.test(newPassword)) {
-                    errorMessage.innerHTML = "Password cannot contain spaces.";
-                    return false;
-                }
-                if (newPassword !== confirmPassword) {
-                    errorMessage.innerHTML = "Passwords do not match.";
-                    return false;
-                }
-                return true;
-            }
+    var oldPassword = document.getElementById("oldPassword").value;
+    var newPassword = document.getElementById("newPassword").value;
+    var confirmPassword = document.getElementById("confirmPassword").value;
+    var errorMessage = document.getElementById("error-message");
+
+    if (oldPassword.trim() === "") {
+        errorMessage.innerHTML = "Old password is required.";
+        return false;
+    }
+    if (newPassword.length < 8) {
+        errorMessage.innerHTML = "Password must be at least 8 characters long.";
+        return false;
+    }
+    if (!/[A-Z]/.test(newPassword) || !/[0-9]/.test(newPassword)) {
+        errorMessage.innerHTML = "Password must contain at least one uppercase letter and one number.";
+        return false;
+    }
+    if (/\s/.test(newPassword)) {
+        errorMessage.innerHTML = "Password cannot contain spaces.";
+        return false;
+    }
+    if (newPassword === oldPassword) {
+        errorMessage.innerHTML = "New password cannot be the same as the old password.";
+        return false;
+    }
+    if (newPassword !== confirmPassword) {
+        errorMessage.innerHTML = "Passwords do not match.";
+        return false;
+    }
+    return true;
+}
+
         </script>
 
         <script src="js/startmin/jquery.min.js"></script>

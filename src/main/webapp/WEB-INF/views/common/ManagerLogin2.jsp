@@ -157,7 +157,7 @@
 
         <c:if test="${not empty sessionScope.manager}">
             <script>
-                window.location.href = "<c:url value='/getGenre?target=/WEB-INF/views/staff/dashboard.jsp'/>";
+                window.location.href = "<c:url value='ManagerLogin'/>";
             </script>
         </c:if>
 

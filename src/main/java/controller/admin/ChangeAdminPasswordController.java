@@ -45,7 +45,7 @@ public class ChangeAdminPasswordController extends HttpServlet {
         // Get session information
 
         HttpSession session = request.getSession(false); // Không tạo session mới nếu chưa có
-        if (session == null || session.getAttribute("managerID") == null) {
+        if (session == null || session.getAttribute("manager") == null) {
             response.sendRedirect("ManagerLogin"); // Chuyển hướng nếu chưa đăng nhập
             return;
         }
@@ -71,7 +71,7 @@ public class ChangeAdminPasswordController extends HttpServlet {
 
         if (isUpdated) {
             session.setAttribute("successMessage", "Password changed successfully!");
-            response.sendRedirect(request.getContextPath() + "/admindashboard");
+            response.sendRedirect(request.getContextPath() + "/change-password");
         } else {
             request.setAttribute("errorMessage", "Password change failed. Please try again!");
             request.getRequestDispatcher("/WEB-INF/views/admin/changeAdminPassword.jsp").forward(request, response);

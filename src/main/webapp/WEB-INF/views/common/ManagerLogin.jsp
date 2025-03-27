@@ -89,7 +89,7 @@
 
         <c:if test="${not empty sessionScope.manager}">
             <script>
-                window.location.href = "<c:url value='ManagerLogin'/>";
+                window.location.href = "<c:url value='ManagerLoginAA'/>";
             </script>
         </c:if>
 
