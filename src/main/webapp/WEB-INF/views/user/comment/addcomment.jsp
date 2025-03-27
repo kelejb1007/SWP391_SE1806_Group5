@@ -138,14 +138,9 @@
             function validateComment(event) {
                 var commentContent = document.getElementById("commentContent").value.trim();
                 var errorMessage = document.getElementById("error-message");
-
-                if (commentContent === "") {
-                    errorMessage.innerText = "Comment cannot be empty!";
-                    event.preventDefault();
-                    return false;
-                    errorMessage.innerText = "";
-                    return true;
-                }
+                errorMessage.innerText = "";
+                return true;
+            }
         </script>
     </head>
     <body>
