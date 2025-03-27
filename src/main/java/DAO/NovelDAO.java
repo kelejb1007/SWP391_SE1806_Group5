@@ -953,5 +953,45 @@ public class NovelDAO {
         }
     }
 
-}
-     //------------------------------------------------------------------------------------------------------------------
+    public List<Novel> getAllNovelStatistics() throws SQLException {
+        List<Novel> novelList = new ArrayList<>();
+        String sql = "SELECT "
+                + "    n.novelID, "
+                + "    n.novelName, "
+                + "    n.novelStatus, "
+                + "    COUNT(DISTINCT v.viewID) AS totalViews, "
+                + "    COUNT(DISTINCT rh.readingID) AS totalReads, "
+                + "    COUNT(DISTINCT c.commentID) AS totalComments, "
+                + "    COUNT(DISTINCT f.favoriteID) AS totalFavorites, "
+                + "    AVG(r.score) AS avgRating, "
+                + "    COUNT(DISTINCT r.ratingID) AS ratingCount "
+                + "FROM Novel n "
+                + "LEFT JOIN Viewing v ON n.novelID = v.novelID "
+                + "LEFT JOIN ReadingHistory rh ON n.novelID = rh.novelID "
+                + "LEFT JOIN Comment c ON n.novelID = c.novelID "
+                + "LEFT JOIN Favorite f ON n.novelID = f.novelID AND f.isFavorite = 1 "
+                + "LEFT JOIN Rating r ON n.novelID = r.novelID "
+                + "GROUP BY n.novelID, n.novelName, n.novelStatus "
+                + "ORDER BY totalViews DESC, totalReads DESC, avgRating DESC";
+
+        try ( Connection conn = db.getConnection();  PreparedStatement ps = conn.prepareStatement(sql);  ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Novel novel = new Novel();
+                novel.setNovelID(rs.getInt("novelID"));
+                novel.setNovelName(rs.getString("novelName"));
+                novel.setNovelStatus(rs.getString("novelStatus"));
+                novel.setTotalViews(rs.getInt("totalViews"));
+                novel.setTotalReads(rs.getInt("totalReads"));
+                novel.setTotalComments(rs.getInt("totalComments"));
+                novel.setTotalFavorites(rs.getInt("totalFavorites"));
+                novel.setAvgRating(rs.getDouble("avgRating"));
+                novel.setRatingCount(rs.getInt("ratingCount"));
+                novelList.add(novel);
+            }
+        }
+
+        return novelList;
+    }
+
+}   //------------------------------------------------------------------------------------------------------------------

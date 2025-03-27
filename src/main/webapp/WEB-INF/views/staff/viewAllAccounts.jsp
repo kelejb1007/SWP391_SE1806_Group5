@@ -23,9 +23,19 @@
         <link href="css/startmin/dataTables/dataTables.responsive.css" rel="stylesheet">
 
         <script type="text/javascript">
-            // Ví dụ: chức năng xử lý sự kiện (nếu cần)
-            function viewDetail(managerID) {
-                window.location.href = "manageaccount?action=viewdetail&managerID=" + managerID;
+            // Function to toggle the visibility of the reason input field
+            function toggleLockReason(userID) {
+                var reasonInput = document.getElementById('lockReasonInput' + userID);
+                var lockButton = document.getElementById('lockButton' + userID);
+
+                // Toggle visibility of the reason input and button
+                if (reasonInput.style.display === 'none' || reasonInput.style.display === '') {
+                    reasonInput.style.display = 'block';
+                    lockButton.textContent = 'Submit Lock';
+                } else {
+                    reasonInput.style.display = 'none';
+                    lockButton.textContent = 'Lock';
+                }
             }
         </script>
     </head>
@@ -41,9 +51,7 @@
                         <div class="col-lg-12">
                             <h1 class="page-header">MANAGE ACCOUNTS</h1>
                         </div>
-                        <!-- /.col-lg-12 -->
                     </div>
-                    <!-- /.row -->
 
                     <!-- Form Tìm Kiếm -->
                     <div class="row" style="margin-bottom: 20px;">
@@ -68,7 +76,6 @@
                                 <div class="panel-heading">
                                     List of Manager Accounts
                                 </div>
-                                <!-- /.panel-heading -->
                                 <div class="panel-body">
                                     <div class="table-responsive">
                                         <table class="table table-bordered table-striped table-hover" id="dataTables-example">
@@ -82,8 +89,7 @@
                                                     <th>Email</th>
                                                     <th>Number Phone</th>                                                  
                                                     <th>Date Of Birth</th>
-                                                    <th>Status</th>
-
+                                                    <th></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -100,31 +106,28 @@
                                                                 <td>${acc.fullName}</td>
                                                                 <td>${acc.email}</td>
                                                                 <td>${acc.numberPhone}</td>
-
-                                                                <td> <fmt:formatDate value="${acc.dateOfBirth}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
-
-
-                                                                <td>
-                                                                    <c:choose>
-                                                                        <c:when test="${acc.status == 0}">Unlock</c:when>
-                                                                        <c:otherwise>Lock</c:otherwise>
-                                                                    </c:choose>
-                                                                </td>
-
-
+                                                                <td><fmt:formatDate value="${acc.dateOfBirth}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
                                                                 <td>
                                                                     <c:choose>
                                                                         <c:when test="${acc.status == 0}">
-                                                                            <a href="manageaccount?action=lockUnlock&userID=${acc.userID}&status=false" class="btn btn-danger">Lock</a>
+                                                                            <!-- Lock button that toggles the reason input -->
+                                                                            <a href="javascript:void(0);" id="lockButton${acc.userID}" 
+                                                                               onclick="toggleLockReason(${acc.userID})" 
+                                                                               class="btn btn-danger">Lock</a>
+
+                                                                            <!-- Reason input field -->
+                                                                            <div id="lockReasonInput${acc.userID}" style="display: none;">
+                                                                                <form action="manageaccount?action=lock" method="post">
+                                                                                    <input type="hidden" name="userID" value="${acc.userID}">
+                                                                                    <div class="form-group">
+                                                                                        <textarea name="lockReason" class="form-control" placeholder="Enter the reason for locking" required></textarea>
+                                                                                    </div>
+                                                                                    <button type="submit" class="btn btn-warning">Submit</button>
+                                                                                </form>
+
+                                                                            </div>
                                                                         </c:when>
-                                                                        <c:otherwise>
-                                                                            <a href="manageaccount?action=lockUnlock&userID=${acc.userID}&status=true" class="btn btn-success">Unlock</a>
-                                                                        </c:otherwise>
                                                                     </c:choose>
-
-                                                                </td>
-
-
                                                                 </td>
                                                             </tr>
                                                         </c:forEach>
@@ -138,21 +141,13 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                    <!-- /.table-responsive -->
                                 </div>
-                                <!-- /.panel-body -->
                             </div>
-                            <!-- /.panel -->
                         </div>
-                        <!-- /.col-lg-12 -->
                     </div>
-                    <!-- /.row -->
                 </div>
-                <!-- /.container-fluid -->
             </div>
-            <!-- /#page-wrapper -->
         </div>
-        <!-- /#wrapper -->
 
         <!-- jQuery -->
         <script src="js/startmin/jquery.min.js"></script>
@@ -166,11 +161,11 @@
         <script src="js/startmin/dataTables/jquery.dataTables.min.js"></script>
         <script src="js/startmin/dataTables/dataTables.bootstrap.min.js"></script>
         <script>
-            $(document).ready(function () {
-                $('#dataTables-example').DataTable({
-                    responsive: true
-                });
-            });
+                                                                                   $(document).ready(function () {
+                                                                                       $('#dataTables-example').DataTable({
+                                                                                           responsive: true
+                                                                                       });
+                                                                                   });
         </script>
     </body>
 </html>

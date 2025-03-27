@@ -21,8 +21,8 @@ import java.util.logging.Logger;
 import java.sql.*;
 import java.util.Date;
 
-public class CommentDAO {
 
+public class CommentDAO {
     private final DBContext db;
 
     public CommentDAO() {
@@ -32,7 +32,8 @@ public class CommentDAO {
     public Comment getCommentById(int commentId) {
         Comment comment = null;
         String sql = "SELECT * FROM Comment WHERE commentID = ?";
-        try ( Connection connection = db.getConnection();  PreparedStatement stmt = connection.prepareStatement(sql)) {
+        try (Connection connection = db.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, commentId);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
@@ -52,11 +53,12 @@ public class CommentDAO {
   
     public boolean addComment(Comment comment) {
         String sql = "INSERT INTO Comment (userID, novelID, commentContent, commentDate) VALUES (?, ?, ?, ?)";
-        try ( Connection connection = db.getConnection();  PreparedStatement stmt = connection.prepareStatement(sql)) {
+        try (Connection connection = db.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, comment.getUserID());
             stmt.setInt(2, comment.getNovelID());
             stmt.setString(3, comment.getContent());
-            stmt.setTimestamp(4, Timestamp.valueOf(comment.getCommentDate())); // Chuyển đổi LocalDateTime thành Timestamp
+             stmt.setTimestamp(4, Timestamp.valueOf(comment.getCommentDate())); // Chuyển đổi LocalDateTime thành Timestamp
             int rowsAffected = stmt.executeUpdate();
             return rowsAffected > 0;
         } catch (SQLException e) {
@@ -66,13 +68,11 @@ public class CommentDAO {
     }
 
 
-    
-    
- 
-
     public boolean deleteComment(int commentId, int userId) {
+
         String sql = "DELETE FROM Comment WHERE commentID = ? AND userID = ?";
-        try ( Connection connection = db.getConnection();  PreparedStatement stmt = connection.prepareStatement(sql)) {
+        try (Connection connection = db.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, commentId);
              stmt.setInt(2, userId);
             int rowsAffected = stmt.executeUpdate();
@@ -95,15 +95,18 @@ public class CommentDAO {
         } catch (SQLException e) {
             Logger.getLogger(CommentDAO.class.getName()).log(Level.SEVERE, null, e);
             return false;
-        }
-    }
+        }}
+
+ 
+
 
     public List<Comment> getCommentsByNovelId(int novelId) {
         List<Comment> comments = new ArrayList<>();
-        String sql = "SELECT c.commentID, c.userID, u.fullName, c.novelID, c.commentContent, c.commentDate "
-                + "FROM Comment c JOIN UserAccount u ON c.userID = u.userID "
-                + "WHERE c.novelID = ? ORDER BY c.commentDate DESC";
-        try ( Connection connection = db.getConnection();  PreparedStatement stmt = connection.prepareStatement(sql)) {
+        String sql = "SELECT c.commentID, c.userID, u.fullName, c.novelID, c.commentContent, c.commentDate " +
+                 "FROM Comment c JOIN UserAccount u ON c.userID = u.userID " +
+                 "WHERE c.novelID = ? ORDER BY c.commentDate DESC";
+        try (Connection connection = db.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, novelId);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
@@ -121,19 +124,23 @@ public class CommentDAO {
         }
         return comments;
     }
-
+    
+   
     public List<Comment> getAllComments() {
         List<Comment> comments = new ArrayList<>();
+
   String sql = "SELECT c.commentID, c.userID, u.fullName, c.novelID, c.commentContent, c.commentDate " +
                  "FROM Comment c JOIN UserAccount u ON c.userID = u.userID " +
                  "ORDER BY c.commentDate DESC";
-        try ( Connection connection = db.getConnection();  PreparedStatement stmt = connection.prepareStatement(sql)) {
+       
+        try (Connection connection = db.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
+
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 Comment comment = new Comment();
                 comment.setCommentID(rs.getInt("commentID"));
                 comment.setUserID(rs.getInt("userID"));
-                comment.setFullName(rs.getString("fullName")); 
                 comment.setNovelID(rs.getInt("novelID"));
                 comment.setContent(rs.getString("commentContent"));
                 comment.setCommentDate(rs.getTimestamp("commentDate") != null ? rs.getTimestamp("commentDate").toLocalDateTime() : null);
@@ -144,6 +151,7 @@ public class CommentDAO {
         }
         return comments;
     }
+
 
 
     public boolean deleteCommentByStaff(int commentId) {
@@ -157,6 +165,7 @@ public class CommentDAO {
             return false;
         }
     }
-    
 
+    
+  
 }

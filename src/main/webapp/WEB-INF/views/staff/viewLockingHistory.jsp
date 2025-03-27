@@ -1,6 +1,6 @@
 <%-- 
-    Document   : viewLockedAccounts
-    Created on : 28-Feb-2025, 17:25:18
+    Document   : viewLockingHistory
+    Created on : 24-Mar-2025, 15:13:14
     Author     : Admin
 --%>
 
@@ -8,18 +8,28 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>View Locked Accounts</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Locking History</title>
 
         <!-- Bootstrap Core CSS -->
         <link rel="stylesheet" href="css/startmin/bootstrap.css">
         <link rel="stylesheet" href="css/startmin/startmin.css">
-        <link rel="stylesheet" href="css/startmin/font-awesome.min.css">
+        <link rel="stylesheet" href="css/startmin/font-awesome.min.css" type="text/css">
         <link rel="stylesheet" href="css/startmin/metisMenu.min.css">
         <link href="css/startmin/dataTables/dataTables.bootstrap.css" rel="stylesheet">
         <link href="css/startmin/dataTables/dataTables.responsive.css" rel="stylesheet">
+
+        <!-- jQuery -->
+        <script src="js/startmin/jquery.min.js"></script>
+        <!-- Bootstrap Core JavaScript -->
+        <script src="js/startmin/bootstrap.min.js"></script>
+        <!-- Metis Menu Plugin JavaScript -->
+        <script src="js/startmin/metisMenu.min.js"></script>
+        <!-- Custom Theme JavaScript -->
+        <script src="js/startmin/startmin.js"></script>
     </head>
     <body>
         <div id="wrapper">
@@ -30,59 +40,47 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-lg-12">
-                            <h1 class="page-header">VIEW LOCKED ACCOUNTS</h1>
+                            <h1 class="page-header">Locking History</h1>
                         </div>
                     </div>
 
+                    <!-- Locking History Table -->
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    List of Locked Accounts
+                                    Locking Action History
                                 </div>
                                 <div class="panel-body">
                                     <div class="table-responsive">
                                         <table class="table table-bordered table-striped table-hover" id="dataTables-example">
                                             <thead>
                                                 <tr>
-                                                    <th>#</th>
+                                                    <th>Log ID</th>
+                                                    <th>Manager ID</th>
                                                     <th>User ID</th>
-                                                    <th>User Name</th>
-                                                    <th>Full Name</th>
-                                                    <th>Email</th>
-                                                    <th>Number Phone</th>  
-                                                    <th>Date Of Birth</th>
-                                                    <th>Status</th>
+                                                    <th>Date/Time</th>
+                                                    <th>Action</th>
+                                                    <th>Lock Reason</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <c:choose>
-                                                    <c:when test="${not empty listLockedAccounts}">
-                                                        <c:forEach var="acc" items="${listLockedAccounts}" varStatus="status">
+                                                    <c:when test="${not empty logList}">
+                                                        <c:forEach var="log" items="${logList}">
                                                             <tr>
-                                                                <td>${status.index + 1}</td>
-                                                                <td>${acc.userID}</td>
-                                                                <td>${acc.userName}</td>
-                                                                <td>${acc.fullName}</td>
-                                                                <td>${acc.email}</td>
-                                                                <td>${acc.numberPhone}</td>                                                               
-                                                                <td> <fmt:formatDate value="${acc.dateOfBirth}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
-                                                                <td>Locked</td>
-
-                                                                <td>
-                                                                    <c:choose>
-                                                                        <c:when test="${acc.status == 1}">
-                                                                            <a href="manageaccount?action=unlock&userID=${acc.userID}" class="btn btn-success">Unlock</a>
-                                                                        </c:when>
-
-                                                                    </c:choose>
-                                                                </td>
+                                                                <td>${log.logAID}</td>
+                                                                <td>${log.managerID}</td>
+                                                                <td>${log.userID}</td>
+                                                                <td><fmt:formatDate value="${log.datetime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+                                                                <td>${log.action}</td>
+                                                                <td>${log.lockReason != null ? log.lockReason : 'N/A'}</td>
                                                             </tr>
                                                         </c:forEach>
                                                     </c:when>
                                                     <c:otherwise>
                                                         <tr>
-                                                            <td colspan="8" class="text-center">No locked accounts found.</td>
+                                                            <td colspan="6" class="text-center">No locking history found.</td>
                                                         </tr>
                                                     </c:otherwise>
                                                 </c:choose>
@@ -93,11 +91,13 @@
                             </div>
                         </div>
                     </div>
+
+
                 </div>
             </div>
         </div>
-
-        <!-- jQuery -->
+            
+             <!-- jQuery -->
         <script src="js/startmin/jquery.min.js"></script>
         <!-- Bootstrap Core JavaScript -->
         <script src="js/startmin/bootstrap.min.js"></script>
@@ -109,11 +109,13 @@
         <script src="js/startmin/dataTables/jquery.dataTables.min.js"></script>
         <script src="js/startmin/dataTables/dataTables.bootstrap.min.js"></script>
         <script>
-            $(document).ready(function () {
-                $('#dataTables-example').DataTable({
-                    responsive: true
-                });
-            });
+                                                                                   $(document).ready(function () {
+                                                                                       $('#dataTables-example').DataTable({
+                                                                                           responsive: true
+                                                                                       });
+                                                                                   });
         </script>
+    </body>
+</html>
     </body>
 </html>

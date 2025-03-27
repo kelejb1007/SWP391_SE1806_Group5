@@ -3,8 +3,6 @@ package DAO;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 import model.ManagerAccount;
 import utils.DBContext;
 import java.util.ArrayList;
@@ -371,7 +369,6 @@ public class ManagerAccountDAO {
         }
 
     }
-     
 
     public boolean changeAdminPassword(int managerID, String oldPassword, String newPassword) {
         if (!isValidPassword(newPassword)) {
