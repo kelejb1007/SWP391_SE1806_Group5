@@ -6,7 +6,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>View All Chapters</title>
-        <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut") %>">
+        <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut")%>">
         <!-- Bootstrap Core CSS -->
         <link rel="stylesheet" href="css/startmin/bootstrap.min.css">
         <link rel="stylesheet" href="css/startmin/startmin.css">
@@ -89,7 +89,11 @@
                                                                     <a href="managechapter?action=viewchapter&id=${chapter.chapterID}" class="btn btn-info">View Content</a>
                                                                     <!-- Nút Lock (chỉ hiển thị khi chapterStatus là active) -->
                                                                     <c:if test="${chapter.chapterStatus == 'active'}">
-                                                                        <button type="button" id="open" class="btn btn-danger" onclick="openLockModal('${chapter.chapterID}', '${chapter.chapterName}')">Lock</button>
+                                                                        <button type="button" id="open" class="btn btn-danger" onclick="openLockModal('${chapter.chapterID}', '${chapter.chapterName}')"
+
+                                                                                <c:if test="${sessionScope.manager.canLock == false}">
+                                                                                    disabled title="Do not have permission" style="cursor: not-allowed !important; pointer-events: all;"
+                                                                                </c:if>>Lock</button>
                                                                     </c:if>
                                                                 </td>
                                                             </tr>
@@ -155,13 +159,13 @@
         <script src="js/startmin/dataTables/dataTables.bootstrap.min.js"></script>
 
         <script>
-                                                                            $(document).ready(function () {
-                                                                                $('#dataTables-example').DataTable({
-                                                                                    responsive: true,
-                                                                                    "pageLength": 10,
-                                                                                    "order": [[1, "desc"]]
-                                                                                });
-                                                                            });
+                                                                           $(document).ready(function () {
+                                                                               $('#dataTables-example').DataTable({
+                                                                                   responsive: true,
+                                                                                   "pageLength": 10,
+                                                                                   "order": [[1, "desc"]]
+                                                                               });
+                                                                           });
         </script>
     </body>
 </html>

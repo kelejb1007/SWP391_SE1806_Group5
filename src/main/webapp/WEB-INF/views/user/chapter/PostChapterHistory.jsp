@@ -133,14 +133,14 @@
                                                                             <td>${status.index + 1}</td>
                                                                             <td><a href="mynovel?action=viewdetail&novelID=${c.novelID}" title="${c.novelName}">${c.novelName}</a></td>
                                                                             <td>${c.chapterNumber}</td>
-                                                                            <td><a href="${pageContext.request.contextPath}/chapter?id=${chapterID}" title="${c.novelName}">${c.chapterName}</a></td>
+                                                                            <td><a href="${pageContext.request.contextPath}/mychapter?id=${c.chapterID}" title="${c.novelName}">${c.chapterName}</a></td>
                                                                             <td>${c.submissionDate}</td>
                                                                             <td>${c.approvalDate}</td>
                                                                             <td>
                                                                                 <c:choose>
 
                                                                                     <c:when test="${c.type == 'update'}">
-                                                                                        <a href="${pageContext.request.contextPath}/chapter?id=${c.draftID}" title="View Draft">${c.type}</a>
+                                                                                        <a href="${pageContext.request.contextPath}/mychapter?id=${c.draftID}" title="View Draft">${c.type}</a>
                                                                                     </c:when>
                                                                                     <c:when test="${c.type == 'post'}">
 

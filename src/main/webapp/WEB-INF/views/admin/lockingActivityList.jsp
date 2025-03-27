@@ -8,7 +8,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Danh sách hoạt động khóa</title>
+        <title>Locking Activity List</title>
         <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut")%>">
         <!-- Bootstrap Core CSS -->
         <link rel="stylesheet" href="css/startmin/bootstrap.min.css" />
@@ -27,13 +27,13 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-lg-12">
-                            <h1 class="page-header">QUẢN LÝ HOẠT ĐỘNG KHÓA</h1>
+                            <h1 class="page-header">LOCKING ACTIVITY MANAGEMENT</h1>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="panel panel-default">
-                                <div class="panel-heading">Danh sách hoạt động khóa</div>
+                                <div class="panel-heading">Locking Activity List</div>
                                 <div class="panel-body">
                                     <div class="table-responsive">
                                         <table class="table table-bordered table-striped table-hover" id="dataTables-example">
@@ -41,11 +41,11 @@
                                                 <tr>
                                                     <th>#</th>
                                                     <th>ID</th>
-                                                    <th>Truyện</th>
-                                                    <th>Quản lý</th>
-                                                    <th>Hành động</th>
-                                                    <th>Thời gian</th>
-                                                    <th>Lý do</th>
+                                                    <th>Novel</th>
+                                                    <th>Manager</th>
+                                                    <th>Action</th>
+                                                    <th>Time</th>
+                                                    <th>Reason</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -70,7 +70,7 @@
                                                     </c:when>
                                                     <c:otherwise>
                                                         <tr>
-                                                            <td colspan="7" style="text-align: center;">Không có hoạt động khóa nào.</td>
+                                                            <td colspan="7" style="text-align: center;">No locking activity available.</td>
                                                         </tr>
                                                     </c:otherwise>
                                                 </c:choose>
@@ -78,7 +78,7 @@
                                         </table>
 
                                         <c:if test="${sessionScope.role == 'Admin'}">
-                                            <a href="addLockingActivity.jsp" class="btn btn-primary">Thêm hoạt động khóa mới</a>
+                                            <a href="addLockingActivity.jsp" class="btn btn-primary">Add New Locking Activity</a>
                                         </c:if>
                                     </div>
                                 </div>
@@ -104,10 +104,10 @@
                     "pageLength": 10,
                     "order": [[1, "desc"]],
                     "language": {
-                        "emptyTable": "Không có dữ liệu",
-                        "info": "Hiển thị _START_ đến _END_ của _TOTAL_ mục",
-                        "infoEmpty": "Hiển thị 0 đến 0 của 0 mục",
-                        "infoFiltered": "(lọc từ _MAX_ tổng số mục)"
+                        "emptyTable": "No data available",
+                        "info": "Showing _START_ to _END_ of _TOTAL_ entries",
+                        "infoEmpty": "Showing 0 to 0 of 0 entries",
+                        "infoFiltered": "(filtered from _MAX_ total entries)"
                     }
                 });
             });

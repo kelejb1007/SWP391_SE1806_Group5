@@ -350,11 +350,11 @@ public class UserAccountDAO {
                 userStatistics.setUserID(rs.getInt("userID"));
                 userStatistics.setUserName(rs.getString("userName"));
                 userStatistics.setFullName(rs.getString("fullName"));
-//                userStatistics.setLockedCount(rs.getInt("lockedCount"));
-//                userStatistics.setCommentCount(rs.getInt("commentCount"));
-//                userStatistics.setRatingCount(rs.getInt("ratingCount"));
-//                userStatistics.setFavoriteCount(rs.getInt("favoriteCount"));
-//                userStatistics.setReadingHistoryCount(rs.getInt("readingHistoryCount"));
+                userStatistics.setLockedCount(rs.getInt("lockedCount"));
+                userStatistics.setCommentCount(rs.getInt("commentCount"));
+                userStatistics.setRatingCount(rs.getInt("ratingCount"));
+                userStatistics.setFavoriteCount(rs.getInt("favoriteCount"));
+                userStatistics.setReadingHistoryCount(rs.getInt("readingHistoryCount"));
 
                 userStatisticsList.add(userStatistics);
             }

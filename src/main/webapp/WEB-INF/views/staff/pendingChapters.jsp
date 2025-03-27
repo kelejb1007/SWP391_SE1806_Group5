@@ -11,7 +11,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Manage Submission</title>
-        <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut") %>">
+        <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut")%>">
         <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut")%>">
         <link rel="stylesheet" href="css/startmin/bootstrap.min.css">
         <link rel="stylesheet" href="css/startmin/startmin.css">
@@ -32,6 +32,11 @@
 //                var modal = new bootstrap.Modal(document.getElementById('lockModal'));
 //                modal.show();
                 $("#lockModal").modal("show");
+            }
+
+            function approve(event, message) {
+                event.stopPropagation();
+                return confirm(message);
             }
         </script>
     </head>
@@ -101,9 +106,17 @@
                                                                 <input type="hidden" name="submissionCID" value="${c.submissionCID}">
                                                                 <input type="hidden" name="chapterID" value="${c.chapterID}">
                                                                 <input type="hidden" name="draftID" value="${c.draftID}">
-                                                                <button type="submit" class="btn btn-info" onclick="return confirm('Confirm to APPROVE the chapter: ${c.chapterName} (ID=${c.chapterID})')">Approve</button>
+                                                                <button type="submit" class="btn btn-info" onclick="return approve(event, 'Confirm to APPROVE the chapter: ${c.chapterName} (ID=${c.chapterID})')"
+                                                                        <c:if test="${sessionScope.manager.canApprove == false}">
+                                                                            disabled title="Do not have permission" style="cursor: not-allowed !important; pointer-events: all;"
+                                                                        </c:if>
+                                                                        >Approve</button>
                                                             </form>
-                                                            <button type="button" id="open" class="btn btn-danger" onclick="openLockModal('${c.chapterID}', '${c.chapterName}', '${c.type}', '${c.submissionCID}')">Reject</button>
+                                                            <button type="button" id="open" class="btn btn-danger" onclick="openLockModal('${c.chapterID}', '${c.chapterName}', '${c.type}', '${c.submissionCID}')"
+                                                                    <c:if test="${sessionScope.manager.canApprove == false}">
+                                                                        disabled title="Do not have permission" style="cursor: not-allowed !important; pointer-events: all;"
+                                                                    </c:if>
+                                                                    >Reject</button>
                                                         </td>
                                                     </tr>
                                                 </c:forEach>  

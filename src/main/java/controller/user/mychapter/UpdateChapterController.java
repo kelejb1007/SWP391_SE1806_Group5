@@ -76,7 +76,7 @@ public class UpdateChapterController extends HttpServlet {
             }
 
             String chapterContent = getChapterContent(chapter, request);
-            chapterContent = chapterContent.replaceAll("<p>", "    ").replaceAll("</p>", "\n");
+            chapterContent = chapterContent.replaceAll("<p>", "  ").replaceAll("</p>", "\n").replaceAll("<span>", "  ").replaceAll("</span>", "");
             request.setAttribute("chapterContent", chapterContent);
 
             request.setAttribute("chapterId", chapterId);

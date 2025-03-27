@@ -88,11 +88,7 @@
                                     <div class="df g_sd_close collapse_menu_btn--f8c2W"><i></i></div>
                                 </label>
                                 <h2 class="header_title--gwRuS ell dib mw100p t_title_large mb0 vam">Dashboard</h2>
-                                <div class="df aic">
-                                    <div class="g_top_tab">
-                                        <div class="g_top_tab_container"><span class="g_top_tab_item c_s _on ttc">stories</span></div>
-                                    </div>
-                                </div>
+                                
                             </div>
                         </div>
                         <div class="df aic oh"><button type="button" class="ant-btn ant-btn-ghost ant-dropdown-trigger guide_button--wdkUP button--4vWlZ"><span>Support</span><span role="img" class="anticon ml4 fs16 lh24"><svg width="1em" height="1em" fill="currentColor" aria-hidden="true" focusable="false" class="">
