@@ -9,7 +9,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Post Chapter</title>
-        <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut")%>">s
+        <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut")%>">
         <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut")%>">
 
         <!-- CSS từ postNovel.jsp -->

@@ -87,10 +87,14 @@
                                                                     <form action="managechapter" method="post" style="display: inline">
                                                                         <input type="hidden" name="action" value="unlock">
                                                                         <input type="hidden" name="chapterID" value="${chapter.chapterID}">
-                                                                        <button type="submit" class="btn btn-info" onclick="return confirm('Are you sure to unclock the chapter: ${chapter.chapterName} (ID=${chapter.chapterID})')">Unlock</button>
-                                                                    </form>
-                                                                </td>
-                                                            </tr>
+                                                                        <button type="submit" class="btn btn-info"
+                                                                                <c:if test="${sessionScope.manager.canLock == true}">
+                                                                                    onclick="return confirm('Are you sure to unclock the chapter: ${chapter.chapterName} (ID=${chapter.chapterID})')"</c:if>
+
+                                                                                <c:if test="${sessionScope.manager.canLock == false}">disabled title="Do not have permission" style=" cursor: not-allowed !important; pointer-events: all;"</c:if>
+                                                                                    >Unlock</button>                                                                    </form>
+                                                                    </td>
+                                                                </tr>
                                                         </c:forEach>
                                                     </c:when>
                                                     <c:otherwise>
@@ -124,13 +128,13 @@
         <script src="js/startmin/dataTables/dataTables.bootstrap.min.js"></script>
 
         <script>
-                                                                            $(document).ready(function () {
-                                                                                $('#dataTables-example').DataTable({
-                                                                                    responsive: true,
-                                                                                    "pageLength": 10,
-                                                                                    "order": [[1, "desc"]]
-                                                                                });
-                                                                            });
+                                                                                        $(document).ready(function () {
+                                                                                            $('#dataTables-example').DataTable({
+                                                                                                responsive: true,
+                                                                                                "pageLength": 10,
+                                                                                                "order": [[1, "desc"]]
+                                                                                            });
+                                                                                        });
         </script>
     </body>
 </html>

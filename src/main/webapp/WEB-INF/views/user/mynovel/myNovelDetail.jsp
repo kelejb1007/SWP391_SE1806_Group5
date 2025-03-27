@@ -22,24 +22,18 @@
         <link rel="stylesheet" href="css/startmin/font-awesome.min.css" type="text/css">
 
         <link rel="stylesheet" href="css/mynovel/myNovelDetail(d).css?v=1" type="text/css">
-        <link rel="stylesheet" href="css/novel-detail/chapter-list(d).css?v=1">
+        <link rel="stylesheet" href="css/mynovel/mychapter-list.css?v=1">
         <link rel="stylesheet" href="css/novel-detail/novel-detail(d).css">
 
         <link rel="stylesheet" type="text/css" href="css/mynovel/mynovel2.css" crossorigin="anonymous">
         <script charset="utf-8" src="js/mynovel/mynovel2.js?v=1" crossorigin="anonymous"></script>
         <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700&display=swap" rel="stylesheet">
 
+        <!-- Thêm CSS cho nút Update và Delete của chapter -->
+        <style>
 
-
-        <!-- Thêm CSS và JS cần thiết từ novelDetail.jsp -->
-        <!--        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-                <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-            </head>-->
+        </style>
+    </head>
     <body>
         <c:if test="${not empty popup}">
             <script>
@@ -64,7 +58,6 @@
                                 </div>
                             </div>
                         </div>
-
 
                         <div id="main_scroll_container" class="scroller--dBDRL pr">
                             <div class="header_ph--kHZzY"></div>
@@ -112,8 +105,6 @@
                                         </div>
                                     </div>
 
-
-
                                     <!-- Nội dung tab -->
                                     <div class="novel-content">
                                         <div class="chapter-content-section">
@@ -146,7 +137,7 @@
                                                                 <li class="pl24 pr24 vam"> <i class="dib vam mr24 _badge _badge1"></i> 
                                                                     <a href="/profile/4315703195" rel="nofollow" data-report-eid="qi_C20"> 
                                                                         <i style="border-radius: 100%" class="dib vam mr16 _avatar _avatar1"> 
-                                                                            <img cross-origin="anonymous" style="border-radius: 100%" class="db" data-original="//user-pic.webnovel.com/userheadimg/4315703195/200.jpg?uut=1705057760565&amp;imageMogr2/quality/80" alt="Feruru" src="//user-pic.webnovel.com/userheadimg/4315703195/200.jpg?uut=1705057760565&amp;imageMogr2/quality/80" style="display: block;"> 
+                                                                            <img cross-origin="anonymous" style="border-radius: 100%" class="db" data-original="//user-pic.webnovel.com/userheadimg/4315703195/200.jpg?uut=1705057760565&imageMogr2/quality/80" alt="Feruru" src="//user-pic.webnovel.com/userheadimg/4315703195/200.jpg?uut=1705057760565&imageMogr2/quality/80" style="display: block;"> 
                                                                         </i> 
                                                                     </a>
                                                                     <div class="dib vam _text"> <a href="/profile/4315703195" class="c_000" rel="nofollow" data-report-eid="qi_C20"> <strong class="db fs16 lh24 ell fw600">Feruru</strong> </a> <small class="db fs12 c_s lh16 ell">Contributed 2265</small> </div>
@@ -155,7 +146,7 @@
                                                                     <i class="dib vam mr24 _badge _badge2"></i> 
                                                                     <a href="/profile/4305146262" rel="nofollow" data-report-eid="qi_C20"> 
                                                                         <i style="border-radius: 100%" class="dib vam mr16 _avatar _avatar2"> 
-                                                                            <img cross-origin="anonymous" style="border-radius: 100%" class="db" data-original="//user-pic.webnovel.com/userheadimg/4305146262/200.jpg?uut=1678003446842&amp;imageMogr2/quality/80" alt="ryanrayn" src="//user-pic.webnovel.com/userheadimg/4305146262/200.jpg?uut=1678003446842&amp;imageMogr2/quality/80" style="display: block;">
+                                                                            <img cross-origin="anonymous" style="border-radius: 100%" class="db" data-original="//user-pic.webnovel.com/userheadimg/4305146262/200.jpg?uut=1678003446842&imageMogr2/quality/80" alt="ryanrayn" src="//user-pic.webnovel.com/userheadimg/4305146262/200.jpg?uut=1678003446842&imageMogr2/quality/80" style="display: block;">
                                                                         </i> 
                                                                     </a>
                                                                     <div class="dib vam _text"> <a href="/profile/4305146262" class="c_000" rel="nofollow" data-report-eid="qi_C20"> <strong class="db fs16 lh24 ell fw600">ryanrayn</strong> </a> <small class="db fs12 c_s lh16 ell">Contributed 2241</small> </div>
@@ -164,7 +155,7 @@
                                                                     <i class="dib vam mr24 _badge _badge3"></i>
                                                                     <a href="/profile/4318182466" rel="nofollow" data-report-eid="qi_C20"> 
                                                                         <i style="border-radius: 100%" class="dib vam mr16 _avatar _avatar3"> 
-                                                                            <img style="border-radius: 100%" cross-origin="anonymous" class="db" data-original="//user-pic.webnovel.com/userheadimg/4318182466/200.jpg?uut=1628717450420&amp;imageMogr2/quality/80" alt="TheLordOfTheSea1" src="//user-pic.webnovel.com/userheadimg/4318182466/200.jpg?uut=1628717450420&amp;imageMogr2/quality/80" style="display: block;"> 
+                                                                            <img style="border-radius: 100%" cross-origin="anonymous" class="db" data-original="//user-pic.webnovel.com/userheadimg/4318182466/200.jpg?uut=1628717450420&imageMogr2/quality/80" alt="TheLordOfTheSea1" src="//user-pic.webnovel.com/userheadimg/4318182466/200.jpg?uut=1628717450420&imageMogr2/quality/80" style="display: block;"> 
                                                                         </i>
                                                                     </a>
                                                                     <div class="dib vam _text"> <a href="/profile/4318182466" class="c_000" rel="nofollow" data-report-eid="qi_C20"> <strong class="db fs16 lh24 ell fw600">TheLordOfTheSea1</strong> </a> <small class="db fs12 c_s lh16 ell">Contributed 2219</small> </div>
@@ -237,6 +228,16 @@
                                                                             <span class="chapter-number">${chapter.chapterNumber}. </span>
                                                                             ${chapter.chapterName}
                                                                         </a>
+                                                                        <div class="chapter-actions">
+                                                                            <a href="${pageContext.request.contextPath}/updateChapter?chapterId=${chapter.chapterID}" class="update-button">Update</a>
+                                                                            <form action="${pageContext.request.contextPath}/deleteChapter?novelId=${novel.novelID}&chapterId=${chapter.chapterID}" method="post" style="display: inline;">                                                                                <input type="hidden" name="action" value="deleteChapter">
+                                                                                <input type="hidden" name="chapterID" value="${chapter.chapterID}">
+                                                                                <input type="hidden" name="novelID" value="${novel.novelID}">
+                                                                                <button type="submit" class="remove-btn" onclick="return confirm('Are you sure to delete the chapter: ${chapter.chapterName}?')">
+                                                                                    <i class="fa fa-trash">Delete</i>
+                                                                                </button>
+                                                                            </form>
+                                                                        </div>
                                                                     </div>
                                                                     <span class="chapter-time">${chapter.timeString}</span>
                                                                 </li>
@@ -260,171 +261,171 @@
     </div>
     <script src="js/novel-detail/chapter-list(d).js"></script>
     <script>
-                                                                    document.addEventListener('DOMContentLoaded', function () {
-                                                                        setupTabs();
-                                                                        initializeSortButton();
-                                                                        initializeChapterList();
-                                                                    });
-
-                                                                    function setupTabs() {
-                                                                        const tabLinks = document.querySelectorAll('.tab-link');
-                                                                        const tabContents = document.querySelectorAll('.tab-content');
-                                                                        const line = document.querySelector('._line');
-                                                                        const novelContainer = document.querySelector('.det-hd');
-                                                                        const novelId = novelContainer ? novelContainer.dataset.novelId : null;
-
-                                                                        function moveLine(tab) {
-                                                                            tabLinks.forEach(link => link.classList.remove('_on'));
-                                                                            tabContents.forEach(content => content.style.display = 'none');
-
-                                                                            tab.classList.add('_on');
-                                                                            const targetContent = document.querySelector(tab.dataset.tab);
-                                                                            if (targetContent) {
-                                                                                targetContent.style.display = 'block';
-                                                                            }
-
-                                                                            if (line) {
-                                                                                line.style.left = tab.offsetLeft + 'px';
-                                                                                line.style.width = tab.offsetWidth + 'px';
-                                                                            }
-
-                                                                            if (novelId) {
-                                                                                localStorage.setItem(`activeTab_${novelId}`, tab.dataset.tab);
-                                                                            }
-                                                                        }
-
-                                                                        if (novelId) {
-                                                                            const activeTab = localStorage.getItem(`activeTab_${novelId}`);
-                                                                            if (activeTab) {
-                                                                                const savedTab = document.querySelector(`a[data-tab="${activeTab}"]`);
-                                                                                if (savedTab) {
-                                                                                    moveLine(savedTab);
-                                                                                }
-                                                                            }
-                                                                        }
-
-                                                                        if (!document.querySelector('.tab-link._on')) {
-                                                                            const defaultTab = document.querySelector('a[data-tab="#about"]');
-                                                                            if (defaultTab) {
-                                                                                moveLine(defaultTab);
-                                                                            }
-                                                                        }
-
-                                                                        tabLinks.forEach(tab => {
-                                                                            tab.addEventListener('click', function (e) {
-                                                                                e.preventDefault();
-                                                                                moveLine(this);
-                                                                            });
-                                                                        });
-                                                                    }
-
-                                                                    function initializeSortButton() {
-                                                                        const sortButton = document.querySelector('.chapter-sort-option');
-                                                                        if (!sortButton)
-                                                                            return;
-
-                                                                        const novelId = sortButton.getAttribute("data-novel-id");
-                                                                        let currentSort = sortButton.getAttribute("data-sort");
-
-                                                                        sortChapters(currentSort);
-                                                                        updateSortIcon(sortButton, currentSort);
-
-                                                                        sortButton.addEventListener('click', function (e) {
-                                                                            e.preventDefault();
-                                                                            const newSortOrder = currentSort === "asc" ? "desc" : "asc";
-
-                                                                            try {
-                                                                                const url = new URL(window.location.href);
-                                                                                url.searchParams.set("sort", newSortOrder);
-                                                                                history.pushState({}, '', url.toString());
-
-                                                                                sortChapters(newSortOrder);
-                                                                                updateSortIcon(sortButton, newSortOrder);
-                                                                                sortButton.setAttribute('data-sort', newSortOrder);
-                                                                                currentSort = newSortOrder;
-                                                                            } catch (error) {
-                                                                                console.error('Error during sorting:', error);
-                                                                            }
-                                                                        });
-                                                                    }
-
-                                                                    function updateSortIcon(button, sortOrder) {
-                                                                        button.innerHTML = sortOrder === "desc"
-                                                                                ? '<i class="fas fa-sort-numeric-down-alt"></i>'
-                                                                                : '<i class="fas fa-sort-numeric-up"></i>';
-                                                                    }
-
-                                                                    function sortChapters(sortOrder) {
-                                                                        const chapterList = document.querySelector('.chapter-list-ul');
-                                                                        if (!chapterList)
-                                                                            return;
-
-                                                                        const chapters = Array.from(chapterList.getElementsByClassName('chapter-item'));
-
-                                                                        chapters.sort((a, b) => {
-                                                                            const aNum = parseInt(a.querySelector('.chapter-number').textContent);
-                                                                            const bNum = parseInt(b.querySelector('.chapter-number').textContent);
-                                                                            return sortOrder === 'asc' ? aNum - bNum : bNum - aNum;
-                                                                        });
-
-                                                                        chapterList.innerHTML = '';
-                                                                        chapters.forEach(chapter => chapterList.appendChild(chapter));
-                                                                    }
-
-                                                                    function initializeChapterList() {
-                                                                        const chapterList = document.querySelector('.chapter-list');
-                                                                        if (!chapterList)
-                                                                            return;
-
-                                                                        const chapters = chapterList.getElementsByClassName('chapter-item');
-                                                                        Array.from(chapters).forEach(chapter => {
-                                                                            chapter.addEventListener('mouseenter', function () {
-                                                                                this.style.backgroundColor = '#f5f5f5';
-                                                                            });
-
-                                                                            chapter.addEventListener('mouseleave', function () {
-                                                                                this.style.backgroundColor = '';
-                                                                            });
-                                                                        });
-                                                                    }
-
-                                                                    window.addEventListener('popstate', function (event) {
-                                                                        const url = new URL(window.location.href);
-                                                                        const novelId = url.searchParams.get("id");
-                                                                        const newSort = url.searchParams.get("sort") || 'asc';
-
-                                                                        const savedSort = localStorage.getItem(`sortOrder_${novelId}`);
-                                                                        if (savedSort !== newSort) {
-                                                                            localStorage.setItem(`sortOrder_${novelId}`, newSort);
-
-                                                                            const sortButton = document.querySelector('.chapter-sort-option');
-                                                                            if (sortButton) {
-                                                                                updateSortIcon(sortButton, newSort);
-
-                                                                                const chapterList = document.querySelector('.chapter-list-ul');
-                                                                                if (chapterList) {
-                                                                                    const chapters = Array.from(chapterList.getElementsByClassName('chapter-item'));
-                                                                                    chapters.sort((a, b) => {
-                                                                                        const aNum = parseInt(a.querySelector('.chapter-number').textContent);
-                                                                                        const bNum = parseInt(b.querySelector('.chapter-number').textContent);
-                                                                                        return newSort === 'asc' ? aNum - bNum : bNum - aNum;
+                                                                                    document.addEventListener('DOMContentLoaded', function () {
+                                                                                        setupTabs();
+                                                                                        initializeSortButton();
+                                                                                        initializeChapterList();
                                                                                     });
 
-                                                                                    chapterList.innerHTML = '';
-                                                                                    chapters.forEach(chapter => chapterList.appendChild(chapter));
-                                                                                }
-                                                                            }
-                                                                        }
+                                                                                    function setupTabs() {
+                                                                                        const tabLinks = document.querySelectorAll('.tab-link');
+                                                                                        const tabContents = document.querySelectorAll('.tab-content');
+                                                                                        const line = document.querySelector('._line');
+                                                                                        const novelContainer = document.querySelector('.det-hd');
+                                                                                        const novelId = novelContainer ? novelContainer.dataset.novelId : null;
 
-                                                                        const activeTab = localStorage.getItem(`activeTab_${novelId}`);
-                                                                        if (activeTab) {
-                                                                            const savedTab = document.querySelector(`a[data-tab="${activeTab}"]`);
-                                                                            if (savedTab) {
-                                                                                const event = new Event('click');
-                                                                                savedTab.dispatchEvent(event);
-                                                                            }
-                                                                        }
-                                                                    });
+                                                                                        function moveLine(tab) {
+                                                                                            tabLinks.forEach(link => link.classList.remove('_on'));
+                                                                                            tabContents.forEach(content => content.style.display = 'none');
+
+                                                                                            tab.classList.add('_on');
+                                                                                            const targetContent = document.querySelector(tab.dataset.tab);
+                                                                                            if (targetContent) {
+                                                                                                targetContent.style.display = 'block';
+                                                                                            }
+
+                                                                                            if (line) {
+                                                                                                line.style.left = tab.offsetLeft + 'px';
+                                                                                                line.style.width = tab.offsetWidth + 'px';
+                                                                                            }
+
+                                                                                            if (novelId) {
+                                                                                                localStorage.setItem(`activeTab_${novelId}`, tab.dataset.tab);
+                                                                                            }
+                                                                                        }
+
+                                                                                        if (novelId) {
+                                                                                            const activeTab = localStorage.getItem(`activeTab_${novelId}`);
+                                                                                            if (activeTab) {
+                                                                                                const savedTab = document.querySelector(`a[data-tab="${activeTab}"]`);
+                                                                                                if (savedTab) {
+                                                                                                    moveLine(savedTab);
+                                                                                                }
+                                                                                            }
+                                                                                        }
+
+                                                                                        if (!document.querySelector('.tab-link._on')) {
+                                                                                            const defaultTab = document.querySelector('a[data-tab="#about"]');
+                                                                                            if (defaultTab) {
+                                                                                                moveLine(defaultTab);
+                                                                                            }
+                                                                                        }
+
+                                                                                        tabLinks.forEach(tab => {
+                                                                                            tab.addEventListener('click', function (e) {
+                                                                                                e.preventDefault();
+                                                                                                moveLine(this);
+                                                                                            });
+                                                                                        });
+                                                                                    }
+
+                                                                                    function initializeSortButton() {
+                                                                                        const sortButton = document.querySelector('.chapter-sort-option');
+                                                                                        if (!sortButton)
+                                                                                            return;
+
+                                                                                        const novelId = sortButton.getAttribute("data-novel-id");
+                                                                                        let currentSort = sortButton.getAttribute("data-sort");
+
+                                                                                        sortChapters(currentSort);
+                                                                                        updateSortIcon(sortButton, currentSort);
+
+                                                                                        sortButton.addEventListener('click', function (e) {
+                                                                                            e.preventDefault();
+                                                                                            const newSortOrder = currentSort === "asc" ? "desc" : "asc";
+
+                                                                                            try {
+                                                                                                const url = new URL(window.location.href);
+                                                                                                url.searchParams.set("sort", newSortOrder);
+                                                                                                history.pushState({}, '', url.toString());
+
+                                                                                                sortChapters(newSortOrder);
+                                                                                                updateSortIcon(sortButton, newSortOrder);
+                                                                                                sortButton.setAttribute('data-sort', newSortOrder);
+                                                                                                currentSort = newSortOrder;
+                                                                                            } catch (error) {
+                                                                                                console.error('Error during sorting:', error);
+                                                                                            }
+                                                                                        });
+                                                                                    }
+
+                                                                                    function updateSortIcon(button, sortOrder) {
+                                                                                        button.innerHTML = sortOrder === "desc"
+                                                                                                ? '<i class="fas fa-sort-numeric-down-alt"></i>'
+                                                                                                : '<i class="fas fa-sort-numeric-up"></i>';
+                                                                                    }
+
+                                                                                    function sortChapters(sortOrder) {
+                                                                                        const chapterList = document.querySelector('.chapter-list-ul');
+                                                                                        if (!chapterList)
+                                                                                            return;
+
+                                                                                        const chapters = Array.from(chapterList.getElementsByClassName('chapter-item'));
+
+                                                                                        chapters.sort((a, b) => {
+                                                                                            const aNum = parseInt(a.querySelector('.chapter-number').textContent);
+                                                                                            const bNum = parseInt(b.querySelector('.chapter-number').textContent);
+                                                                                            return sortOrder === 'asc' ? aNum - bNum : bNum - aNum;
+                                                                                        });
+
+                                                                                        chapterList.innerHTML = '';
+                                                                                        chapters.forEach(chapter => chapterList.appendChild(chapter));
+                                                                                    }
+
+                                                                                    function initializeChapterList() {
+                                                                                        const chapterList = document.querySelector('.chapter-list');
+                                                                                        if (!chapterList)
+                                                                                            return;
+
+                                                                                        const chapters = chapterList.getElementsByClassName('chapter-item');
+                                                                                        Array.from(chapters).forEach(chapter => {
+                                                                                            chapter.addEventListener('mouseenter', function () {
+                                                                                                this.style.backgroundColor = '#f5f5f5';
+                                                                                            });
+
+                                                                                            chapter.addEventListener('mouseleave', function () {
+                                                                                                this.style.backgroundColor = '';
+                                                                                            });
+                                                                                        });
+                                                                                    }
+
+                                                                                    window.addEventListener('popstate', function (event) {
+                                                                                        const url = new URL(window.location.href);
+                                                                                        const novelId = url.searchParams.get("id");
+                                                                                        const newSort = url.searchParams.get("sort") || 'asc';
+
+                                                                                        const savedSort = localStorage.getItem(`sortOrder_${novelId}`);
+                                                                                        if (savedSort !== newSort) {
+                                                                                            localStorage.setItem(`sortOrder_${novelId}`, newSort);
+
+                                                                                            const sortButton = document.querySelector('.chapter-sort-option');
+                                                                                            if (sortButton) {
+                                                                                                updateSortIcon(sortButton, newSort);
+
+                                                                                                const chapterList = document.querySelector('.chapter-list-ul');
+                                                                                                if (chapterList) {
+                                                                                                    const chapters = Array.from(chapterList.getElementsByClassName('chapter-item'));
+                                                                                                    chapters.sort((a, b) => {
+                                                                                                        const aNum = parseInt(a.querySelector('.chapter-number').textContent);
+                                                                                                        const bNum = parseInt(b.querySelector('.chapter-number').textContent);
+                                                                                                        return newSort === 'asc' ? aNum - bNum : bNum - aNum;
+                                                                                                    });
+
+                                                                                                    chapterList.innerHTML = '';
+                                                                                                    chapters.forEach(chapter => chapterList.appendChild(chapter));
+                                                                                                }
+                                                                                            }
+                                                                                        }
+
+                                                                                        const activeTab = localStorage.getItem(`activeTab_${novelId}`);
+                                                                                        if (activeTab) {
+                                                                                            const savedTab = document.querySelector(`a[data-tab="${activeTab}"]`);
+                                                                                            if (savedTab) {
+                                                                                                const event = new Event('click');
+                                                                                                savedTab.dispatchEvent(event);
+                                                                                            }
+                                                                                        }
+                                                                                    });
     </script>
 </body>
 </html>
