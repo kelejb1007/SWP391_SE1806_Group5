@@ -62,9 +62,7 @@ public class CommentController extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         UserAccount user = (session != null) ? (UserAccount) session.getAttribute("user") : null;
-         if (session != null) {
-        session.removeAttribute("errorMessage"); // Xóa lỗi cũ trước khi xử lý yêu cầu mới
-    }
+
         if (user == null) {
             response.sendRedirect("Login");
             return;
@@ -94,7 +92,7 @@ public class CommentController extends HttpServlet {
             } else {
                 request.setAttribute("novelID", "0"); // Tránh null
             }
-
+            
             String content = request.getParameter("commentContent");
 
             if (novelIDStr == null || novelIDStr.trim().isEmpty()) {
@@ -105,30 +103,13 @@ public class CommentController extends HttpServlet {
             if (content != null && !content.trim().isEmpty()) {
                 try {
                     int novelID = Integer.parseInt(novelIDStr);
-                    // Chống spam: kiểm tra thời gian comment gần nhất trong session
-                    Long lastCommentTime = (Long) session.getAttribute("lastCommentTime");
-                    long currentTime = System.currentTimeMillis();
-
-                    if (lastCommentTime != null && (currentTime - lastCommentTime) < 120000) { // 10 giây cooldown
-                        session.setAttribute("errorMessage", "You are commenting too fast! Please wait a moment.");
-                        response.sendRedirect("novel-detail?id=" + novelID);
-                        return;
-                    }
-
-                    // Lưu thời gian bình luận gần nhất
-                    session.setAttribute("lastCommentTime", currentTime);
-                    // Add comment
                     Comment newComment = new Comment();
                     newComment.setUserID(user.getUserID());
                     newComment.setNovelID(novelID);
                     newComment.setContent(content);
                     newComment.setCommentDate(LocalDateTime.now()); // Cập nhật kiểu dữ liệu
 
-                    boolean success = commentDAO.addComment(newComment);
-                    if (!success) {
-                        session.setAttribute("errorMessage", "Error adding comment. Please try again.");
-                    }
-
+                    commentDAO.addComment(newComment);
                     response.sendRedirect("novel-detail?id=" + novelID);
                     return;
                 } catch (NumberFormatException e) {
