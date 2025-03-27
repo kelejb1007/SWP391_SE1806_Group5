@@ -12,6 +12,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Deleted Novel</title>
+        <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut")%>">
 
         <link rel="stylesheet" href="css/startmin/bootstrap.css">
         <link rel="stylesheet" href="css/startmin/startmin.css">
@@ -20,7 +21,6 @@
         <link rel="stylesheet" href="css/mynovel/myNovell.css">
         <link rel="stylesheet" href="css/mynovel/postingHistory.css">
 
-        <link rel="shortcut icon" type="image/x-icon" href="//yuxseocdn.yuewen.com/favicon/readnovel.ico">
         <link rel="stylesheet" type="text/css" href="css/mynovel/mynovel2.css" crossorigin="anonymous">
         <script charset="utf-8" src="js/mynovel/mynovel2.js" crossorigin="anonymous"></script>
 
@@ -38,6 +38,14 @@
                 box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Adjusted shadow */
                 font-family: 'Macondo Swash Caps', cursive;
                 background-size: cover
+            }
+            .tablebtn{
+                all: unset;
+                cursor: pointer;
+                color: #ff3955;
+            }
+            .tablebtn:hover{
+                text-decoration: underline;
             }
             a:hover{
                 color: #ff3955;
@@ -65,7 +73,7 @@
                                         <div class="df g_sd_close collapse_menu_btn--f8c2W"><i></i></div>
                                     </label>
                                     <h2 class="header_title--gwRuS ell dib mw100p t_title_large mb0 vam"><span class="ttc" style="zoom: 1.1">Deleted and Locked Novels</span></h2>
-                                    
+
                                 </div>
                             </div>
                         </div>
@@ -127,7 +135,13 @@
                                                                             <td>${c.lockReason}</td>
                                                                             <td>
                                                                                 <c:if test="${c.novelStatus == 'deleted'}">
-                                                                                    <a href="mynovel?action=undelete&novelID=${c.novelID}">Restore</a>
+                                                                                    <form action="mynovel" method="post" style="display: inline;">
+                                                                                        <input type="hidden" name="action" value="undelete">
+                                                                                        <input type="hidden" name="novelID" value="${c.novelID}">
+                                                                                        <button style="" type="submit" class="tablebtn" onclick="return confirm('Are you sure to restore the novel: ${c.novelName} (ID=${c.novelID})')">
+                                                                                            <strong class="str">Restore</strong>
+                                                                                        </button>
+                                                                                    </form>
                                                                                 </c:if>
                                                                             </td>
                                                                         </tr>

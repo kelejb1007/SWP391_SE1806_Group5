@@ -13,7 +13,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Locking History</title>
-
+        <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut")%>">
         <!-- Bootstrap Core CSS -->
         <link rel="stylesheet" href="css/startmin/bootstrap.css">
         <link rel="stylesheet" href="css/startmin/startmin.css">
@@ -96,8 +96,8 @@
                 </div>
             </div>
         </div>
-            
-             <!-- jQuery -->
+
+        <!-- jQuery -->
         <script src="js/startmin/jquery.min.js"></script>
         <!-- Bootstrap Core JavaScript -->
         <script src="js/startmin/bootstrap.min.js"></script>
@@ -109,13 +109,13 @@
         <script src="js/startmin/dataTables/jquery.dataTables.min.js"></script>
         <script src="js/startmin/dataTables/dataTables.bootstrap.min.js"></script>
         <script>
-                                                                                   $(document).ready(function () {
-                                                                                       $('#dataTables-example').DataTable({
-                                                                                           responsive: true
-                                                                                       });
-                                                                                   });
+            $(document).ready(function () {
+                $('#dataTables-example').DataTable({
+                    responsive: true
+                });
+            });
         </script>
     </body>
 </html>
-    </body>
+</body>
 </html>

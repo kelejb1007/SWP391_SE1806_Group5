@@ -8,6 +8,7 @@
 <html>
 <head>
     <title>Change Password</title>
+    <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut")%>">
     <style>
         * {
             margin: 0;

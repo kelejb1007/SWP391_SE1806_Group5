@@ -11,7 +11,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Manage Submission</title>
-
+        <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut") %>">
+        <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut")%>">
         <link rel="stylesheet" href="css/startmin/bootstrap.min.css">
         <link rel="stylesheet" href="css/startmin/startmin.css">
         <link rel="stylesheet" href="css/startmin/font-awesome.min.css" type="text/css">

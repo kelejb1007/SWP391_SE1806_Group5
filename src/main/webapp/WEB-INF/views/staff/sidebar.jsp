@@ -14,141 +14,37 @@
         <link rel="stylesheet" href="css/startmin/bootstrap.min.css">
         <link rel="stylesheet" href="css/startmin/startmin.css">
         <link rel="stylesheet" href="css/startmin/font-awesome.min.css" type="text/css">
-<!--        <style>
-    /* Tổng quan */
-.sidebar {
-    background: linear-gradient(to bottom, #ff3955, #1a1a1a); /* Chuyển màu đỏ - đen */
-    color: white;
-    width: 260px; /* Điều chỉnh độ rộng nếu cần */
-    height: 100%;
-    overflow-y: auto; /* Cho phép cuộn nếu nội dung quá dài */
-    box-shadow: 5px 0 20px rgba(0, 0, 0, 0.4); /* Đổ bóng */
-    font-family: 'Roboto', sans-serif; /* Font chữ dễ đọc */
-}
+        <style>
+            .g_sd .g_logo {
+                
+            }
 
-.sidebar-nav {
-    padding: 0;
-}
-
-.nav.fix {
-    margin-bottom: 0;
-}
-
-.nav.fix li {
-    width: 100%;
-}
-
-/* Tìm kiếm */
-.sidebar-search {
-    padding: 15px;
-}
-
-.custom-search-form .form-control {
-    background-color: rgba(0, 0, 0, 0.3); /* Đen trong suốt */
-    border: none;
-    color: white;
-    border-radius: 4px; /* Góc bo tròn nhẹ */
-    padding: 8px 12px;
-    font-size: 14px;
-}
-
-.custom-search-form .form-control:focus {
-    border-color: #fff; /* Viền trắng khi focus */
-    box-shadow: none;
-    outline: none;
-    background-color: rgba(0, 0, 0, 0.5); /* Đen trong suốt hơn */
-}
-
-.custom-search-form .btn-primary {
-    background-color: transparent;
-    border: none;
-    padding: 0;
-    margin-left: 8px;
-    color: white; /* Màu trắng cho biểu tượng tìm kiếm */
-}
-
-.custom-search-form .btn-primary:hover {
-    color: #ddd; /* Trắng nhạt hơn khi hover */
-}
-
-/* Các mục menu */
-
-
-.nav.fix li a:hover {
-    background-color: rgba(0, 0, 0, 0.3); /* Đen trong suốt */
-    color: #ddd; /* Chữ màu xám nhạt khi hover */
-    text-decoration: none;
-    border-left-color: #fff;
-}
-
-.nav.fix li a {
-    color: black;
-    padding: 14px 20px;
-    display: block;
-    transition: background-color 0.3s ease; /* Thêm transition */
-    position: relative;
-    overflow: hidden;
-
-}
-
-/* Menu cấp hai */
-.nav-second-level {
-    background-color: rgba(0, 0, 0, 0.2); /* Đen trong suốt */
-    padding-left: 10px;
-    
-}
-
-.nav-second-level li a {
-    border-bottom-left-radius: 2px;
-    padding: 12px 20px;
-    font-size: 14px;
-}
-
-.nav-second-level li a:hover {
-    border-left-radius: 2px;
-    background-color: rgba(0, 0, 0, 0.3); /* Thêm màu nền đen nhạt khi hover */
-}
-
-.nav.fix li.active > a {
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Đổ bóng nhẹ */
-    background-color: rgba(255, 0, 0, 0.3);
-    color: white;
-}
-
-/* Loại bỏ gạch chân ở liên kết */
-a {
-    text-decoration: none;
-}
-
-
-        </style>-->
+            .g_logo {
+                line-height: 47px;
+                font-size: 2em;
+                color: #005ac5;
+                transition: .3s;
+                z-index: 3;
+            }
+            .g_logo img {
+                margin: 10px 32px;
+                width: 60px;
+                height: 65px;
+            }
+        </style>
     </head>
     <body>
         <!-- Sidebar -->
         <aside class="sidebar navbar-default" role="navigation" style="position: fixed">
-            <div class="sidebar-nav navbar-collapse">
+            <div class="sidebar-nav navbar-collapse" >
 
 
+                <a class="g_logo" href="dashboard" title="NovelReader">
+                    <h1><img src="img/b3.png" alt="NovelReader"></h1>
 
+                    <!--  thu gọn sidebar                          -->
+                </a>
                 <ul class="nav fix" id="side-menu">
-
-
-                    <!--Search-->
-                    <li class="sidebar-search">
-                        <div class="input-group custom-search-form">
-                            <input type="text" class="form-control" placeholder="Search...">
-
-                            <span class="input-group-btn">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </span>
-
-                        </div>
-                    </li>
-
-
-
                     <!-- Home -->
                     <li>
                         <a href="${pageContext.request.contextPath}/dashboard" >
@@ -227,31 +123,25 @@ a {
                             <li>
                                 <a href="${pageContext.request.contextPath}/manageaccount?action=viewLocked">View locked accounts</a>
                             </li>
-                             <li>
+                            <li>
                                 <a href="${pageContext.request.contextPath}/manageaccount?action=viewLockingHistory">View Locking History</a>
                             </li>
                         </ul>
 
                     </li>
-                    
-                   
-                    
+
+
+
 
 
 
                     <!-- tui them phan nay LIENXUANTHINH -->      
 
                     <li>
-                        <a href="#">
+                        <a href="${pageContext.request.contextPath}/managegenre">
                             <i class="fa fa-sitemap fa-fw"></i>
                             Manage Genre
-                            <span class="fa arrow"></span>
                         </a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="${pageContext.request.contextPath}/managegenre">View list of genres</a>
-                            </li>
-                        </ul>
                     </li>               
                 </ul>
 

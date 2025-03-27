@@ -77,7 +77,7 @@
 
                         <ul> 
                             <li><a class="head-shelf fw800" href="favorite"><em class="iconfont">
-                                        <i class="fa-solid fa-poo"></i></em>Favorite</a></li>
+                                        <i class="fa-solid fa-fire"></i></em>Favorite</a></li>
                         </ul>
                     </c:if>
                 </div>
@@ -88,7 +88,7 @@
                 <div class="box-center cf">
                     <div class="left-nav fl">
                         <ul class="cf">
-                            <li class="type " id="j-navType"><a href="/category"><em class="iconfont"><i class="fa fa-list-ul"></i></em>Genres</a>
+                            <li class="type " id="j-navType"><a href="novels"><em class="iconfont"><i class="fa fa-list-ul"></i></em>Genres</a>
 
                                 <div class="type-list" id="j-typeList" style="display: none;">
                                     <cite></cite>

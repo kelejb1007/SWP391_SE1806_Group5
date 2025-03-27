@@ -4,6 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Assign Permissions</title>
+        <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut") %>">
         <link rel="stylesheet" href="css/startmin/bootstrap.min.css">
         <link rel="stylesheet" href="css/startmin/startmin.css">
         <link rel="stylesheet" href="css/startmin/font-awesome.min.css">
@@ -39,7 +40,6 @@
                                                     <th>ID</th>
                                                     <th>Username</th>
                                                     <th>Email</th>
-                                                    <th>Role</th>
                                                     <th>Lock Permission</th>
                                                     <th>Approve Permission</th>
                                                     <th>Actions</th>
@@ -54,12 +54,12 @@
                                                                 <td><%= acc.getManagerID() %></td>
                                                                 <td><%= acc.getUsername() %></td>
                                                                 <td><%= acc.getEmail() %></td>
-                                                                <td>
+<!--                                                                <td>
                                                                     <select name="role" form="updateForm_<%= acc.getManagerID() %>">
                                                                         <option value="Admin" <%= "Admin".equals(acc.getRole()) ? "selected" : "" %>>Admin</option>
                                                                         <option value="Staff" <%= "Staff".equals(acc.getRole()) ? "selected" : "" %>>Staff</option>
                                                                     </select>
-                                                                </td>
+                                                                </td>-->
                                                                 <td>
                                                                     <input type="checkbox" name="canLock" form="updateForm_<%= acc.getManagerID() %>"
                                                                            <%= acc.isCanLock() ? "checked" : "" %>>

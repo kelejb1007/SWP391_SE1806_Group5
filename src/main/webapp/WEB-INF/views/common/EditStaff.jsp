@@ -9,6 +9,7 @@
 <html>
 <head>
     <title>Edit Staff Profile</title>
+    <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut") %>">
     <link rel="stylesheet" href="css/startmin/bootstrap.css">
     <link rel="stylesheet" href="css/startmin/startmin.css">
     <link rel="stylesheet" href="css/startmin/font-awesome.min.css">

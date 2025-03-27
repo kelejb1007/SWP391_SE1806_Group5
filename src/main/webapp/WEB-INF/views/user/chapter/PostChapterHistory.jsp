@@ -10,7 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Chapter Submission</title>
-
+        <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut")%>">
         <link rel="stylesheet" href="css/startmin/bootstrap.css">
         <link rel="stylesheet" href="css/startmin/startmin.css">
         <link rel="stylesheet" href="css/startmin/font-awesome.min.css" type="text/css">
@@ -62,13 +62,13 @@
                                 <div class="df aic g_header_title"><label for="foldSwitch" class="collapse_menu--QStMM mr8">
                                         <div class="df g_sd_close collapse_menu_btn--f8c2W"><i></i></div>
                                     </label>
-                                    <h2 class="header_title--gwRuS ell dib mw100p t_title_large mb0 vam"><span class="ttc">Submission</span></h2>
+                                    <h2 class="header_title--gwRuS ell dib mw100p t_title_large mb0 vam"><span class="ttc" style="zoom: 1.1">Submission</span></h2>
                                     <div class="df aic">
                                         <div class="g_top_tab">
                                             <div class="g_top_tab_container">
-                                                <button class="tab_button" onclick="showPage(this, 'page1')" style="all:unset">
+                                                <button class="tab_button" onclick="window.location.href = 'mynovel?action=viewposthistory'" style="all:unset">
                                                     <span class="g_top_tab_item fvsc">Novel</span></button>
-                                                <button class="tab_button" onclick="showPage(this, 'page2')" style="all:unset">
+                                                <button class="tab_button" onclick="window.location.href = '#'" style="all:unset">
                                                     <span class="g_top_tab_item _on fvsc">Chapter</span></button>
                                             </div>
                                         </div>
@@ -156,7 +156,6 @@
                                                                                         style="color: black"
                                                                                     </c:when>
                                                                                     <c:when test="${c.status == 'pending'}">
-                                                                                        >>>>>>> Phat_stage7
                                                                                         style="color: green"
                                                                                     </c:when>
                                                                                 </c:choose>

@@ -10,6 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Novel Submission</title>
+        <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut")%>">
 
         <link rel="stylesheet" href="css/startmin/bootstrap.css">
         <link rel="stylesheet" href="css/startmin/startmin.css">
@@ -18,7 +19,6 @@
         <link rel="stylesheet" href="css/mynovel/myNovell.css">
         <link rel="stylesheet" href="css/mynovel/postingHistory.css">
 
-        <link rel="shortcut icon" type="image/x-icon" href="//yuxseocdn.yuewen.com/favicon/readnovel.ico">
         <link rel="stylesheet" type="text/css" href="css/mynovel/mynovel2.css" crossorigin="anonymous">
         <script charset="utf-8" src="js/mynovel/mynovel2.js" crossorigin="anonymous"></script>
 
@@ -63,7 +63,18 @@
                                         <div class="df g_sd_close collapse_menu_btn--f8c2W"><i></i></div>
                                     </label>
                                     <h2 class="header_title--gwRuS ell dib mw100p t_title_large mb0 vam"><span class="ttc" style="zoom: 1.1">Submission</span></h2>
-                                    
+
+                                    <div class="df aic">
+                                        <div class="g_top_tab">
+                                            <div class="g_top_tab_container">
+                                                <button class="tab_button" onclick="window.location.href='#'" style="all:unset">
+                                                    <span class="g_top_tab_item _on fvsc">Novel</span></button>
+                                                <button class="tab_button" onclick="window.location.href='mynovel?action=viewchapterposthistory'" style="all:unset">
+                                                    <span class="g_top_tab_item fvsc">Chapter</span></button>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>

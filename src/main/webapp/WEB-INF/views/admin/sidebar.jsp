@@ -14,6 +14,20 @@
         <link rel="stylesheet" href="css/startmin/bootstrap.css">
         <link rel="stylesheet" href="css/startmin/startmin.css">
         <link rel="stylesheet" href="css/startmin/font-awesome.min.css" type="text/css">
+        <style>
+            .g_logo {
+                line-height: 47px;
+                font-size: 2em;
+                color: #005ac5;
+                transition: .3s;
+                z-index: 3;
+            }
+            .g_logo img {
+                margin: 10px 32px;
+                width: 60px;
+                height: 65px;
+            }
+        </style>
     </head>
     <body>
         <!-- Sidebar -->
@@ -24,28 +38,19 @@
 
                 <ul class="nav" id="side-menu">
 
-                    <!--Search-->
-                    <li class="sidebar-search">
-                        <div class="input-group custom-search-form">
+                    <a class="g_logo" href="dashboard" title="NovelReader">
+                        <h1><img src="img/b3.png" alt="NovelReader"></h1>
 
-                            <input type="text" class="form-control" placeholder="Search...">
-
-                            <span class="input-group-btn">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </span>
-
-                        </div>
-                    </li>
+                        <!--  thu gọn sidebar                          -->
+                    </a>
 
 
 
                     <!-- Home -->
                     <li>
-                        <a href="${pageContext.request.contextPath}/dashboard" >
+                        <a href="${pageContext.request.contextPath}/admindashboard" >
                             <i class="fa fa-home fa-fw"></i> 
-                            Home
+                            Dashboard
                         </a>
                     </li>
 
@@ -55,16 +60,7 @@
                     <!-- tui them phan nay Khoa -->    
 
                     <li>
-                        <a href="">
-                            <i class="fa fa-sitemap fa-fw"></i>
-                            Manage Staff
-                            <span class="fa arrow"></span>
-                        </a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="${pageContext.request.contextPath}/managestaff">View list of staff</a>
-                            </li>
-                        </ul>
+                        <a href="${pageContext.request.contextPath}/managestaff"><i class="fa fa-sitemap fa-fw"></i>View list of staff</a>
                     </li>
                     <!-- tui sua nut phan nay -->
                     <li>
@@ -73,13 +69,13 @@
                         </a>
                     </li>
 
-                    <li>
+<!--                    <li>
                         <a href="${pageContext.request.contextPath}/viewnovelstatisticscontroller?action=viewNovelStatistics">View Statistics On Novel</a>
                     </li>
 
                     <li>
                         <a href="${pageContext.request.contextPath}/viewnovelstatisticscontroller?action=viewUserStatistics">View Statistics On Account</a>
-                    </li>
+                    </li>-->
 
                     </li> 
                     <li>

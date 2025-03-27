@@ -12,6 +12,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>My Novels</title>
+        <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut")%>">
         <link rel="stylesheet" href="css/startmin/bootstrap.min.css">
         <link rel="stylesheet" href="css/startmin/startmin.css">
         <link rel="stylesheet" href="css/startmin/font-awesome.min.css" type="text/css">
@@ -19,7 +20,6 @@
         <link rel="stylesheet" href="css/mynovel/myNovell.css?v=1">
         <link rel="stylesheet" href="css/mynovel/postingHistory.css">
 
-        <link rel="shortcut icon" type="image/x-icon" href="//yuxseocdn.yuewen.com/favicon/readnovel.ico">
         <link rel="stylesheet" type="text/css" href="css/mynovel/mynovel2.css" crossorigin="anonymous">
         <script charset="utf-8" src="js/mynovel/mynovel2.js" crossorigin="anonymous"></script>
 

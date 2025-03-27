@@ -50,6 +50,7 @@ public class CommentDAO {
         return comment;
     }
 
+  
     public boolean addComment(Comment comment) {
         String sql = "INSERT INTO Comment (userID, novelID, commentContent, commentDate) VALUES (?, ?, ?, ?)";
         try (Connection connection = db.getConnection();
@@ -65,11 +66,15 @@ public class CommentDAO {
             return false;
         }
     }
-        public boolean deleteComment(int commentId) {
+
+
+    public boolean deleteComment(int commentId, int userId) {
+
         String sql = "DELETE FROM Comment WHERE commentID = ? AND userID = ?";
         try (Connection connection = db.getConnection();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, commentId);
+             stmt.setInt(2, userId);
             int rowsAffected = stmt.executeUpdate();
             return rowsAffected > 0;
         } catch (SQLException e) {
@@ -77,20 +82,22 @@ public class CommentDAO {
             return false;
         }
     }
-        public boolean updateComment(int commentId, int userId, String newContent) { // command: cập nhật bình luận
-    String sql = "UPDATE Comment SET commentContent = ? WHERE commentID = ? AND userID = ?";
-    try (Connection connection = db.getConnection();
-         PreparedStatement stmt = connection.prepareStatement(sql)) {
-        stmt.setString(1, newContent);
-        stmt.setInt(2, commentId);
-        stmt.setInt(3, userId);
-        int rowsAffected = stmt.executeUpdate();
-        return rowsAffected > 0;
-    } catch (SQLException e) {
-        Logger.getLogger(CommentDAO.class.getName()).log(Level.SEVERE, null, e);
-        return false;
-    }
-}
+
+
+    public boolean updateComment(int commentId, int userId, String newContent) { // command: cập nhật bình luận
+        String sql = "UPDATE Comment SET commentContent = ? WHERE commentID = ? AND userID = ?";
+        try ( Connection connection = db.getConnection();  PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, newContent);
+            stmt.setInt(2, commentId);
+            stmt.setInt(3, userId);
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            Logger.getLogger(CommentDAO.class.getName()).log(Level.SEVERE, null, e);
+            return false;
+        }}
+
+ 
 
 
     public List<Comment> getCommentsByNovelId(int novelId) {
@@ -121,9 +128,14 @@ public class CommentDAO {
    
     public List<Comment> getAllComments() {
         List<Comment> comments = new ArrayList<>();
-        String sql = "SELECT * FROM Comment ORDER BY commentDate DESC";
+
+  String sql = "SELECT c.commentID, c.userID, u.fullName, c.novelID, c.commentContent, c.commentDate " +
+                 "FROM Comment c JOIN UserAccount u ON c.userID = u.userID " +
+                 "ORDER BY c.commentDate DESC";
+       
         try (Connection connection = db.getConnection();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
+
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 Comment comment = new Comment();
@@ -139,6 +151,21 @@ public class CommentDAO {
         }
         return comments;
     }
+
+
+
+    public boolean deleteCommentByStaff(int commentId) {
+        String sql = "DELETE FROM Comment WHERE commentID = ?";
+        try ( Connection connection = db.getConnection();  PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, commentId);
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            Logger.getLogger(CommentDAO.class.getName()).log(Level.SEVERE, null, e);
+            return false;
+        }
+    }
+
     
   
 }

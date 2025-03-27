@@ -45,10 +45,9 @@ public class AssignPermissionController extends HttpServlet {
             int managerID = Integer.parseInt(request.getParameter("managerID"));
             boolean canLock = "on".equals(request.getParameter("canLock"));
             boolean canApprove = "on".equals(request.getParameter("canApprove"));
-            String role = request.getParameter("role");
             
             ManagerAccountDAO accountDAO = new ManagerAccountDAO();
-            boolean success = accountDAO.updatePermissions(managerID, canLock, canApprove, role);
+            boolean success = accountDAO.updatePermissions(managerID, canLock, canApprove);
             
             if (success) {
                 request.setAttribute("message", "Cập nhật quyền thành công!");

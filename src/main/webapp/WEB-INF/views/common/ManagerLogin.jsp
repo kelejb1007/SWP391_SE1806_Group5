@@ -11,6 +11,7 @@
 <html>
     <head>
         <title>Manager Login</title>
+        <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut") %>">
         <style>
             body {
                 background-color: #B0C4DE;

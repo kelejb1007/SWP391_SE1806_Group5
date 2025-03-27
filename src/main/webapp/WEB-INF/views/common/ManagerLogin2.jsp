@@ -5,6 +5,7 @@
 <html>
 <head>
     <title>Manager Login</title>
+    <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut") %>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         * {
@@ -317,12 +318,7 @@
     </script>
 </head>
 <body>
-    <c:if test="${not empty sessionScope.manager}">
-        <script>
-            window.location.href = "<c:url value='ManagerLogin'/>";
-        </script>
-    </c:if>
-
+    
     <div class="login-wrapper">
         <div class="login-image"></div>
         <div class="login-form">

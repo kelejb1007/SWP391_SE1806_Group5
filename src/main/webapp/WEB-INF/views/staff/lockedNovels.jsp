@@ -11,7 +11,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Manage Novel</title>
-
+        <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut")%>">
         <link rel="stylesheet" href="css/startmin/bootstrap.min.css">
         <link rel="stylesheet" href="css/startmin/startmin.css">
         <link rel="stylesheet" href="css/startmin/font-awesome.min.css" type="text/css">
@@ -27,6 +27,7 @@
 //                var modal = new bootstrap.Modal(document.getElementById('lockModal'));
 //                modal.show();
                 $("#lockModal").modal("show");
+
             }
         </script>
     </head>
@@ -92,8 +93,11 @@
                                                             <form action="managenovel" method="post" style="display: inline">
                                                                 <input type="hidden" name="action" value="unlock">
                                                                 <input type="hidden" name="novelID" value="${c.novelID}">
-                                                                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure to unclock the novel: ${c.novelName} (ID=${c.novelID})')"
-                                                                        <c:if test="${sessionScope.manager.canLock == false}">disabled style="cursor: not-allowed !important;"</c:if>
+                                                                <button type="submit" class="btn btn-danger"
+                                                                        <c:if test="${sessionScope.manager.canLock == true}">
+                                                                            onclick="return confirm('Are you sure to unclock the novel: ${c.novelName} (ID=${c.novelID})')"</c:if>
+
+                                                                        <c:if test="${sessionScope.manager.canLock == false}">disabled title="Do not have permission" style=" cursor: not-allowed !important; pointer-events: all;"</c:if>
                                                                             >Unlock</button>
                                                                 </form>
                                                             </td>
@@ -120,19 +124,19 @@
 
 
         <script>
-                                                                    $(document).ready(function () {
-                                                                        $('#dataTables-lock').DataTable({
-                                                                            responsive: true,
-                                                                            "autoWidth": false,
-                                                                            language: {
-                                                                                info: 'Showing page _PAGE_ of _PAGES_',
-                                                                                infoEmpty: '${listnull}',
-                                                                                infoFiltered: '(filtered from _MAX_ total novels)',
-                                                                                lengthMenu: 'Display _MENU_ novels per page',
-                                                                                zeroRecords: 'Nothing found - sorry'
-                                                                            }
-                                                                        });
-                                                                    });
+                                                                                $(document).ready(function () {
+                                                                                    $('#dataTables-lock').DataTable({
+                                                                                        responsive: true,
+                                                                                        "autoWidth": false,
+                                                                                        language: {
+                                                                                            info: 'Showing page _PAGE_ of _PAGES_',
+                                                                                            infoEmpty: '${listnull}',
+                                                                                            infoFiltered: '(filtered from _MAX_ total novels)',
+                                                                                            lengthMenu: 'Display _MENU_ novels per page',
+                                                                                            zeroRecords: 'Nothing found - sorry'
+                                                                                        }
+                                                                                    });
+                                                                                });
         </script>
 
 

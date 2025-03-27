@@ -9,7 +9,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Post Chapter</title>
-        <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut") %>">
+        <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut")%>">s
+        <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut")%>">
 
         <!-- CSS từ postNovel.jsp -->
         <link rel="stylesheet" href="css/startmin/bootstrap.css">
@@ -85,7 +86,7 @@
                 border-radius: 5px;
                 font-weight: 600;
                 border: 1px solid #d9d9d9;
-            }  
+            }
         </style>
     </head>
     <body>
@@ -110,15 +111,15 @@
                                     String messageType = (request.getAttribute("messageType") != null) ? request.getAttribute("messageType").toString() : "success";
                                 %>
 
-                                <% if (novelId == null || chapterNumber == null) { %>
-                                    <p class="message error"><%= message != null ? message : "Invalid novel or chapter information." %></p>
-                                <% } else { %>
+                                <% if (novelId == null || chapterNumber == null) {%>
+                                <p class="message error"><%= message != null ? message : "Invalid novel or chapter information."%></p>
+                                <% } else {%>
 
                                 <form class="ant-form ant-form-vertical setting_form--R6kRQ" action="<%= request.getContextPath()%>/postChapter" method="post" enctype="multipart/form-data">
                                     <h3>
                                         <span role="img" class="anticon vam mr8">
                                             <svg width="1em" height="1em" fill="currentColor" aria-hidden="true" focusable="false" class="">
-                                                <use xlink:href="#i-files"></use>
+                                            <use xlink:href="#i-files"></use>
                                             </svg>
                                         </span>
                                         POST CHAPTER
@@ -128,7 +129,7 @@
                                     <input type="hidden" id="novelId" name="novelId" value="<%= novelId%>" readonly>
 
                                     <!-- Chapter ID (Hidden) -->
-                                    <input type="hidden" id="chapterId" name="chapterId" value="<%= chapterId != null ? chapterId : "" %>">
+                                    <input type="hidden" id="chapterId" name="chapterId" value="<%= chapterId != null ? chapterId : ""%>">
 
                                     <!-- Novel Name -->
                                     <div class="ant-form-item item--1wVCg">
@@ -176,7 +177,7 @@
                                                 <span class="ant-input-affix-wrapper" style="border-radius: 8px;">
                                                     <input name="chapterName" id="chapterName" class="ant-input ant-input-lg" 
                                                            type="text" placeholder="Enter chapter title" 
-                                                           value="<%= chapterName != null ? chapterName : "" %>" required>
+                                                           value="<%= chapterName != null ? chapterName : ""%>" required>
                                                 </span>
                                             </div>
                                         </div>
@@ -207,7 +208,7 @@
                                                 <span class="ant-input-affix-wrapper">
                                                     <textarea name="chapterContent" id="chapterContent" class="ant-input" 
                                                               placeholder="Type the chapter content here" 
-                                                              required><%= chapterContent != null ? chapterContent : "" %></textarea>
+                                                              required><%= chapterContent != null ? chapterContent : ""%></textarea>
                                                 </span>
                                             </div>
                                         </div>
@@ -236,11 +237,11 @@
                                     </div>
                                 </form>
 
-                                <% if (message != null) { %>
-                                    <p class="message <%= messageType%>"><%= message%></p>
+                                <% if (message != null) {%>
+                                <p class="message <%= messageType%>"><%= message%></p>
                                 <% } %>
 
-                                <% } %>
+                                <% }%>
                             </div>
                         </div>
                     </div>

@@ -15,6 +15,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
         <title>Staff Main Page</title>
+        <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut") %>">
 
 <!--         Bootstrap Core CSS -->
         <link rel="stylesheet" href="css/startmin/bootstrap.css">

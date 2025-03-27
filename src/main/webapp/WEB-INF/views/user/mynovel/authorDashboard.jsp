@@ -67,8 +67,7 @@
         </style>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Author Dashboard</title>
-        
-        <link rel="shortcut icon" type="image/x-icon" href="//yuxseocdn.yuewen.com/favicon/readnovel.ico">
+        <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut")%>">
         <link rel="stylesheet" type="text/css" href="css/mynovel/mynovel2.css" crossorigin="anonymous">
         <script charset="utf-8" src="js/mynovel/mynovel2.js" crossorigin="anonymous"></script>
 

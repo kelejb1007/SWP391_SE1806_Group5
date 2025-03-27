@@ -7,6 +7,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Novel Chapter</title>
+        <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut")%>">
         <link rel="stylesheet" href="css/chapter-content/chapter-content.css?v=2">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link href="https://fonts.googleapis.com/css2?family=Satisfy&display=swap" rel="stylesheet">

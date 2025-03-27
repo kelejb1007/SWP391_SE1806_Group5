@@ -10,7 +10,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Update Chapter</title>
-        <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut") %>">
+        <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut")%>">
+        <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut")%>">
 
         <!-- CSS từ postNovel.jsp -->
         <link rel="stylesheet" href="css/startmin/bootstrap.css">
@@ -35,7 +36,7 @@
                 margin-bottom: 24px;
             }
             .ant-input, .ant-input-lg {
-                border-radius: 8px; 
+                border-radius: 8px;
                 font-size: 16px;
             }
             textarea.ant-input {
@@ -79,7 +80,7 @@
                 border-radius: 5px;
                 font-weight: 600;
                 border: 1px solid #d9d9d9;
-            }            
+            }
         </style>
     </head>
     <body>
@@ -103,21 +104,21 @@
                                 %>
 
                                 <% if (chapter == null || novelId == null) { %>
-                                    <p class="message error">Error: Chapter or Novel information is missing.</p>
-                                <% } else { %>
+                                <p class="message error">Error: Chapter or Novel information is missing.</p>
+                                <% } else {%>
 
                                 <form class="ant-form ant-form-vertical setting_form--R6kRQ" action="<%= request.getContextPath()%>/updateChapter" method="post" enctype="multipart/form-data">
                                     <h3 class="mb32 fvsc fw400 fs18 ell lh24">
                                         <span role="img" class="anticon vam mr8">
                                             <svg width="1em" height="1em" fill="currentColor" aria-hidden="true" focusable="false" class="">
-                                                <use xlink:href="#i-files"></use>
+                                            <use xlink:href="#i-files"></use>
                                             </svg>
                                         </span>
                                         Update Chapter Information
                                     </h3>
 
                                     <!-- Chapter ID and Novel ID (Hidden) -->
-                                    <input type="hidden" id="chapterId" name="chapterId" value="<%= chapterId %>" readonly>
+                                    <input type="hidden" id="chapterId" name="chapterId" value="<%= chapterId%>" readonly>
                                     <input type="hidden" id="novelId" name="novelId" value="<%= novelId%>" readonly>
 
                                     <!-- Novel Name -->
@@ -221,11 +222,11 @@
                                     </div>
                                 </form>
 
-                                <% if (message != null) { %>
-                                    <p class="message <%= messageType%>"><%= message%></p>
+                                <% if (message != null) {%>
+                                <p class="message <%= messageType%>"><%= message%></p>
                                 <% } %>
 
-                                <% } %>
+                                <% }%>
                             </div>
                         </div>
                     </div>

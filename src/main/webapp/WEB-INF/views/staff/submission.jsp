@@ -10,7 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Manage Submission</title>
-
+        <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut")%>">
         <link rel="stylesheet" href="css/startmin/bootstrap.min.css">
         <link rel="stylesheet" href="css/startmin/startmin.css">
         <link rel="stylesheet" href="css/startmin/font-awesome.min.css" type="text/css">
@@ -117,9 +117,17 @@
                                                                 <input type="hidden" name="submissionNID" value="${c.submissionNID}">
                                                                 <input type="hidden" name="novelID" value="${c.novelID}">
                                                                 <input type="hidden" name="draftID" value="${c.draftID}">
-                                                                <button type="submit" class="btn btn-info" onclick="return approve(event, 'Confirm to APPROVE the novel: ${c.novelName} (ID=${c.novelID})')">Approve</button>
+                                                                <button type="submit" class="btn btn-info" onclick="return approve(event, 'Confirm to APPROVE the novel: ${c.novelName} (ID=${c.novelID})')"
+                                                                        <c:if test="${sessionScope.manager.canApprove == false}">
+                                                                            disabled title="Do not have permission" style="cursor: not-allowed !important; pointer-events: all;"
+                                                                        </c:if>
+                                                                        >Approve</button>
                                                             </form>
-                                                            <button type="button" id="open" class="btn btn-danger" onclick="openLockModal('${c.novelID}', '${c.novelName}', '${c.type}', '${c.submissionNID}')">Reject</button>
+                                                            <button type="button" id="open" class="btn btn-danger" onclick="openLockModal('${c.novelID}', '${c.novelName}', '${c.type}', '${c.submissionNID}')"
+                                                                    <c:if test="${sessionScope.manager.canApprove == false}">
+                                                                        disabled title="Do not have permission" style="cursor: not-allowed !important; pointer-events: all;"
+                                                                    </c:if>
+                                                                    >Reject</button>
                                                         </td>
                                                     </tr>
                                                 </c:forEach>  

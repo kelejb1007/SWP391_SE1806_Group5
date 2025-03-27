@@ -11,6 +11,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Comment list</title>
+    <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut") %>">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/startmin/bootstrap.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/startmin/startmin.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/startmin/font-awesome.min.css">

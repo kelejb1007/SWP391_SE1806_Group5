@@ -5,6 +5,8 @@
     <head>
         <meta charset="UTF-8">
         <title>Comments</title>
+        <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut")%>">
+
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/comment/usercomment.css"> 
     </head>
     <body>

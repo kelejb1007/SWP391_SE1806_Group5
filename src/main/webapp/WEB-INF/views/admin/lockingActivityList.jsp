@@ -9,7 +9,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Danh sách hoạt động khóa</title>
-
+        <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut")%>">
         <!-- Bootstrap Core CSS -->
         <link rel="stylesheet" href="css/startmin/bootstrap.min.css" />
         <link rel="stylesheet" href="css/startmin/startmin.css" />
@@ -22,7 +22,7 @@
         <div id="wrapper">
             <jsp:include page="header.jsp" />
             <jsp:include page="sidebar.jsp" />
-            
+
             <div id="page-wrapper">
                 <div class="container-fluid">
                     <div class="row">
@@ -59,10 +59,10 @@
                                                                 <td>${activity.managerName}</td>
                                                                 <td>${activity.action}</td>
                                                                 <td>
-    <c:set var="datetime" value="${activity.datetime}" />
-    ${fn:substring(datetime, 8, 10)}/${fn:substring(datetime, 5, 7)}/${fn:substring(datetime, 0, 4)}
-    ${fn:substring(datetime, 11, 19)}
-</td>
+                                                                    <c:set var="datetime" value="${activity.datetime}" />
+                                                                    ${fn:substring(datetime, 8, 10)}/${fn:substring(datetime, 5, 7)}/${fn:substring(datetime, 0, 4)}
+                                                                    ${fn:substring(datetime, 11, 19)}
+                                                                </td>
 
                                                                 <td>${activity.lockReason}</td>
                                                             </tr>
@@ -76,7 +76,7 @@
                                                 </c:choose>
                                             </tbody>
                                         </table>
-                                        
+
                                         <c:if test="${sessionScope.role == 'Admin'}">
                                             <a href="addLockingActivity.jsp" class="btn btn-primary">Thêm hoạt động khóa mới</a>
                                         </c:if>
@@ -88,7 +88,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- jQuery -->
         <script src="js/startmin/jquery.min.js"></script>
         <script src="js/startmin/bootstrap.min.js"></script>
@@ -96,7 +96,7 @@
         <script src="js/startmin/startmin.js"></script>
         <script src="js/startmin/dataTables/jquery.dataTables.min.js"></script>
         <script src="js/startmin/dataTables/dataTables.bootstrap.min.js"></script>
-        
+
         <script>
             $(document).ready(function () {
                 $('#dataTables-example').DataTable({

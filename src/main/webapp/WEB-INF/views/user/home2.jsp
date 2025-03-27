@@ -97,33 +97,33 @@
                                 <ul class="rotaion_list">
 
                                     <li>
-                                        <a href="">
-                                            <img src="//bossaudioandcomic-1252317822.image.myqcloud.com/activity/document/4ca01de4a024a119fe4c35e344cc128d.jpg" 
-                                                 alt="师妹的修炼方法它"></a>
+                                        <a href="#">
+                                            <img style="object-fit: cover; object-position: center top" src="https://i.pinimg.com/originals/af/fa/21/affa21b1847fc2444a5f88d081d6cd3f.gif" 
+                                                 alt=""></a>
                                     </li>
 
                                     <li>
-                                        <a href="">
-                                            <img src="//bossaudioandcomic-1252317822.image.myqcloud.com/activity/document/7c434406aeff36eb350e3b706237f160.jpg" 
-                                                 alt="将军，夫人又去给"></a>
+                                        <a href="#">
+                                            <img style="object-fit: cover; object-position: center top" src="https://i.pinimg.com/originals/c9/a7/ea/c9a7ea8c9a30007b9b5fc9de1172aff6.gif" 
+                                                 alt=""></a>
                                     </li>
 
                                     <li>
-                                        <a href="">
-                                            <img src="//bossaudioandcomic-1252317822.image.myqcloud.com/activity/document/7cf1696363f5099007c00dc261caa40e.jpg" 
-                                                 alt="清冷美人总腿软，"></a>
+                                        <a href="#">
+                                            <img style="object-fit: cover; object-position: center top" src="https://i.pinimg.com/originals/c1/39/e5/c139e51dacbfe66e2948f9d2c7852571.gif" 
+                                                 alt=""></a>
                                     </li>
 
                                     <li>
-                                        <a href="">
-                                            <img src="//bossaudioandcomic-1252317822.image.myqcloud.com/activity/document/bbf9902537c3486211fbaf1d66d53676.jpg" 
-                                                 alt="钓系公主不追了，"></a>
+                                        <a href="#">
+                                            <img style="object-fit: cover; object-position: center top" src="" 
+                                                 alt=""></a>
                                     </li>
 
                                     <li>
-                                        <a href="">
-                                            <img src="//bossaudioandcomic-1252317822.image.myqcloud.com/activity/document/4cec405b9b825c5f8e644a049109088a.jpg" 
-                                                 alt="与前男友在婚礼上"></a>
+                                        <a href="#">
+                                            <img style="object-fit: cover; object-position: center top" src="" 
+                                                 alt=""></a>
                                     </li>
 
                                 </ul>

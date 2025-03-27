@@ -287,7 +287,7 @@ public class MyNovelController extends HttpServlet {
             Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     private void viewDeletedList(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         NovelDAO nd = new NovelDAO();
@@ -368,6 +368,9 @@ public class MyNovelController extends HttpServlet {
                 break;
             case "delete":
                 deleteNovel(request, response);
+                break;
+            case "undelete":
+                undeleteNovel(request, response);
                 break;
             default:
                 viewMyNovels(request, response);
@@ -543,6 +546,27 @@ public class MyNovelController extends HttpServlet {
 
             request.setAttribute("popup", message);
             viewMyNovels(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void undeleteNovel(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        int novelID = Integer.parseInt(request.getParameter("novelID"));
+
+        NovelDAO nDAO = new NovelDAO();
+
+        String message;
+        try {
+            if (nDAO.changeNovelStatus(novelID, "active")) {
+                message = "Restore novel successfully!";
+            } else {
+                message = "Error in restore novel!!!!";
+            }
+
+            request.setAttribute("popup", message);
+            viewDeletedList(request, response);
         } catch (Exception ex) {
             Logger.getLogger(ManageNovelController.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -10,7 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Manage Novel</title>
-
+        <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut")%>">
 
         <link rel="stylesheet" href="css/startmin/bootstrap.min.css">
         <link rel="stylesheet" href="css/startmin/startmin.css">
@@ -104,11 +104,11 @@
         <script src="js/startmin/dataTables/dataTables.bootstrap.min.js"></script>
 
         <script>
-                                                                                $(document).ready(function () {
-                                                                                    $('#dataTables-example').DataTable({
-                                                                                        responsive: true
-                                                                                    });
-                                                                                });
+                                                                        $(document).ready(function () {
+                                                                            $('#dataTables-example').DataTable({
+                                                                                responsive: true
+                                                                            });
+                                                                        });
         </script>
 
         <script src="js/startmin/raphael.min.js"></script>

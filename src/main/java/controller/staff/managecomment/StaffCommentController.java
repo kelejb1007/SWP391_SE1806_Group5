@@ -52,7 +52,7 @@ public class StaffCommentController extends HttpServlet {
             if (commentIDStr != null) {
                 try {
                     int commentID = Integer.parseInt(commentIDStr);
-                    commentDAO.deleteComment(commentID);
+                    commentDAO.deleteCommentByStaff(commentID);
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
                 }

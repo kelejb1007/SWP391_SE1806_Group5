@@ -2,8 +2,8 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div class="g_side_wrap">
     <div class="f00a pr g_pc_warp">
-        <div class="g_sd"><a class="g_logo" href="mynovel" title="Inkstone">
-                <h1><img src="img/b3.png" alt="inkstone"></h1>
+        <div class="g_sd"><a class="g_logo" href="mynovel" title="NovelReader">
+                <h1><img src="img/b3.png" alt="NovelReader"></h1>
 
                 <!--  thu gọn sidebar                          -->
             </a><label for="sideSwitch" class="g_sd_close i_close g_sd_close_icon"><i></i></label>

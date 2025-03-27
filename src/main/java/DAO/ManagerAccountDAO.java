@@ -315,7 +315,7 @@ public class ManagerAccountDAO {
 
     public List<ManagerAccount> getAllManagers() {
         List<ManagerAccount> accounts = new ArrayList<>();
-        String sql = "SELECT managerID, username, email, role, canLock, canApprove FROM ManagerAccount";
+        String sql = "SELECT managerID, username, email, role, canLock, canApprove FROM ManagerAccount WHERE role = 'staff'";
         try ( Connection conn = dbContext.getConnection();  PreparedStatement stmt = conn.prepareStatement(sql);  ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
@@ -334,13 +334,12 @@ public class ManagerAccountDAO {
         return accounts;
     }
 
-    public boolean updatePermissions(int managerID, boolean canLock, boolean canApprove, String role) throws SQLException {
-        String sql = "UPDATE ManagerAccount SET canLock = ?, canApprove = ?, role = ? WHERE managerID = ?";
+    public boolean updatePermissions(int managerID, boolean canLock, boolean canApprove) throws SQLException {
+        String sql = "UPDATE ManagerAccount SET canLock = ?, canApprove = ? WHERE managerID = ?";
         try ( Connection conn = dbContext.getConnection();  PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setBoolean(1, canLock);
             stmt.setBoolean(2, canApprove);
-            stmt.setString(3, role);
-            stmt.setInt(4, managerID);
+            stmt.setInt(3, managerID);
 
             int rowsUpdated = stmt.executeUpdate();
             return rowsUpdated > 0; // Trả về true nếu cập nhật thành công
@@ -358,7 +357,7 @@ public class ManagerAccountDAO {
         String role = "Admin"; // Hoặc "Moderator", "Staff" nếu có các vai trò khác
 
         try {
-            boolean result = accountDAO.updatePermissions(managerID, canLock, canApprove, role);
+            boolean result = accountDAO.updatePermissions(managerID, canLock, canApprove);
             if (result) {
                 System.out.println("✅ Cập nhật quyền thành công!");
             } else {

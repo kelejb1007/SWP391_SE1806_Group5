@@ -11,7 +11,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Manage Novel</title>
-
+        <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut")%>">
 
         <link rel="stylesheet" href="css/startmin/bootstrap.min.css">
         <link rel="stylesheet" href="css/startmin/startmin.css">
@@ -61,9 +61,10 @@
                 padding: 5px 10px;
                 font-weight: normal
             }
-            button:disabled{
-                cursor: not-allowed !important;
-                opacity: 0.8
+            button:disabled {
+                cursor: not-allowed; /* Hiển thị dấu cấm */
+                opacity: 0.5; /* Làm mờ nút */
+                pointer-events: all; /* Đảm bảo vẫn nhận sự kiện hover */
             }
         </style>
         <script>
@@ -124,22 +125,22 @@
 
 
                                 <div id="filterForm" class="col-sm-12 hidden filterForm">
-<!--                                    <form action="/?lib=all" id="mbsearchForm-Advance" method="get">
-                                        <input name="lib" type="text" value="all" hidden="true">
-                                        <label>
-                                            <select name="ct" id="ct">
-                                                <option value="">Tất cả</option><option value="A1">Tiên Hiệp</option><option value="A2">Kiếm Hiệp</option><option value="A3">Ngôn Tình</option><option value="B8">Đô Thị</option><option value="B9">Quan Trường</option><option value="F2">Võng Du</option><option value="C1">Khoa Huyễn</option><option value="C2">Huyền huyễn</option><option value="C3">Dị Giới</option><option value="C4">Dị Năng</option><option value="C5">Quân Sự</option><option value="C6">Lịch Sử</option><option value="C7">Xuyên Không</option><option value="C8">Trọng Sinh</option><option value="C9">Trinh Thám</option><option value="F3">Thám Hiểm</option><option value="D1">Linh Dị</option><option value="D2">Truyện Sắc</option><option value="D3">Truyện Ngược</option><option value="D4">Truyện Sủng</option><option value="D5">Truyện Cung Đấu</option><option value="D6">Truyện Nữ Cường</option><option value="D7">Truyện Gia Đấu</option><option value="D8">Đông Phương</option><option value="D9">Đam Mỹ</option><option value="F4">Bách Hợp</option><option value="E1">Hài Hước</option><option value="E2">Điền Văn</option><option value="E3">Cổ Đại</option><option value="E4">Mạt Thế</option><option value="E5">Truyện Teen</option><option value="E6">Phương Tây</option><option value="E7">Nữ Phụ</option><option value="E8">Light Novel</option><option value="E9">Việt Nam</option><option value="F5">Đoản Văn</option><option value="F6">Truyện Khác</option></select></label><label><select name="order" id="filter"><option value="0">Xếp Theo</option><option value="0">Truyện Mới Update</option><option value="8">Truyện Mới</option><option style="color: red;" value="1">Đọc Nhiều</option><option value="7">Like Nhiều</option><option value="2">Top Tuần</option><option value="3">Top Tuần Trước</option><option value="4">Top Tháng</option><option value="5">Top Tháng Trước</option><option value="6">A -&gt; Z</option></select></label><label><select name="greater" id="so-chuong"><option value="0">Số Chương &gt; 0</option><option value="10">Số Chương &gt; 10 </option><option value="20">Số Chương &gt; 20 </option><option value="50">Số Chương &gt; 50 </option><option value="100">Số Chương &gt; 100 </option><option value="200">Số Chương &gt; 200 </option><option value="500">Số Chương &gt; 500 </option><option value="1000">Số Chương &gt; 1000 </option></select></label><label><select name="lesser" id="so-chuong-2"><option value="1000000000">Số Chương &lt; 1 Tỷ</option><option value="10">Số Chương &lt; 10 </option><option value="20">Số Chương &lt; 20 </option><option value="50">Số Chương &lt; 50 </option><option value="100">Số Chương &lt; 100 </option><option value="200">Số Chương &lt; 200 </option><option value="500">Số Chương &lt; 500 </option><option value="1000">Số Chương &lt; 1000 </option>
-                                            </select>
-                                        </label>
-                                        <div class="check">
-                                            <input type="checkbox" name="full" value="full">
-                                            <span class="rv-sr-a">Truyện full</span>
-                                        </div><div class="check">
-                                            <input type="checkbox" name="hot" value="hot">
-                                            <span class="rv-sr-a">Truyện hot</span>
-                                        </div>
-                                        <button type="submit" value="Tìm Truyện">Tìm Truyện</button>
-                                    </form>-->
+                                    <!--                                    <form action="/?lib=all" id="mbsearchForm-Advance" method="get">
+                                                                            <input name="lib" type="text" value="all" hidden="true">
+                                                                            <label>
+                                                                                <select name="ct" id="ct">
+                                                                                    <option value="">Tất cả</option><option value="A1">Tiên Hiệp</option><option value="A2">Kiếm Hiệp</option><option value="A3">Ngôn Tình</option><option value="B8">Đô Thị</option><option value="B9">Quan Trường</option><option value="F2">Võng Du</option><option value="C1">Khoa Huyễn</option><option value="C2">Huyền huyễn</option><option value="C3">Dị Giới</option><option value="C4">Dị Năng</option><option value="C5">Quân Sự</option><option value="C6">Lịch Sử</option><option value="C7">Xuyên Không</option><option value="C8">Trọng Sinh</option><option value="C9">Trinh Thám</option><option value="F3">Thám Hiểm</option><option value="D1">Linh Dị</option><option value="D2">Truyện Sắc</option><option value="D3">Truyện Ngược</option><option value="D4">Truyện Sủng</option><option value="D5">Truyện Cung Đấu</option><option value="D6">Truyện Nữ Cường</option><option value="D7">Truyện Gia Đấu</option><option value="D8">Đông Phương</option><option value="D9">Đam Mỹ</option><option value="F4">Bách Hợp</option><option value="E1">Hài Hước</option><option value="E2">Điền Văn</option><option value="E3">Cổ Đại</option><option value="E4">Mạt Thế</option><option value="E5">Truyện Teen</option><option value="E6">Phương Tây</option><option value="E7">Nữ Phụ</option><option value="E8">Light Novel</option><option value="E9">Việt Nam</option><option value="F5">Đoản Văn</option><option value="F6">Truyện Khác</option></select></label><label><select name="order" id="filter"><option value="0">Xếp Theo</option><option value="0">Truyện Mới Update</option><option value="8">Truyện Mới</option><option style="color: red;" value="1">Đọc Nhiều</option><option value="7">Like Nhiều</option><option value="2">Top Tuần</option><option value="3">Top Tuần Trước</option><option value="4">Top Tháng</option><option value="5">Top Tháng Trước</option><option value="6">A -&gt; Z</option></select></label><label><select name="greater" id="so-chuong"><option value="0">Số Chương &gt; 0</option><option value="10">Số Chương &gt; 10 </option><option value="20">Số Chương &gt; 20 </option><option value="50">Số Chương &gt; 50 </option><option value="100">Số Chương &gt; 100 </option><option value="200">Số Chương &gt; 200 </option><option value="500">Số Chương &gt; 500 </option><option value="1000">Số Chương &gt; 1000 </option></select></label><label><select name="lesser" id="so-chuong-2"><option value="1000000000">Số Chương &lt; 1 Tỷ</option><option value="10">Số Chương &lt; 10 </option><option value="20">Số Chương &lt; 20 </option><option value="50">Số Chương &lt; 50 </option><option value="100">Số Chương &lt; 100 </option><option value="200">Số Chương &lt; 200 </option><option value="500">Số Chương &lt; 500 </option><option value="1000">Số Chương &lt; 1000 </option>
+                                                                                </select>
+                                                                            </label>
+                                                                            <div class="check">
+                                                                                <input type="checkbox" name="full" value="full">
+                                                                                <span class="rv-sr-a">Truyện full</span>
+                                                                            </div><div class="check">
+                                                                                <input type="checkbox" name="hot" value="hot">
+                                                                                <span class="rv-sr-a">Truyện hot</span>
+                                                                            </div>
+                                                                            <button type="submit" value="Tìm Truyện">Tìm Truyện</button>
+                                                                        </form>-->
 
                                     <form action="managenovel" >
                                         <div class="form-group">
@@ -168,7 +169,7 @@
                                             <div class="form-group">
                                                 <label>Genres</label>
                                                 <label style="margin-left: 25px"><input type="checkbox" id="checkAllGenre" checked>Check all</label><br><br>
-                                            <c:forEach var="c" items="${requestScope.listGenreName}" >
+                                                <c:forEach var="c" items="${requestScope.listGenreName}" >
                                                 <div class="checkbox" style="display: inline-block; padding: 5px 10px; margin: 0px">
                                                     <label>
                                                         <input type="checkbox" class="genCheck" name="genChecked" value="${c}"
@@ -235,8 +236,10 @@
                                                                             onclick="window.location.href = 'managechapter?action=viewallchapters&novelId=${c.novelID}';">View Chapter
                                                                     </button>
                                                                     <button type="button" id="open" class="btn btn-danger" onclick="openLockModal('${c.novelID}', '${c.novelName}')"
-                                                                            
-                                                                            <c:if test="${sessionScope.manager.canLock == false}">disabled</c:if>>Lock</button>
+
+                                                                            <c:if test="${sessionScope.manager.canLock == false}">
+                                                                                disabled title="Do not have permission" style="cursor: not-allowed !important; pointer-events: all;"
+                                                                            </c:if>>Lock</button>
                                                                 </td>
                                                             </tr>
                                                         </c:forEach>  
@@ -347,12 +350,12 @@
                                                                                     $(this).prop('checked', isChecked).trigger('change'); // Chọn/bỏ chọn tất cả checkbox con
                                                                                 });
                                                                             });
-                                                                            
-                                                                            
-                                                                            
-                                                                            
-                                                                            
-                                                                                 // load man hinh 
+
+
+
+
+
+                                                                            // load man hinh 
                                                                             $('.genCheck').each(function () {
                                                                                 // Kiểm tra nếu tất cả checkbox con đều được chọn thì chọn luôn checkbox "Chọn tất cả"
                                                                                 if ($('.genCheck:checked').length === $('.genCheck').length) {
@@ -371,7 +374,7 @@
                                                                                     $('#checkAllGenre').prop('checked', false);
                                                                                 }
                                                                             });
-                                                                            
+
                                                                             $('#checkAllGenre').on('change', function () {
                                                                                 var isChecked = $(this).prop('checked');
                                                                                 $('.genCheck').each(function () {

@@ -10,6 +10,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register Staff</title>
+    <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut") %>">
     <link rel="stylesheet" href="css/startmin/bootstrap.css">
     <link rel="stylesheet" href="css/startmin/startmin.css">
     <link rel="stylesheet" href="css/startmin/font-awesome.min.css">

@@ -12,7 +12,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Locked Chapters of Novel</title>
-
+        <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut")%>">
         <!-- Bootstrap Core CSS -->
         <link rel="stylesheet" href="css/startmin/bootstrap.min.css" />
         <link rel="stylesheet" href="css/startmin/startmin.css" />

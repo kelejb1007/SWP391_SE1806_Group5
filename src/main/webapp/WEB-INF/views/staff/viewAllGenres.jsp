@@ -11,6 +11,7 @@
     <head>
         <meta charset="UTF-8">
         <title>View List of Genres</title>
+        <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut") %>">
         <!-- Bootstrap Core CSS -->
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/startmin/bootstrap.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/startmin/startmin.css">

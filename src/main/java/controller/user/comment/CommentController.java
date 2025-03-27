@@ -79,7 +79,7 @@ public class CommentController extends HttpServlet {
                      int novelID = Integer.parseInt(novelIDStr);
 
                     int commentID = Integer.parseInt(commentIDStr);
-                    commentDAO.deleteComment(commentID);
+                    commentDAO.deleteComment(commentID, user.getUserID());
                     response.sendRedirect("novel-detail?id=" + novelID);
                 } catch (NumberFormatException e) {
                     e.printStackTrace();

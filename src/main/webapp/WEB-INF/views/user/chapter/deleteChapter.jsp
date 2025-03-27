@@ -11,7 +11,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Delete Chapter</title>
-
+        <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut")%>">
         <!-- CSS từ postNovel.jsp -->
         <link rel="stylesheet" href="css/startmin/bootstrap.css">
         <link rel="stylesheet" href="css/startmin/startmin.css">
@@ -100,17 +100,17 @@
                                 <h3 class="mb32 fvsc fw400 fs18 ell lh24">
                                     <span role="img" class="anticon vam mr8">
                                         <svg width="1em" height="1em" fill="currentColor" aria-hidden="true" focusable="false" class="">
-                                            <use xlink:href="#i-files"></use>
+                                        <use xlink:href="#i-files"></use>
                                         </svg>
                                     </span>
                                     Delete Chapter Information
                                 </h3>
 
-                                <% if (message != null) { %>
-                                    <p class="message <%= messageType %>"><%= message %></p>
+                                <% if (message != null) {%>
+                                <p class="message <%= messageType%>"><%= message%></p>
                                 <% } else if (chapter == null) { %>
-                                    <p class="message error">Error: Chapter information is missing.</p>
-                                <% } else { %>
+                                <p class="message error">Error: Chapter information is missing.</p>
+                                <% } else {%>
 
                                 <p class="confirmation-text">Are you sure you want to delete the following chapter?</p>
 
@@ -124,7 +124,7 @@
                                         </div>
                                         <div class="ant-form-item-control-input-content">
                                             <span class="ant-input-affix-wrapper" style="border-radius: 8px;">
-                                                <input class="ant-input ant-input-lg" type="text" value="<%= chapter.getNovelID() %>" readonly>
+                                                <input class="ant-input ant-input-lg" type="text" value="<%= chapter.getNovelID()%>" readonly>
                                             </span>
                                         </div>
                                     </div>
@@ -140,7 +140,7 @@
                                         </div>
                                         <div class="ant-form-item-control-input-content">
                                             <span class="ant-input-affix-wrapper" style="border-radius: 8px;">
-                                                <input class="ant-input ant-input-lg" type="text" value="<%= chapter.getNovelName() != null ? chapter.getNovelName() : "Unknown" %>" readonly>
+                                                <input class="ant-input ant-input-lg" type="text" value="<%= chapter.getNovelName() != null ? chapter.getNovelName() : "Unknown"%>" readonly>
                                             </span>
                                         </div>
                                     </div>
@@ -156,7 +156,7 @@
                                         </div>
                                         <div class="ant-form-item-control-input-content">
                                             <span class="ant-input-affix-wrapper" style="border-radius: 8px;">
-                                                <input class="ant-input ant-input-lg" type="text" value="<%= chapter.getChapterNumber() %>" readonly>
+                                                <input class="ant-input ant-input-lg" type="text" value="<%= chapter.getChapterNumber()%>" readonly>
                                             </span>
                                         </div>
                                     </div>
@@ -172,24 +172,24 @@
                                         </div>
                                         <div class="ant-form-item-control-input-content">
                                             <span class="ant-input-affix-wrapper" style="border-radius: 8px;">
-                                                <input class="ant-input ant-input-lg" type="text" value="<%= chapter.getChapterName() %>" readonly>
+                                                <input class="ant-input ant-input-lg" type="text" value="<%= chapter.getChapterName()%>" readonly>
                                             </span>
                                         </div>
                                     </div>
                                 </div>
 
                                 <form action="<%= request.getContextPath()%>/deleteChapter" method="post">
-                                    <input type="hidden" name="novelId" value="<%= chapter.getNovelID() %>">
-                                    <input type="hidden" name="chapterId" value="<%= chapter.getChapterID() %>">
+                                    <input type="hidden" name="novelId" value="<%= chapter.getNovelID()%>">
+                                    <input type="hidden" name="chapterId" value="<%= chapter.getChapterID()%>">
                                     <div class="button-group">
                                         <button type="submit" class="ant-btn ant-btn-primary ant-btn-lg button--4vWlZ btn-delete"><span>Delete Chapter</span></button>
-                                        <a href="<%= request.getContextPath()%>/mynovel?action=viewdetail&novelID=<%= chapter.getNovelID() %>">
+                                        <a href="<%= request.getContextPath()%>/mynovel?action=viewdetail&novelID=<%= chapter.getNovelID()%>">
                                             <button type="button" class="ant-btn ant-btn-primary ant-btn-lg button--4vWlZ btn-cancel"><span>Cancel</span></button>
                                         </a>
                                     </div>
                                 </form>
 
-                                <% } %>
+                                <% }%>
                             </div>
                         </div>
                     </div>

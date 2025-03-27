@@ -11,6 +11,7 @@
 <html>
     <head>
         <title>Login</title>
+        <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut") %>">
         <style>
             body {
                 font-family: Arial, sans-serif;

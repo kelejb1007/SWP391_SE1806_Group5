@@ -11,7 +11,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Manage Novel</title>
-
+        <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut")%>">
         <link rel="stylesheet" href="css/home/header.css">
         <link rel="stylesheet" href="css/novel-detail/novel-detail(d).css">
         <link rel="stylesheet" href="css/novel-detail/rating(d).css">
@@ -47,11 +47,11 @@
                             <c:if test="${empty genreName}">
                                 <a href="<c:url value='/managenovel' />" class="breadcrumb-item genre-link">Novel List</a>
                             </c:if>
-                                <span cla<ss="separator">/</span>
+                            <span cla<ss="separator">/</span>
                             <a class="current-novel">${novel.novelName}</a>
                         </div>
                     </div>
-                        
+
 
                     <div class="novel-header">
                         <div class="novel-detail-container">

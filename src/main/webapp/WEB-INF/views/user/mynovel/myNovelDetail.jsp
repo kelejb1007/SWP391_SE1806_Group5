@@ -14,6 +14,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>${novel.novelName}</title>
+        <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut")%>">
 
         <!-- CSS hiện có -->
         <link rel="stylesheet" href="css/startmin/bootstrap.css">
@@ -24,7 +25,6 @@
         <link rel="stylesheet" href="css/novel-detail/chapter-list(d).css?v=1">
         <link rel="stylesheet" href="css/novel-detail/novel-detail(d).css">
 
-        <link rel="shortcut icon" type="image/x-icon" href="//yuxseocdn.yuewen.com/favicon/readnovel.ico">
         <link rel="stylesheet" type="text/css" href="css/mynovel/mynovel2.css" crossorigin="anonymous">
         <script charset="utf-8" src="js/mynovel/mynovel2.js?v=1" crossorigin="anonymous"></script>
         <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700&display=swap" rel="stylesheet">
