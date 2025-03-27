@@ -13,7 +13,7 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
-        
+
         <link rel="stylesheet" href="css/novel-detail/novel-detail(d).css">
         <link rel="stylesheet" href="css/novel-detail/rating(d).css">
         <link rel="stylesheet" href="css/novel-detail/chapter-list(d).css">
@@ -187,113 +187,113 @@
                             <jsp:include page="/WEB-INF/views/user/comment/addcomment.jsp"></jsp:include>
                                 <h3>Comments</h3>
 
-<c:choose>
-    <c:when test="${not empty comments}">
-        <div class="comment-list">
-            <c:forEach var="comment" items="${comments}">
-                <div class="comment-item" id="comment-${comment.commentID}">
-                    <div class="comment-header">
-                        <span class="comment-user">${comment.fullName}</span>
-                        <span class="comment-date">(${comment.commentDate.toString().replace('T', ' ')})</span>
-                    </div>
-                    <div class="comment-content">
-                        <p id="content-${comment.commentID}">${comment.content}</p>
-                    </div>
-                    <div class="dropdown">
-                        <button class="btn icon-button dropdown-toggle" type="button" id="dropdownMenuButton"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-three-dots-vertical"></i>  
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <c:if test="${comment.userID == sessionScope.user.userID}">
-                                <li>
-                                    <button class="dropdown-item" type="button" onclick="editComment(${comment.commentID})">
-                                        <i class="bi bi-pencil"></i> Edit
-                                    </button>
-                                </li>
-                                <li>
-                                    <form action="comments" method="post" style="display: inline;">
-                                        <input type="hidden" name="action" value="delete">
-                                        <input type="hidden" name="novelID" value="${comment.novelID}">
-                                        <input type="hidden" name="commentID" value="${comment.commentID}">
-                                        <button type="submit" class="dropdown-item" style="border: none; background: none; padding: 0; display: flex; align-items: center;" 
-                                            onclick="return confirm('Are you sure you want to delete this comment?');">
-                                            <i class="bi bi-trash"></i> Delete
-                                        </button>
-                                    </form>
-                                </li>
-                            </c:if>
-                        </ul>
-                    </div>
-                    <!-- Khu vực chỉnh sửa -->
-                    <div class="edit-area" id="edit-area-${comment.commentID}" style="display: none;">
-                        <textarea id="edit-content-${comment.commentID}" class="form-control">${comment.content}</textarea>
-                        <button class="btn btn-primary mt-2" onclick="saveComment(${comment.commentID}, ${comment.novelID})">
-                            Save
-                        </button>
-                        <button class="btn btn-secondary mt-2" onclick="cancelEdit(${comment.commentID})">
-                            Cancel
-                        </button>
-                    </div>
-                </div>
-            </c:forEach>
-        </div>
-    </c:when>
-    <c:otherwise>
-        <p class="no-comments">No comments available.</p>
-    </c:otherwise>
-</c:choose>
+                            <c:choose>
+                                <c:when test="${not empty comments}">
+                                    <div class="comment-list">
+                                        <c:forEach var="comment" items="${comments}">
+                                            <div class="comment-item" id="comment-${comment.commentID}">
+                                                <div class="comment-header">
+                                                    <span class="comment-user">${comment.fullName}</span>
+                                                    <span class="comment-date">(${comment.commentDate.toString().replace('T', ' ')})</span>
+                                                </div>
+                                                <div class="comment-content">
+                                                    <p id="content-${comment.commentID}">${comment.content}</p>
+                                                </div>
+                                                <div class="dropdown">
+                                                    <button class="btn icon-button dropdown-toggle" type="button" id="dropdownMenuButton"
+                                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <i class="bi bi-three-dots-vertical"></i>  
+                                                    </button>
+                                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                        <c:if test="${comment.userID == sessionScope.user.userID}">
+                                                            <li>
+                                                                <button class="dropdown-item" type="button" onclick="editComment(${comment.commentID})">
+                                                                    <i class="bi bi-pencil"></i> Edit
+                                                                </button>
+                                                            </li>
+                                                            <li>
+                                                                <form action="comments" method="post" style="display: inline;">
+                                                                    <input type="hidden" name="action" value="delete">
+                                                                    <input type="hidden" name="novelID" value="${comment.novelID}">
+                                                                    <input type="hidden" name="commentID" value="${comment.commentID}">
+                                                                    <button type="submit" class="dropdown-item" style="border: none; background: white; padding: 0; display: flex; align-items: center;" 
+                                                                            onclick="return confirm('Are you sure you want to delete this comment?');">
+                                                                        <i class="bi bi-trash"></i> Delete
+                                                                    </button>
+                                                                </form>
+                                                            </li>
+                                                        </c:if>
+                                                    </ul>
+                                                </div>
+                                                <!-- Khu vực chỉnh sửa -->
+                                                <div class="edit-area" id="edit-area-${comment.commentID}" style="display: none;">
+                                                    <textarea id="edit-content-${comment.commentID}" class="form-control">${comment.content}</textarea>
+                                                    <button class="btn btn-primary mt-2" onclick="saveComment(${comment.commentID}, ${comment.novelID})">
+                                                        Save
+                                                    </button>
+                                                    <button class="btn btn-secondary mt-2" onclick="cancelEdit(${comment.commentID})">
+                                                        Cancel
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </c:forEach>
+                                    </div>
+                                </c:when>
+                                <c:otherwise>
+                                    <p class="no-comments">No comments available.</p>
+                                </c:otherwise>
+                            </c:choose>
 
-<script>
-    function editComment(commentID) {
-        document.getElementById("content-" + commentID).style.display = "none";
-        document.getElementById("edit-area-" + commentID).style.display = "block";
-    }
+                            <script>
+                                function editComment(commentID) {
+                                    document.getElementById("content-" + commentID).style.display = "none";
+                                    document.getElementById("edit-area-" + commentID).style.display = "block";
+                                }
 
-    function cancelEdit(commentID) {
-        document.getElementById("edit-area-" + commentID).style.display = "none";
-        document.getElementById("content-" + commentID).style.display = "block";
-    }
+                                function cancelEdit(commentID) {
+                                    document.getElementById("edit-area-" + commentID).style.display = "none";
+                                    document.getElementById("content-" + commentID).style.display = "block";
+                                }
 
-    function saveComment(commentID, novelID) {
-        var newContent = document.getElementById("edit-content-" + commentID).value;
-        if (newContent.trim() === "") {
-            alert("Comment content cannot be empty!");
-            return;
-        }
+                                function saveComment(commentID, novelID) {
+                                    var newContent = document.getElementById("edit-content-" + commentID).value;
+                                    if (newContent.trim() === "") {
+                                        alert("Comment content cannot be empty!");
+                                        return;
+                                    }
 
-        var form = document.createElement("form");
-        form.method = "POST";
-        form.action = "comments";
+                                    var form = document.createElement("form");
+                                    form.method = "POST";
+                                    form.action = "comments";
 
-        var actionInput = document.createElement("input");
-        actionInput.type = "hidden";
-        actionInput.name = "action";
-        actionInput.value = "update";
+                                    var actionInput = document.createElement("input");
+                                    actionInput.type = "hidden";
+                                    actionInput.name = "action";
+                                    actionInput.value = "update";
 
-        var commentIDInput = document.createElement("input");
-        commentIDInput.type = "hidden";
-        commentIDInput.name = "commentID";
-        commentIDInput.value = commentID;
+                                    var commentIDInput = document.createElement("input");
+                                    commentIDInput.type = "hidden";
+                                    commentIDInput.name = "commentID";
+                                    commentIDInput.value = commentID;
 
-        var novelIDInput = document.createElement("input");
-        novelIDInput.type = "hidden";
-        novelIDInput.name = "novelID";
-        novelIDInput.value = novelID;
+                                    var novelIDInput = document.createElement("input");
+                                    novelIDInput.type = "hidden";
+                                    novelIDInput.name = "novelID";
+                                    novelIDInput.value = novelID;
 
-        var contentInput = document.createElement("input");
-        contentInput.type = "hidden";
-        contentInput.name = "commentContent";
-        contentInput.value = newContent;
+                                    var contentInput = document.createElement("input");
+                                    contentInput.type = "hidden";
+                                    contentInput.name = "commentContent";
+                                    contentInput.value = newContent;
 
-        form.appendChild(actionInput);
-        form.appendChild(commentIDInput);
-        form.appendChild(novelIDInput);
-        form.appendChild(contentInput);
-        document.body.appendChild(form);
-        form.submit();
-    }
-</script>
+                                    form.appendChild(actionInput);
+                                    form.appendChild(commentIDInput);
+                                    form.appendChild(novelIDInput);
+                                    form.appendChild(contentInput);
+                                    document.body.appendChild(form);
+                                    form.submit();
+                                }
+                            </script>
 
 
                         </section>
@@ -318,229 +318,229 @@
                 <script src="js/home/header(d).js"></script>
                 <script src="js/lock7.js"></script>
                 <script>
-                                                            // chapter-list(d).js
-                                                            document.addEventListener('DOMContentLoaded', function () {
-                                                                setupTabs();
-                                                                initializeSortButton();
-                                                                initializeChapterList();
-                                                            });
+    // chapter-list(d).js
+    document.addEventListener('DOMContentLoaded', function () {
+        setupTabs();
+        initializeSortButton();
+        initializeChapterList();
+    });
 
-                                                            function setupTabs() {
-                                                                const tabLinks = document.querySelectorAll('.tab-link');
-                                                                const tabContents = document.querySelectorAll('.tab-content');
-                                                                const commentTopNovelSection = document.getElementById('comment-top-novel-section');
-                                                                const line = document.querySelector('._line');
-                                                                const novelContainer = document.querySelector('.novel-detail-container');
-                                                                const novelId = novelContainer ? novelContainer.dataset.novelId : null;
+    function setupTabs() {
+        const tabLinks = document.querySelectorAll('.tab-link');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const commentTopNovelSection = document.getElementById('comment-top-novel-section');
+        const line = document.querySelector('._line');
+        const novelContainer = document.querySelector('.novel-detail-container');
+        const novelId = novelContainer ? novelContainer.dataset.novelId : null;
 
-                                                                function moveLine(tab) {
-                                                                    // Remove active class from all tabs and hide content
-                                                                    tabLinks.forEach(link => link.classList.remove('_on'));
-                                                                    tabContents.forEach(content => content.style.display = 'none');
+        function moveLine(tab) {
+            // Remove active class from all tabs and hide content
+            tabLinks.forEach(link => link.classList.remove('_on'));
+            tabContents.forEach(content => content.style.display = 'none');
 
-                                                                    // Toggle comment section based on active tab
-                                                                    if (commentTopNovelSection) {
-                                                                        commentTopNovelSection.style.display = (tab.dataset.tab === '#about') ? 'block' : 'none';
-                                                                    }
+            // Toggle comment section based on active tab
+            if (commentTopNovelSection) {
+                commentTopNovelSection.style.display = (tab.dataset.tab === '#about') ? 'block' : 'none';
+            }
 
-                                                                    // Activate selected tab and show content
-                                                                    tab.classList.add('_on');
-                                                                    const targetContent = document.querySelector(tab.dataset.tab);
-                                                                    if (targetContent) {
-                                                                        targetContent.style.display = 'block';
-                                                                    }
+            // Activate selected tab and show content
+            tab.classList.add('_on');
+            const targetContent = document.querySelector(tab.dataset.tab);
+            if (targetContent) {
+                targetContent.style.display = 'block';
+            }
 
-                                                                    // Move underline
-                                                                    if (line) {
-                                                                        line.style.left = tab.offsetLeft + 'px';
-                                                                        line.style.width = tab.offsetWidth + 'px';
-                                                                    }
+            // Move underline
+            if (line) {
+                line.style.left = tab.offsetLeft + 'px';
+                line.style.width = tab.offsetWidth + 'px';
+            }
 
-                                                                    // Save active tab state
-                                                                    if (novelId) {
-                                                                        localStorage.setItem(`activeTab_${novelId}`, tab.dataset.tab);
-                                                                    }
-                                                                }
+            // Save active tab state
+            if (novelId) {
+                localStorage.setItem(`activeTab_${novelId}`, tab.dataset.tab);
+            }
+        }
 
-                                                                // Load saved tab state or default to About
-                                                                if (novelId) {
-                                                                    const activeTab = localStorage.getItem(`activeTab_${novelId}`);
-                                                                    if (activeTab) {
-                                                                        const savedTab = document.querySelector(`a[data-tab="${activeTab}"]`);
-                                                                        if (savedTab) {
-                                                                            moveLine(savedTab);
-                                                                        }
-                                                                    }
-                                                                }
+        // Load saved tab state or default to About
+        if (novelId) {
+            const activeTab = localStorage.getItem(`activeTab_${novelId}`);
+            if (activeTab) {
+                const savedTab = document.querySelector(`a[data-tab="${activeTab}"]`);
+                if (savedTab) {
+                    moveLine(savedTab);
+                }
+            }
+        }
 
-                                                                // Set default tab if no saved state
-                                                                if (!document.querySelector('.tab-link._on')) {
-                                                                    const defaultTab = document.querySelector('a[data-tab="#about"]');
-                                                                    if (defaultTab) {
-                                                                        moveLine(defaultTab);
-                                                                    }
-                                                                }
+        // Set default tab if no saved state
+        if (!document.querySelector('.tab-link._on')) {
+            const defaultTab = document.querySelector('a[data-tab="#about"]');
+            if (defaultTab) {
+                moveLine(defaultTab);
+            }
+        }
 
-                                                                // Add click handlers
-                                                                tabLinks.forEach(tab => {
-                                                                    tab.addEventListener('click', function (e) {
-                                                                        e.preventDefault();
-                                                                        moveLine(this);
-                                                                    });
-                                                                });
-                                                            }
+        // Add click handlers
+        tabLinks.forEach(tab => {
+            tab.addEventListener('click', function (e) {
+                e.preventDefault();
+                moveLine(this);
+            });
+        });
+    }
 
-                                                            function initializeSortButton() {
-                                                                const sortButton = document.querySelector('.chapter-sort-option');
-                                                                if (!sortButton)
-                                                                    return;
+    function initializeSortButton() {
+        const sortButton = document.querySelector('.chapter-sort-option');
+        if (!sortButton)
+            return;
 
-                                                                const novelId = sortButton.getAttribute("data-novel-id");
+        const novelId = sortButton.getAttribute("data-novel-id");
 
-                                                                // Get initial sort order from the button's data attribute (set by server)
-                                                                // This ensures we always respect the server-side default (asc)
-                                                                let currentSort = sortButton.getAttribute("data-sort");
+        // Get initial sort order from the button's data attribute (set by server)
+        // This ensures we always respect the server-side default (asc)
+        let currentSort = sortButton.getAttribute("data-sort");
 
-                                                                // Sort chapters immediately on page load using the initial sort
-                                                                sortChapters(currentSort);
+        // Sort chapters immediately on page load using the initial sort
+        sortChapters(currentSort);
 
-                                                                // Update initial icon based on current sort
-                                                                updateSortIcon(sortButton, currentSort);
+        // Update initial icon based on current sort
+        updateSortIcon(sortButton, currentSort);
 
-                                                                sortButton.addEventListener('click', function (e) {
-                                                                    e.preventDefault();
+        sortButton.addEventListener('click', function (e) {
+            e.preventDefault();
 
-                                                                    // Toggle sort order
-                                                                    const newSortOrder = currentSort === "asc" ? "desc" : "asc";
+            // Toggle sort order
+            const newSortOrder = currentSort === "asc" ? "desc" : "asc";
 
-                                                                    try {
-                                                                        // Update URL without page reload
-                                                                        const url = new URL(window.location.href);
-                                                                        url.searchParams.set("sort", newSortOrder);
-                                                                        history.pushState({}, '', url.toString());
+            try {
+                // Update URL without page reload
+                const url = new URL(window.location.href);
+                url.searchParams.set("sort", newSortOrder);
+                history.pushState({}, '', url.toString());
 
-                                                                        // Sort chapters
-                                                                        sortChapters(newSortOrder);
+                // Sort chapters
+                sortChapters(newSortOrder);
 
-                                                                        // Update sort button icon and state
-                                                                        updateSortIcon(sortButton, newSortOrder);
+                // Update sort button icon and state
+                updateSortIcon(sortButton, newSortOrder);
 
-                                                                        // Update the data-sort attribute on the button
-                                                                        sortButton.setAttribute('data-sort', newSortOrder);
+                // Update the data-sort attribute on the button
+                sortButton.setAttribute('data-sort', newSortOrder);
 
-                                                                        // Update current sort state
-                                                                        currentSort = newSortOrder;
+                // Update current sort state
+                currentSort = newSortOrder;
 
-                                                                    } catch (error) {
-                                                                        console.error('Error during sorting:', error);
-                                                                    }
-                                                                });
-                                                            }
+            } catch (error) {
+                console.error('Error during sorting:', error);
+            }
+        });
+    }
 
 // Make sure this function updates the icon correctly
-                                                            function updateSortIcon(button, sortOrder) {
-                                                                const icon = button.querySelector('i');
-                                                                if (icon) {
-                                                                    if (sortOrder === 'asc') {
-                                                                        icon.className = 'fas fa-sort-numeric-up';
-                                                                    } else {
-                                                                        icon.className = 'fas fa-sort-numeric-down-alt';
-                                                                    }
-                                                                }
-                                                            }
+    function updateSortIcon(button, sortOrder) {
+        const icon = button.querySelector('i');
+        if (icon) {
+            if (sortOrder === 'asc') {
+                icon.className = 'fas fa-sort-numeric-up';
+            } else {
+                icon.className = 'fas fa-sort-numeric-down-alt';
+            }
+        }
+    }
 
-                                                            function sortChapters(sortOrder) {
-                                                                const chapterList = document.querySelector('.chapter-list-ul');
-                                                                if (!chapterList)
-                                                                    return;
+    function sortChapters(sortOrder) {
+        const chapterList = document.querySelector('.chapter-list-ul');
+        if (!chapterList)
+            return;
 
-                                                                const chapters = Array.from(chapterList.getElementsByClassName('chapter-item'));
+        const chapters = Array.from(chapterList.getElementsByClassName('chapter-item'));
 
-                                                                chapters.sort((a, b) => {
-                                                                    const aNum = parseInt(a.querySelector('.chapter-number').textContent);
-                                                                    const bNum = parseInt(b.querySelector('.chapter-number').textContent);
-                                                                    return sortOrder === 'asc' ? aNum - bNum : bNum - aNum;
-                                                                });
+        chapters.sort((a, b) => {
+            const aNum = parseInt(a.querySelector('.chapter-number').textContent);
+            const bNum = parseInt(b.querySelector('.chapter-number').textContent);
+            return sortOrder === 'asc' ? aNum - bNum : bNum - aNum;
+        });
 
-                                                                // Clear and repopulate chapter list
-                                                                chapterList.innerHTML = '';
-                                                                chapters.forEach(chapter => chapterList.appendChild(chapter));
-                                                            }
+        // Clear and repopulate chapter list
+        chapterList.innerHTML = '';
+        chapters.forEach(chapter => chapterList.appendChild(chapter));
+    }
 
-                                                            function updateSortIcon(button, sortOrder) {
-                                                                button.innerHTML = sortOrder === "desc"
-                                                                        ? '<i class="fas fa-sort-numeric-down-alt"></i>'
-                                                                        : '<i class="fas fa-sort-numeric-up"></i>';
-                                                            }
+    function updateSortIcon(button, sortOrder) {
+        button.innerHTML = sortOrder === "desc"
+                ? '<i class="fas fa-sort-numeric-down-alt"></i>'
+                : '<i class="fas fa-sort-numeric-up"></i>';
+    }
 
-                                                            function initializeChapterList() {
-                                                                const chapterList = document.querySelector('.chapter-list');
-                                                                if (!chapterList)
-                                                                    return;
+    function initializeChapterList() {
+        const chapterList = document.querySelector('.chapter-list');
+        if (!chapterList)
+            return;
 
-                                                                // Add smooth hover effects
-                                                                const chapters = chapterList.getElementsByClassName('chapter-item');
-                                                                Array.from(chapters).forEach(chapter => {
-                                                                    chapter.addEventListener('mouseenter', function () {
-                                                                        this.style.backgroundColor = '#f5f5f5';
-                                                                    });
+        // Add smooth hover effects
+        const chapters = chapterList.getElementsByClassName('chapter-item');
+        Array.from(chapters).forEach(chapter => {
+            chapter.addEventListener('mouseenter', function () {
+                this.style.backgroundColor = '#f5f5f5';
+            });
 
-                                                                    chapter.addEventListener('mouseleave', function () {
-                                                                        this.style.backgroundColor = '';
-                                                                    });
-                                                                });
+            chapter.addEventListener('mouseleave', function () {
+                this.style.backgroundColor = '';
+            });
+        });
 
-                                                                // Handle locked chapters
-                                                                const lockedChapters = chapterList.getElementsByClassName('locked');
-                                                                Array.from(lockedChapters).forEach(chapter => {
-                                                                    chapter.addEventListener('click', function (e) {
-                                                                        e.preventDefault();
-                                                                        alert('Please login to read this chapter');
-                                                                    });
-                                                                });
-                                                            }
+        // Handle locked chapters
+        const lockedChapters = chapterList.getElementsByClassName('locked');
+        Array.from(lockedChapters).forEach(chapter => {
+            chapter.addEventListener('click', function (e) {
+                e.preventDefault();
+                alert('Please login to read this chapter');
+            });
+        });
+    }
 
-                                                            // Handle browser back/forward buttons
-                                                            window.addEventListener('popstate', function (event) {
-                                                                const url = new URL(window.location.href);
-                                                                const novelId = url.searchParams.get("id");
-                                                                const newSort = url.searchParams.get("sort") || 'asc';
+    // Handle browser back/forward buttons
+    window.addEventListener('popstate', function (event) {
+        const url = new URL(window.location.href);
+        const novelId = url.searchParams.get("id");
+        const newSort = url.searchParams.get("sort") || 'asc';
 
-                                                                // Update sort if needed
-                                                                const savedSort = localStorage.getItem(`sortOrder_${novelId}`);
-                                                                if (savedSort !== newSort) {
-                                                                    localStorage.setItem(`sortOrder_${novelId}`, newSort);
+        // Update sort if needed
+        const savedSort = localStorage.getItem(`sortOrder_${novelId}`);
+        if (savedSort !== newSort) {
+            localStorage.setItem(`sortOrder_${novelId}`, newSort);
 
-                                                                    const sortButton = document.querySelector('.chapter-sort-option');
-                                                                    if (sortButton) {
-                                                                        updateSortIcon(sortButton, newSort);
+            const sortButton = document.querySelector('.chapter-sort-option');
+            if (sortButton) {
+                updateSortIcon(sortButton, newSort);
 
-                                                                        // Re-sort the chapter list
-                                                                        const chapterList = document.querySelector('.chapter-list-ul');
-                                                                        if (chapterList) {
-                                                                            const chapters = Array.from(chapterList.getElementsByClassName('chapter-item'));
-                                                                            chapters.sort((a, b) => {
-                                                                                const aNum = parseInt(a.querySelector('.chapter-number').textContent);
-                                                                                const bNum = parseInt(b.querySelector('.chapter-number').textContent);
-                                                                                return newSort === 'asc' ? aNum - bNum : bNum - aNum;
-                                                                            });
+                // Re-sort the chapter list
+                const chapterList = document.querySelector('.chapter-list-ul');
+                if (chapterList) {
+                    const chapters = Array.from(chapterList.getElementsByClassName('chapter-item'));
+                    chapters.sort((a, b) => {
+                        const aNum = parseInt(a.querySelector('.chapter-number').textContent);
+                        const bNum = parseInt(b.querySelector('.chapter-number').textContent);
+                        return newSort === 'asc' ? aNum - bNum : bNum - aNum;
+                    });
 
-                                                                            chapterList.innerHTML = '';
-                                                                            chapters.forEach(chapter => chapterList.appendChild(chapter));
-                                                                        }
-                                                                    }
-                                                                }
+                    chapterList.innerHTML = '';
+                    chapters.forEach(chapter => chapterList.appendChild(chapter));
+                }
+            }
+        }
 
-                                                                // Restore active tab if needed
-                                                                const activeTab = localStorage.getItem(`activeTab_${novelId}`);
-                                                                if (activeTab) {
-                                                                    const savedTab = document.querySelector(`a[data-tab="${activeTab}"]`);
-                                                                    if (savedTab) {
-                                                                        const event = new Event('click');
-                                                                        savedTab.dispatchEvent(event);
-                                                                    }
-                                                                }
-                                                            });
+        // Restore active tab if needed
+        const activeTab = localStorage.getItem(`activeTab_${novelId}`);
+        if (activeTab) {
+            const savedTab = document.querySelector(`a[data-tab="${activeTab}"]`);
+            if (savedTab) {
+                const event = new Event('click');
+                savedTab.dispatchEvent(event);
+            }
+        }
+    });
             </script>
 
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

@@ -5,13 +5,16 @@
 
 package controller.admin;
 
+import DAO.ApprovingActivityDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.List;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import model.ApprovingActivity;
 
 /**
  *
@@ -19,42 +22,29 @@ import jakarta.servlet.http.HttpServletResponse;
  */
 @WebServlet(name="ApprovingActivityController", urlPatterns={"/approvingactivity"})
 public class ApprovingActivityController extends HttpServlet {
-   
-    
-    
+    private final ApprovingActivityDAO approvingActivityDAO = new ApprovingActivityDAO();
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
-     * Handles the HTTP <code>GET</code> method.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-    } 
-
-    /** 
-     * Handles the HTTP <code>POST</code> method.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("manager") == null) {
+            response.sendRedirect("ManagerLogin");
+            return;
+        }
+        List<ApprovingActivity> activities = approvingActivityDAO.getAllApprovingActivities();
+        request.setAttribute("activities", activities);
+        request.getRequestDispatcher("/WEB-INF/views/admin/approvingActivityList.jsp").forward(request, response);
     }
 
-    /** 
-     * Returns a short description of the servlet.
-     * @return a String containing servlet description
-     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // Placeholder for handling POST requests if needed in the future
+    }
+
     @Override
     public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
+        return "Approving Activity Management Controller";
+    }
 }

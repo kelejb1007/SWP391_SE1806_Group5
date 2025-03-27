@@ -8,7 +8,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Locking Activity List</title>
+        <title>Approving Activity List</title>
 
         <!-- Bootstrap Core CSS -->
         <link rel="stylesheet" href="css/startmin/bootstrap.min.css" />
@@ -27,13 +27,13 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-lg-12">
-                            <h1 class="page-header">LOCKING ACTIVITY MANAGEMENT</h1>
+                            <h1 class="page-header">APPROVING ACTIVITY MANAGEMENT</h1>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="panel panel-default">
-                                <div class="panel-heading">Locking Activity List</div>
+                                <div class="panel-heading">Approving Activity List</div>
                                 <div class="panel-body">
                                     <div class="table-responsive">
                                         <table class="table table-bordered table-striped table-hover" id="dataTables-example">
@@ -45,32 +45,31 @@
                                                     <th>Manager</th>
                                                     <th>Action</th>
                                                     <th>Time</th>
-                                                    <th>Reason</th>
+                                                    
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <c:choose>
-                                                    <c:when test="${not empty lockingActivities}">
-                                                        <c:forEach var="activity" items="${lockingActivities}" varStatus="status">
+                                                    <c:when test="${not empty activities}">
+                                                        <c:forEach var="activity" items="${activities}" varStatus="status">
                                                             <tr>
                                                                 <td>${status.index + 1}</td>
-                                                                <td>${activity.logNID}</td>
+                                                                <td>${activity.approveID}</td>
                                                                 <td>${activity.novelName}</td>
                                                                 <td>${activity.managerName}</td>
                                                                 <td>${activity.action}</td>
                                                                 <td>
-    <c:set var="datetime" value="${activity.datetime}" />
-    ${fn:substring(datetime, 8, 10)}/${fn:substring(datetime, 5, 7)}/${fn:substring(datetime, 0, 4)}
-    ${fn:substring(datetime, 11, 19)}
-</td>
-
-                                                                <td>${activity.lockReason}</td>
+                                                                    <c:set var="datetime" value="${activity.datetime}" />
+                                                                    ${fn:substring(datetime, 8, 10)}/${fn:substring(datetime, 5, 7)}/${fn:substring(datetime, 0, 4)}
+                                                                    ${fn:substring(datetime, 11, 19)}
+                                                                </td>
+                                                                
                                                             </tr>
                                                         </c:forEach>
                                                     </c:when>
                                                     <c:otherwise>
                                                         <tr>
-                                                            <td colspan="7" style="text-align: center;">No locking activity available.</td>
+                                                            <td colspan="7" style="text-align: center;">No approving activity available.</td>
                                                         </tr>
                                                     </c:otherwise>
                                                 </c:choose>
@@ -78,7 +77,7 @@
                                         </table>
                                         
                                         <c:if test="${sessionScope.role == 'Admin'}">
-                                            <a href="addLockingActivity.jsp" class="btn btn-primary">Add New Locking Activity</a>
+                                            <a href="addApprovingActivity.jsp" class="btn btn-primary">Add New Approving Activity</a>
                                         </c:if>
                                     </div>
                                 </div>
