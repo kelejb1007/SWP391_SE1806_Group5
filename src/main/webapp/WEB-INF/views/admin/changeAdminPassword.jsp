@@ -97,12 +97,17 @@
                     errorMessage.innerHTML = "Password cannot contain spaces.";
                     return false;
                 }
+                if (newPassword === oldPassword) {
+                    errorMessage.innerHTML = "New password cannot be the same as the old password.";
+                    return false;
+                }
                 if (newPassword !== confirmPassword) {
                     errorMessage.innerHTML = "Passwords do not match.";
                     return false;
                 }
                 return true;
             }
+
         </script>
 
         <script src="js/startmin/jquery.min.js"></script>
