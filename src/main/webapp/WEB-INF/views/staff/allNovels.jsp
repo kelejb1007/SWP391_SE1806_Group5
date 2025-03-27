@@ -263,7 +263,8 @@
 
                                                                 <div class="modal-body">
                                                                     <input type="hidden" name="novelID" id="novelID">
-                                                                    <textarea id="lockReason" name="lockReason" class="form-control" placeholder="Enter lock reason" rows="3" required></textarea>
+                                                                    <textarea id="lockReason" name="lockReason" class="form-control" placeholder="Enter lock reason" rows="3" required
+                                                                              oninput="this.value = this.value.trimStart()"></textarea>
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>

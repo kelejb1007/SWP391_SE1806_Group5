@@ -125,64 +125,7 @@
                                                 <p>${novel.novelDescription}</p>
                                             </div>
 
-                                            <div id="about" class=" tab-content g_wrap">
-                                                <div class="mb48">
-                                                    <div class="fans-bar-wrap mb32" data-report-l1="11">
-                                                        <div class="clearfix mb16">
-                                                            <h3 class="g_h2 fs24 lh32 fw700 pl1 ell fl">Fans</h3>
-                                                            <div class="fr pt8"> <a class="fs16" href="/ranking/fans/21542016806826305" rel="nofollow" title="See all" data-report-eid="qi_C21"> See all </a> </div>
-                                                        </div>
-                                                        <div class="fans-list fs0">
-                                                            <ol>
-                                                                <li class="pl24 pr24 vam"> <i class="dib vam mr24 _badge _badge1"></i> 
-                                                                    <a href="/profile/4315703195" rel="nofollow" data-report-eid="qi_C20"> 
-                                                                        <i style="border-radius: 100%" class="dib vam mr16 _avatar _avatar1"> 
-                                                                            <img cross-origin="anonymous" style="border-radius: 100%" class="db" data-original="//user-pic.webnovel.com/userheadimg/4315703195/200.jpg?uut=1705057760565&imageMogr2/quality/80" alt="Feruru" src="//user-pic.webnovel.com/userheadimg/4315703195/200.jpg?uut=1705057760565&imageMogr2/quality/80" style="display: block;"> 
-                                                                        </i> 
-                                                                    </a>
-                                                                    <div class="dib vam _text"> <a href="/profile/4315703195" class="c_000" rel="nofollow" data-report-eid="qi_C20"> <strong class="db fs16 lh24 ell fw600">Feruru</strong> </a> <small class="db fs12 c_s lh16 ell">Contributed 2265</small> </div>
-                                                                </li>
-                                                                <li class="pl24 pr24 vam"> 
-                                                                    <i class="dib vam mr24 _badge _badge2"></i> 
-                                                                    <a href="/profile/4305146262" rel="nofollow" data-report-eid="qi_C20"> 
-                                                                        <i style="border-radius: 100%" class="dib vam mr16 _avatar _avatar2"> 
-                                                                            <img cross-origin="anonymous" style="border-radius: 100%" class="db" data-original="//user-pic.webnovel.com/userheadimg/4305146262/200.jpg?uut=1678003446842&imageMogr2/quality/80" alt="ryanrayn" src="//user-pic.webnovel.com/userheadimg/4305146262/200.jpg?uut=1678003446842&imageMogr2/quality/80" style="display: block;">
-                                                                        </i> 
-                                                                    </a>
-                                                                    <div class="dib vam _text"> <a href="/profile/4305146262" class="c_000" rel="nofollow" data-report-eid="qi_C20"> <strong class="db fs16 lh24 ell fw600">ryanrayn</strong> </a> <small class="db fs12 c_s lh16 ell">Contributed 2241</small> </div>
-                                                                </li>
-                                                                <li class="pl24 pr24 vam"> 
-                                                                    <i class="dib vam mr24 _badge _badge3"></i>
-                                                                    <a href="/profile/4318182466" rel="nofollow" data-report-eid="qi_C20"> 
-                                                                        <i style="border-radius: 100%" class="dib vam mr16 _avatar _avatar3"> 
-                                                                            <img style="border-radius: 100%" cross-origin="anonymous" class="db" data-original="//user-pic.webnovel.com/userheadimg/4318182466/200.jpg?uut=1628717450420&imageMogr2/quality/80" alt="TheLordOfTheSea1" src="//user-pic.webnovel.com/userheadimg/4318182466/200.jpg?uut=1628717450420&imageMogr2/quality/80" style="display: block;"> 
-                                                                        </i>
-                                                                    </a>
-                                                                    <div class="dib vam _text"> <a href="/profile/4318182466" class="c_000" rel="nofollow" data-report-eid="qi_C20"> <strong class="db fs16 lh24 ell fw600">TheLordOfTheSea1</strong> </a> <small class="db fs12 c_s lh16 ell">Contributed 2219</small> </div>
-                                                                </li>
-                                                            </ol>
-                                                        </div>
-                                                    </div>
-                                                    <div class="j_tagWrap tm"> </div>
-                                                </div>
-                                                <div class="mb48"> </div>
-                                                <div class="mb48">
-                                                    <div class="power-bar-wrap j_power_rank_wrap" data-report-l1="13">
-                                                        <div class="power-bar-wrap j_power_rank_wrap" data-report-l1="13">
-                                                            <div class="clearfix mb16">
-                                                                <p class="g_h2 fs24 lh32 fw700 pl1 ell fl">Weekly Power Status</p>
-                                                            </div>
-                                                            <div class="power-bar clearfix pl24 pt24 pr24 pb24 mb8" data-report-l1="4">
-                                                                <div class="fl fs0 mr24 pt8 pb8 power-rank"> <img cross-origin="anonymous" width="24" height="24" class="div vam mr12 w24 h24" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwBAMAAAClLOS0AAAAJFBMVEX////1Mmb2MWX2N231MWX1MWX/////wtL8nbf+9vj+vM38mLS/meY4AAAABXRSTlMB5qYc7ekm068AAABrSURBVDjLYyADMCuGYgAhA6CESSgW4AyUUMUmEQSUEMUmEQiUCMUKqC8xLQ0JZCJJpKEAKkoQtBwD0FlieTkUVKFJlMMBbSQwLR8sQbKjAwi6sUh0gAHtJBCW09vnODMnzuyMswDAXWSQDgDUBFQyX50DMwAAAABJRU5ErkJggg==" alt="Rank"> <strong class="dib vam fs32 fw700 mr8 lh32"> NO.24 </strong> <small class="dib vam fs12 lh16 c_s" style="white-space:pre">Power
-                                                                        Ranking</small> </div>
-                                                                <div class="fl fs0 mr24 pt8 pb8"> <img cross-origin="anonymous" width="24" height="24" class="div vam mr12 w24 h24" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAAAWlBMVEU8ZvX1+P9vj/vC0P8/afVoi/o/aPU+a/pFbv9LeP9Gb/Y8ZvU8Z/U8aPddgvg7ZvVRePe5yv+uwf+Kpv2asv59mvxYfPh3lflaffZMc/mkuP5nifmXrftfg/fPnuCZAAAAHnRSTlPmAebm5uZkQSUR5tbChOal5ubm5ubm5t2viubLy8rr6OWiAAABEElEQVRIx+2Wy7KCMBBE+5LwVCPi4/r8/99UI+U4aRxw4c7ewilOV5GZ4G841XlfDT4YBuqFd259qKcCxQxwzq3+i0lAOQcAd093KkeBaokY98gmrQKShwKoCkheA1QFJK8BqgIlzwBVgZJngKqA5GOasF4lRF8FIi/xu+yWjUvSXcoeSGzaPIvZHpNvBN8D2ia+3iPda4sGYMCHTOVZpQuAANpGIlW2HgpgG+V1bIEhIHsX4DMAP+AHfAuwf++8IcA6QHkLyYQjGjwMQLzERscaM2Ij8eYg23kkmZfGqAypDWaFOYzJZlHzuDeyrMyFwvL2ymJ5eymyvL12SX58sZP8+NWB5McvJ1qeAa4S5TlXHPcQ906aF1YAAAAASUVORK5CYII=" alt="Stone"> <strong class="dib vam fs32 fw700 mr8 lh32 j_total_power" data-total="372"> 372 </strong> <small class="dib vam fs12 lh16 c_s" style="white-space:pre">Power
-                                                                        stone</small> </div>
-                                                                <div class="fr fs0 bt_box j_power_btn_area"> <a href="###" rel="nofollow" title="Vote Power Stone" class="bt _warning _2row _vote j_vote_power _on" data-bookid="21542016806826305" data-bookname="A Nascent Kaleidoscope." data-report-eid="qi_C10" data-report-bid="21542016806826305" data-report-cid=""> <strong>Vote</strong> <small class="j_ps_num">(1 power stone left)</small> </a> <a href="###" rel="nofollow" title="Vote Power Stone" class="bt _warning _2row _dis_vote " disabled="disabled" data-bookid="21542016806826305" data-bookname="A Nascent Kaleidoscope." data-report-eid="qi_C10" data-report-bid="21542016806826305" data-report-cid=""> <strong>Vote</strong> <small class="j_ps_num">(0 power stone left)</small> </a> <a href="###" rel="nofollow" title="Vote Power Stone" class="bt _login _warning j_login " data-report-cid="" data-report-eid="qi_C10" data-report-bid="21542016806826305"> <strong> Vote </strong> </a> </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            
 
                                             <!-- Tab Chapters -->
                                             <div id="chapters" class="tab-content" style="display: none;">

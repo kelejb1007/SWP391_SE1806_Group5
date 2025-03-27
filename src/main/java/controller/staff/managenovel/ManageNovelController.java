@@ -183,7 +183,7 @@ public class ManageNovelController extends HttpServlet {
                     viewAllNovels(request, response);
                 } else {
                     request.setAttribute("novel", nl);
-                    request.getRequestDispatcher("/WEB-INF/views/staff/novelDetail.jsp").forward(request, response);
+                    request.getRequestDispatcher("/WEB-INF/views/staff/novelDetail2.jsp").forward(request, response);
                 }
             }
         } catch (ServletException | IOException ex) {

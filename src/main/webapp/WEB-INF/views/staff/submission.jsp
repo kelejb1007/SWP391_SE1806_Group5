@@ -150,7 +150,8 @@
                                                         </div>
 
                                                         <div class="modal-body">
-                                                            <textarea id="lockReason" name="rejectReason" class="form-control" placeholder="Enter reject reason" rows="3" required></textarea>
+                                                            <textarea id="lockReason" name="rejectReason" class="form-control" placeholder="Enter reject reason" rows="3" required
+                                                                      oninput="this.value = this.value.trimStart()"></textarea>
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>

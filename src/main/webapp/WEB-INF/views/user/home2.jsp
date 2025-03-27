@@ -98,7 +98,7 @@
 
                                     <li>
                                         <a href="#">
-                                            <img style="object-fit: cover; object-position: center top" src="https://i.pinimg.com/originals/af/fa/21/affa21b1847fc2444a5f88d081d6cd3f.gif" 
+                                            <img style="object-fit: cover; object-position: center center" src="img/bg1.jpg" 
                                                  alt=""></a>
                                     </li>
 
@@ -110,42 +110,42 @@
 
                                     <li>
                                         <a href="#">
-                                            <img style="object-fit: cover; object-position: center top" src="https://i.pinimg.com/originals/c1/39/e5/c139e51dacbfe66e2948f9d2c7852571.gif" 
+                                            <img style="object-fit: cover; object-position: center center" src="img/bg2.jpg" 
                                                  alt=""></a>
                                     </li>
 
                                     <li>
                                         <a href="#">
-                                            <img style="object-fit: cover; object-position: center top" src="" 
+                                            <img style="object-fit: cover; object-position: center center" src="img/bg4.jpg" 
                                                  alt=""></a>
                                     </li>
 
                                     <li>
                                         <a href="#">
-                                            <img style="object-fit: cover; object-position: center top" src="" 
+                                            <img style="object-fit: cover; object-position: center top" src="https://i.pinimg.com/originals/af/fa/21/affa21b1847fc2444a5f88d081d6cd3f.gif" 
                                                  alt=""></a>
                                     </li>
 
                                 </ul>
                                 <div class="yx-rotation-focus">
                                     <a href="" class="">
-                                        HAHA
+                                        #1
                                     </a>
 
                                     <a href="" class="">
-                                        HUHU
+                                        #2
                                     </a>
 
                                     <a href="" class="">
-                                        HIHI
+                                        #3
                                     </a>
 
                                     <a href="" class="">
-                                        AA
+                                        #4
                                     </a>
 
                                     <a href="" class="">
-                                        UU
+                                        #5
                                     </a>
 
                                 </div>

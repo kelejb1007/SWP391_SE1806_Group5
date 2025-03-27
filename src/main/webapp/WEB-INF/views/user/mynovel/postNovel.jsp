@@ -77,7 +77,7 @@
                                                     </label></div>
                                                 <div class="ant-form-item-control-input-content"><span class="ant-input-affix-wrapper" style="border-radius: 8px;">
                                                         <input name="novelName" maxlength="70" placeholder="Within 70 characters" id="bookTitle" aria-required="true" class="ant-input ant-input-lg" 
-                                                               type="text" value="${novel.novelName}" required>
+                                                               type="text" value="${novel.novelName}" required oninput="this.value = this.value.trimStart()">
                                                     </span></div>
                                             </div>
                                         </div>
@@ -102,7 +102,8 @@
 
                                                 <div class="ant-form-item-control-input-content"><span class="ant-input-affix-wrapper ">
                                                         <textarea name="novelDescription" placeholder="Type something seriously, wonderful description can attract more readers" id="synopsis" class="ant-input" 
-                                                                  style="height: 120px; resize: none; min-height: 53.6px;" required>${novel.novelDescription}</textarea>
+                                                                  style="height: 120px; resize: none; min-height: 53.6px;" required oninput="this.value = this.value.trimStart()"
+                                                                  >${novel.novelDescription}</textarea>
                                                     </span></div>
                                             </div>
                                         </div>

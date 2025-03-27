@@ -67,7 +67,7 @@
                                         <div class="form-group">
                                             <label>Novel Name</label>
                                             <input class="form-control" type="text" name="novelName" placeholder="Enter here" required
-                                                   value="${novel.novelName}">
+                                                   value="${novel.novelName}" oninput="this.value = this.value.trimStart()">
                                         </div>
                                         <div class="form-group">
                                             <label>Total Of Chapter</label>
@@ -77,7 +77,8 @@
 
                                         <div class="form-group">
                                             <label>Description</label>
-                                            <textarea class="form-control" rows="5" name="novelDescription" placeholder="Enter Description" required>${novel.novelDescription}</textarea>
+                                            <textarea class="form-control" rows="5" name="novelDescription" placeholder="Enter Description" required
+                                                      oninput="this.value = this.value.trimStart()">${novel.novelDescription}</textarea>
                                         </div>
 
                                         <div class="form-group">

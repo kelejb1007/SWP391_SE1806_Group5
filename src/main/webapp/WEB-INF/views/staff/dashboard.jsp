@@ -142,13 +142,13 @@
 
 
 
-                    <div class="row">
+<!--                    <div class="row">
                         <div class="col-lg-6">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     Multiple Axes Line Chart Example
                                 </div>
-                                <!-- /.panel-heading -->
+                                 /.panel-heading 
                                 <div class="panel-body">
                                     <div class="flot-chart">
                                         <div class="flot-chart-content" id="flot-line-chart-multi" style="padding: 0px; position: relative;">
@@ -160,11 +160,11 @@
                                                     <div class="flot-tick-label tickLabel" style="position: absolute; max-width: 61px; top: 381px; left: 100px; text-align: center;">Apr 2007</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 61px; top: 381px; left: 199px; text-align: center;">Jul 2007</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 61px; top: 381px; left: 297px; text-align: center;">Oct 2007</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 61px; top: 381px; left: 396px; text-align: center;">Jan 2008</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 61px; top: 381px; left: 495px; text-align: center;">Apr 2008</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 61px; top: 381px; left: 595px; text-align: center;">Jul 2008</div></div><div class="flot-y-axis flot-y1-axis yAxis y1Axis" style="position: absolute; inset: 0px; display: block;"><div class="flot-tick-label tickLabel" style="position: absolute; top: 368px; left: 15px; text-align: right;">0</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 306px; left: 8px; text-align: right;">25</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 245px; left: 8px; text-align: right;">50</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 184px; left: 8px; text-align: right;">75</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 123px; left: 2px; text-align: right;">100</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 62px; left: 2px; text-align: right;">125</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 1px; left: 2px; text-align: right;">150</div></div><div class="flot-y-axis flot-y2-axis yAxis y2Axis" style="position: absolute; inset: 0px; display: block;"><div class="flot-tick-label tickLabel" style="position: absolute; top: 368px; left: 702px;">0.624€</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 306px; left: 702px;">0.650€</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 245px; left: 702px;">0.675€</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 184px; left: 702px;">0.701€</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 123px; left: 702px;">0.727€</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 62px; left: 702px;">0.752€</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 1px; left: 702px;">0.778€</div></div></div><canvas class="flot-overlay" width="925" height="500" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 740px; height: 400px;"></canvas><div class="legend"><div style="position: absolute; width: 143px; height: 33px; bottom: 29px; left: 31px; background-color: rgb(255, 255, 255); opacity: 0.85;"> </div><table style="position:absolute;bottom:29px;left:31px;;font-size:smaller;color:#545454"><tbody><tr><td class="legendColorBox"><div style="border:1px solid #ccc;padding:1px"><div style="width:4px;height:0;border:5px solid rgb(237,194,64);overflow:hidden"></div></div></td><td class="legendLabel">Oil price ($)</td></tr><tr><td class="legendColorBox"><div style="border:1px solid #ccc;padding:1px"><div style="width:4px;height:0;border:5px solid rgb(175,216,248);overflow:hidden"></div></div></td><td class="legendLabel">USD/EUR exchange rate</td></tr></tbody></table></div></div>
                                     </div>
                                 </div>
-                                <!-- /.panel-body -->
+                                 /.panel-body 
                             </div>
-                            <!-- /.panel -->
+                             /.panel 
                         </div>
-                    </div>
+                    </div>-->
 
 
 
