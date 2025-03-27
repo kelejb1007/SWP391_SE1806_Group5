@@ -1,3 +1,8 @@
+<%-- 
+    Document   : deleteChapter
+    Created on : [Original creation date]
+    Author     : [Original author]
+--%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="model.Chapter" %>
 <!DOCTYPE html>
@@ -5,82 +10,59 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="css/home/header.css">
         <title>Delete Chapter</title>
+
+        <!-- CSS từ postNovel.jsp -->
+        <link rel="stylesheet" href="css/startmin/bootstrap.css">
+        <link rel="stylesheet" href="css/startmin/startmin.css">
+        <link rel="stylesheet" href="css/startmin/font-awesome.min.css" type="text/css">
+
+        <link rel="shortcut icon" type="image/x-icon" href="//yuxseocdn.yuewen.com/favicon/readnovel.ico">
+        <link rel="stylesheet" type="text/css" href="css/mynovel/mynovel2.css" crossorigin="anonymous">
+        <script charset="utf-8" src="js/mynovel/mynovel2.js?v=1" crossorigin="anonymous"></script>
+
+        <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+        <!-- CSS cần thiết cho header.jsp -->
+        <link rel="stylesheet" href="css/home/header.css">
+
         <style>
-            body {
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                background-color: #f4f7fa;
-                margin: 0;
-                padding: 0;
-                color: #333;
-            }
-            .container {
-                max-width: 700px; /* Tăng chiều rộng từ 600px lên 700px */
-                margin: 40px auto;
-                padding: 30px; /* Tăng padding từ 25px lên 30px để cân đối */
-                background-color: #ffffff;
-                border-radius: 12px;
-                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            }
-            h2 {
-                text-align: center;
-                color: #2c3e50;
-                font-size: 28px;
-                margin-bottom: 20px;
-                font-weight: 600;
-            }
+            /* Điều chỉnh style để giống postNovel.jsp */
             .form-container {
-                padding: 30px; /* Tăng padding từ 25px lên 30px */
-                background-color: #f9f9f9;
+                margin: auto;
+                padding: 20px;
                 border-radius: 8px;
-                border: none;
+                background-color: #fff; /* Trắng giống postNovel.jsp */
             }
-            .form-group {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 15px;
-                padding: 12px 20px; /* Tăng padding từ 12px 18px lên 12px 20px */
-                background-color: #fff;
-                border-radius: 6px;
-                border: none;
-                transition: all 0.3s ease;
-                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            .ant-form-item {
+                margin-bottom: 24px; /* Khoảng cách giữa các field giống postNovel.jsp */
             }
-            .form-group:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            }
-            .form-group label {
-                font-weight: 600;
-                color: #34495e;
+            .ant-input, .ant-input-lg {
+                border-radius: 8px; /* Bo góc giống postNovel.jsp */
                 font-size: 16px;
-                flex: 1;
             }
-            .form-group span {
-                color: #7f8c8d;
-                font-size: 16px;
-                flex: 2;
-                text-align: right;
+            h3 {
+                margin-bottom: 32px;
+                font-size: 18px;
+                font-weight: 400;
+                line-height: 24px;
             }
             .message {
-                font-weight: 500;
-                margin: 15px 0;
-                padding: 15px;
-                border-radius: 8px;
-                text-align: center;
-                font-size: 16px;
+                font-weight: bold;
+                margin-top: 15px;
+                padding: 10px;
+                border-radius: 5px;
             }
             .success {
-                color: #27ae60;
-                background-color: #e8f5e9;
-                border: 1px solid #27ae60;
+                color: green;
+                background-color: #e6ffe6;
+                border: 1px solid green;
             }
             .error {
-                color: #c0392b;
-                background-color: #f9ebea;
-                border: 1px solid #c0392b;
+                color: red;
+                background-color: #ffe6e6;
+                border: 1px solid red;
             }
             .confirmation-text {
                 text-align: center;
@@ -95,66 +77,6 @@
                 gap: 15px;
                 margin-top: 25px;
             }
-            button {
-                padding: 12px 25px;
-                border: none;
-                border-radius: 6px;
-                font-size: 16px;
-                font-weight: 500;
-                cursor: pointer;
-                transition: all 0.3s ease;
-            }
-            .btn-delete {
-                background-color: #e74c3c;
-                color: #fff;
-            }
-            .btn-delete:hover {
-                background-color: #c0392b;
-                transform: translateY(-2px);
-                box-shadow: 0 2px 10px rgba(231, 76, 60, 0.3);
-            }
-            .btn-cancel {
-                background-color: #95a5a6;
-                color: #fff;
-            }
-            .btn-cancel:hover {
-                background-color: #7f8c8d;
-                transform: translateY(-2px);
-                box-shadow: 0 2px 10px rgba(149, 165, 166, 0.3);
-            }
-            @media (max-width: 600px) {
-                .container {
-                    margin: 20px;
-                    padding: 15px;
-                }
-                .form-container {
-                    padding: 15px;
-                }
-                .form-group {
-                    flex-direction: column;
-                    align-items: flex-start;
-                    padding: 8px 12px;
-                }
-                .form-group label, .form-group span {
-                    text-align: left;
-                    flex: none;
-                    margin-bottom: 5px;
-                    font-size: 14px;
-                }
-                .button-group {
-                    flex-direction: column;
-                    gap: 10px;
-                }
-                button {
-                    width: 100%;
-                    padding: 10px;
-                    font-size: 14px;
-                }
-                .confirmation-text {
-                    font-size: 16px;
-                    margin-bottom: 20px;
-                }
-            }
         </style>
     </head>
     <body>
@@ -162,49 +84,116 @@
             <jsp:include page="/WEB-INF/views/user/components/header.jsp" /> 
         </header>
 
-        <div class="container">
-            <h2>Delete Chapter</h2>
-            <div class="form-container">
-                <%
-                    Chapter chapter = (Chapter) request.getAttribute("chapter");
-                    String message = (String) request.getAttribute("message");
-                    String messageType = (request.getAttribute("messageType") != null) ? request.getAttribute("messageType").toString() : "success";
-                %>
+        <div class="g_main_wrap f1 pr" style="zoom: 1.1">
+            <div style="">
+                <div id="main_scroll_container" class="scroller--dBDRL pr">
+                    <div class="header_ph--kHZzY"></div>
+                    <div class="main_content--0x57a">
+                        <div class="default--zRToH bc_fff">
+                            <div class="form-container">
+                                <%
+                                    Chapter chapter = (Chapter) request.getAttribute("chapter");
+                                    String message = (String) request.getAttribute("message");
+                                    String messageType = (request.getAttribute("messageType") != null) ? request.getAttribute("messageType").toString() : "success";
+                                %>
 
-                <% if (message != null) { %>
-                <p class="message <%= messageType %>"><%= message %></p>
-                <% } else if (chapter == null) { %>
-                <p class="message error">Error: Chapter information is missing.</p>
-                <% } else { %>
+                                <h3 class="mb32 fvsc fw400 fs18 ell lh24">
+                                    <span role="img" class="anticon vam mr8">
+                                        <svg width="1em" height="1em" fill="currentColor" aria-hidden="true" focusable="false" class="">
+                                            <use xlink:href="#i-files"></use>
+                                        </svg>
+                                    </span>
+                                    Delete Chapter Information
+                                </h3>
 
-                <p class="confirmation-text">Are you sure you want to delete the following chapter?</p>
-                <div class="form-group">
-                    <label>Novel ID:</label>
-                    <span><%= chapter.getNovelID() %></span>
-                </div>
-                <div class="form-group">
-                    <label>Novel Name:</label>
-                    <span><%= chapter.getNovelName() != null ? chapter.getNovelName() : "Unknown" %></span>
-                </div>
-                <div class="form-group">
-                    <label>Chapter Number:</label>
-                    <span><%= chapter.getChapterNumber() %></span>
-                </div>
-                <div class="form-group">
-                    <label>Chapter Title:</label>
-                    <span><%= chapter.getChapterName() %></span>
-                </div>
+                                <% if (message != null) { %>
+                                    <p class="message <%= messageType %>"><%= message %></p>
+                                <% } else if (chapter == null) { %>
+                                    <p class="message error">Error: Chapter information is missing.</p>
+                                <% } else { %>
 
-                <form action="<%= request.getContextPath()%>/deleteChapter" method="post">
-                    <input type="hidden" name="novelName" value="<%= chapter.getNovelName() %>">
-                    <input type="hidden" name="chapterNumber" value="<%= chapter.getChapterNumber() %>">
-                    <div class="button-group">
-                        <button type="submit" class="btn-delete">Delete Chapter</button>
-                        <a href="<%= request.getContextPath()%>/user/chapters"><button type="button" class="btn-cancel">Cancel</button></a>
+                                <p class="confirmation-text">Are you sure you want to delete the following chapter?</p>
+
+                                <!-- Novel ID -->
+                                <div class="ant-form-item item--1wVCg">
+                                    <div class="ant-row ant-form-item-row">
+                                        <div class="ant-col ant-form-item-label">
+                                            <label title="">
+                                                <div class="dib"><span>Novel ID</span></div>
+                                            </label>
+                                        </div>
+                                        <div class="ant-form-item-control-input-content">
+                                            <span class="ant-input-affix-wrapper" style="border-radius: 8px;">
+                                                <input class="ant-input ant-input-lg" type="text" value="<%= chapter.getNovelID() %>" readonly>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Novel Name -->
+                                <div class="ant-form-item item--1wVCg">
+                                    <div class="ant-row ant-form-item-row">
+                                        <div class="ant-col ant-form-item-label">
+                                            <label title="">
+                                                <div class="dib"><span>Novel Name</span></div>
+                                            </label>
+                                        </div>
+                                        <div class="ant-form-item-control-input-content">
+                                            <span class="ant-input-affix-wrapper" style="border-radius: 8px;">
+                                                <input class="ant-input ant-input-lg" type="text" value="<%= chapter.getNovelName() != null ? chapter.getNovelName() : "Unknown" %>" readonly>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Chapter Number -->
+                                <div class="ant-form-item item--1wVCg">
+                                    <div class="ant-row ant-form-item-row">
+                                        <div class="ant-col ant-form-item-label">
+                                            <label title="">
+                                                <div class="dib"><span>Chapter Number</span></div>
+                                            </label>
+                                        </div>
+                                        <div class="ant-form-item-control-input-content">
+                                            <span class="ant-input-affix-wrapper" style="border-radius: 8px;">
+                                                <input class="ant-input ant-input-lg" type="text" value="<%= chapter.getChapterNumber() %>" readonly>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Chapter Title -->
+                                <div class="ant-form-item item--1wVCg">
+                                    <div class="ant-row ant-form-item-row">
+                                        <div class="ant-col ant-form-item-label">
+                                            <label title="">
+                                                <div class="dib"><span>Chapter Title</span></div>
+                                            </label>
+                                        </div>
+                                        <div class="ant-form-item-control-input-content">
+                                            <span class="ant-input-affix-wrapper" style="border-radius: 8px;">
+                                                <input class="ant-input ant-input-lg" type="text" value="<%= chapter.getChapterName() %>" readonly>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <form action="<%= request.getContextPath()%>/deleteChapter" method="post">
+                                    <input type="hidden" name="novelId" value="<%= chapter.getNovelID() %>">
+                                    <input type="hidden" name="chapterId" value="<%= chapter.getChapterID() %>">
+                                    <div class="button-group">
+                                        <button type="submit" class="ant-btn ant-btn-primary ant-btn-lg button--4vWlZ btn-delete"><span>Delete Chapter</span></button>
+                                        <a href="<%= request.getContextPath()%>/mynovel?action=viewdetail&novelID=<%= chapter.getNovelID() %>">
+                                            <button type="button" class="ant-btn ant-btn-primary ant-btn-lg button--4vWlZ btn-cancel"><span>Cancel</span></button>
+                                        </a>
+                                    </div>
+                                </form>
+
+                                <% } %>
+                            </div>
+                        </div>
                     </div>
-                </form>
-
-                <% } %>
+                </div>
             </div>
         </div>
 

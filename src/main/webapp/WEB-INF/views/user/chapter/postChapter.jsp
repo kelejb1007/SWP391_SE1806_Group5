@@ -1,31 +1,59 @@
+<%-- 
+    Document   : postChapter.jsp
+    Created on : [Original creation date]
+    Author     : [Original author]
+--%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" href="css/homepage2/home2.css">
-        <link rel="stylesheet" href="css/homepage2/root.css?v=2">
-        <link rel="stylesheet" href="css/homepage2/header2.css?v=1">
-        <link rel="stylesheet" href="css/homepage2/layout2.css?v=2">
-        <link rel="stylesheet" href="css/homepage2/iconfont.css?v=1">
-        <link rel="stylesheet" href="css/homepage2/index.css?v=1">        
         <title>Post Chapter</title>
+        <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut") %>">
+
+        <!-- CSS từ postNovel.jsp -->
+        <link rel="stylesheet" href="css/startmin/bootstrap.css">
+        <link rel="stylesheet" href="css/startmin/startmin.css">
+        <link rel="stylesheet" href="css/startmin/font-awesome.min.css" type="text/css">
+
+        <link rel="shortcut icon" type="image/x-icon" href="//yuxseocdn.yuewen.com/favicon/readnovel.ico">
+        <link rel="stylesheet" type="text/css" href="css/mynovel/mynovel2.css" crossorigin="anonymous">
+        <script charset="utf-8" src="js/mynovel/mynovel2.js?v=1" crossorigin="anonymous"></script>
+
+        <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+        <!-- CSS cần thiết cho header2.jsp -->
+        <link rel="stylesheet" href="css/homepage2/header2.css?v=1">
+        <link rel="stylesheet" href="css/homepage2/iconfont.css?v=1">
+
         <style>
-            body {
-                font-family: Arial, sans-serif;
-                margin: 20px;
-            }
             .form-container {
                 margin: auto;
                 padding: 20px;
                 border-radius: 8px;
-                background-color: #f9f9f9;
+                background-color: #fff;
             }
-            .form-group {
-                margin-bottom: 15px;
+            .ant-form-item {
+                margin-bottom: 24px;
             }
-            label {
-                font-weight: bold;
+            .ant-input, .ant-input-lg {
+                border-radius: 8px;
+                font-size: 16px;
+            }
+            textarea.ant-input {
+                height: 130px;
+                resize: none;
+                min-height: 53.6px;
+            }
+            h3 {
+                text-align: center;
+                margin-bottom: 32px;
+                font-size: 20px;
+                font-weight: 700;
+                line-height: 24px;
+                color: rgba(18,18,23,.6);
+                font-variant: small-caps;
             }
             .message {
                 font-weight: bold;
@@ -43,36 +71,21 @@
                 background-color: #ffe6e6;
                 border: 1px solid red;
             }
-            button {
-                padding: 8px 12px;
-                background-color: #007bff;
-                color: white;
-                border: none;
+            .back-button {
+                margin-top: 10px;
+                display: inline-block;
+                margin-left: 10px;
+            }
+            .back-button a {
+                display: inline-block;
+                padding: 10px 20px;
+                background-color: #d9e0e7;
+                color: #000;
+                text-decoration: none;
                 border-radius: 5px;
-                cursor: pointer;
-            }
-            button:hover {
-                background-color: #0056b3;
-            }
-            textarea {
-                width: 100%;
-                height: 230px;
-                resize: none;
-                font-size: 18px;
-                padding: 8px;
-            }
-            h2 {
-                text-align: center;
-            }
-
-            .areaInput {
-                font-family: 'Open Sans', sans-serif;
-                font-size: 1.1rem;
-                /*color: #d9534f; */
                 font-weight: 600;
-                text-indent: 0.5rem;
-                opacity: 0.7;
-            }
+                border: 1px solid #d9d9d9;
+            }  
         </style>
     </head>
     <body>
@@ -80,73 +93,164 @@
             <jsp:include page="/WEB-INF/views/user/components/header2.jsp" /> 
         </header>
 
-        <h2>Post Chapter</h2>
-        <div class="form-container">
-            <%
-                Integer novelId = (Integer) request.getAttribute("novelId");
-                Integer nextChapterNumber = (Integer) request.getAttribute("nextChapterNumber");
-                String novelName = (String) request.getAttribute("novelName");
-                String message = (String) request.getAttribute("message");
-                String messageType = (request.getAttribute("messageType") != null) ? request.getAttribute("messageType").toString() : "success";
-            %>
+        <div class="g_main_wrap f1 pr" style="zoom: 1.1">
+            <div style="">
+                <div id="main_scroll_container" class="scroller--dBDRL pr">
+                    <div class="main_content--0x57a">
+                        <div class="default--zRToH bc_fff">
+                            <div class="form-container">
+                                <%
+                                    Integer novelId = (Integer) request.getAttribute("novelId");
+                                    Integer chapterNumber = (Integer) request.getAttribute("chapterNumber");
+                                    Integer chapterId = (Integer) request.getAttribute("chapterId");
+                                    String novelName = (String) request.getAttribute("novelName");
+                                    String chapterName = (String) request.getAttribute("chapterName");
+                                    String chapterContent = (String) request.getAttribute("chapterContent");
+                                    String message = (String) request.getAttribute("message");
+                                    String messageType = (request.getAttribute("messageType") != null) ? request.getAttribute("messageType").toString() : "success";
+                                %>
 
-            <% if (novelId == null || nextChapterNumber == null) {%>
-            <p class="message error"><%=message%></p>
-            <% } else {%>
+                                <% if (novelId == null || chapterNumber == null) { %>
+                                    <p class="message error"><%= message != null ? message : "Invalid novel or chapter information." %></p>
+                                <% } else { %>
 
-            <form action="<%= request.getContextPath()%>/postChapter" method="post" enctype="multipart/form-data">
-                <div class="form-group">
-                    <span>
-                        <input type="hidden" id="novelId" name="novelId" value="<%= novelId%>" readonly>
-                    </span>
+                                <form class="ant-form ant-form-vertical setting_form--R6kRQ" action="<%= request.getContextPath()%>/postChapter" method="post" enctype="multipart/form-data">
+                                    <h3>
+                                        <span role="img" class="anticon vam mr8">
+                                            <svg width="1em" height="1em" fill="currentColor" aria-hidden="true" focusable="false" class="">
+                                                <use xlink:href="#i-files"></use>
+                                            </svg>
+                                        </span>
+                                        POST CHAPTER
+                                    </h3>
+
+                                    <!-- Novel ID (Hidden) -->
+                                    <input type="hidden" id="novelId" name="novelId" value="<%= novelId%>" readonly>
+
+                                    <!-- Chapter ID (Hidden) -->
+                                    <input type="hidden" id="chapterId" name="chapterId" value="<%= chapterId != null ? chapterId : "" %>">
+
+                                    <!-- Novel Name -->
+                                    <div class="ant-form-item item--1wVCg">
+                                        <div class="ant-row ant-form-item-row">
+                                            <div class="ant-col ant-form-item-label">
+                                                <label for="novelName" class="ant-form-item-required" title="">
+                                                    <div class="dib"><span>Novel Name</span></div>
+                                                </label>
+                                            </div>
+                                            <div class="ant-form-item-control-input-content">
+                                                <span class="ant-input-affix-wrapper" style="border-radius: 8px;">
+                                                    <input name="novelName" id="novelName" class="ant-input ant-input-lg" 
+                                                           type="text" value="<%= novelName != null ? novelName : "Unknown"%>" readonly>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Chapter Number -->
+                                    <div class="ant-form-item item--1wVCg">
+                                        <div class="ant-row ant-form-item-row">
+                                            <div class="ant-col ant-form-item-label">
+                                                <label for="chapterNumber" class="ant-form-item-required" title="">
+                                                    <div class="dib"><span>Chapter Number</span></div>
+                                                </label>
+                                            </div>
+                                            <div class="ant-form-item-control-input-content">
+                                                <span class="ant-input-affix-wrapper" style="border-radius: 8px;">
+                                                    <input name="chapterNumber" id="chapterNumber" class="ant-input ant-input-lg" 
+                                                           type="number" value="<%= chapterNumber%>" min="1">
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Chapter Title -->
+                                    <div class="ant-form-item item--1wVCg">
+                                        <div class="ant-row ant-form-item-row">
+                                            <div class="ant-col ant-form-item-label">
+                                                <label for="chapterName" class="ant-form-item-required" title="">
+                                                    <div class="dib"><span>Chapter Title</span></div>
+                                                </label>
+                                            </div>
+                                            <div class="ant-form-item-control-input-content">
+                                                <span class="ant-input-affix-wrapper" style="border-radius: 8px;">
+                                                    <input name="chapterName" id="chapterName" class="ant-input ant-input-lg" 
+                                                           type="text" placeholder="Enter chapter title" 
+                                                           value="<%= chapterName != null ? chapterName : "" %>" required>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Input Method -->
+                                    <div class="ant-form-item item--1wVCg">
+                                        <div class="ant-row ant-form-item-row">
+                                            <div class="ant-col ant-form-item-label">
+                                                <label for="inputMethod" class="ant-form-item-required" title="">Choose Input Method</label>
+                                            </div>
+                                            <div class="ant-form-item-control-input-content">
+                                                <input type="radio" id="manual" name="inputMethod" value="manual" checked onclick="toggleInputMethod()">
+                                                <label for="manual" style="color: rgba(18, 18, 23, .9) !important; font-weight: 600; margin: 0px 7px 3px">Enter Manually</label>
+                                                <input type="radio" id="fileUpload" name="inputMethod" value="file" onclick="toggleInputMethod()">
+                                                <label for="fileUpload" style="color: rgba(18, 18, 23, .9) !important; font-weight: 600; margin: 0px 7px 3px">Upload File</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Chapter Content (Manual Input) -->
+                                    <div class="ant-form-item item--1wVCg" id="textInput">
+                                        <div class="ant-row ant-form-item-row">
+                                            <div class="ant-col ant-form-item-label">
+                                                <label for="chapterContent" class="ant-form-item-required" title="">Chapter Content</label>
+                                            </div>
+                                            <div class="ant-form-item-control-input-content">
+                                                <span class="ant-input-affix-wrapper">
+                                                    <textarea name="chapterContent" id="chapterContent" class="ant-input" 
+                                                              placeholder="Type the chapter content here" 
+                                                              required><%= chapterContent != null ? chapterContent : "" %></textarea>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Chapter Content (File Upload) -->
+                                    <div class="ant-form-item item--1wVCg" id="fileInput" style="display: none;">
+                                        <div class="ant-row ant-form-item-row">
+                                            <div class="ant-col ant-form-item-label">
+                                                <label for="file" title="">Upload Chapter File (.txt)</label>
+                                            </div>
+                                            <div class="ant-form-item-control-input-content">
+                                                <input type="file" id="file" name="file" accept=".txt">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Hidden Field for Chapter Status -->
+                                    <input type="hidden" name="chapterStatus" value="pending">
+
+                                    <!-- Submit and Reset Buttons -->
+                                    <button type="submit" class="ant-btn ant-btn-primary ant-btn-lg button--4vWlZ"><span>Post Chapter</span></button>
+                                    <button type="reset" class="ant-btn ant-btn-primary ant-btn-lg button--4vWlZ"><span>Reset</span></button>
+                                    <div class="back-button">
+                                        <a href="<%= request.getContextPath()%>/mynovel?action=viewdetail&novelID=<%= novelId%>">Back to Novel Details</a>
+                                    </div>
+                                </form>
+
+                                <% if (message != null) { %>
+                                    <p class="message <%= messageType%>"><%= message%></p>
+                                <% } %>
+
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
-                <div class="form-group">
-                    <label for="novelName">Novel Name:</label>
-                    <span>
-                        <input type="text" id="novelName" name="novelName" value="<%= novelName != null ? novelName : "Unknown"%>" readonly>
-                    </span>
-                </div>
-
-                <div class="form-group">
-                    <label for="chapterNumber">Chapter Number:</label>
-                    <input type="number" id="chapterNumber" name="chapterNumber" value="<%= nextChapterNumber%>" min="1" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="chapterName">Chapter Title:</label>
-                    <input type="text" id="chapterName" name="chapterName" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Choose Input Method:</label><br>
-                    <input type="radio" id="manual" name="inputMethod" value="manual" checked onclick="toggleInputMethod()">
-                    <label for="manual">Enter Manually</label>
-                    <input type="radio" id="fileUpload" name="inputMethod" value="file" onclick="toggleInputMethod()">
-                    <label for="fileUpload">Upload File</label>
-                </div>
-
-                <div class="form-group" id="textInput">
-                    <label for="chapterContent">Chapter Content:</label>
-                    <textarea class="areaInput" id="chapterContent" name="chapterContent" required></textarea>
-                </div>
-
-                <div class="form-group" id="fileInput" style="display: none;">
-                    <label for="file">Upload Chapter File (.txt):</label>
-                    <input type="file" id="file" name="file" accept=".txt">
-                </div>
-
-                <input type="hidden" name="chapterStatus" value="pending">
-
-                <button type="submit">Post Chapter</button>
-            </form>
-
-            <% if (message != null) {%>
-            <p class="message <%= messageType%>"><%= message%></p>
-            <% } %>
-
-            <% }%>
+            </div>
         </div>
+
+        <footer>
+            <jsp:include page="/WEB-INF/views/user/components/footer.jsp" /> 
+        </footer>
 
         <script>
             function toggleInputMethod() {
@@ -170,7 +274,4 @@
             }
         </script>
     </body>
-    <footer>
-        <jsp:include page="/WEB-INF/views/user/components/footer.jsp" /> 
-    </footer>
 </html>

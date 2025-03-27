@@ -31,9 +31,8 @@
                 text-align: center;
                 padding: 15px 0;
                 margin-top: 30px;
-                /* background-color: rgba(70, 130, 180, 0.2); /* Darker Blue with 60% opacity */
                 background-color: rgba(255, 255, 255, 0.1);
-                box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Adjusted shadow */
+                box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
                 font-family: 'Macondo Swash Caps', cursive;
                 background-size: cover
             }
@@ -58,27 +57,37 @@
                 <div class="g_main_wrap f1 pr">
                     <div style="">
                         <div class="pf t0 l0 header--Unk0j df jcsb">
-                            <div class="undefined g_header df fg1 oh" >
+
+                            <div class="undefined g_header df fg1 oh">
                                 <div class="df aic g_header_title"><label for="foldSwitch" class="collapse_menu--QStMM mr8">
                                         <div class="df g_sd_close collapse_menu_btn--f8c2W"><i></i></div>
                                     </label>
-                                    <h2 class="header_title--gwRuS ell dib mw100p t_title_large mb0 vam"><span class="ttc" style="zoom: 1.1">Submission</span></h2>
-
+                                    <h2 class="header_title--gwRuS ell dib mw100p t_title_large mb0 vam"><span class="ttc">Submission</span></h2>
+                                    <div class="df aic">
+                                        <div class="g_top_tab">
+                                            <div class="g_top_tab_container">
+                                                <button class="tab_button" onclick="showPage(this, 'page1')" style="all:unset">
+                                                    <span class="g_top_tab_item fvsc">Novel</span></button>
+                                                <button class="tab_button" onclick="showPage(this, 'page2')" style="all:unset">
+                                                    <span class="g_top_tab_item _on fvsc">Chapter</span></button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
 
                         <div id="main_scroll_container" class="scroller--dBDRL pr">
                             <div class="header_ph_nav--0QeBW"></div>
                             <div class="main_content--0x57a with_navigator--ZJqIM">
                                 <div class="ant-spin-container">
-                                    <div class="default--zRToH bc_fff ">
+
+                                    <div class="default--zRToH bc_fff">
                                         <div>
-                                            <ul class="row list" style="margin-left: auto; margin-right: auto; padding: 0px 0;">
-
-
+                                            <ul class="row list" style="margin-left: auto; margin-right: auto; padding: 0;">
                                                 <!-- /.panel-heading -->
-                                                <div class="panel-body" style="display: block; width: 100%; font-size: 15px">
+                                                <div class="panel-body" style="display: block; width: 100%; font-size: 15px; padding: 20px 0">
 
                                                     <c:if test="${empty list}">
                                                         <div class="ant-empty">
@@ -91,14 +100,15 @@
                                                                     <p class="message_sub">Click the button below to create your first chapter now.</p>
                                                                 </div>
                                                                 <div style="margin-top: 16px;">
-                                                                    <button data-report-uiname="create" data-report-pn="work_novel" type="button" class="ant-btn ant-btn-primary ant-btn-background-ghost  button--4vWlZ"
+
+                                                                    <button data-report-uiname="create" data-report-pn="work_novel" type="button" class="ant-btn ant-btn-primary ant-btn-background-ghost button--4vWlZ"
+
                                                                             onclick="window.location.href = 'mynovel?action=post';">
                                                                         <span>create now</span>
                                                                     </button>
                                                                 </div>
                                                             </div>
                                                         </div>
-
 
                                                     </c:if>
                                                     <c:if test="${not empty list}">
@@ -128,36 +138,30 @@
                                                                             <td>${c.approvalDate}</td>
                                                                             <td>
                                                                                 <c:choose>
-                                                                                    <c:when test = "${c.type == 'update'}">
+
+                                                                                    <c:when test="${c.type == 'update'}">
                                                                                         <a href="${pageContext.request.contextPath}/chapter?id=${c.draftID}" title="View Draft">${c.type}</a>
                                                                                     </c:when>
+                                                                                    <c:when test="${c.type == 'post'}">
 
-                                                                                    <c:when test = "${c.type == 'post'}">
                                                                                         ${c.type}
                                                                                     </c:when>
                                                                                 </c:choose>
                                                                             </td>
                                                                             <td <c:choose>
-                                                                                    <c:when test = "${c.status == 'rejected'}">
+                                                                                    <c:when test="${c.status == 'rejected'}">
                                                                                         style="color: red"
                                                                                     </c:when>
-
-                                                                                    <c:when test = "${c.status == 'approved'}">
+                                                                                    <c:when test="${c.status == 'approved'}">
                                                                                         style="color: black"
                                                                                     </c:when>
-
-                                                                                    <c:when test = "${c.status == 'pending'}">
+                                                                                    <c:when test="${c.status == 'pending'}">
+                                                                                        >>>>>>> Phat_stage7
                                                                                         style="color: green"
                                                                                     </c:when>
                                                                                 </c:choose>
                                                                                 >${c.status}</td>
                                                                             <td>${c.reasonRejected}</td>
-                                                                            <!--                                                                    <td>
-                                                                                                                                                    <button type="button" class="btn btn-info"
-                                                                                                                                                            onclick="window.location.href = 'managenovel?action=viewdetail&novelID=${c.novelID}';">View detail
-                                                                                                                                                    </button>
-                                                                                                                                                    <button type="button" id="open" class="btn btn-danger" onclick="openLockModal('${c.novelID}', '${c.novelName}')">Lock</button>
-                                                                                                                                                </td>-->
                                                                         </tr>
                                                                     </c:forEach>  
                                                                 </tbody>
