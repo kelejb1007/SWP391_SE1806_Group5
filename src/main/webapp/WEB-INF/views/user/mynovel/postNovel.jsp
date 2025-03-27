@@ -151,7 +151,7 @@
 
 
 
-                                                             <input id="file-input" type="file" name="imageURL" accept="image/*" style="display: none;"
+                                                             <input id="file-input" type="file" name="imageURL" accept="image/*" style="opacity: 0; position: absolute"
                                                              <c:if test="${novel.imageURL == null}"> required </c:if>>
                                                         <input type="hidden" name="file_hidden" value="${novel.imageURL}">
 

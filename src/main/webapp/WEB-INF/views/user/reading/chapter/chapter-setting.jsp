@@ -310,6 +310,9 @@
             }
         </style>
     <div class="sidebar">
+        <a href="homepage" class="text-decoration-none">
+    <i class="bi bi-house sidebar-icon" data-bs-toggle="offcanvas" data-bs-target="#offcanvasHome" aria-controls="offcanvasHome" title="Home"></i>
+</a>
         <i class="bi bi-palette2 sidebar-icon" data-bs-toggle="offcanvas" data-bs-target="#offcanvasChapter" aria-controls="offcanvasChapter" title="Chapter"></i>
         <i class="bi bi-gear sidebar-icon" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSettings" aria-controls="offcanvasSettings" title="Settings"></i>
     </div>

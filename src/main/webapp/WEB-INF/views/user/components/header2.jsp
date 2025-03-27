@@ -22,7 +22,7 @@
         </style>
     </head>
     <body>
-        <div class="header" style="zoom: 1.1;">
+        <div class="header" style="zoom: 1.1">
             <div class="top-head box-center cf">
 
 

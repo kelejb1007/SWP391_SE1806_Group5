@@ -14,7 +14,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="">
         <meta name="author" content="">
-        <title>Staff Main Page</title>
+        <title>Admin Main Page</title>
         <link rel="shortcut icon" type="image/x-icon" href="<%= application.getInitParameter("shortcut") %>">
 
 <!--         Bootstrap Core CSS -->
