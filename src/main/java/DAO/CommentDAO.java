@@ -49,6 +49,7 @@ public class CommentDAO {
         return comment;
     }
 
+  
     public boolean addComment(Comment comment) {
         String sql = "INSERT INTO Comment (userID, novelID, commentContent, commentDate) VALUES (?, ?, ?, ?)";
         try ( Connection connection = db.getConnection();  PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -64,12 +65,16 @@ public class CommentDAO {
         }
     }
 
+
     
     
-    public boolean deleteComment(int commentId) {
+ 
+
+    public boolean deleteComment(int commentId, int userId) {
         String sql = "DELETE FROM Comment WHERE commentID = ? AND userID = ?";
         try ( Connection connection = db.getConnection();  PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, commentId);
+             stmt.setInt(2, userId);
             int rowsAffected = stmt.executeUpdate();
             return rowsAffected > 0;
         } catch (SQLException e) {
@@ -77,6 +82,7 @@ public class CommentDAO {
             return false;
         }
     }
+
 
     public boolean updateComment(int commentId, int userId, String newContent) { // command: cập nhật bình luận
         String sql = "UPDATE Comment SET commentContent = ? WHERE commentID = ? AND userID = ?";
@@ -118,7 +124,7 @@ public class CommentDAO {
 
     public List<Comment> getAllComments() {
         List<Comment> comments = new ArrayList<>();
-        String sql = "SELECT c.commentID, c.userID, u.fullName, c.novelID, c.commentContent, c.commentDate " +
+  String sql = "SELECT c.commentID, c.userID, u.fullName, c.novelID, c.commentContent, c.commentDate " +
                  "FROM Comment c JOIN UserAccount u ON c.userID = u.userID " +
                  "ORDER BY c.commentDate DESC";
         try ( Connection connection = db.getConnection();  PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -138,6 +144,7 @@ public class CommentDAO {
         }
         return comments;
     }
+
 
     public boolean deleteCommentByStaff(int commentId) {
         String sql = "DELETE FROM Comment WHERE commentID = ?";

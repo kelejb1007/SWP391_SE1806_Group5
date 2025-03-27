@@ -8,82 +8,118 @@
     <title>Add Comment</title>
     
     <style>
-         body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f8f8;
-            margin: 0;
-            padding: 0;
-        }
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f6f9;
+        margin: 0;
+        padding: 20px;
+        min-height: 100vh;
+    }
 
+    .comments-section {
+        width: 100%; /* Chiếm toàn bộ chiều rộng container cha */
+        background: #ffffff;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    h3 {
+        
+        color: #2c3e50;
+        margin-bottom: 25px;
+        font-size: 24px;
+        font-weight: 600;
+    }
+
+    #commentContent {
+        width: 100%;
+        min-height: 120px;
+        padding: 12px;
+        font-size: 15px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        resize: vertical;
+        outline: none;
+        box-sizing: border-box;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    #commentContent:focus {
+        border-color: #3498db;
+        box-shadow: 0 0 10px rgba(52, 152, 219, 0.1);
+    }
+
+    .error-message {
+        color: #e74c3c;
+        font-size: 14px;
+        font-weight: 500;
+        margin: 10px 0;
+        text-align: left;
+        min-height: 20px;
+    }
+
+    button[type="submit"] {
+        width: 100%;
+        padding: 12px;
+        background-color: #3498db;
+        color: #ffffff;
+        font-size: 16px;
+        font-weight: 500;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.1s ease;
+    }
+
+    button[type="submit"]:hover {
+        background-color: #2980b9;
+    }
+
+    button[type="submit"]:active {
+        transform: scale(0.98);
+    }
+
+    .login-message {
+        text-align: center;
+        margin-top: 20px;
+        color: #7f8c8d;
+        font-size: 14px;
+    }
+
+    .login-message a {
+        color: #3498db;
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.3s ease;
+    }
+
+    .login-message a:hover {
+        color: #2980b9;
+        text-decoration: underline;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
         .comments-section {
-            width: 50%;
-            background: #fff;
-            padding: 20px;
-            margin: 30px auto;
-            border-radius: 8px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 15px;
         }
 
         h3 {
-            text-align: center;
-            color: #333;
+            font-size: 20px;
         }
 
         #commentContent {
-            width: 100%;
-            height: 100px;
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            resize: none;
-            outline: none;
-            transition: 0.3s;
-        }
-
-        #commentContent:focus {
-            border-color: #007bff;
-            box-shadow: 0px 0px 8px rgba(0, 123, 255, 0.2);
-        }
-
-        .error-message {
-            color: red;
-            font-weight: bold;
-            margin-bottom: 10px;
-            text-align: center;
+            min-height: 100px;
+            font-size: 14px;
         }
 
         button[type="submit"] {
-            width: 100%;
-            padding: 12px;
-            background-color: #007bff;
-            color: white;
-            font-size: 16px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: 0.3s;
+            font-size: 15px;
+            padding: 10px;
         }
-
-        button[type="submit"]:hover {
-            background-color: #0056b3;
-        }
-
-        .login-message {
-            text-align: center;
-            margin-top: 15px;
-        }
-
-        .login-message a {
-            color: #007bff;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .login-message a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    }
+</style>
     <script>
         function validateComment(event) {
             var commentContent = document.getElementById("commentContent").value.trim();
@@ -122,7 +158,7 @@
                 <input type="hidden" name="novelID" value="${novel.novelID}">
                 <p id="error-message" class="error-message"></p>
                 <textarea id="commentContent" name="commentContent" placeholder="Write your comment here...">${param.commentContent}</textarea>
-                <button type="submit" name="action" value="add">Submit</button>
+                <button type="submit" name="action" value="add">Send</button>
             </form>
         </c:if>
         <c:if test="${empty sessionScope.user}">
