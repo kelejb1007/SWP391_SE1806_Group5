@@ -227,6 +227,9 @@ a {
                             <li>
                                 <a href="${pageContext.request.contextPath}/manageaccount?action=viewLocked">View locked accounts</a>
                             </li>
+                             <li>
+                                <a href="${pageContext.request.contextPath}/manageaccount?action=viewLockingHistory">View Locking History</a>
+                            </li>
                         </ul>
 
                     </li>

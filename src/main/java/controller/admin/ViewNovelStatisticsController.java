@@ -4,18 +4,28 @@
  */
 package controller.admin;
 
+import DAO.NovelDAO;
+import DAO.UserAccountDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.sql.SQLException;
+import java.util.List;
+import model.Novel;
+import model.UserAccount;
 
 /**
  *
- * @author Nguyen Thanh Trung
+ * @author Admin
  */
-public class AdminDashboardController extends HttpServlet {
+@WebServlet(name = "ViewNovelStatisticsController", urlPatterns = {"/viewnovelstatisticscontroller"})
+public class ViewNovelStatisticsController extends HttpServlet {
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,10 +44,10 @@ public class AdminDashboardController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet AdminDashboardController</title>");
+            out.println("<title>Servlet ViewNovelStatisticsController</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet AdminDashboardController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ViewNovelStatisticsController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -55,7 +65,52 @@ public class AdminDashboardController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("/WEB-INF/views/admin/dashboard.jsp").forward(request, response);
+        String action = request.getParameter("action");
+        if (action == null || action.trim().equals("")) {
+            action = "default";
+        }
+
+        switch (action) {
+            case "viewNovelStatistics":
+                viewNovelStatistics(request, response);
+                break;
+            case "viewUserStatistics":
+                viewUserStatistics(request, response);
+                break;
+            default:
+                viewNovelStatistics(request, response);
+        }
+    }
+
+    private void viewNovelStatistics(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        NovelDAO dao = new NovelDAO();
+        try {
+
+            List<Novel> novelStatistics = dao.getAllNovelStatistics();
+            request.setAttribute("statistics", novelStatistics);
+            request.getRequestDispatcher("/WEB-INF/views/admin/viewNovelStatistics.jsp").forward(request, response);
+        } catch (SQLException ex) {
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error loading novel statistics");
+        }
+    }
+
+    private void viewUserStatistics(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        UserAccountDAO dao = new UserAccountDAO();
+        try {
+            // Lấy danh sách thống kê người dùng từ DAO
+            List<UserAccount> userStatistics = dao.getUserStatistics();
+
+            // Đưa dữ liệu vào request để gửi tới JSP
+            request.setAttribute("userStatistics", userStatistics);
+
+            // Chuyển hướng tới trang JSP để hiển thị dữ liệu
+            request.getRequestDispatcher("/WEB-INF/views/admin/viewUserStatistics.jsp").forward(request, response);
+        } catch (SQLException ex) {
+            // Gửi lỗi nếu có ngoại lệ xảy ra
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error loading user statistics");
+        }
     }
 
     /**

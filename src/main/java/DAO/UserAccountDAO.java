@@ -169,7 +169,7 @@ public class UserAccountDAO {
     // Lấy danh sách tất cả tài khoản
     public List<UserAccount> getAllAccounts() throws SQLException {
         List<UserAccount> listAccounts = new ArrayList<>();
-        String sql = "SELECT * FROM UserAccount";
+        String sql = "SELECT * FROM UserAccount WHERE status = 0 ";
         try ( Connection conn = dbContext.getConnection();  PreparedStatement stmt = conn.prepareStatement(sql);  ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
@@ -216,16 +216,22 @@ public class UserAccountDAO {
     }
 
     // Cập nhật trạng thái khóa/mở khóa tài khoản
-    public void updateLockStatus(int userID, boolean newStatus) throws SQLException {
+    public boolean updateLockStatus(int userID, boolean newStatus) throws SQLException {
         String sql = "UPDATE UserAccount SET status = ? WHERE userID = ?";
         try ( Connection conn = dbContext.getConnection();  PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, newStatus ? 1 : 0); // 1 = mở khóa, 0 = khóa
+
+            stmt.setInt(1, newStatus ? 1 : 0); // 1 = bị khóa, 0 = mở khóa
             stmt.setInt(2, userID);
-            stmt.executeUpdate();
+
+            // Execute update and get the number of affected rows
+            int rowsAffected = stmt.executeUpdate();
+
+            // Return true if at least one row is updated, false otherwise
+            return rowsAffected > 0;
         }
     }
-    // Khoa thêm phần này cho ViewProfile
 
+    // Khoa thêm phần này cho ViewProfile
     public UserAccount getUserByUsername(String username) {
         // Câu truy vấn SQL lấy thông tin người dùng từ bảng UserAccount
         String sql = "SELECT * FROM UserAccount WHERE userName = ?";
@@ -252,6 +258,7 @@ public class UserAccountDAO {
             e.printStackTrace();
         }
     }
+
     // Khoa thêm phần này cho EditProfile  
     // Kiểm tra username hoặc email đã tồn tại (bỏ qua user hiện tại)
     public boolean doesUserExist(String newUsername, String email, int userID) {
@@ -289,6 +296,7 @@ public class UserAccountDAO {
             e.printStackTrace();
         }
     }
+
     //ChangePass
     public boolean updatePassword(int userID, String oldPassword, String newPassword) {
         String sqlCheck = "SELECT password FROM UserAccount WHERE userID = ?";
@@ -320,9 +328,39 @@ public class UserAccountDAO {
         }
         return false;
     }
+
+
+
+
+    //--------------------------------------------------------------//
+    public List<UserAccount> getUserStatistics() throws SQLException {
+        List<UserAccount> userStatisticsList = new ArrayList<>();
+        String query = "SELECT UA.userID, UA.userName, UA.fullName, "
+                + "(SELECT COUNT(*) FROM LockAccountLog WHERE userID = UA.userID AND action = 'lock') AS lockedCount, "
+                + "(SELECT COUNT(*) FROM Comment WHERE userID = UA.userID) AS commentCount, "
+                + "(SELECT COUNT(*) FROM Rating WHERE userID = UA.userID) AS ratingCount, "
+                + "(SELECT COUNT(*) FROM Favorite WHERE userID = UA.userID AND isFavorite = 1) AS favoriteCount, "
+                + "(SELECT COUNT(*) FROM ReadingHistory WHERE userID = UA.userID) AS readingHistoryCount "
+                + "FROM UserAccount UA";
+
+        try ( Connection con = dbContext.getConnection();  Statement stmt = con.createStatement();  ResultSet rs = stmt.executeQuery(query)) {
+
+            while (rs.next()) {
+                UserAccount userStatistics = new UserAccount();
+                userStatistics.setUserID(rs.getInt("userID"));
+                userStatistics.setUserName(rs.getString("userName"));
+                userStatistics.setFullName(rs.getString("fullName"));
+//                userStatistics.setLockedCount(rs.getInt("lockedCount"));
+//                userStatistics.setCommentCount(rs.getInt("commentCount"));
+//                userStatistics.setRatingCount(rs.getInt("ratingCount"));
+//                userStatistics.setFavoriteCount(rs.getInt("favoriteCount"));
+//                userStatistics.setReadingHistoryCount(rs.getInt("readingHistoryCount"));
+
+                userStatisticsList.add(userStatistics);
+            }
+        }
+
+        return userStatisticsList;
+    }
+
 }
-
-
-
-
-
