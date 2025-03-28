@@ -104,7 +104,8 @@ public class MyNovelController extends HttpServlet {
                 viewChapterPostingHistory(request, response);
                 break;
             default:
-                request.getRequestDispatcher("/WEB-INF/views/user/mynovel/authorDashboard.jsp").forward(request, response);
+//                request.getRequestDispatcher("/WEB-INF/views/user/mynovel/authorDashboard.jsp").forward(request, response);
+                viewMyNovels(request, response);
         }
     }
 

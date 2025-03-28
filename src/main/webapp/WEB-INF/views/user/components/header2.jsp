@@ -115,7 +115,7 @@
                         </ul>
                     </div>
                     <div class="right-nav fr mr12">
-                        <a href="mynovel" target="_blank"><em class="iconfont">
+                        <a href="mynovel?action=mynovel" target="_blank"><em class="iconfont">
                                 <i class="fa-solid fa-pen-to-square"></i>
                             </em>My Novel</a>
                     </div>

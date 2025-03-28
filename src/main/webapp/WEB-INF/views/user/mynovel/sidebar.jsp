@@ -14,9 +14,9 @@
 
                 <!-- List-------------------------- -->
                 <ul class="g_nav_list">
-                    <li class=""><a class="g_sd_option" title="Dashboard" href="mynovel"><span role="img" class="anticon g_sd_i"><svg width="1em" height="1em" fill="currentColor" aria-hidden="true" focusable="false" class="">
+<!--                    <li class=""><a class="g_sd_option" title="Dashboard" href="mynovel"><span role="img" class="anticon g_sd_i"><svg width="1em" height="1em" fill="currentColor" aria-hidden="true" focusable="false" class="">
                                 <use xlink:href="#i-dashboard"></use>
-                                </svg></span><strong class="t_body_large ml16">Dashboard</strong></a><span class="g_side_tooltips t_label_medium">Dashboard</span></li>
+                                </svg></span><strong class="t_body_large ml16">Dashboard</strong></a><span class="g_side_tooltips t_label_medium">Dashboard</span></li>-->
 
 
                     <li class=" "><a class="g_sd_option   " title="My Novels" href="mynovel?action=mynovel"><span role="img" class="anticon g_sd_i"><svg width="1em" height="1em" fill="currentColor" aria-hidden="true" focusable="false" class="">
