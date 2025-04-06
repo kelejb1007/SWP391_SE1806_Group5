@@ -65,14 +65,17 @@
                                 <div class="down-drop" id="j-userDownDrop">
                                     <dl>
                                         <dd><a href="viewprofile" >View Profile</a></dd>
-                                        <dd><a href="changePassword" >Change Password</a></dd>
+                                        <dd><a href="changePassword" >Change Password</a></dd>                             
+                                        <dd><a href="NotificationController" >Notification</a></dd>                                       
                                         <dd><form id="logoutForm" action="<c:url value='/Logout' />" method="post">
                                             <a href="#" onclick="document.getElementById('logoutForm').submit(); return false;">Logout</a>
                                         </form></dd>
 
                                 </dl>
                             </div>
+
                         </div>
+
 
 
                         <ul> 
@@ -101,15 +104,15 @@
                                     </dl>
                                 </div>
                             </li>
-<!--                            <li class=""><a href="/rank">aa</a></li>
-                            <li class=""><a href="/free">i</a></li>
-                            <li class=""><a href="/finish">完本</a></li>
-                            <li><a href="/gdyq">古言</a></li>
-                            <li><a href="/xdyq">现言</a></li>
-                            <li><a href="/xhxx">玄幻仙侠</a></li>
-                            <li><a href="/lykh">悬疑科幻</a></li>
-                            <li><a href="/qcyx">青春游戏</a></li>
-                            <li><a href="/fsg">风尚阁</a></li>-->
+                            <!--                            <li class=""><a href="/rank">aa</a></li>
+                                                        <li class=""><a href="/free">i</a></li>
+                                                        <li class=""><a href="/finish">完本</a></li>
+                                                        <li><a href="/gdyq">古言</a></li>
+                                                        <li><a href="/xdyq">现言</a></li>
+                                                        <li><a href="/xhxx">玄幻仙侠</a></li>
+                                                        <li><a href="/lykh">悬疑科幻</a></li>
+                                                        <li><a href="/qcyx">青春游戏</a></li>
+                                                        <li><a href="/fsg">风尚阁</a></li>-->
 
 
                         </ul>
@@ -129,17 +132,17 @@
         <script src="js/homepage2/header.js"></script>
         <script src="js/homepage2/round.js"></script>
         <script>
-                        $(document).ready(function () {
-                            $("#j-navType").showTypeList({
-                            });
+                                                $(document).ready(function () {
+                                                    $("#j-navType").showTypeList({
+                                                    });
 
-                            $("#j-userWrap").userDropDown({
-                            });
+                                                    $("#j-userWrap").userDropDown({
+                                                    });
 
-                            $("#formUrl").enterSearchBox({
-                            });
+                                                    $("#formUrl").enterSearchBox({
+                                                    });
 
-                        });
+                                                });
         </script>
     </body>
 </html>

@@ -48,6 +48,7 @@
                                                         <h3 class = "novel-title">${novel.novelName}</h3>
                                                     </a>
                                                     <p class = "novel-author">By: ${novel.author}</p>
+                                                    
                                                 </div>
                                             </c:forEach>
                                         </div>

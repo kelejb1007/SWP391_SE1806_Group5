@@ -71,7 +71,7 @@
 
                                                                 <td>
                                                                     <c:choose>
-                                                                        <c:when test="${acc.status == 1}">
+                                                                        <c:when test="${acc.status == 1 }">
                                                                             <a href="manageaccount?action=unlock&userID=${acc.userID}" class="btn btn-success">Unlock</a>
                                                                         </c:when>
 

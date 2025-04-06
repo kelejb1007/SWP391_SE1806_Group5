@@ -25,6 +25,7 @@ import utils.DBContext;
  */
 public class NovelDAO {
 
+    private static final Logger LOGGER = Logger.getLogger(NovelDAO.class.getName());
     private final DBContext db;
 
     public NovelDAO() {
@@ -270,7 +271,7 @@ public class NovelDAO {
                 m.setNovelName(rs.getString("novelName"));
                 m.setTotalChapter(rs.getInt("totalChapter"));
                 m.setNovelStatus(rs.getString("novelStatus"));
-                m.setPublishedDate(rs.getTimestamp("publishedDate") != null ? rs.getTimestamp("publishedDate").toLocalDateTime() : null);             
+                m.setPublishedDate(rs.getTimestamp("publishedDate") != null ? rs.getTimestamp("publishedDate").toLocalDateTime() : null);
                 m.setPublishDate2(new Date(rs.getTimestamp("publishedDate") != null ? rs.getTimestamp("publishedDate").getTime() : null));
                 m.setLockDate2(rs.getTimestamp("datetime") != null ? new Date(rs.getTimestamp("datetime").getTime()) : null);
                 m.setLockReason(rs.getString("lockReason"));
@@ -992,6 +993,58 @@ public class NovelDAO {
         }
 
         return novelList;
+    }
+
+    public String getNovelNameById(int novelID) {
+        String sql = "SELECT novelName FROM Novels WHERE novelID = ?";
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String novelName = null;
+
+        try {
+            conn = db.getConnection();
+            if (conn != null) {
+                ps = conn.prepareStatement(sql);
+                ps.setInt(1, novelID);
+                rs = ps.executeQuery();
+                if (rs.next()) {
+                    novelName = rs.getString("novelName");
+                }
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error getting novel name for novelID " + novelID, e);
+        }
+        return novelName;
+    }
+
+    public List<Novel> getTopNovelsByMonth(int month, int year) {
+        List<Novel> list = new ArrayList<>();
+        String sql = "SELECT TOP 10 n.novelID, n.novelName, n.imageURL, COUNT(v.viewID) AS viewCount "
+                + "FROM Novel n "
+                + "JOIN Viewing v ON n.novelID = v.novelID "
+                + "WHERE MONTH(v.viewDate) = ? AND YEAR(v.viewDate) = ? "
+                + "GROUP BY n.novelID, n.novelName, n.imageURL "
+                + "ORDER BY viewCount DESC";
+
+        try ( Connection conn = db.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, month);
+            ps.setInt(2, year);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Novel n = new Novel();
+                n.setNovelID(rs.getInt("novelID"));
+                n.setNovelName(rs.getString("novelName"));
+                n.setImageURL(rs.getString("imageURL"));
+                n.setViewCount(rs.getInt("viewCount"));
+                list.add(n);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
     }
 
 }   //------------------------------------------------------------------------------------------------------------------

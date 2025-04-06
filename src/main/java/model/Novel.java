@@ -99,7 +99,6 @@ public class Novel {
     public void setTotalComments(int totalComments) {
         this.totalComments = totalComments;
     }
-    
 
     private String authorImage;
 

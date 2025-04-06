@@ -7,6 +7,8 @@ import model.ManagerAccount;
 import utils.DBContext;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -208,29 +210,40 @@ public class ManagerAccountDAO {
 
     // Lấy danh sách tài khoản bị khóa
     public List<ManagerAccount> getLockedAccounts() {
-        List<ManagerAccount> listAccounts = new ArrayList<>();
-        String sql = "SELECT managerID, username, password, creationDate, fullName, email, numberPhone, gender, canLock, canApprove, role, status "
-                + "FROM ManagerAccount WHERE status = 0"; // Chỉ lấy tài khoản bị khóa
+        List<ManagerAccount> lockedAccounts = new ArrayList<>();
+        String query = "SELECT * FROM ManagerAccount WHERE status = 1"; // Giả sử 1 là trạng thái bị khóa.
 
-        try ( Connection conn = dbContext.getConnection();  PreparedStatement stmt = conn.prepareStatement(sql);  ResultSet rs = stmt.executeQuery()) {
+        try ( Connection conn = dbContext.getConnection();  PreparedStatement stmt = conn.prepareStatement(query);  ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                listAccounts.add(mapResultSetToAccount(rs));
+                ManagerAccount account = new ManagerAccount();
+                account.setManagerID(rs.getInt("managerID"));
+                account.setUsername(rs.getString("username"));
+                account.setFullName(rs.getString("fullName"));
+                account.setEmail(rs.getString("email"));
+                account.setNumberPhone(rs.getString("phone"));
+                account.setGender(rs.getString("gender"));
+                account.setRole(rs.getString("role"));
+                account.setStatus(rs.getInt("status"));
+                account.setLockReason(rs.getString("lockReason"));
+                lockedAccounts.add(account);
             }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+        } catch (SQLException e) {
+            Logger.getLogger(ManagerAccountDAO.class.getName()).log(Level.SEVERE, "Error retrieving locked accounts", e);
         }
-        return listAccounts;
+        return lockedAccounts;
     }
 
     // Cập nhật trạng thái khóa/mở khóa tài khoản
-    public void updateLockStatus(int managerID, boolean newStatus) throws SQLException {
+    public boolean updateLockStatus(int managerID, boolean newStatus) throws SQLException {
         String sql = "UPDATE ManagerAccount SET status = ? WHERE managerID = ?";
         try ( Connection conn = dbContext.getConnection();  PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, newStatus ? 1 : 0); // 1 = Mở khoá, 0 = Khoá
             stmt.setInt(2, managerID);
-            stmt.executeUpdate();
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
         }
+
     }
 
     private ManagerAccount mapResultSetToAccount(ResultSet rs) throws SQLException {
@@ -246,8 +259,7 @@ public class ManagerAccountDAO {
         account.setCanLock(rs.getBoolean("canLock"));
         account.setCanApprove(rs.getBoolean("canApprove"));
         account.setRole(rs.getString("role"));
-
-//        account.setStatus(rs.getInt("status"));
+        //account.setStatus(rs.getInt("status"));
         return account;
     }
     //Khoa thêm cho Register Staff
@@ -346,59 +358,56 @@ public class ManagerAccountDAO {
         }
     }
 
-  
-   public boolean changeAdminPassword(int managerID, String oldPassword, String newPassword) {
-    if (!isValidPassword(newPassword)) {
-        System.out.println("Invalid password! Please enter a strong password, no spaces.");
-        return false;
-    }
-
-    String checkPasswordSQL = "SELECT password FROM ManagerAccount WHERE managerID = ? AND role = 'Admin'";
-    String updatePasswordSQL = "UPDATE ManagerAccount SET password = ? WHERE managerID = ? AND role = 'Admin'";
-
-    try (Connection conn = dbContext.getConnection();
-         PreparedStatement checkStmt = conn.prepareStatement(checkPasswordSQL)) {
-
-        checkStmt.setInt(1, managerID);
-        ResultSet rs = checkStmt.executeQuery();
-
-        if (rs.next()) {
-            String storedHashedPassword = rs.getString("password");
-            String hashedOldPassword = hashSHA256(oldPassword);
-            String hashedNewPassword = hashSHA256(newPassword);
-
-            if (!storedHashedPassword.equals(hashedOldPassword)) {
-                System.out.println("Old password is incorrect.");
-                return false;
-            }
-
-            // Kiểm tra nếu mật khẩu mới giống với mật khẩu hiện tại
-            if (storedHashedPassword.equals(hashedNewPassword)) {
-                System.out.println("New password cannot be the same as the old password.");
-                return false;
-            }
-
-        } else {
-            System.out.println("Admin not found.");
+    public boolean changeAdminPassword(int managerID, String oldPassword, String newPassword) {
+        if (!isValidPassword(newPassword)) {
+            System.out.println("Invalid password! Please enter a strong password, no spaces.");
             return false;
         }
 
-        // Nếu mật khẩu cũ đúng và mật khẩu mới hợp lệ, thực hiện cập nhật mật khẩu
-        try (PreparedStatement updateStmt = conn.prepareStatement(updatePasswordSQL)) {
-            updateStmt.setString(1, hashSHA256(newPassword));
-            updateStmt.setInt(2, managerID);
+        String checkPasswordSQL = "SELECT password FROM ManagerAccount WHERE managerID = ? AND role = 'Admin'";
+        String updatePasswordSQL = "UPDATE ManagerAccount SET password = ? WHERE managerID = ? AND role = 'Admin'";
 
-            int rowsUpdated = updateStmt.executeUpdate();
-            return rowsUpdated > 0;
+        try ( Connection conn = dbContext.getConnection();  PreparedStatement checkStmt = conn.prepareStatement(checkPasswordSQL)) {
+
+            checkStmt.setInt(1, managerID);
+            ResultSet rs = checkStmt.executeQuery();
+
+            if (rs.next()) {
+                String storedHashedPassword = rs.getString("password");
+                String hashedOldPassword = hashSHA256(oldPassword);
+                String hashedNewPassword = hashSHA256(newPassword);
+
+                if (!storedHashedPassword.equals(hashedOldPassword)) {
+                    System.out.println("Old password is incorrect.");
+                    return false;
+                }
+
+                // Kiểm tra nếu mật khẩu mới giống với mật khẩu hiện tại
+                if (storedHashedPassword.equals(hashedNewPassword)) {
+                    System.out.println("New password cannot be the same as the old password.");
+                    return false;
+                }
+
+            } else {
+                System.out.println("Admin not found.");
+                return false;
+            }
+
+            // Nếu mật khẩu cũ đúng và mật khẩu mới hợp lệ, thực hiện cập nhật mật khẩu
+            try ( PreparedStatement updateStmt = conn.prepareStatement(updatePasswordSQL)) {
+                updateStmt.setString(1, hashSHA256(newPassword));
+                updateStmt.setInt(2, managerID);
+
+                int rowsUpdated = updateStmt.executeUpdate();
+                return rowsUpdated > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
+        return false;
     }
-    return false;
-}
 
 // Kiểm tra mật khẩu có hợp lệ không
-
     private boolean isValidPassword(String password) {
         return password != null
                 && // Không được null
@@ -410,7 +419,7 @@ public class ManagerAccountDAO {
                 && // Có ít nhất một chữ in hoa
                 password.matches(".*\\d.*");      // Có ít nhất một số
     }
-    
+
     public static void main(String[] args) {
         // Tạo đối tượng DAO để gọi phương thức đổi mật khẩu
         ManagerAccountDAO dao = new ManagerAccountDAO();
@@ -434,8 +443,6 @@ public class ManagerAccountDAO {
             System.out.println("Đổi mật khẩu thất bại!");
         }
     }
-
-
 
     //EditlStaff
     public void updateAccount(int managerID, String username, String fullName, String email, String numberPhone, String gender) throws SQLException {
@@ -470,4 +477,15 @@ public class ManagerAccountDAO {
         }
         return false;
     }
+
+    public boolean lockStaffAccount(String managerID, String lockReason) throws SQLException {
+        String query = "UPDATE staff_accounts SET status = 1, lock_reason = ? WHERE managerID = ?";
+        try ( Connection conn = dbContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, lockReason);
+            ps.setString(2, managerID);
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+        }
+    }
+
 }

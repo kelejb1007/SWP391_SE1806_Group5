@@ -496,6 +496,9 @@
                     <h2>Author: ${novel.author}</h2>
                     <p>© 2025 NovelReadingwebsite</p>
 
+                    <a href="DownloadChapter?id=${chapter.chapterID}" class="btn btn-primary">Download</a>
+
+
                     <c:if test="${not empty chapters and not empty chapter}">
                         <div class="chapter-select-container">
                             <select class="chapter-select" onchange="window.location.href = this.value;">
