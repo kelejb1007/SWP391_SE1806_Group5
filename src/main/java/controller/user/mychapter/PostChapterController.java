@@ -2,6 +2,8 @@ package controller.user.mychapter;
 
 import DAO.ChapterDAO;
 import DAO.ChapterSubmissionDAO;
+import DAO.FavoriteDAO;
+import DAO.NotificationDAO;
 import DAO.PostChapterDAO;
 import model.Chapter;
 import model.Novel;
@@ -25,6 +27,8 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 import model.ChapterSubmission;
 import model.UserAccount;
@@ -223,6 +227,15 @@ public class PostChapterController extends HttpServlet {
                 return;
             }
 
+            FavoriteDAO favoriteDAO = new FavoriteDAO();
+            NotificationDAO notificationDAO = new NotificationDAO();
+
+            // Lấy danh sách userId từ bảng Favorite
+            List<Integer> userIds = favoriteDAO.getUserIdsByFavoriteNovelId(novelId);
+            for (int userId : userIds) {
+                notificationDAO.addNotification(userId, novelId, chapterTitle); // Gửi thông báo
+            }
+
             ChapterSubmission ns = new ChapterSubmission();
             ns.setUserID(ua.getUserID());
             ns.setType("update");
@@ -254,6 +267,8 @@ public class PostChapterController extends HttpServlet {
             request.setAttribute("novelId", novelIdParam != null ? Integer.parseInt(novelIdParam) : null);
             request.setAttribute("chapterNumber", chapterNumberParam != null ? Integer.parseInt(chapterNumberParam) : null);
             request.getRequestDispatcher("/WEB-INF/views/user/chapter/postChapter.jsp").forward(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(PostChapterController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -261,7 +276,7 @@ public class PostChapterController extends HttpServlet {
         String fileName = filePart.getSubmittedFileName();
 
         File tempFile = new File(System.getProperty("java.io.tmpdir"), fileName);
-        try (InputStream input = filePart.getInputStream(); FileOutputStream output = new FileOutputStream(tempFile)) {
+        try ( InputStream input = filePart.getInputStream();  FileOutputStream output = new FileOutputStream(tempFile)) {
             byte[] buffer = new byte[1024];
             int bytesRead;
             while ((bytesRead = input.read(buffer)) != -1) {

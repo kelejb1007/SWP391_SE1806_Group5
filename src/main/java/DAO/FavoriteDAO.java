@@ -1,5 +1,6 @@
 package DAO;
 
+
 import utils.DBContext;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,6 +16,7 @@ import model.Novel;
 public class FavoriteDAO {
 
     private final DBContext db;
+    private static final Logger LOGGER = Logger.getLogger(FavoriteDAO.class.getName());
 
     public FavoriteDAO() {
         db = new DBContext();
@@ -41,7 +43,7 @@ public class FavoriteDAO {
             }
         } catch (SQLException e) {
             Logger.getLogger(FavoriteDAO.class.getName()).log(Level.SEVERE, null, e);
-        } 
+        }
         return favorite;
     }
 
@@ -81,7 +83,7 @@ public class FavoriteDAO {
             Logger.getLogger(FavoriteDAO.class.getName()).log(Level.SEVERE, null, e);
             e.printStackTrace();
             return false;
-        } 
+        }
     }
 
     // Lấy danh sách Novel yêu thích của người dùng, bao gồm tên tác giả
@@ -126,12 +128,12 @@ public class FavoriteDAO {
 
         } catch (SQLException e) {
             Logger.getLogger(FavoriteDAO.class.getName()).log(Level.SEVERE, null, e);
-        } 
+        }
 
         return favoriteNovels;
     }
 
-   public List<Novel> searchFavoriteNovelsByUserId(int userId, String query) {
+    public List<Novel> searchFavoriteNovelsByUserId(int userId, String query) {
         List<Novel> favoriteNovels = new ArrayList<>();
         String sql = "SELECT n.*, ua.userName AS authorName "
                 + "FROM Favorite f "
@@ -173,8 +175,47 @@ public class FavoriteDAO {
 
         } catch (SQLException e) {
             Logger.getLogger(FavoriteDAO.class.getName()).log(Level.SEVERE, null, e);
-        } 
+        }
         return favoriteNovels;
     }
-   
+
+    //Notification
+    public List<Integer> getUserIdsByFavoriteNovelId(int novelId) {
+        List<Integer> userIds = new ArrayList<>();
+        String sql = "SELECT UserID FROM Favorite WHERE NovelID = ? ";
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            connection = db.getConnection();
+            stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, novelId);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                userIds.add(rs.getInt("UserID"));
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error retrieving user IDs for novel ID: " + novelId, e);
+        } finally {
+
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        return userIds;
+    }
+
 }

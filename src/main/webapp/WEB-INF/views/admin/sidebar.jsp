@@ -62,6 +62,9 @@
                     <li>
                         <a href="${pageContext.request.contextPath}/managestaff"><i class="fa fa-sitemap fa-fw"></i>View list of staff</a>
                     </li>
+                    <li>
+                        <a href="${pageContext.request.contextPath}/managestaff?action=viewlocked"><i class="fa fa-sitemap fa-fw"></i>View Locked Staff</a>
+                    </li>
                     <!-- tui sua nut phan nay -->
                     <li>
                         <a href="${pageContext.request.contextPath}/RegisterStaff">
@@ -70,14 +73,10 @@
                     </li>
 
                     <li>
-                        <a href="${pageContext.request.contextPath}/viewnovelstatisticscontroller?action=viewNovelStatistics">View Statistics On Novel</a>
+                        <a href="${pageContext.request.contextPath}/NovelStatisticsController">View Statistics On Novel</a>
                     </li>
 
-                    <li>
-                        <a href="${pageContext.request.contextPath}/viewnovelstatisticscontroller?action=viewUserStatistics">View Statistics On Account</a>
-                    </li>
 
-                    </li> 
                     <li>
                         <a href="${pageContext.request.contextPath}/change-password">
                             <i class="fa fa-key fa-fw"></i> Change Admin Password

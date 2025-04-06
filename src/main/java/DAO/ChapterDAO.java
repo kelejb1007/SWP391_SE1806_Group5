@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Chapter;
+import model.Favorite;
 import utils.DBContext;
 
 /**
@@ -20,6 +21,8 @@ import utils.DBContext;
  * @author Phan Hồng Tài - CE181490
  */
 public class ChapterDAO {
+
+   
     private final DBContext db;
 
     public ChapterDAO() {
@@ -55,10 +58,9 @@ public class ChapterDAO {
             }
         } catch (SQLException e) {
             Logger.getLogger(ChapterDAO.class.getName()).log(Level.SEVERE, null, e);
-        } 
+        }
         return list;
     }
-
 
     public Chapter getChapterById(int chapterID) {
         Chapter chapter = null;
@@ -71,7 +73,7 @@ public class ChapterDAO {
             statement = connection.prepareStatement(sql);
             statement.setInt(1, chapterID);
             rs = statement.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 chapter = new Chapter();
                 chapter.setChapterID(rs.getInt("chapterID"));
                 chapter.setNovelID(rs.getInt("novelID"));
@@ -85,10 +87,10 @@ public class ChapterDAO {
             }
         } catch (SQLException e) {
             Logger.getLogger(ChapterDAO.class.getName()).log(Level.SEVERE, null, e);
-        } 
+        }
         return chapter;
     }
-    
+
     public Chapter getChapterForStaffById(int chapterID) {
         Chapter chapter = null;
         String sql = "SELECT chapterID, novelID, chapterNumber, chapterName, fileURL, publishedDate, chapterStatus FROM Chapter WHERE chapterID = ?";
@@ -100,7 +102,7 @@ public class ChapterDAO {
             statement = connection.prepareStatement(sql);
             statement.setInt(1, chapterID);
             rs = statement.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 chapter = new Chapter();
                 chapter.setChapterID(rs.getInt("chapterID"));
                 chapter.setNovelID(rs.getInt("novelID"));
@@ -114,10 +116,10 @@ public class ChapterDAO {
             }
         } catch (SQLException e) {
             Logger.getLogger(ChapterDAO.class.getName()).log(Level.SEVERE, null, e);
-        } 
+        }
         return chapter;
     }
-    
+
     public Chapter getMyChapterById(int chapterID) {
         Chapter chapter = null;
         String sql = "SELECT chapterID, novelID, chapterNumber, chapterName, fileURL, publishedDate, chapterStatus FROM Chapter WHERE chapterID = ? ";
@@ -129,7 +131,7 @@ public class ChapterDAO {
             statement = connection.prepareStatement(sql);
             statement.setInt(1, chapterID);
             rs = statement.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 chapter = new Chapter();
                 chapter.setChapterID(rs.getInt("chapterID"));
                 chapter.setNovelID(rs.getInt("novelID"));
@@ -143,7 +145,7 @@ public class ChapterDAO {
             }
         } catch (SQLException e) {
             Logger.getLogger(ChapterDAO.class.getName()).log(Level.SEVERE, null, e);
-        } 
+        }
         return chapter;
     }
 
@@ -151,7 +153,7 @@ public class ChapterDAO {
         ChapterDAO c = new ChapterDAO();
         System.out.println(c.getChaptersByNovelId(1, "desc"));
     }
-    
+
     public List<Chapter> getMyChaptersByNovelId(int novelID, String sort) {
         List<Chapter> list = new ArrayList<>();
         String sql = "SELECT chapterID, novelID, chapterNumber, chapterName, fileURL, publishedDate, chapterStatus FROM Chapter WHERE novelID = ? ORDER BY chapterNumber " + (sort != null && sort.equals("desc") ? "DESC" : "ASC");
@@ -181,8 +183,8 @@ public class ChapterDAO {
             }
         } catch (SQLException e) {
             Logger.getLogger(ChapterDAO.class.getName()).log(Level.SEVERE, null, e);
-        } 
+        }
         return list;
     }
-}
 
+}

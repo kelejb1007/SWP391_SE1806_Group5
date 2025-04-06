@@ -24,6 +24,15 @@ public class ManagerAccount {
     private boolean canLock;
     private boolean canApprove;
     private int status;
+   private String LockReason;
+
+    public String getLockReason() {
+        return LockReason;
+    }
+
+    public void setLockReason(String LockReason) {
+        this.LockReason = LockReason;
+    }
 
     public int getManagerID() {
         return managerID;
